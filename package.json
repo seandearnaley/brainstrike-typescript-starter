@@ -2,11 +2,11 @@
   "name": "brainstrike-server",
   "version": "1.0.0",
   "description": "brainkstrike typescript node starter",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "scripts": {
-    "build": "rimraf dist && tsc",
-    "start": "node dist/index.js",
-    "dev": "nodemon --exec ts-node src/index.ts --watch src",
+    "build": "rimraf ./build && tsc",
+    "start:dev": "nodemon",
+    "start": "npm run build && node build/index.js",
     "test": "jest --watch",
     "coverage": "jest --coverage"
   },
@@ -22,13 +22,23 @@
   },
   "homepage": "https://github.com/seandearnaley/brainstrike-server#readme",
   "devDependencies": {
-    "@types/jest": "^24.0.20",
-    "@types/node": "^12.11.7",
+    "@types/jest": "^24.0.22",
+    "@types/node": "^12.12.7",
+    "@typescript-eslint/eslint-plugin": "^2.6.1",
+    "@typescript-eslint/parser": "^2.6.1",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "jest": "^24.9.0",
     "nodemon": "^1.19.4",
+    "prettier": "1.19.0",
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
-    "typescript": "^3.6.4"
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.9.7",
+    "express": "^4.17.1"
   }
 }

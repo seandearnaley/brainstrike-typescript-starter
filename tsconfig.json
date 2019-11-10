@@ -3,7 +3,8 @@
     "target": "es5",
     "module": "commonjs",
     "outDir": "build",
-    "sourceMap": false,
+    "noImplicitAny": true,
+    "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {

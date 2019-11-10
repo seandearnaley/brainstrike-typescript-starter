@@ -8,7 +8,8 @@
     "start:dev": "nodemon",
     "start": "npm run build && node build/index.js",
     "test": "jest --watch",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/seandearnaley/brainstrike-server#readme",
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.8.3",
     "@types/jest": "^24.0.22",
     "@types/node": "^12.12.7",
     "@typescript-eslint/eslint-plugin": "^2.6.1",
@@ -35,10 +37,15 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "@graphql-codegen/typescript": "1.8.3",
+    "@graphql-codegen/typescript-resolvers": "1.8.3",
+    "@graphql-codegen/introspection": "1.8.3"
   },
   "dependencies": {
+    "@types/graphql-iso-date": "^3.3.3",
     "apollo-server-express": "^2.9.7",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "graphql-iso-date": "^3.6.1"
   }
 }

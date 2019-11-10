@@ -50,6 +50,7 @@
     "@graphql-codegen/typescript": "^1.8.3",
     "@graphql-codegen/typescript-operations": "1.8.3",
     "@graphql-codegen/typescript-react-apollo": "1.8.3",
+    "@graphql-codegen/introspection": "1.8.3",
     "@testing-library/jest-dom": "^4.2.3",
     "@testing-library/react": "^9.3.2",
     "@typescript-eslint/eslint-plugin": "^2.6.1",

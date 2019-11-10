@@ -9,7 +9,9 @@
     "start": "npm run build && node build/index.js",
     "test": "jest --watch",
     "coverage": "jest --coverage",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "generate": "graphql-codegen --config codegen.yml",
+    "generate:dev": "graphql-codegen --config codegen.yml --watch",
+    "dev": "concurrently \"npm run start:dev\" \"npm run generate:dev\""
   },
   "repository": {
     "type": "git",
@@ -39,8 +41,7 @@
     "ts-node": "^8.4.1",
     "typescript": "^3.7.2",
     "@graphql-codegen/typescript": "1.8.3",
-    "@graphql-codegen/typescript-resolvers": "1.8.3",
-    "@graphql-codegen/introspection": "1.8.3"
+    "@graphql-codegen/typescript-resolvers": "1.8.3"
   },
   "dependencies": {
     "@types/graphql-iso-date": "^3.3.3",

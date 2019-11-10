@@ -44,7 +44,7 @@ export enum CacheControlScope {
 
 export type Query = {
   __typename?: "Query";
-  techniques: Array<Maybe<Technique>>;
+  techniques: Array<Technique>;
   technique?: Maybe<Technique>;
 };
 
@@ -217,7 +217,7 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = {
   techniques?: Resolver<
-    Array<Maybe<ResolversTypes["Technique"]>>,
+    Array<ResolversTypes["Technique"]>,
     ParentType,
     ContextType
   >;

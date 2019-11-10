@@ -1,3 +1,4 @@
 src/serviceWorker.ts
 src/**/__tests__/**
 apollo.config.js
+generated/graphql.tsx

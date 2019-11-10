@@ -1,0 +1,8 @@
+query GetTechs {
+  techniques {
+    id
+    label
+    description
+    created
+  }
+}

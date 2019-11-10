@@ -5,8 +5,9 @@ import './index.css';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
-import { ApolloProvider, useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { ApolloProvider } from '@apollo/react-hooks';
+
+import Hello from './Hello';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -25,29 +26,6 @@ const client = new ApolloClient({
 });
 
 // TODO: add Reach router
-
-export const GET_HELLO = gql`
-  query SayHello {
-    hello
-  }
-`;
-
-interface HelloProps {
-  name: string;
-}
-
-const Hello: React.FC<HelloProps> = (props: HelloProps): React.ReactElement => {
-  const { data, loading, error } = useQuery(GET_HELLO);
-
-  if (loading) return <div>loading....</div>;
-  if (error) return <p>ERROR: {error.message}</p>;
-
-  return (
-    <div>
-      {data && data.hello} {props.name}
-    </div>
-  );
-};
 
 ReactDOM.render(
   <ApolloProvider client={client}>

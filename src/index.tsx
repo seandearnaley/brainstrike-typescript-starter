@@ -7,7 +7,9 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
 
-import Hello from './Hello';
+// import Hello from './Hello';
+
+import Dashboard from './dash/Dashboard';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -29,7 +31,7 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Hello name="sean" />
+    <Dashboard></Dashboard>
   </ApolloProvider>,
   document.getElementById('root'),
 );

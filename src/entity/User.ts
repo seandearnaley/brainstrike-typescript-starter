@@ -26,4 +26,9 @@ export class User {
 
   @Column({ type: "timestamp", nullable: true, default: null })
   updated: Date;
+
+  // @BeforeInsert()
+  // async hashPasswordBeforeInsert() {
+  //   this.password = await argon2.hash(this.password, { hashLength: 12 });
+  // }
 }

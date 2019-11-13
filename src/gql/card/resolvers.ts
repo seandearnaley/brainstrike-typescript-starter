@@ -1,6 +1,12 @@
-export default {
+import { Resolvers, Card } from "../../generated/graphql";
+
+export const resolvers: Partial<Resolvers> = {
   Query: {
-    cards: (): string[] => [],
-    card: (): string => ""
+    cards: (): Card[] => [],
+    card: (): Card => ({
+      id: "test"
+    })
   }
 };
+
+export default resolvers;

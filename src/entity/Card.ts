@@ -11,7 +11,7 @@ export class Card {
   @Column()
   label: string;
 
-  @Column()
+  @Column("text")
   description: string;
 
   @Column({

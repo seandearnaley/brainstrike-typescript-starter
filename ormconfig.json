@@ -10,5 +10,5 @@
    ],
    "entities": [
       "src/entity/**/*.ts"
-   ],
+   ]
 }

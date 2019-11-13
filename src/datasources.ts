@@ -13,10 +13,6 @@ export const createDbConnection = async (): Promise<Connection> => {
   return connection;
 };
 
-interface DataSources {
-  cardAPI: CardAPI;
-}
-
 // set up any dataSources our resolvers need
 export const dataSources = (): any => ({
   cardAPI: new CardAPI()

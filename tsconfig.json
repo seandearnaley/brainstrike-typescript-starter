@@ -1,10 +1,7 @@
 {
   "compilerOptions": {
-    "lib": [
-      "es5",
-      "es6"
-    ],    
-    "target": "es5",
+    "lib": ["es5", "es6", "es2016"],
+    "target": "ES2016",
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "./build",
@@ -15,18 +12,10 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "node_modules/",
-      ],
-      "typings/*": [
-        "src/typings/*"
-      ]
-    },
+      "*": ["node_modules/"],
+      "typings/*": ["src/typings/*"]
+    }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/test/**/*.spec.ts"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/test/**/*.spec.ts"]
 }

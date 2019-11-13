@@ -1,7 +1,7 @@
 {
   "name": "brainstrike-server",
   "version": "1.0.0",
-  "description": "brainkstrike typescript node starter",
+  "description": "brainkstrike typescript node API",
   "main": "build/index.js",
   "scripts": {
     "build": "rimraf ./build && tsc",
@@ -17,8 +17,13 @@
     "type": "git",
     "url": "git+https://github.com/seandearnaley/brainstrike-server.git"
   },
-  "keywords": [],
-  "author": "Sean Dearnaley",
+  "keywords": [
+    "api",
+    "node",
+    "apollo",
+    "typescript"
+  ],
+  "author": "Sean Dearnaley <seandearnaley@hotmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/seandearnaley/brainstrike-server/issues"

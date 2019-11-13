@@ -1,20 +1,33 @@
-import { DataSource } from "apollo-datasource";
+import { DataSource, DataSourceConfig } from "apollo-datasource";
+// import { TypeORMDatasource } from "./typeOrmDatasource";
+import { Card } from "../entity/Card";
+import { getConnection, Connection, Repository } from "typeorm";
 
-class CardAPI extends DataSource {
+export interface CardAPIInterface extends DataSource {
+  context?: any;
+  cardRepository: Repository<Card>;
+  connection: Connection;
+}
+
+export class CardAPI<TContext = any> extends DataSource
+  implements CardAPIInterface {
+  context!: TContext;
+  cardRepository: Repository<Card>;
+  connection: Connection;
   constructor() {
     super();
-    // this.store = store;
+    this.connection = getConnection();
   }
 
-  // /**
-  //  * This is a function that gets called by ApolloServer when being setup.
-  //  * This function gets called with the datasource config including things
-  //  * like caches and context. We'll assign this.context to the request context
-  //  * here, so we can know about the user making requests
-  //  */
-  // initialize(config) {
-  //   this.context = config.context;
-  // }
+  // called when apollo sets up
+  initialize(config: DataSourceConfig<TContext>): void {
+    this.context = config.context;
+    this.cardRepository = this.connection.getRepository(Card);
+  }
+
+  async getAll(): Promise<Card[]> {
+    return this.cardRepository.find();
+  }
 }
 
 export default CardAPI;

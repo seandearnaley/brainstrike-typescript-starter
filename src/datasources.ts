@@ -1,7 +1,7 @@
 import { createConnection, Connection } from "typeorm";
 
-import CardAPI from "./datasources/card";
-import UserAPI from "./datasources/user";
+import { CardAPI } from "./datasources/card";
+// import UserAPI from "./datasources/user";
 
 export const createDbConnection = async (): Promise<Connection> => {
   // Create DB connection
@@ -13,8 +13,11 @@ export const createDbConnection = async (): Promise<Connection> => {
   return connection;
 };
 
+interface DataSources {
+  cardAPI: CardAPI;
+}
+
 // set up any dataSources our resolvers need
 export const dataSources = (): any => ({
-  cardAPI: new CardAPI(),
-  userAPI: new UserAPI()
+  cardAPI: new CardAPI()
 });

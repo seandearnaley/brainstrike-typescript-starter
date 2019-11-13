@@ -42,21 +42,34 @@ export enum CacheControlScope {
   Private = "PRIVATE"
 }
 
-export type Query = {
-  __typename?: "Query";
-  techniques: Array<Technique>;
-  technique?: Maybe<Technique>;
-};
-
-export type QueryTechniqueArgs = {
+export type Card = {
+  __typename?: "Card";
   id: Scalars["ID"];
-};
-
-export type Technique = {
-  __typename?: "Technique";
-  id: Scalars["ID"];
+  number?: Maybe<Scalars["Int"]>;
   label?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
+  created?: Maybe<Scalars["DateTime"]>;
+  updated?: Maybe<Scalars["DateTime"]>;
+};
+
+export type Query = {
+  __typename?: "Query";
+  cards: Array<Card>;
+  card?: Maybe<Card>;
+  me?: Maybe<User>;
+};
+
+export type QueryCardArgs = {
+  id: Scalars["ID"];
+};
+
+export type User = {
+  __typename?: "User";
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+  email?: Maybe<Scalars["String"]>;
+  username?: Maybe<Scalars["String"]>;
+  password?: Maybe<Scalars["String"]>;
   created?: Maybe<Scalars["DateTime"]>;
   updated?: Maybe<Scalars["DateTime"]>;
 };
@@ -165,31 +178,33 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
-  Technique: ResolverTypeWrapper<Technique>;
+  Card: ResolverTypeWrapper<Card>;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
+  Int: ResolverTypeWrapper<Scalars["Int"]>;
   String: ResolverTypeWrapper<Scalars["String"]>;
   DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
+  User: ResolverTypeWrapper<User>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   CacheControlScope: CacheControlScope;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
   Time: ResolverTypeWrapper<Scalars["Time"]>;
   Upload: ResolverTypeWrapper<Scalars["Upload"]>;
-  Int: ResolverTypeWrapper<Scalars["Int"]>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Query: {};
-  Technique: Technique;
+  Card: Card;
   ID: Scalars["ID"];
+  Int: Scalars["Int"];
   String: Scalars["String"];
   DateTime: Scalars["DateTime"];
+  User: User;
   Boolean: Scalars["Boolean"];
   CacheControlScope: CacheControlScope;
   Date: Scalars["Date"];
   Time: Scalars["Time"];
   Upload: Scalars["Upload"];
-  Int: Scalars["Int"];
 };
 
 export type CacheControlDirectiveResolver<
@@ -202,38 +217,12 @@ export type CacheControlDirectiveResolver<
   }
 > = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export interface DateScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Date"], any> {
-  name: "Date";
-}
-
-export interface DateTimeScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["DateTime"], any> {
-  name: "DateTime";
-}
-
-export type QueryResolvers<
+export type CardResolvers<
   ContextType = any,
-  ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
-> = {
-  techniques?: Resolver<
-    Array<ResolversTypes["Technique"]>,
-    ParentType,
-    ContextType
-  >;
-  technique?: Resolver<
-    Maybe<ResolversTypes["Technique"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryTechniqueArgs, "id">
-  >;
-};
-
-export type TechniqueResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes["Technique"] = ResolversParentTypes["Technique"]
+  ParentType extends ResolversParentTypes["Card"] = ResolversParentTypes["Card"]
 > = {
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  number?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
   label?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   description?: Resolver<
     Maybe<ResolversTypes["String"]>,
@@ -252,6 +241,30 @@ export type TechniqueResolvers<
   >;
 };
 
+export interface DateScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["Date"], any> {
+  name: "Date";
+}
+
+export interface DateTimeScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["DateTime"], any> {
+  name: "DateTime";
+}
+
+export type QueryResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
+> = {
+  cards?: Resolver<Array<ResolversTypes["Card"]>, ParentType, ContextType>;
+  card?: Resolver<
+    Maybe<ResolversTypes["Card"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCardArgs, "id">
+  >;
+  me?: Resolver<Maybe<ResolversTypes["User"]>, ParentType, ContextType>;
+};
+
 export interface TimeScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["Time"], any> {
   name: "Time";
@@ -262,13 +275,35 @@ export interface UploadScalarConfig
   name: "Upload";
 }
 
+export type UserResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["User"] = ResolversParentTypes["User"]
+> = {
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  username?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  created?: Resolver<
+    Maybe<ResolversTypes["DateTime"]>,
+    ParentType,
+    ContextType
+  >;
+  updated?: Resolver<
+    Maybe<ResolversTypes["DateTime"]>,
+    ParentType,
+    ContextType
+  >;
+};
+
 export type Resolvers<ContextType = any> = {
+  Card?: CardResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
   Query?: QueryResolvers<ContextType>;
-  Technique?: TechniqueResolvers<ContextType>;
   Time?: GraphQLScalarType;
   Upload?: GraphQLScalarType;
+  User?: UserResolvers<ContextType>;
 };
 
 /**

@@ -1,0 +1,8 @@
+type Card {
+  id: ID!
+  number: Int
+  label: String
+  description: String
+  created: DateTime
+  updated: DateTime
+}

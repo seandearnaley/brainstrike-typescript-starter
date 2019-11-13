@@ -1,5 +1,5 @@
 import { ApolloServer } from "apollo-server-express";
-import { typeDefs, resolvers } from "./gql";
+import { typeDefs, resolvers } from "./graphql";
 import mocks from "./mocks";
 
 export const apolloServer = new ApolloServer({

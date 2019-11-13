@@ -26,15 +26,15 @@
   "homepage": "https://github.com/seandearnaley/brainstrike-server#readme",
   "devDependencies": {
     "@graphql-codegen/cli": "^1.8.3",
-    "@graphql-codegen/typescript-resolvers": "1.8.3",
     "@graphql-codegen/typescript": "1.8.3",
+    "@graphql-codegen/typescript-resolvers": "1.8.3",
     "@types/jest": "^24.0.23",
     "@types/node": "^12.12.7",
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
+    "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
-    "eslint": "^6.6.0",
     "jest": "^24.9.0",
     "nodemon": "^1.19.4",
     "prettier": "1.19.1",
@@ -47,9 +47,13 @@
     "@types/graphql-iso-date": "^3.3.3",
     "@types/lodash": "^4.14.146",
     "apollo-server-express": "^2.9.8",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql-import": "^0.7.1",
     "graphql-iso-date": "^3.6.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "pg": "^7.12.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.20"
   }
 }

@@ -1,11 +1,23 @@
-import { Resolvers, Card } from "../../generated/graphql";
+import { Resolvers, Card, CardsUpdatedResponse } from "../../generated/graphql";
 
-export const resolvers: Partial<Resolvers> = {
+export const resolvers: Resolvers = {
   Query: {
     cards: (_, __, { dataSources }): Card[] => dataSources.cardAPI.getAll(),
-    card: (): Card => ({
-      id: "test"
-    })
+    card: (_, { id }, { dataSources }): Card => dataSources.cardAPI.getAll(id)
+  },
+  Mutation: {
+    addCard: async (
+      _,
+      { input },
+      { dataSources }
+    ): Promise<CardsUpdatedResponse> => {
+      const card = await dataSources.cardAPI.addCard(input);
+      return {
+        success: true,
+        message: "Card Added",
+        card
+      };
+    }
   }
 };
 

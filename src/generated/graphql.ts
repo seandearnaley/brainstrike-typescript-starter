@@ -52,6 +52,39 @@ export type Card = {
   updated?: Maybe<Scalars["DateTime"]>;
 };
 
+export type CardInput = {
+  number?: Maybe<Scalars["Int"]>;
+  label?: Maybe<Scalars["String"]>;
+  description?: Maybe<Scalars["String"]>;
+};
+
+export type CardsUpdatedResponse = {
+  __typename?: "CardsUpdatedResponse";
+  success: Scalars["Boolean"];
+  message?: Maybe<Scalars["String"]>;
+  card?: Maybe<Card>;
+};
+
+export type Mutation = {
+  __typename?: "Mutation";
+  addCard: CardsUpdatedResponse;
+  updateCard: CardsUpdatedResponse;
+  removeCard: CardsUpdatedResponse;
+};
+
+export type MutationAddCardArgs = {
+  input?: Maybe<CardInput>;
+};
+
+export type MutationUpdateCardArgs = {
+  id: Scalars["ID"];
+  input?: Maybe<CardInput>;
+};
+
+export type MutationRemoveCardArgs = {
+  id: Scalars["ID"];
+};
+
 export type Query = {
   __typename?: "Query";
   cards: Array<Card>;
@@ -184,6 +217,9 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars["String"]>;
   DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
   User: ResolverTypeWrapper<User>;
+  Mutation: ResolverTypeWrapper<{}>;
+  CardInput: CardInput;
+  CardsUpdatedResponse: ResolverTypeWrapper<CardsUpdatedResponse>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   CacheControlScope: CacheControlScope;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
@@ -200,6 +236,9 @@ export type ResolversParentTypes = {
   String: Scalars["String"];
   DateTime: Scalars["DateTime"];
   User: User;
+  Mutation: {};
+  CardInput: CardInput;
+  CardsUpdatedResponse: CardsUpdatedResponse;
   Boolean: Scalars["Boolean"];
   CacheControlScope: CacheControlScope;
   Date: Scalars["Date"];
@@ -241,6 +280,15 @@ export type CardResolvers<
   >;
 };
 
+export type CardsUpdatedResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["CardsUpdatedResponse"] = ResolversParentTypes["CardsUpdatedResponse"]
+> = {
+  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  message?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  card?: Resolver<Maybe<ResolversTypes["Card"]>, ParentType, ContextType>;
+};
+
 export interface DateScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["Date"], any> {
   name: "Date";
@@ -250,6 +298,30 @@ export interface DateTimeScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["DateTime"], any> {
   name: "DateTime";
 }
+
+export type MutationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
+> = {
+  addCard?: Resolver<
+    ResolversTypes["CardsUpdatedResponse"],
+    ParentType,
+    ContextType,
+    MutationAddCardArgs
+  >;
+  updateCard?: Resolver<
+    ResolversTypes["CardsUpdatedResponse"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateCardArgs, "id">
+  >;
+  removeCard?: Resolver<
+    ResolversTypes["CardsUpdatedResponse"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationRemoveCardArgs, "id">
+  >;
+};
 
 export type QueryResolvers<
   ContextType = any,
@@ -298,8 +370,10 @@ export type UserResolvers<
 
 export type Resolvers<ContextType = any> = {
   Card?: CardResolvers<ContextType>;
+  CardsUpdatedResponse?: CardsUpdatedResponseResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Time?: GraphQLScalarType;
   Upload?: GraphQLScalarType;

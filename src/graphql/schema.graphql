@@ -11,3 +11,9 @@ type Query {
   # Queries for the current user
   me: User
 }
+
+type Mutation {
+  addCard(input: CardInput): CardsUpdatedResponse!
+  updateCard(id: ID!, input: CardInput): CardsUpdatedResponse!
+  removeCard(id: ID!): CardsUpdatedResponse!
+}

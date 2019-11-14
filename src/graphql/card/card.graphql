@@ -6,3 +6,15 @@ type Card {
   created: DateTime
   updated: DateTime
 }
+
+input CardInput {
+  number: Int
+  label: String
+  description: String
+}
+
+type CardsUpdatedResponse {
+  success: Boolean!
+  message: String
+  card: Card
+}

@@ -4,9 +4,16 @@ import { Card } from "../entity/Card";
 import { getConnection, Connection, Repository } from "typeorm";
 
 export interface CardAPIInterface extends DataSource {
-  context?: any;
+  context: any;
   cardRepository: Repository<Card>;
   connection: Connection;
+}
+
+export interface CardInput {
+  id: string;
+  number: number;
+  label: string;
+  description?: string;
 }
 
 export class CardAPI<TContext = any> extends DataSource
@@ -27,6 +34,38 @@ export class CardAPI<TContext = any> extends DataSource
 
   async getAll(): Promise<Card[]> {
     return this.cardRepository.find();
+  }
+
+  async getCard(id: string): Promise<Card> {
+    return this.cardRepository.findOne(id); // find by id
+  }
+
+  async addCard({ number, label, description }: CardInput): Promise<Card> {
+    const card = new Card();
+    card.number = number;
+    card.label = label;
+    card.description = description;
+    await this.cardRepository.save(card);
+    return card;
+  }
+
+  async updateCard({
+    id,
+    number,
+    label,
+    description
+  }: CardInput): Promise<Card> {
+    const card = await this.getCard(id);
+    card.number = number;
+    card.label = label;
+    card.description = description;
+    await this.cardRepository.save(card);
+    return card;
+  }
+
+  async removeCard(id: string): Promise<void> {
+    const card = await this.getCard(id);
+    await this.cardRepository.remove(card);
   }
 }
 

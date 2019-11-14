@@ -13,6 +13,7 @@ type Query {
 }
 
 type Mutation {
+  # card mutations
   addCard(input: CardInput): CardsUpdatedResponse!
   updateCard(id: ID!, input: CardInput): CardsUpdatedResponse!
   removeCard(id: ID!): CardsUpdatedResponse!

@@ -3,7 +3,7 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig
 } from "graphql";
-import { MyContext } from "./context";
+import { ApolloContext } from "../types/context";
 export type Maybe<T> = T | null;
 export type RequireFields<T, K extends keyof T> = {
   [X in Exclude<keyof T, K>]?: T[X];
@@ -253,7 +253,7 @@ export type ResolversParentTypes = ResolversObject<{
 export type CacheControlDirectiveResolver<
   Result,
   Parent,
-  ContextType = MyContext,
+  ContextType = ApolloContext,
   Args = {
     maxAge?: Maybe<Maybe<Scalars["Int"]>>;
     scope?: Maybe<Maybe<CacheControlScope>>;
@@ -261,7 +261,7 @@ export type CacheControlDirectiveResolver<
 > = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type CardResolvers<
-  ContextType = MyContext,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Card"] = ResolversParentTypes["Card"]
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
@@ -285,7 +285,7 @@ export type CardResolvers<
 }>;
 
 export type CardsUpdatedResponseResolvers<
-  ContextType = MyContext,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["CardsUpdatedResponse"] = ResolversParentTypes["CardsUpdatedResponse"]
 > = ResolversObject<{
   success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
@@ -304,7 +304,7 @@ export interface DateTimeScalarConfig
 }
 
 export type MutationResolvers<
-  ContextType = MyContext,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
 > = ResolversObject<{
   addCard?: Resolver<
@@ -328,7 +328,7 @@ export type MutationResolvers<
 }>;
 
 export type QueryResolvers<
-  ContextType = MyContext,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = ResolversObject<{
   cards?: Resolver<Array<ResolversTypes["Card"]>, ParentType, ContextType>;
@@ -352,7 +352,7 @@ export interface UploadScalarConfig
 }
 
 export type UserResolvers<
-  ContextType = MyContext,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["User"] = ResolversParentTypes["User"]
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
@@ -372,7 +372,7 @@ export type UserResolvers<
   >;
 }>;
 
-export type Resolvers<ContextType = MyContext> = ResolversObject<{
+export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
   Card?: CardResolvers<ContextType>;
   CardsUpdatedResponse?: CardsUpdatedResponseResolvers<ContextType>;
   Date?: GraphQLScalarType;
@@ -388,8 +388,8 @@ export type Resolvers<ContextType = MyContext> = ResolversObject<{
  * @deprecated
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
-export type IResolvers<ContextType = MyContext> = Resolvers<ContextType>;
-export type DirectiveResolvers<ContextType = MyContext> = ResolversObject<{
+export type IResolvers<ContextType = ApolloContext> = Resolvers<ContextType>;
+export type DirectiveResolvers<ContextType = ApolloContext> = ResolversObject<{
   cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>;
 }>;
 
@@ -397,6 +397,6 @@ export type DirectiveResolvers<ContextType = MyContext> = ResolversObject<{
  * @deprecated
  * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
  */
-export type IDirectiveResolvers<ContextType = MyContext> = DirectiveResolvers<
-  ContextType
->;
+export type IDirectiveResolvers<
+  ContextType = ApolloContext
+> = DirectiveResolvers<ContextType>;

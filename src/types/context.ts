@@ -1,3 +1,5 @@
-export interface MyContext {
-  dataSources: any;
+import { MyDataSources } from "../datasources";
+
+export interface ApolloContext {
+  dataSources: MyDataSources;
 }

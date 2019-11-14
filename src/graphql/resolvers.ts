@@ -1,8 +1,8 @@
 import { merge } from "lodash";
 import { GraphQLDate, GraphQLTime, GraphQLDateTime } from "graphql-iso-date";
 
-import cardResolvers from "./card/resolvers";
-import userResolvers from "./user/resolvers";
+import { resolvers as cardResolvers } from "./card/cardResolvers";
+import { resolvers as userResolvers } from "./user/userResolvers";
 
 // Default Resolvers
 const resolvers = {

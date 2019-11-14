@@ -2,9 +2,10 @@ import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Card } from "../entity/Card";
 import { getConnection, Connection, Repository } from "typeorm";
 import { CardInput, CardsUpdatedResponse } from "../generated/graphql";
+import { ApolloContext } from "../types/context";
 
-export class CardAPI<TContext> extends DataSource {
-  context!: TContext;
+export class CardAPI<ApolloContext> extends DataSource {
+  context!: ApolloContext;
   cardRepository: Repository<Card>;
   connection: Connection;
   constructor() {
@@ -13,7 +14,7 @@ export class CardAPI<TContext> extends DataSource {
   }
 
   // called when apollo sets up
-  initialize(config: DataSourceConfig<TContext>): void {
+  initialize(config: DataSourceConfig<ApolloContext>): void {
     this.context = config.context;
     this.cardRepository = this.connection.getRepository(Card);
   }

@@ -11,4 +11,4 @@ generates:
       - "typescript-resolvers"
     config:
       useIndexSignature: true
-      contextType: ../types/context#MyContext
+      contextType: ../types/context#ApolloContext

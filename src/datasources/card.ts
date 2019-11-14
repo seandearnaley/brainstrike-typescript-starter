@@ -1,23 +1,9 @@
 import { DataSource, DataSourceConfig } from "apollo-datasource";
-// import { TypeORMDatasource } from "./typeOrmDatasource";
 import { Card } from "../entity/Card";
 import { getConnection, Connection, Repository } from "typeorm";
+import { CardInput } from "../generated/graphql";
 
-export interface CardAPIInterface extends DataSource {
-  context: any;
-  cardRepository: Repository<Card>;
-  connection: Connection;
-}
-
-export interface CardInput {
-  id: string;
-  number: number;
-  label: string;
-  description?: string;
-}
-
-export class CardAPI<TContext = any> extends DataSource
-  implements CardAPIInterface {
+export class CardAPI<TContext> extends DataSource {
   context!: TContext;
   cardRepository: Repository<Card>;
   connection: Connection;
@@ -32,7 +18,7 @@ export class CardAPI<TContext = any> extends DataSource
     this.cardRepository = this.connection.getRepository(Card);
   }
 
-  async getAll(): Promise<Card[]> {
+  async getCards(): Promise<Card[]> {
     return this.cardRepository.find();
   }
 
@@ -49,12 +35,10 @@ export class CardAPI<TContext = any> extends DataSource
     return card;
   }
 
-  async updateCard({
-    id,
-    number,
-    label,
-    description
-  }: CardInput): Promise<Card> {
+  async updateCard(
+    id: string,
+    { number, label, description }: CardInput
+  ): Promise<Card> {
     const card = await this.getCard(id);
     card.number = number;
     card.label = label;

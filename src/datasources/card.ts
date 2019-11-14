@@ -1,7 +1,7 @@
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Card } from "../entity/Card";
 import { getConnection, Connection, Repository } from "typeorm";
-import { CardInput } from "../generated/graphql";
+import { CardInput, CardsUpdatedResponse } from "../generated/graphql";
 
 export class CardAPI<TContext> extends DataSource {
   context!: TContext;
@@ -26,30 +26,46 @@ export class CardAPI<TContext> extends DataSource {
     return this.cardRepository.findOne(id); // find by id
   }
 
-  async addCard({ number, label, description }: CardInput): Promise<Card> {
+  async addCard({
+    number,
+    label,
+    description
+  }: CardInput): Promise<CardsUpdatedResponse> {
     const card = new Card();
     card.number = number;
     card.label = label;
     card.description = description;
     await this.cardRepository.save(card);
-    return card;
+    return {
+      success: true,
+      message: "Card Added",
+      card
+    };
   }
 
   async updateCard(
     id: string,
     { number, label, description }: CardInput
-  ): Promise<Card> {
+  ): Promise<CardsUpdatedResponse> {
     const card = await this.getCard(id);
     card.number = number;
     card.label = label;
     card.description = description;
     await this.cardRepository.save(card);
-    return card;
+    return {
+      success: true,
+      message: "Card Updated",
+      card
+    };
   }
 
-  async removeCard(id: string): Promise<void> {
+  async removeCard(id: string): Promise<CardsUpdatedResponse> {
     const card = await this.getCard(id);
     await this.cardRepository.remove(card);
+    return {
+      success: true,
+      message: "Card Removed"
+    };
   }
 }
 

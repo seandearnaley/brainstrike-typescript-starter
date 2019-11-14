@@ -19,7 +19,7 @@ export class CardAPI<TContext> extends DataSource {
   }
 
   async getCards(): Promise<Card[]> {
-    return this.cardRepository.find();
+    return this.cardRepository.find(); // get all cards
   }
 
   async getCard(id: string): Promise<Card> {

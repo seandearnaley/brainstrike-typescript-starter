@@ -4,4 +4,7 @@ node_modules/
 build/
 tmp/
 temp/
+.idea/
+.vscode/
 .env
+coverage

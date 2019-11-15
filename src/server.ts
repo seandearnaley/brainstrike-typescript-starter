@@ -1,6 +1,5 @@
-import "reflect-metadata";
-import bodyParser from "body-parser";
 import express = require("express");
+import bodyParser = require("body-parser");
 import { createConnection } from "typeorm";
 import { apolloServer } from "./apollo";
 
@@ -23,7 +22,7 @@ export default class StrikeServer {
 
   public addMiddleware(): StrikeServer {
     this.app.use(bodyParser.json());
-
+    apolloServer.applyMiddleware({ app: this.app });
     return this;
   }
 
@@ -40,7 +39,6 @@ export default class StrikeServer {
   }
 
   public start(): void {
-    apolloServer.applyMiddleware({ app: this.app });
     const { NODE_PORT, NODE_HOST } = process.env;
 
     this.app.listen(NODE_PORT, () => {

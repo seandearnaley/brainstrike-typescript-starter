@@ -1,10 +1,14 @@
 import { Card } from "../entity/Card";
 import { CardInput, CardsUpdatedResponse } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
-import { TypeORMDataSource } from "../utils";
-import { DataSourceConfig } from "apollo-datasource";
+import { Repository } from "typeorm";
+import { DataSource, DataSourceConfig } from "apollo-datasource";
 
-export class CardAPI<ApolloContext> extends TypeORMDataSource<ApolloContext> {
+export class CardAPI extends DataSource {
+  context!: ApolloContext;
+  repos: {
+    cards: Repository<Card>;
+  };
   constructor() {
     super();
   }
@@ -14,14 +18,17 @@ export class CardAPI<ApolloContext> extends TypeORMDataSource<ApolloContext> {
    * @param config used by apollo internally
    */
   initialize(config: DataSourceConfig<ApolloContext>): void {
-    super.initialize(config);
+    this.context = config.context;
+    this.repos = {
+      cards: this.context.connection.getRepository(Card)
+    };
   }
 
   /**
    * Get all cards in a deck
    */
   async getCards(): Promise<Card[]> {
-    return this.cardRepository.find(); // get all cards
+    return this.repos.cards.find(); // get all cards
   }
 
   /**
@@ -29,7 +36,7 @@ export class CardAPI<ApolloContext> extends TypeORMDataSource<ApolloContext> {
    * @param id card uuid
    */
   async getCard(id: string): Promise<Card> {
-    return this.cardRepository.findOne(id); // find by id
+    return this.repos.cards.findOne(id); // find by id
   }
 
   /**
@@ -45,7 +52,7 @@ export class CardAPI<ApolloContext> extends TypeORMDataSource<ApolloContext> {
     card.number = number;
     card.label = label;
     card.description = description;
-    await this.cardRepository.save(card);
+    await this.repos.cards.save(card);
     return {
       success: true,
       message: "Card Added",
@@ -66,7 +73,7 @@ export class CardAPI<ApolloContext> extends TypeORMDataSource<ApolloContext> {
     card.number = number;
     card.label = label;
     card.description = description;
-    await this.cardRepository.save(card);
+    await this.repos.cards.save(card);
     return {
       success: true,
       message: "Card Updated",
@@ -80,7 +87,7 @@ export class CardAPI<ApolloContext> extends TypeORMDataSource<ApolloContext> {
    */
   async removeCard(id: string): Promise<CardsUpdatedResponse> {
     const card = await this.getCard(id);
-    await this.cardRepository.remove(card);
+    await this.repos.cards.remove(card);
     return {
       success: true,
       message: "Card Removed"

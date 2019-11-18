@@ -1,5 +1,9 @@
-import { MyDataSources } from "../datasources";
+import { CardAPI } from "../datasources/card";
+import { Connection } from "typeorm";
 
 export interface ApolloContext {
-  dataSources: MyDataSources;
+  dataSources: {
+    cardAPI: CardAPI;
+  };
+  connection: Connection;
 }

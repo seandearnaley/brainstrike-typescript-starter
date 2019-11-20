@@ -3,8 +3,6 @@ import bodyParser = require("body-parser");
 import { createConnection, Connection } from "typeorm";
 import { setupApollo, setupDataSources } from "./apollo";
 
-const { NODE_PORT, NODE_HOST } = process.env;
-
 export default class Server {
   expressApp = express();
   connection: Connection;
@@ -23,6 +21,8 @@ export default class Server {
   }
 
   async start(): Promise<void> {
+    const { NODE_PORT, NODE_HOST } = process.env;
+
     // setup TypeORM connection
     this.connection = await this.setupDBConnection();
 

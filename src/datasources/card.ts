@@ -4,13 +4,20 @@ import { ApolloContext } from "../types/context";
 import { Repository } from "typeorm";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 
+export interface RepoInterface {
+  cards: Repository<Card>;
+}
+
+export interface CardAPIConstructor {
+  repos: RepoInterface;
+}
+
 export class CardAPI extends DataSource {
   context!: ApolloContext;
-  repos: {
-    cards: Repository<Card>;
-  };
-  constructor() {
+  repos: RepoInterface;
+  constructor({ repos }: CardAPIConstructor) {
     super();
+    this.repos = repos;
   }
 
   /**
@@ -19,9 +26,6 @@ export class CardAPI extends DataSource {
    */
   initialize(config: DataSourceConfig<ApolloContext>): void {
     this.context = config.context;
-    this.repos = {
-      cards: this.context.connection.getRepository(Card)
-    };
   }
 
   /**

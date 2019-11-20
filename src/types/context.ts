@@ -2,8 +2,8 @@ import { CardAPI } from "../datasources/card";
 import { Connection } from "typeorm";
 
 export interface ApolloContext {
-  dataSources: {
+  dataSources?: {
     cardAPI: CardAPI;
   };
-  connection: Connection;
+  connection?: Connection;
 }

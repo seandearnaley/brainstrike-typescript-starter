@@ -1,84 +1,67 @@
 import { CardAPI } from "../card";
 import { ApolloContext } from "../../types/context";
 import { Card } from "../../entity/Card";
-import { Repository } from "typeorm";
-// import { createConnection, Connection } from "typeorm";
 
 type Mockify<T> = {
   [P in keyof T]: T[P] extends Function ? jest.Mock<{}> : T[P];
 };
 
-export type MockType<T> = {
-  [P in keyof T]: jest.Mock<{}>;
+const mockFirstCardResponseId = "e303f7e5-15ce-4a5f-9179-a75ffb4f8191";
+
+const mockCardInput = {
+  number: 1,
+  label: "Test Card 1",
+  description: "testing"
 };
 
-// eslint-disable-next-line
-// @ts-ignore
-export const repositoryMockFactory: () => MockType<Repository<Card>> = jest.fn(
-  () => ({
-    find: jest.fn(entity => entity),
-    findOne: jest.fn(entity => entity),
-    remove: jest.fn(entity => entity),
-    save: jest.fn(entity => entity)
-  })
-);
+const mockFirstCardResponse = {
+  id: mockFirstCardResponseId,
+  ...mockCardInput
+};
 
 const mockCardsResponse = [
-  {
-    id: "e303f7e5-15ce-4a5f-9179-a75ffb4f8191",
-    number: 1,
-    label: "test",
-    description: "testing"
-  },
+  mockFirstCardResponse,
   {
     id: "c74121e7-8471-4fa4-8320-dcfe685eaf24",
     number: 2,
-    label: "adgdag",
-    description: "adgdagdagdag"
+    label: "Test Card 2",
+    description: "more testing"
   },
   {
     id: "1f266640-25fe-4015-bbfc-f551ed0aa38e",
-    number: 5,
-    label: "adgdag",
-    description: "adgdagdagdag"
+    number: 3,
+    label: "Test Card 3",
+    description: "even more testing"
   }
 ];
 
-// const createDBConnection = async (): Promise<Connection> =>
-//   createConnection({
-//     type: "sqlite",
-//     database: ":memory:",
-//     dropSchema: true,
-//     entities: ["src/entity/**/*.ts"],
-//     synchronize: true,
-//     logging: false
-//   });
+const mockReturnCard: Mockify<Card> = {
+  ...mockFirstCardResponse,
+  created: new Date(),
+  updated: null
+};
 
-// describe("Index (e2e)", () => {
-//   let connection: Connection;
+const defaultReturn = {
+  success: true,
+  card: mockReturnCard
+};
 
-//   beforeAll(async () => {
-//     connection = await createConnection();
-//   });
+const mockSuccessfulAddResponse = {
+  ...defaultReturn,
+  message: "Card Added"
+};
 
-//   afterAll(async () => {
-//     // TODO: clean db or something like that
-//   });
+const mockSuccessfulRemoveResponse = {
+  ...defaultReturn,
+  message: "Card Removed"
+};
 
-//   test("should run", async () => {
-//     const user = new User();
-//     user.firstName = "Timber";
-//     user.lastName = "Saw";
-//     user.age = 25;
-//     await connection.manager.save(user);
+const mockSuccessfulUpdateResponse = {
+  ...defaultReturn,
+  message: "Card Updated"
+};
 
-//     const loadedUser = await connection.manager.findOne(User);
-
-//     expect(loadedUser).toBeDefined();
-//   });
-// });
-
-const mocks = {
+const mockRepos = {
   cards: {
     find: jest.fn(),
     findOne: jest.fn(),
@@ -92,35 +75,50 @@ const mockContext: Mockify<ApolloContext> = {
   connection: null
 };
 
+const ds = new CardAPI({ repos: mockRepos });
+
+ds.initialize({
+  context: mockContext,
+  cache: null
+});
+
 describe("[CardAPI.getCards]", () => {
-  it("gets all cards in store", async () => {
-    const ds = new CardAPI();
-    ds.initialize({
-      context: mockContext,
-      cache: null
-    });
-
-    //ds.repos.cards = new MockRepo();
-
-    mocks.cards.find.mockReturnValueOnce(mockCardsResponse);
+  it("gets all cards in cards repo", async () => {
+    mockRepos.cards.find.mockReturnValueOnce(mockCardsResponse);
     const res = await ds.getCards();
-
     expect(res).toEqual(mockCardsResponse);
+  });
+});
 
-    // const res = await ds.addCard({
-    //   number: 1,
-    //   label: "hello",
-    //   description: "yo"
-    // });
-    // mockContext.connection.getRepository.find.mockReturnValueOnce([{ id: 1 }]);
-    // const res = await ds.findOrCreateUser({ email: "a@a.a" });
-    // mockStore.users.findOrCreate.mockReturnValueOnce([{ id: 1 }]);
-    // // check the result of the fn
-    // const res = await ds.findOrCreateUser({ email: "a@a.a" });
-    // expect(res).toEqual({ id: 1 });
-    // // make sure store is called properly
-    // expect(mockStore.users.findOrCreate).toBeCalledWith({
-    //   where: { email: "a@a.a" }
-    // });
+describe("[CardAPI.getCard]", () => {
+  it("gets a single card in card repo", async () => {
+    mockRepos.cards.findOne.mockReturnValueOnce(mockFirstCardResponse);
+    const res = await ds.getCard(mockFirstCardResponseId);
+    expect(res).toEqual(mockFirstCardResponse);
+  });
+});
+
+describe("[CardAPI.addCard]", () => {
+  it("adds a card to the card repo", async () => {
+    mockRepos.cards.save.mockReturnValueOnce(mockReturnCard);
+    const res = await ds.addCard(mockCardInput);
+    expect(res).toEqual(mockSuccessfulAddResponse);
+  });
+});
+
+describe("[CardAPI.updateCard]", () => {
+  it("updates a card in the card repo", async () => {
+    mockRepos.cards.findOne.mockReturnValueOnce(mockReturnCard);
+    mockRepos.cards.save.mockReturnValueOnce(mockReturnCard);
+    const res = await ds.updateCard(mockFirstCardResponseId, mockCardInput);
+    expect(res).toEqual(mockSuccessfulUpdateResponse);
+  });
+});
+
+describe("[CardAPI.removeCard]", () => {
+  it("removes a card from the card repo", async () => {
+    mockRepos.cards.remove.mockReturnValueOnce(mockReturnCard);
+    const res = await ds.removeCard(mockFirstCardResponseId);
+    expect(res).toEqual(mockSuccessfulRemoveResponse);
   });
 });

@@ -5,7 +5,7 @@ import { Repository } from "typeorm";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 
 export interface RepoInterface {
-  cards: Repository<Card>;
+  cards: Partial<Repository<Card>>;
 }
 
 export interface CardAPIConstructor {
@@ -56,11 +56,11 @@ export class CardAPI extends DataSource {
     card.number = number;
     card.label = label;
     card.description = description;
-    await this.repos.cards.save(card);
+    const savedCard = await this.repos.cards.save(card);
     return {
       success: true,
       message: "Card Added",
-      card
+      card: savedCard
     };
   }
 
@@ -77,11 +77,11 @@ export class CardAPI extends DataSource {
     card.number = number;
     card.label = label;
     card.description = description;
-    await this.repos.cards.save(card);
+    const savedCard = await this.repos.cards.save(card);
     return {
       success: true,
       message: "Card Updated",
-      card
+      card: savedCard
     };
   }
 
@@ -91,10 +91,11 @@ export class CardAPI extends DataSource {
    */
   async removeCard(id: string): Promise<CardsUpdatedResponse> {
     const card = await this.getCard(id);
-    await this.repos.cards.remove(card);
+    const removedCard = await this.repos.cards.remove(card);
     return {
       success: true,
-      message: "Card Removed"
+      message: "Card Removed",
+      card: removedCard
     };
   }
 }

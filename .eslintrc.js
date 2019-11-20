@@ -6,7 +6,7 @@ module.exports = {
     "plugin:prettier/recommended", // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript",
+    "plugin:import/typescript"
   ],
   plugins: ["@typescript-eslint", "prettier", "import"],
   parserOptions: {
@@ -29,6 +29,7 @@ module.exports = {
         // use <root>/tsconfig.json
         directory: "./tsconfig.json"
       }
-    }
+    },
+    "import/ignore": ["node_modules"]
   }
 };

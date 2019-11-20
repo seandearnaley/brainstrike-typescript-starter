@@ -1,3 +1,3 @@
 # brainstrike-server
 
-Starter kit for Node Typescript Apollo with TypeORM server... Instructions to come.
+Starter kit for Node Express Typescript Apollo GraphQL with TypeORM + GraphQL Code Gen + tests... Instructions to come.

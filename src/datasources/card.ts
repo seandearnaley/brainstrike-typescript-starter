@@ -1,21 +1,13 @@
 import { Card } from "../entity/Card";
 import { CardInput, CardsUpdatedResponse } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
-import { Repository } from "typeorm";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
-
-export interface RepoInterface {
-  cards: Partial<Repository<Card>>;
-}
-
-export interface CardAPIConstructor {
-  repos: RepoInterface;
-}
+import { RepoInterface } from "../apollo";
 
 export class CardAPI extends DataSource {
   context!: ApolloContext;
   repos: RepoInterface;
-  constructor({ repos }: CardAPIConstructor) {
+  constructor({ repos }: { repos: RepoInterface }) {
     super();
     this.repos = repos;
   }
@@ -32,7 +24,7 @@ export class CardAPI extends DataSource {
    * Get all cards in a deck
    */
   async getCards(): Promise<Card[]> {
-    return this.repos.cards.find(); // get all cards
+    return this.repos.cards.find(); // get all
   }
 
   /**

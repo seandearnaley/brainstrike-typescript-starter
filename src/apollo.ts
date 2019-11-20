@@ -1,5 +1,4 @@
-import express = require("express");
-import { Connection } from "typeorm";
+import { Connection, Repository } from "typeorm";
 import { Card } from "./entity/Card";
 import { ApolloServer } from "apollo-server-express";
 import { typeDefs, resolvers } from "./graphql";
@@ -7,28 +6,29 @@ import { CardAPI } from "./datasources/card";
 import { DataSources } from "apollo-server-core/dist/graphqlOptions";
 import { ApolloContext } from "./types/context";
 
-export const setupApollo = (
-  connection: Connection,
-  expressApp: express.Application
-): ApolloServer => {
+// NOTE: using partial here to make it easier to mock repos in unit tests, only have to implement part of the repo interface
+export interface RepoInterface {
+  cards: Partial<Repository<Card>>;
+}
+
+export const setupDatasources = (
+  connection: Connection
+): (() => DataSources<ApolloContext>) => {
   const repos = {
     cards: connection.getRepository(Card)
-  };
+  } as RepoInterface;
 
-  const dataSources = (): DataSources<ApolloContext> => ({
+  return (): DataSources<ApolloContext> => ({
     cardAPI: new CardAPI({ repos })
   });
+};
 
-  const apolloServer = new ApolloServer({
+export const setupApollo = (
+  dataSources: () => DataSources<ApolloContext>
+): ApolloServer => {
+  return new ApolloServer({
     typeDefs,
     resolvers,
-    dataSources,
-    context: {
-      connection
-    }
+    dataSources
   });
-
-  apolloServer.applyMiddleware({ app: expressApp });
-
-  return apolloServer;
 };

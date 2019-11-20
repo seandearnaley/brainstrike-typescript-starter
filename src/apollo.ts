@@ -11,7 +11,7 @@ export interface RepoInterface {
   cards: Partial<Repository<Card>>;
 }
 
-export const setupDatasources = (
+export const setupDataSources = (
   connection: Connection
 ): (() => DataSources<ApolloContext>) => {
   const repos = {

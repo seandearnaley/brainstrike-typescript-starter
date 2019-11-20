@@ -1,7 +1,9 @@
 import express = require("express");
 import bodyParser = require("body-parser");
 import { createConnection, Connection } from "typeorm";
-import { setupApollo, setupDatasources } from "./apollo";
+import { setupApollo, setupDataSources } from "./apollo";
+
+const { NODE_PORT, NODE_HOST } = process.env;
 
 export default class Server {
   expressApp = express();
@@ -21,14 +23,13 @@ export default class Server {
   }
 
   async start(): Promise<void> {
-    const { NODE_PORT, NODE_HOST } = process.env;
-
+    // setup TypeORM connection
     this.connection = await this.setupDBConnection();
 
-    // add middleware
+    // add Express middleware
     this.expressApp.use(bodyParser.json());
 
-    // add routers
+    // add default Express router
     this.expressApp.get("/", (req, res) =>
       res.status(418).json({
         title: "Server 1.0",
@@ -37,13 +38,18 @@ export default class Server {
       })
     );
 
-    // setup apollo datasources, which use TypeORM repos
-    const dataSources = setupDatasources(this.connection);
+    // setup Apollo datasources, which use TypeORM repos
+    const dataSources = setupDataSources(this.connection);
 
+    // setup Apollo GraphQL with Typedefs, Resolvers + Datasources
     const apolloServer = setupApollo(dataSources);
 
-    apolloServer.applyMiddleware({ app: this.expressApp });
+    // attach Apollo to Express
+    apolloServer.applyMiddleware({
+      app: this.expressApp
+    });
 
+    // start listening
     this.expressApp.listen(NODE_PORT, () => {
       console.log(
         `🧠 brainstrike server running on: http://${NODE_HOST}:${NODE_PORT}${apolloServer.graphqlPath}`

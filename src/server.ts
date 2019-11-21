@@ -17,10 +17,6 @@ export default class Server {
     } catch (err) {
       console.error(err);
       process.exit(1);
-    } finally {
-      if (connection) {
-        await connection.close();
-      }
     }
 
     return connection;

@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Server - e2e gets list of cards 1`] = `
+Object {
+  "data": Object {
+    "cards": Array [
+      Object {
+        "description": "testing",
+        "id": "e303f7e5-15ce-4a5f-9179-a75ffb4f8191",
+        "label": "test",
+        "number": 1,
+      },
+      Object {
+        "description": "adgdagdagdag",
+        "id": "c74121e7-8471-4fa4-8320-dcfe685eaf24",
+        "label": "adgdag",
+        "number": 2,
+      },
+      Object {
+        "description": "adgdagdagdag",
+        "id": "1f266640-25fe-4015-bbfc-f551ed0aa38e",
+        "label": "adgdag",
+        "number": 5,
+      },
+      Object {
+        "description": "adgdagdagdag",
+        "id": "2c21169e-6e9d-4789-b0f6-b95e45bc828a",
+        "label": "adgdag",
+        "number": 5,
+      },
+      Object {
+        "description": "adgdagdagdag",
+        "id": "476a542e-cf7e-411f-857d-ec319229e550",
+        "label": "adgdag",
+        "number": 5,
+      },
+      Object {
+        "description": "adgdagdagdag",
+        "id": "daa83646-07e4-4649-955a-5b8faae545c5",
+        "label": "adgdag",
+        "number": 5,
+      },
+      Object {
+        "description": "adgdagdagdag",
+        "id": "621cb5f0-69d3-45e6-be56-4ddea22dcd55",
+        "label": "adgdag",
+        "number": 5,
+      },
+      Object {
+        "description": "adgdagdagdag",
+        "id": "a0a2cead-7ebf-43ac-bae8-1fa15554695c",
+        "label": "adgdag",
+        "number": 5,
+      },
+      Object {
+        "description": "adgdagdagdag",
+        "id": "d72d2799-40bc-4d2e-9214-6739ce0ed551",
+        "label": "adgdag",
+        "number": 265,
+      },
+      Object {
+        "description": "adgdagdagdag",
+        "id": "f7196d42-0281-4e60-89cd-876c76e5496a",
+        "label": "adgdag",
+        "number": 265,
+      },
+      Object {
+        "description": "adgdagdagdag",
+        "id": "d08099bd-eba8-4c3b-b9c8-a8db303ba2a2",
+        "label": "adgdag",
+        "number": 265,
+      },
+    ],
+  },
+}
+`;

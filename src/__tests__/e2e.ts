@@ -42,7 +42,7 @@ describe("Server - e2e", () => {
         query: GET_CARDS
       })
     );
-    // expect(res).toMatchSnapshot();
+    expect(res).toMatchSnapshot();
   });
 
   // TODO

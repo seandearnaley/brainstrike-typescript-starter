@@ -91,5 +91,3 @@ export class CardAPI extends DataSource {
     };
   }
 }
-
-export default CardAPI;

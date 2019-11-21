@@ -2,10 +2,12 @@ import express = require("express");
 import bodyParser = require("body-parser");
 import { createConnection, Connection } from "typeorm";
 import { setupApollo, setupDataSources } from "./apollo";
+import { ApolloServer } from "apollo-server-express";
 
 export default class Server {
   expressApp = express();
-  connection: Connection;
+  // connection: Connection;
+  apolloServer: ApolloServer;
   async setupDBConnection(): Promise<Connection> {
     let connection;
     try {
@@ -15,16 +17,30 @@ export default class Server {
     } catch (err) {
       console.error(err);
       process.exit(1);
+    } finally {
+      if (connection) {
+        await connection.close();
+      }
     }
 
     return connection;
   }
 
+  async setupApolloServer(): Promise<void> {
+    // setup TypeORM connection
+    const connection = await this.setupDBConnection();
+
+    // setup Apollo datasources, which use TypeORM repos
+    const dataSources = setupDataSources(connection);
+
+    // setup Apollo GraphQL with Typedefs, Resolvers + Datasources
+    this.apolloServer = setupApollo(dataSources);
+  }
+
   async start(): Promise<void> {
     const { NODE_PORT, NODE_HOST } = process.env;
 
-    // setup TypeORM connection
-    this.connection = await this.setupDBConnection();
+    await this.setupApolloServer();
 
     // add Express middleware
     this.expressApp.use(bodyParser.json());
@@ -38,21 +54,15 @@ export default class Server {
       })
     );
 
-    // setup Apollo datasources, which use TypeORM repos
-    const dataSources = setupDataSources(this.connection);
-
-    // setup Apollo GraphQL with Typedefs, Resolvers + Datasources
-    const apolloServer = setupApollo(dataSources);
-
     // attach Apollo to Express
-    apolloServer.applyMiddleware({
+    this.apolloServer.applyMiddleware({
       app: this.expressApp
     });
 
     // start listening
     this.expressApp.listen(NODE_PORT, () => {
       console.log(
-        `🧠 brainstrike server running on: http://${NODE_HOST}:${NODE_PORT}${apolloServer.graphqlPath}`
+        `🧠 brainstrike server running on: http://${NODE_HOST}:${NODE_PORT}${this.apolloServer.graphqlPath}`
       );
     });
   }

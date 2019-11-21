@@ -76,6 +76,12 @@ Object {
         "label": "Hello",
         "number": 500,
       },
+      Object {
+        "description": "World",
+        "id": "97e570a3-fc33-49f9-a5f2-7b2215a2b20f",
+        "label": "Hello",
+        "number": 500,
+      },
     ],
   },
 }

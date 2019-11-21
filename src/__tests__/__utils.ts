@@ -9,6 +9,49 @@ import {
   FetchResult
 } from "apollo-link";
 import { ApolloServer } from "apollo-server-express";
+import { CardAPI } from "../../src/datasources/card";
+import { typeDefs, resolvers } from "../../src/graphql";
+import { DataSources } from "apollo-server-core/dist/graphqlOptions";
+import { ApolloContext } from "../../src/types/context";
+
+const defaultContext = {};
+
+export type Mockify<T> = {
+  [P in keyof T]: T[P] extends Function ? jest.Mock<{}> : T[P];
+};
+
+export const mockRepos = {
+  cards: {
+    find: jest.fn(),
+    findOne: jest.fn(),
+    save: jest.fn(),
+    remove: jest.fn()
+  }
+};
+
+export const mockContext: Mockify<ApolloContext> = {
+  dataSources: null,
+  connection: null
+};
+
+/**
+ * Integration testing utils
+ */
+export const constructTestServer = ({ context = defaultContext } = {}): {
+  server: ApolloServer;
+  cardAPI: CardAPI;
+} => {
+  const cardAPI = new CardAPI({ repos: mockRepos });
+
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    dataSources: (): DataSources<ApolloContext> => ({ cardAPI }),
+    context
+  });
+
+  return { server, cardAPI };
+};
 
 /**
  * e2e Testing Utils

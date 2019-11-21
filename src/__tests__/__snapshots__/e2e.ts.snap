@@ -70,6 +70,12 @@ Object {
         "label": "adgdag",
         "number": 265,
       },
+      Object {
+        "description": "World",
+        "id": "dca8ced2-cd06-4399-9e87-376a2eb80663",
+        "label": "Hello",
+        "number": 500,
+      },
     ],
   },
 }

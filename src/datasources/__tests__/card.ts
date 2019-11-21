@@ -1,10 +1,6 @@
 import { CardAPI } from "../card";
-import { ApolloContext } from "../../types/context";
 import { Card } from "../../entity/Card";
-
-type Mockify<T> = {
-  [P in keyof T]: T[P] extends Function ? jest.Mock<{}> : T[P];
-};
+import { Mockify, mockRepos, mockContext } from "../../__tests__/__utils";
 
 const mockFirstCardResponseId = "e303f7e5-15ce-4a5f-9179-a75ffb4f8191";
 
@@ -14,7 +10,7 @@ const mockCardInput = {
   description: "testing"
 };
 
-const mockFirstCardResponse = {
+export const mockFirstCardResponse = {
   id: mockFirstCardResponseId,
   ...mockCardInput
 };
@@ -59,20 +55,6 @@ const mockSuccessfulRemoveResponse = {
 const mockSuccessfulUpdateResponse = {
   ...defaultReturn,
   message: "Card Updated"
-};
-
-const mockRepos = {
-  cards: {
-    find: jest.fn(),
-    findOne: jest.fn(),
-    save: jest.fn(),
-    remove: jest.fn()
-  }
-};
-
-const mockContext: Mockify<ApolloContext> = {
-  dataSources: null,
-  connection: null
 };
 
 const ds = new CardAPI({ repos: mockRepos });

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Queries fetches list of cards 1`] = `
+Object {
+  "data": Object {
+    "cards": Array [
+      Object {
+        "description": "testing",
+        "id": "e303f7e5-15ce-4a5f-9179-a75ffb4f8191",
+        "label": "Test Card 1",
+        "number": 1,
+      },
+    ],
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;

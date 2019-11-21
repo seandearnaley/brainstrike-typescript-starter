@@ -6,5 +6,6 @@ module.exports = {
     "**/*.{ts,tsx,js,jsx}",
     "!**/node_modules/**",
     "!**/build/**"
-  ]
+  ],
+  testPathIgnorePatterns: ["/node_modules/", "/__utils"]
 };

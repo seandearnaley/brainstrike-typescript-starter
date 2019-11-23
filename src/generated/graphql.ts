@@ -88,7 +88,7 @@ export type MutationRemoveCardArgs = {
 
 export type Query = {
   __typename?: "Query";
-  cards: Array<Card>;
+  cards?: Maybe<Array<Card>>;
   card?: Maybe<Card>;
   me?: Maybe<User>;
 };
@@ -120,14 +120,12 @@ export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   info: GraphQLResolveInfo
 ) => Promise<TResult> | TResult;
 
-export type StitchingResolver<TResult, TParent, TContext, TArgs> = {
-  fragment: string;
-  resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
-};
-
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
-  | ResolverFn<TResult, TParent, TContext, TArgs>
-  | StitchingResolver<TResult, TParent, TContext, TArgs>;
+export type Resolver<
+  TResult,
+  TParent = {},
+  TContext = {},
+  TArgs = {}
+> = ResolverFn<TResult, TParent, TContext, TArgs>;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
@@ -331,7 +329,11 @@ export type QueryResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = ResolversObject<{
-  cards?: Resolver<Array<ResolversTypes["Card"]>, ParentType, ContextType>;
+  cards?: Resolver<
+    Maybe<Array<ResolversTypes["Card"]>>,
+    ParentType,
+    ContextType
+  >;
   card?: Resolver<
     Maybe<ResolversTypes["Card"]>,
     ParentType,

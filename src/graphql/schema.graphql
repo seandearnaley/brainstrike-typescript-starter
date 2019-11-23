@@ -6,7 +6,7 @@ scalar DateTime
 scalar Time
 
 type Query {
-  cards: [Card!]!
+  cards: [Card!]
   card(id: ID!): Card
   # Queries for the current user
   me: User

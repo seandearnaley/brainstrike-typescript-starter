@@ -12,7 +12,9 @@ export const mockCardInput = {
 
 export const mockFirstCardResponse = {
   id: mockFirstCardResponseId,
-  ...mockCardInput
+  ...mockCardInput,
+  created: new Date(),
+  updated: new Date()
 };
 
 const mockCardsResponse = [

@@ -11,4 +11,6 @@ generates:
       - "typescript-resolvers"
     config:
       useIndexSignature: true
+      noSchemaStitching: true
       contextType: ../types/context#ApolloContext
+      

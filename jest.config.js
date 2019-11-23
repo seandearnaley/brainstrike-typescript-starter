@@ -1,11 +1,12 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  collectCoverage: false,
+  collectCoverage: true,
   collectCoverageFrom: [
-    "**/*.{ts,tsx,js,jsx}",
+    "./src/**/*.{ts,tsx,js,jsx}",
     "!**/node_modules/**",
-    "!**/build/**"
+    "!**/build/**",
+    "!./src/generated/**"
   ],
   testPathIgnorePatterns: ["/node_modules/", "/__utils"]
 };

@@ -1,5 +1,7 @@
 import React from 'react';
 import { useGetCardsQuery } from '../../generated/graphql';
+import { SimpleCard } from './Card';
+import NewCardForm from './NewCardForm';
 
 export const Cards: React.FC = (): React.ReactElement => {
   const { data, loading, error } = useGetCardsQuery();
@@ -11,12 +13,9 @@ export const Cards: React.FC = (): React.ReactElement => {
 
   return (
     <div>
+      <NewCardForm></NewCardForm>
       {cards &&
-        cards.map(card => (
-          <div key={card.id}>
-            {card.id} {card.description} {card.label}
-          </div>
-        ))}
+        cards.map(card => <SimpleCard key={card.id} card={card}></SimpleCard>)}
     </div>
   );
 };

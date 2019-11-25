@@ -5,18 +5,6 @@ import { Cards } from './cards/Cards';
 import { makeStyles } from '@material-ui/core/styles';
 import { Switch, Route } from 'react-router-dom';
 
-import Basic from './cards/CardForm';
-
-const Copyright: React.FC = () => {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      BrainStrike {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-};
-
 const useStyles = makeStyles(theme => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -40,19 +28,15 @@ export const MainPanel: React.FC = () => {
           component="div"
           style={{ backgroundColor: '#cfe8fc', height: '100vh' }}
         >
-          <Basic></Basic>
           <Switch>
-            <Route path="/home">Home</Route>
-            <Route path="/sets">
+            <Route path="/cards">
               <Cards></Cards>
             </Route>
+            <Route path="/sets"></Route>
             <Route path="/">Root</Route>
           </Switch>
         </Typography>
       </Container>
-
-      <div className={classes.appBarSpacer} />
-      <Copyright />
     </main>
   );
 };

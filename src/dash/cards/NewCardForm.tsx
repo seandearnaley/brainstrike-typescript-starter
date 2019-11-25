@@ -76,10 +76,10 @@ const MyForm = withFormik<MyFormProps, FormValues>({
 })(InnerForm);
 
 // Use <MyForm /> wherevs
-const Basic = (): ReactElement => (
+const NewCardForm = (): ReactElement => (
   <div>
     <MyForm message="Sign up" />
   </div>
 );
 
-export default Basic;
+export default NewCardForm;

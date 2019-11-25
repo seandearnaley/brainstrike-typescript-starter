@@ -162,7 +162,7 @@ const Dashboard: React.FC = () => {
           <Divider />
 
           <List>
-            <ListItemLink primary="Cards" to="/home" />
+            <ListItemLink primary="Cards" to="/cards" />
             <ListItemLink primary="Sets" to="/sets" />
           </List>
         </Drawer>

@@ -1,0 +1,10 @@
+query getCards {
+  cards {
+    created
+    description
+    id
+    label
+    number
+    updated
+  }
+}

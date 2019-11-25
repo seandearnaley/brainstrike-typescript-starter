@@ -36,89 +36,139 @@ export enum CacheControlScope {
   Private = 'PRIVATE',
 }
 
-export type Query = {
-  __typename?: 'Query';
-  techniques: Array<Technique>;
-  technique?: Maybe<Technique>;
-};
-
-export type QueryTechniqueArgs = {
+export type Card = {
+  __typename?: 'Card';
   id: Scalars['ID'];
-};
-
-export type Technique = {
-  __typename?: 'Technique';
-  id: Scalars['ID'];
+  number?: Maybe<Scalars['Int']>;
   label?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   created?: Maybe<Scalars['DateTime']>;
   updated?: Maybe<Scalars['DateTime']>;
 };
 
-export type GetTechsQueryVariables = {};
+export type CardInput = {
+  number?: Maybe<Scalars['Int']>;
+  label?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
 
-export type GetTechsQuery = { __typename?: 'Query' } & {
-  techniques: Array<
-    { __typename?: 'Technique' } & Pick<
-      Technique,
-      'id' | 'label' | 'description' | 'created'
+export type CardsUpdatedResponse = {
+  __typename?: 'CardsUpdatedResponse';
+  success: Scalars['Boolean'];
+  message?: Maybe<Scalars['String']>;
+  card?: Maybe<Card>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  addCard: CardsUpdatedResponse;
+  updateCard: CardsUpdatedResponse;
+  removeCard: CardsUpdatedResponse;
+};
+
+export type MutationAddCardArgs = {
+  input?: Maybe<CardInput>;
+};
+
+export type MutationUpdateCardArgs = {
+  id: Scalars['ID'];
+  input?: Maybe<CardInput>;
+};
+
+export type MutationRemoveCardArgs = {
+  id: Scalars['ID'];
+};
+
+export type Query = {
+  __typename?: 'Query';
+  cards?: Maybe<Array<Card>>;
+  card?: Maybe<Card>;
+  me?: Maybe<User>;
+};
+
+export type QueryCardArgs = {
+  id: Scalars['ID'];
+};
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  created?: Maybe<Scalars['DateTime']>;
+  updated?: Maybe<Scalars['DateTime']>;
+};
+
+export type GetCardsQueryVariables = {};
+
+export type GetCardsQuery = { __typename?: 'Query' } & {
+  cards: Maybe<
+    Array<
+      { __typename?: 'Card' } & Pick<
+        Card,
+        'created' | 'description' | 'id' | 'label' | 'number' | 'updated'
+      >
     >
   >;
 };
 
-export const GetTechsDocument = gql`
-  query GetTechs {
-    techniques {
+export const GetCardsDocument = gql`
+  query getCards {
+    cards {
+      created
+      description
       id
       label
-      description
-      created
+      number
+      updated
     }
   }
 `;
 
 /**
- * __useGetTechsQuery__
+ * __useGetCardsQuery__
  *
- * To run a query within a React component, call `useGetTechsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTechsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCardsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCardsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetTechsQuery({
+ * const { data, loading, error } = useGetCardsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetTechsQuery(
+export function useGetCardsQuery(
   baseOptions?: ApolloReactHooks.QueryHookOptions<
-    GetTechsQuery,
-    GetTechsQueryVariables
+    GetCardsQuery,
+    GetCardsQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useQuery<GetTechsQuery, GetTechsQueryVariables>(
-    GetTechsDocument,
+  return ApolloReactHooks.useQuery<GetCardsQuery, GetCardsQueryVariables>(
+    GetCardsDocument,
     baseOptions,
   );
 }
-export function useGetTechsLazyQuery(
+export function useGetCardsLazyQuery(
   baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    GetTechsQuery,
-    GetTechsQueryVariables
+    GetCardsQuery,
+    GetCardsQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetTechsQuery, GetTechsQueryVariables>(
-    GetTechsDocument,
+  return ApolloReactHooks.useLazyQuery<GetCardsQuery, GetCardsQueryVariables>(
+    GetCardsDocument,
     baseOptions,
   );
 }
-export type GetTechsQueryHookResult = ReturnType<typeof useGetTechsQuery>;
-export type GetTechsLazyQueryHookResult = ReturnType<
-  typeof useGetTechsLazyQuery
+export type GetCardsQueryHookResult = ReturnType<typeof useGetCardsQuery>;
+export type GetCardsLazyQueryHookResult = ReturnType<
+  typeof useGetCardsLazyQuery
 >;
-export type GetTechsQueryResult = ApolloReactCommon.QueryResult<
-  GetTechsQuery,
-  GetTechsQueryVariables
+export type GetCardsQueryResult = ApolloReactCommon.QueryResult<
+  GetCardsQuery,
+  GetCardsQueryVariables
 >;

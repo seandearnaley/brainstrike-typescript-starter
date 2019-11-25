@@ -5,7 +5,10 @@ module.exports = {
     includes: ['./src/**/*.graphql'],
     service: {
       name: 'brainstrike',
-      localSchemaFile: './graphql.schema.json', 
+      url: 'http://localhost:4000/graphql',
+      // localSchemaFile: './graphql.schema.json', 
     },
   },
 };
+
+

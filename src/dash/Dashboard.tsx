@@ -13,17 +13,11 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems } from './listItems';
 
-const Copyright: React.FC = () => {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      BrainStrike {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-};
+import { MainPanel } from './MainPanel';
+
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -152,28 +146,25 @@ const Dashboard: React.FC = () => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+      <Router>
+        <Drawer
+          variant="permanent"
+          classes={{
+            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+          }}
+          open={open}
+        >
+          <div className={classes.toolbarIcon}>
+            <IconButton onClick={handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+          <Divider />
 
-        <Copyright />
-      </main>
+          <List>{mainListItems}</List>
+        </Drawer>
+        <MainPanel />
+      </Router>
     </div>
   );
 };

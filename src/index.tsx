@@ -7,8 +7,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
 
-// import Hello from './Hello';
-
 import Dashboard from './dash/Dashboard';
 
 import * as serviceWorker from './serviceWorker';
@@ -26,8 +24,6 @@ const client = new ApolloClient({
     },
   }),
 });
-
-// TODO: add Reach router
 
 ReactDOM.render(
   <ApolloProvider client={client}>

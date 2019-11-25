@@ -5,6 +5,8 @@ import { Cards } from './Cards';
 import { makeStyles } from '@material-ui/core/styles';
 import { Switch, Route } from 'react-router-dom';
 
+import Basic from './CardForm';
+
 const Copyright: React.FC = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -38,6 +40,7 @@ export const MainPanel: React.FC = () => {
           component="div"
           style={{ backgroundColor: '#cfe8fc', height: '100vh' }}
         >
+          <Basic></Basic>
           <Switch>
             <Route path="/home">Home</Route>
             <Route path="/sets">

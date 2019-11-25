@@ -1,0 +1,12 @@
+mutation addCard($input: CardInput!) {
+  addCard(input: $input) {
+    success
+    message
+    card {
+      id
+      number
+      label
+      description
+    }
+  }
+}

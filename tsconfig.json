@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["es5", "es6", "es2016"],
+    "lib": ["es5", "es6", "es2016", "es2017", "dom"],
     "target": "ES2016",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -19,3 +19,4 @@
   "include": ["src/**/*.ts"],
   "exclude": ["src/test/**/*.spec.ts"]
 }
+

@@ -1,13 +1,7 @@
 import React from 'react';
-import { useGetCardsQuery } from '../generated/graphql';
+import { useGetCardsQuery } from '../../generated/graphql';
 
-interface CardsProps {
-  name: string;
-}
-
-export const Cards: React.FC<CardsProps> = (
-  props: CardsProps,
-): React.ReactElement => {
+export const Cards: React.FC = (): React.ReactElement => {
   const { data, loading, error } = useGetCardsQuery();
 
   if (loading) return <div>loading....</div>;
@@ -22,8 +16,7 @@ export const Cards: React.FC<CardsProps> = (
           <div key={card.id}>
             {card.id} {card.description} {card.label}
           </div>
-        ))}{' '}
-      {props.name}
+        ))}
     </div>
   );
 };

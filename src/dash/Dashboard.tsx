@@ -13,7 +13,7 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems } from './listItems';
+import { ListItemLink } from './ListItemLink';
 
 import { MainPanel } from './MainPanel';
 
@@ -161,7 +161,10 @@ const Dashboard: React.FC = () => {
           </div>
           <Divider />
 
-          <List>{mainListItems}</List>
+          <List>
+            <ListItemLink primary="Cards" to="/home" />
+            <ListItemLink primary="Sets" to="/sets" />
+          </List>
         </Drawer>
         <MainPanel />
       </Router>

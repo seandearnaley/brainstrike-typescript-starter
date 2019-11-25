@@ -1,11 +1,11 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import { Cards } from './Cards';
+import { Cards } from './cards/Cards';
 import { makeStyles } from '@material-ui/core/styles';
 import { Switch, Route } from 'react-router-dom';
 
-import Basic from './CardForm';
+import Basic from './cards/CardForm';
 
 const Copyright: React.FC = () => {
   return (
@@ -44,7 +44,7 @@ export const MainPanel: React.FC = () => {
           <Switch>
             <Route path="/home">Home</Route>
             <Route path="/sets">
-              <Cards name="Sean"></Cards>
+              <Cards></Cards>
             </Route>
             <Route path="/">Root</Route>
           </Switch>

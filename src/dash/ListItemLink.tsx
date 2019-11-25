@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 // import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -14,19 +14,17 @@ export function ListItemLink(props: ListItemLinkProps): React.ReactElement {
 
   const renderLink = React.useMemo(
     () =>
-      React.forwardRef(function forwardLink(linkProps, ref) {
-        // eslint-disable-next-line
-        // @ts-ignore
-        return <Link to={to} {...linkProps} ref={ref} />;
-      }),
+      React.forwardRef<HTMLAnchorElement, Omit<LinkProps, 'innerRef'>>(
+        function forwardLink(linkProps, ref) {
+          return <Link to={to} {...linkProps} innerRef={ref} />;
+        },
+      ),
     [to],
   );
 
   return (
     <li>
-      {/*
-      // @ts-ignore */}
-      <ListItem component={renderLink}>
+      <ListItem component={renderLink} to={to}>
         <ListItemText primary={primary} />
       </ListItem>
     </li>

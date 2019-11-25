@@ -17,7 +17,7 @@ export const Cards: React.FC = (): React.ReactElement => {
   const [
     addCardMutation,
     {
-      data: addMutationData,
+      // data: addMutationData,
       loading: addMutationLoading,
       error: addMutationError,
     },

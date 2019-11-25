@@ -3,10 +3,12 @@ mutation addCard($input: CardInput!) {
     success
     message
     card {
-      id
-      number
-      label
+      created
       description
+      id
+      label
+      number
+      updated
     }
   }
 }

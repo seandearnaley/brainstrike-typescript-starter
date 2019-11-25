@@ -113,7 +113,7 @@ export type AddCardMutation = { __typename?: 'Mutation' } & {
       card: Maybe<
         { __typename?: 'Card' } & Pick<
           Card,
-          'id' | 'number' | 'label' | 'description'
+          'created' | 'description' | 'id' | 'label' | 'number' | 'updated'
         >
       >;
     };
@@ -168,10 +168,12 @@ export const AddCardDocument = gql`
       success
       message
       card {
-        id
-        number
-        label
+        created
         description
+        id
+        label
+        number
+        updated
       }
     }
   }

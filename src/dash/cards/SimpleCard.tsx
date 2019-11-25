@@ -31,14 +31,14 @@ interface SimpleCardProps {
 export const SimpleCard: React.FC<SimpleCardProps> = (
   props: SimpleCardProps,
 ): React.ReactElement => {
-  const { label, description, created } = props.card;
+  const { number, label, description, created } = props.card;
   const classes = useStyles();
 
   return (
     <Card className={classes.card}>
       <CardContent>
         <Typography variant="h5" component="h2">
-          {label}
+          #{number} {label}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
           {new Date(created).toDateString()}

@@ -55,8 +55,8 @@ export type CardInput = {
 export type CardsUpdatedResponse = {
   __typename?: 'CardsUpdatedResponse';
   success: Scalars['Boolean'];
-  message?: Maybe<Scalars['String']>;
-  card?: Maybe<Card>;
+  message: Scalars['String'];
+  card: Card;
 };
 
 export type Mutation = {
@@ -110,11 +110,9 @@ export type AddCardMutation = { __typename?: 'Mutation' } & {
     CardsUpdatedResponse,
     'success' | 'message'
   > & {
-      card: Maybe<
-        { __typename?: 'Card' } & Pick<
-          Card,
-          'created' | 'description' | 'id' | 'label' | 'number' | 'updated'
-        >
+      card: { __typename?: 'Card' } & Pick<
+        Card,
+        'created' | 'description' | 'id' | 'label' | 'number' | 'updated'
       >;
     };
 };
@@ -153,11 +151,9 @@ export type UpdateCardMutation = { __typename?: 'Mutation' } & {
     CardsUpdatedResponse,
     'success' | 'message'
   > & {
-      card: Maybe<
-        { __typename?: 'Card' } & Pick<
-          Card,
-          'id' | 'number' | 'label' | 'description'
-        >
+      card: { __typename?: 'Card' } & Pick<
+        Card,
+        'id' | 'number' | 'label' | 'description'
       >;
     };
 };

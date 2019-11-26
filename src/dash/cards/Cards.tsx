@@ -17,7 +17,7 @@ export const Cards: React.FC = (): React.ReactElement => {
   const [
     addCardMutation,
     {
-      // data: addMutationData,
+      data: addMutationData,
       loading: addMutationLoading,
       error: addMutationError,
     },
@@ -27,15 +27,15 @@ export const Cards: React.FC = (): React.ReactElement => {
         query: GetCardsDocument,
       });
 
-      const acard = data && data.addCard && data.addCard.card;
-
       cache.writeQuery<GetCardsQuery>({
         query: GetCardsDocument,
         data: {
           cards:
             cardQuery &&
             cardQuery.cards &&
-            cardQuery.cards.concat(acard ? [acard] : []),
+            cardQuery.cards.concat(
+              data && data.addCard.card ? [data.addCard.card] : [],
+            ),
         },
       });
     },
@@ -43,17 +43,26 @@ export const Cards: React.FC = (): React.ReactElement => {
 
   if (queryLoading) return <div>loading....</div>;
   if (queryError) return <p>ERROR: {queryError.message}</p>;
-  if (addMutationLoading) return <div>mutation loading....</div>;
-  if (addMutationError)
-    return <div>mutation ERROR: {addMutationError.message}</div>;
 
-  const cards = queryData && queryData.cards;
+  if (addMutationData) console.log(addMutationData.addCard.message);
 
+  let renderComponent = (
+    <NewCardForm addHandler={addCardMutation}></NewCardForm>
+  );
+
+  if (addMutationLoading) {
+    renderComponent = <div>mutation loading....</div>;
+  } else if (addMutationError) {
+    renderComponent = <div>mutation ERROR: {addMutationError.message}</div>;
+  }
   return (
     <div>
-      <NewCardForm addHandler={addCardMutation}></NewCardForm>
-      {cards &&
-        cards.map(card => <SimpleCard key={card.id} card={card}></SimpleCard>)}
+      {renderComponent}
+      {queryData &&
+        queryData.cards &&
+        queryData.cards.map(card => (
+          <SimpleCard key={card.id} card={card}></SimpleCard>
+        ))}
     </div>
   );
 };

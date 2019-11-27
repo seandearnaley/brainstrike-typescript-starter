@@ -3,36 +3,9 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import { Card as CardType } from '../../generated/graphql';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { TextField } from 'formik-material-ui';
 import { Formik, Form, Field } from 'formik';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 200,
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-    },
-    pos: {
-      marginBottom: 12,
-    },
-  }),
-);
 
 interface SimpleCardProps {
   card: CardType;
@@ -49,14 +22,11 @@ export const SimpleCard: React.FC<SimpleCardProps> = (
 ): React.ReactElement => {
   const { number, label, description, created } = props.card;
   const initialValues: MyFormValues = { number, label, description };
-  const classes = useStyles();
 
   return (
     <Card>
       <CardContent>
-        <Typography className={classes.pos} color="textSecondary">
-          {new Date(created).toDateString()}
-        </Typography>
+        <span>{new Date(created).toDateString()}</span>
 
         <Formik
           initialValues={initialValues}
@@ -71,11 +41,12 @@ export const SimpleCard: React.FC<SimpleCardProps> = (
               <div>
                 <Field
                   name="number"
+                  type="number"
                   component={TextField}
                   id="number"
                   label="Card Number"
                   style={{ margin: 8 }}
-                  placeholder="Placeholder"
+                  placeholder="Number"
                   margin="normal"
                   value={number}
                   InputLabelProps={{

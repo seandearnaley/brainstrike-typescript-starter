@@ -1,13 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-
-import {
-  useGetCardsQuery,
-  useAddCardMutation,
-  GetCardsDocument,
-  GetCardsQuery,
-} from '../../generated/graphql';
+import { useGetCardsQuery } from '../../generated/graphql';
 import { SimpleCard } from './SimpleCard';
 import NewCardForm from './NewCardForm';
 
@@ -29,59 +23,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Cards: React.FC = (): React.ReactElement => {
   const classes = useStyles();
-  const {
-    data: queryData,
-    loading: queryLoading,
-    error: queryError,
-  } = useGetCardsQuery();
-  const [
-    addCardMutation,
-    {
-      data: addMutationData,
-      loading: addMutationLoading,
-      error: addMutationError,
-    },
-  ] = useAddCardMutation({
-    update(cache, { data }) {
-      const cardQuery = cache.readQuery<GetCardsQuery>({
-        query: GetCardsDocument,
-      });
+  const { data, loading, error } = useGetCardsQuery();
 
-      cache.writeQuery<GetCardsQuery>({
-        query: GetCardsDocument,
-        data: {
-          cards:
-            cardQuery &&
-            cardQuery.cards &&
-            cardQuery.cards.concat(
-              data && data.addCard.card ? [data.addCard.card] : [],
-            ),
-        },
-      });
-    },
-  });
+  if (loading) return <div>loading....</div>;
+  if (error) return <p>ERROR: {error.message}</p>;
 
-  if (queryLoading) return <div>loading....</div>;
-  if (queryError) return <p>ERROR: {queryError.message}</p>;
-
-  if (addMutationData) console.log(addMutationData.addCard.message);
-
-  let renderComponent = (
-    <NewCardForm addHandler={addCardMutation}></NewCardForm>
-  );
-
-  if (addMutationLoading) {
-    renderComponent = <div>mutation loading....</div>;
-  } else if (addMutationError) {
-    renderComponent = <div>mutation ERROR: {addMutationError.message}</div>;
-  }
   return (
     <div className={classes.root}>
-      {renderComponent}
+      <NewCardForm></NewCardForm>
       <Grid container spacing={3}>
-        {queryData &&
-          queryData.cards &&
-          queryData.cards.map(card => (
+        {data &&
+          data.cards &&
+          data.cards.map(card => (
             <Grid key={card.id} item sm={3} className={classes.gridItem}>
               <SimpleCard card={card}></SimpleCard>
             </Grid>

@@ -1,102 +1,139 @@
 import React, { ReactElement } from 'react';
-// import * as Yup from 'yup';
-import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
-import { AddCardMutationFn } from '../../generated/graphql';
+import { Formik, Form, Field } from 'formik';
+import { TextField } from 'formik-material-ui';
 
-// Shape of form values
-interface FormValues {
-  number: number;
-  label: string;
-  description: string;
+import {
+  useAddCardMutation,
+  GetCardsDocument,
+  GetCardsQuery,
+} from '../../generated/graphql';
+
+interface MyFormValues {
+  number?: number | null;
+  label?: string | null;
+  description?: string | null;
 }
 
-interface OtherProps {
-  message: string;
-}
+export const NewCardForm: React.FC = (): React.ReactElement => {
+  const initialValues: MyFormValues = {
+    number: 0,
+    label: '',
+    description: '',
+  };
 
-const InnerForm = (
-  props: OtherProps & FormikProps<FormValues>,
-): ReactElement => {
-  const { touched, errors, isSubmitting, message } = props;
+  const [
+    addCardMutation,
+    {
+      data: addMutationData,
+      loading: addMutationLoading,
+      error: addMutationError,
+    },
+  ] = useAddCardMutation({
+    update(cache, { data }) {
+      const cardQuery = cache.readQuery<GetCardsQuery>({
+        query: GetCardsDocument,
+      });
+
+      cache.writeQuery<GetCardsQuery>({
+        query: GetCardsDocument,
+        data: {
+          cards:
+            cardQuery &&
+            cardQuery.cards &&
+            cardQuery.cards.concat(
+              data && data.addCard.card ? [data.addCard.card] : [],
+            ),
+        },
+      });
+    },
+  });
+
+  if (addMutationData) console.log(addMutationData.addCard.message);
+
   return (
-    <Form>
-      <h1>{message}</h1>
-      <Field type="number" name="number" />
-      {touched.number && errors.number && <div>{errors.number}</div>}
-      <Field type="string" name="label" />
-      {touched.label && errors.label && <div>{errors.label}</div>}
-      <Field type="string" name="description" />
-      {touched.description && errors.description && (
-        <div>{errors.description}</div>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(values, actions): void => {
+        console.log({ values, actions });
+
+        addCardMutation({
+          variables: {
+            input: {
+              number: values.number,
+              description: values.description,
+              label: values.label,
+            },
+          },
+        });
+
+        actions.setSubmitting(false);
+      }}
+    >
+      {({ isSubmitting }): React.ReactElement => (
+        <Form>
+          {addMutationLoading ? <div>Loading</div> : undefined}
+
+          {addMutationError ? (
+            <p>ERROR: {addMutationError.message}</p>
+          ) : (
+            undefined
+          )}
+          <div>
+            <Field
+              name="number"
+              type="number"
+              component={TextField}
+              id="number"
+              label="Card Number"
+              style={{ margin: 8 }}
+              placeholder="Number"
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+            />
+          </div>
+          <div>
+            <Field
+              name="label"
+              component={TextField}
+              id="label"
+              label="Label"
+              style={{ margin: 8 }}
+              placeholder="Label"
+              margin="normal"
+              disabled={false}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+            />
+          </div>
+          <div>
+            <Field
+              name="description"
+              component={TextField}
+              id="description"
+              label="Description"
+              style={{ margin: 8 }}
+              placeholder="Description"
+              margin="normal"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+            />
+          </div>
+          <div>
+            <button type="submit" disabled={isSubmitting}>
+              Submit
+            </button>
+          </div>
+        </Form>
       )}
-      <button type="submit" disabled={isSubmitting}>
-        Submit
-      </button>
-    </Form>
+    </Formik>
   );
 };
-
-// The type of props MyForm receives
-interface MyFormProps {
-  initialNumber?: number;
-  initialLabel?: string;
-  initialDescription?: string;
-  message: string; // if this passed all the way through you might do this or make a union type
-  addHandler: AddCardMutationFn;
-}
-
-type Values = {
-  number: number;
-  label: string;
-  description: string;
-};
-
-// Wrap our form with the withFormik HoC
-const MyForm = withFormik<MyFormProps, FormValues>({
-  // Transform outer props into form values
-  mapPropsToValues: props => {
-    return {
-      number: props.initialNumber || 0,
-      label: props.initialLabel || '',
-      description: props.initialDescription || '',
-    };
-  },
-
-  // Add a custom validation function (this can be async too!)
-  validate: (values: FormValues) => {
-    const errors: FormikErrors<Values> = {};
-
-    console.log('validate values=', values);
-    return errors;
-  },
-
-  handleSubmit: (values, { props }) => {
-    // do submitting things
-    props.addHandler({
-      variables: {
-        input: {
-          number: values.number,
-          description: values.description,
-          label: values.label,
-        },
-      },
-    });
-
-    return true;
-  },
-})(InnerForm);
-
-interface NewCardFormProps {
-  addHandler: AddCardMutationFn;
-}
-
-// Use <MyForm /> wherevs
-const NewCardForm: React.FC<NewCardFormProps> = (
-  props: NewCardFormProps,
-): ReactElement => (
-  <div>
-    <MyForm message="Add New Card" addHandler={props.addHandler} />
-  </div>
-);
 
 export default NewCardForm;

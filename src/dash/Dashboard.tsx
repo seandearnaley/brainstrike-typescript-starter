@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -14,10 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { ListItemLink } from './ListItemLink';
-
 import { MainPanel } from './MainPanel';
-
-import { BrowserRouter as Router } from 'react-router-dom';
 
 const drawerWidth = 240;
 

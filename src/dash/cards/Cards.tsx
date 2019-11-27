@@ -1,4 +1,7 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+
 import {
   useGetCardsQuery,
   useAddCardMutation,
@@ -8,7 +11,24 @@ import {
 import { SimpleCard } from './SimpleCard';
 import NewCardForm from './NewCardForm';
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    gridItem: {
+      alignItems: 'center',
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
+  }),
+);
+
 export const Cards: React.FC = (): React.ReactElement => {
+  const classes = useStyles();
   const {
     data: queryData,
     loading: queryLoading,
@@ -56,13 +76,17 @@ export const Cards: React.FC = (): React.ReactElement => {
     renderComponent = <div>mutation ERROR: {addMutationError.message}</div>;
   }
   return (
-    <div>
+    <div className={classes.root}>
       {renderComponent}
-      {queryData &&
-        queryData.cards &&
-        queryData.cards.map(card => (
-          <SimpleCard key={card.id} card={card}></SimpleCard>
-        ))}
+      <Grid container spacing={3}>
+        {queryData &&
+          queryData.cards &&
+          queryData.cards.map(card => (
+            <Grid key={card.id} item sm={3} className={classes.gridItem}>
+              <SimpleCard card={card}></SimpleCard>
+            </Grid>
+          ))}
+      </Grid>
     </div>
   );
 };

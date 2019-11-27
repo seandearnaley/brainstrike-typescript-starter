@@ -102,7 +102,7 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard: React.FC = () => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = (): void => {
     setOpen(true);
   };
@@ -148,7 +148,6 @@ const Dashboard: React.FC = () => {
       </AppBar>
       <Router>
         <Drawer
-          variant="permanent"
           classes={{
             paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
           }}

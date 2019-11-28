@@ -62,8 +62,8 @@ export type CardInput = {
 export type CardsUpdatedResponse = {
   __typename?: "CardsUpdatedResponse";
   success: Scalars["Boolean"];
-  message?: Maybe<Scalars["String"]>;
-  card?: Maybe<Card>;
+  message: Scalars["String"];
+  card: Card;
 };
 
 export type Mutation = {
@@ -287,8 +287,8 @@ export type CardsUpdatedResponseResolvers<
   ParentType extends ResolversParentTypes["CardsUpdatedResponse"] = ResolversParentTypes["CardsUpdatedResponse"]
 > = ResolversObject<{
   success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  card?: Resolver<Maybe<ResolversTypes["Card"]>, ParentType, ContextType>;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  card?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
 }>;
 
 export interface DateScalarConfig

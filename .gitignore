@@ -8,4 +8,4 @@ temp/
 .vscode/
 .env
 coverage
-src/xtests__
+ormconfig.js

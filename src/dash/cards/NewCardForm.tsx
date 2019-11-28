@@ -71,7 +71,7 @@ export const NewCardForm: React.FC = (): React.ReactElement => {
     >
       {({ isSubmitting }): React.ReactElement => (
         <Form>
-          {addMutationLoading ? <div>Loading</div> : undefined}
+          {addMutationLoading ? <div>Mutation Loading</div> : undefined}
 
           {addMutationError ? (
             <p>ERROR: {addMutationError.message}</p>

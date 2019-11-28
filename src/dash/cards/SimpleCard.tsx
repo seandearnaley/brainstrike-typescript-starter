@@ -2,10 +2,24 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Card as CardType } from '../../generated/graphql';
-import { TextField } from 'formik-material-ui';
-import { Formik, Form, Field } from 'formik';
+import { CardForm } from './CardForm';
+
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    fabFav: {
+      marginLeft: 'auto',
+    },
+  }),
+);
 
 interface SimpleCardProps {
   card: CardType;
@@ -17,83 +31,54 @@ interface MyFormValues {
   description?: string | null;
 }
 
+const CardLayout: React.FC<SimpleCardProps> = (
+  props: SimpleCardProps,
+): React.ReactElement => {
+  const { number, label, description } = props.card;
+  return (
+    <div>
+      <Typography variant="h4" gutterBottom>
+        # {number} {label}
+      </Typography>
+      <Typography>{description}</Typography>
+    </div>
+  );
+};
+
 export const SimpleCard: React.FC<SimpleCardProps> = (
   props: SimpleCardProps,
 ): React.ReactElement => {
-  const { number, label, description, created } = props.card;
-  const initialValues: MyFormValues = { number, label, description };
+  const classes = useStyles();
+  const [updating, setUpdating] = React.useState(false);
+  const { created } = props.card;
+
+  const handleEditClick = (): void => {
+    setUpdating(!updating);
+  };
 
   return (
     <Card>
       <CardContent>
-        <span>{new Date(created).toDateString()}</span>
-
-        <Formik
-          initialValues={initialValues}
-          onSubmit={(values, actions): void => {
-            console.log({ values, actions });
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-          }}
-        >
-          {(): React.ReactElement => (
-            <Form>
-              <div>
-                <Field
-                  name="number"
-                  type="number"
-                  component={TextField}
-                  id="number"
-                  label="Card Number"
-                  style={{ margin: 8 }}
-                  placeholder="Number"
-                  margin="normal"
-                  value={number}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  variant="outlined"
-                />
-              </div>
-              <div>
-                <Field
-                  name="label"
-                  component={TextField}
-                  id="label"
-                  label="Label"
-                  style={{ margin: 8 }}
-                  placeholder="Label"
-                  margin="normal"
-                  value={label}
-                  disabled={false}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  variant="outlined"
-                />
-              </div>
-              <div>
-                <Field
-                  name="description"
-                  component={TextField}
-                  id="description"
-                  label="Description"
-                  style={{ margin: 8 }}
-                  placeholder="Description"
-                  margin="normal"
-                  value={description}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  variant="outlined"
-                />
-              </div>
-            </Form>
-          )}
-        </Formik>
+        {updating ? (
+          <CardForm card={props.card} />
+        ) : (
+          <CardLayout card={props.card} />
+        )}
       </CardContent>
-      <CardActions>
-        <Button size="small">Update Card</Button>
+      <CardActions disableSpacing>
+        <IconButton aria-label="edit" size="small" onClick={handleEditClick}>
+          <EditIcon />
+        </IconButton>
+        <IconButton aria-label="like" size="small">
+          <FavoriteIcon />
+        </IconButton>
+        <IconButton aria-label="delete" size="small">
+          <DeleteIcon />
+        </IconButton>
+
+        <span className={classes.fabFav}>
+          {new Date(created).toDateString()}
+        </span>
       </CardActions>
     </Card>
   );

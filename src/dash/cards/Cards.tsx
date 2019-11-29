@@ -5,7 +5,17 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
 import Modal from '@material-ui/core/Modal';
-import { useGetCardsQuery } from '../../generated/graphql';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+
+import {
+  useGetCardsQuery,
+  useRemoveCardMutation,
+} from '../../generated/graphql';
 import { SimpleCard } from './SimpleCard';
 import NewCardForm from './NewCardForm';
 
@@ -62,9 +72,17 @@ export const Cards: React.FC = (): React.ReactElement => {
   const classes = useStyles();
   const { data, loading, error } = useGetCardsQuery();
 
+  const [
+    removeCardMutation,
+    { loading: removeLoading, error: removeError },
+  ] = useRemoveCardMutation();
+
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
+
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
+  const [cardToDelete, setCardToDelete] = React.useState('');
 
   const handleOpen = (): void => {
     setOpen(true);
@@ -74,8 +92,24 @@ export const Cards: React.FC = (): React.ReactElement => {
     setOpen(false);
   };
 
-  if (loading) return <div>loading....</div>;
+  const handleDeleteOpen = (id: string): void => {
+    setCardToDelete(id);
+    setDeleteOpen(true);
+  };
+
+  const handleDeleteClose = (): void => {
+    setDeleteOpen(false);
+  };
+
+  const handleDeleteConfirm = async (): Promise<void> => {
+    await removeCardMutation({ variables: { id: cardToDelete } });
+    setDeleteOpen(false);
+  };
+
+  if (loading || removeLoading) return <div>loading....</div>;
   if (error) return <p>ERROR: {error.message}</p>;
+
+  if (removeError) return <p>ERROR: {removeError.message}</p>;
 
   return (
     <div className={classes.root}>
@@ -85,7 +119,10 @@ export const Cards: React.FC = (): React.ReactElement => {
             data.cards &&
             data.cards.map(card => (
               <Grid key={card.id} item sm={3} className={classes.gridItem}>
-                <SimpleCard card={card}></SimpleCard>
+                <SimpleCard
+                  card={card}
+                  handleDeleteOpen={handleDeleteOpen}
+                ></SimpleCard>
               </Grid>
             ))}
         </Grid>
@@ -109,6 +146,27 @@ export const Cards: React.FC = (): React.ReactElement => {
           <NewCardForm></NewCardForm>
         </div>
       </Modal>
+      <Dialog
+        open={deleteOpen}
+        onClose={handleDeleteClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'Confirm Delete'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this card?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteConfirm} color="primary" autoFocus>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

@@ -23,10 +23,15 @@ const useStyles = makeStyles(() =>
 
 interface SimpleCardProps {
   card: CardType;
+  handleDeleteOpen: (id: string) => void;
 }
 
-const CardLayout: React.FC<SimpleCardProps> = (
-  props: SimpleCardProps,
+interface CardLayoutProps {
+  card: CardType;
+}
+
+const CardLayout: React.FC<CardLayoutProps> = (
+  props: CardLayoutProps,
 ): React.ReactElement => {
   const { number, label, description } = props.card;
   return (
@@ -44,10 +49,15 @@ export const SimpleCard: React.FC<SimpleCardProps> = (
 ): React.ReactElement => {
   const classes = useStyles();
   const [updating, setUpdating] = React.useState(false);
-  const { created } = props.card;
+  const { card, handleDeleteOpen } = props;
+  const { created } = card;
 
   const handleEditClick = (): void => {
     setUpdating(!updating);
+  };
+
+  const handleDeleteClick = (): void => {
+    handleDeleteOpen(card.id);
   };
 
   return (
@@ -66,7 +76,11 @@ export const SimpleCard: React.FC<SimpleCardProps> = (
         <IconButton aria-label="like" size="small">
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="delete" size="small">
+        <IconButton
+          aria-label="delete"
+          size="small"
+          onClick={handleDeleteClick}
+        >
           <DeleteIcon />
         </IconButton>
 

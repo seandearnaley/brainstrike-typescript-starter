@@ -6,7 +6,6 @@ import { Cards } from './cards/Cards';
 const useStyles = makeStyles(theme => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
-    //flexGrow: 1,
     padding: '10px',
     height: '100vh',
     overflow: 'auto',

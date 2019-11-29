@@ -1,33 +1,36 @@
 import React from 'react';
-
-import { Card as CardType } from '../../generated/graphql';
 import { TextField } from 'formik-material-ui';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FormikConfig } from 'formik';
+import * as Yup from 'yup';
 
-interface CardFormProps {
-  card?: CardType;
-}
+const CardFormSchema = Yup.object().shape({
+  description: Yup.string().max(500, 'Too Long!'),
+  label: Yup.string(),
+  number: Yup.number().required('Required'),
+});
 
-interface MyFormValues {
-  number?: number | null;
-  label?: string | null;
+interface CardFormValues {
   description?: string | null;
+  label?: string | null;
+  number?: number | string | null;
 }
+
+type CardFormProps = Pick<
+  FormikConfig<CardFormValues>,
+  'initialValues' | 'onSubmit'
+>;
 
 export const CardForm: React.FC<CardFormProps> = (
   props: CardFormProps,
 ): React.ReactElement => {
-  const { number, label, description } = props.card || {};
-  const initialValues: MyFormValues = { number, label, description };
+  const { initialValues, onSubmit } = props;
+  const { number, label, description } = initialValues;
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(values, actions): void => {
-        console.log({ values, actions });
-        alert(JSON.stringify(values, null, 2));
-        actions.setSubmitting(false);
-      }}
+      validationSchema={CardFormSchema}
+      onSubmit={onSubmit}
     >
       {(): React.ReactElement => (
         <Form>
@@ -83,6 +86,7 @@ export const CardForm: React.FC<CardFormProps> = (
               rowsMax={4}
             />
           </div>
+          <button type="submit">Submit</button>
         </Form>
       )}
     </Formik>

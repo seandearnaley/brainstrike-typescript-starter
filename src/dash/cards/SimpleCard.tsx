@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Card as CardType } from '../../generated/graphql';
-import { CardForm } from './CardForm';
+import { UpdateCardForm } from './UpdateCardForm';
 
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
@@ -23,12 +23,6 @@ const useStyles = makeStyles(() =>
 
 interface SimpleCardProps {
   card: CardType;
-}
-
-interface MyFormValues {
-  number?: number | null;
-  label?: string | null;
-  description?: string | null;
 }
 
 const CardLayout: React.FC<SimpleCardProps> = (
@@ -60,7 +54,7 @@ export const SimpleCard: React.FC<SimpleCardProps> = (
     <Card>
       <CardContent>
         {updating ? (
-          <CardForm card={props.card} />
+          <UpdateCardForm card={props.card} />
         ) : (
           <CardLayout card={props.card} />
         )}

@@ -1,2 +1,0 @@
-# brainstrike-typescript-starter
- 

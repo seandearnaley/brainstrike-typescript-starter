@@ -42,3 +42,13 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Components vs. Containers
+
+Component which is responsible for fetching data and displaying is called smart or container components. Data can be come from redux, any network call or third party subscription.
+
+Dumb/presentational components are those which are responsible for presenting view based on props received.
+
+Good article with example here
+
+https://www.cronj.com/blog/difference-container-component-react-js/

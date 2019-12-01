@@ -1,0 +1,49 @@
+{
+  "name": "brainstrike-typescript-starter",
+  "version": "1.0.0",
+  "description": "Starter kit for Node.js + React.js + Apollo GraphQL + TypeORM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client-install": "cd client && npm install",
+    "server-install": "cd server && npm install",
+    "install-all-deps": "concurrently \"npm run server-install\" \"npm run client-install\"",
+    "client-test": "cd client && npm run test",
+    "server-test": "cd server && npm run test",
+    "all-tests": "concurrently \"npm run server-test\" \"npm run client-test\"",
+    "client-start": "cd client && npm run start",
+    "server-start": "cd server && npm run start:dev",
+    "all-start": "concurrently \"npm run server-start\" \"npm run client-start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seandearnaley/brainstrike-typescript-starter.git"
+  },
+  "keywords": [
+    "Node",
+    "React",
+    "Apollo",
+    "GraphQL",
+    "TypeORM",
+    "Prettier",
+    "Material-UI",
+    "Jest",
+    "ESLint"
+  ],
+  "author": "Sean Dearnaley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seandearnaley/brainstrike-typescript-starter/issues"
+  },
+  "homepage": "https://github.com/seandearnaley/brainstrike-typescript-starter#readme",
+  "dependencies": {
+    "concurrently": "^5.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.1",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1"
+  }
+}

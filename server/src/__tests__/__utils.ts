@@ -76,7 +76,7 @@ export const startTestServer = async (
     );
   });
 
-  // NOTE: fetch isn't properly typed to spec, so have to work around with any here
+  // NOTE: apparently fetch isn't properly typed to spec, so have to work around with an "any" here
   const link = new HttpLink({
     uri: `http://localhost:${port}/graphql`,
     fetch: fetch as any // eslint-disable-line

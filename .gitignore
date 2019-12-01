@@ -1,0 +1,11 @@
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/
+.idea/
+.vscode/
+.env
+coverage
+ormconfig.js

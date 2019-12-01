@@ -1,0 +1,16 @@
+overwrite: true
+schema: "http://localhost:4000/graphql"
+documents: null
+generates:
+  src/generated/graphql.ts:
+    hooks:
+      afterOneFileWrite:
+        - prettier --write
+    plugins:
+      - "typescript"
+      - "typescript-resolvers"
+    config:
+      useIndexSignature: true
+      noSchemaStitching: true
+      contextType: ../types/context#ApolloContext
+      

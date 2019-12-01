@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["es5", "es6", "es2016", "es2017", "dom"],
+    "target": "ES2016",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/"],
+      "typings/*": ["src/typings/*"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/test/**/*.spec.ts", "node_modules"]
+}
+

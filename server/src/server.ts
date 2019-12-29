@@ -6,14 +6,14 @@ import { ApolloServer } from "apollo-server-express";
 
 export default class Server {
   expressApp = express();
-  // connection: Connection;
   apolloServer: ApolloServer;
+
   async setupDBConnection(): Promise<Connection> {
     let connection;
     try {
       connection = await createConnection();
       console.log(`typeOrm db.isConnected=${connection.isConnected}`);
-      await connection.synchronize();
+      await connection.synchronize(); // setup database;
     } catch (err) {
       console.error(err);
       process.exit(1);

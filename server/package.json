@@ -36,15 +36,15 @@
     "@graphql-codegen/cli": "^1.9.1",
     "@graphql-codegen/typescript": "1.9.1",
     "@graphql-codegen/typescript-resolvers": "1.9.1",
-    "@types/jest": "^24.0.24",
+    "@types/jest": "^24.0.25",
     "@types/lodash": "^4.14.149",
-    "@types/node": "^12.12.21",
-    "@typescript-eslint/eslint-plugin": "^2.12.0",
-    "@typescript-eslint/parser": "^2.12.0",
+    "@types/node": "^13.1.1",
+    "@typescript-eslint/eslint-plugin": "^2.13.0",
+    "@typescript-eslint/parser": "^2.13.0",
     "apollo-link": "^1.2.13",
     "apollo-link-http": "^1.5.16",
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-prettier": "^6.9.0",
     "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-prettier": "^3.1.2",
@@ -61,8 +61,8 @@
   "dependencies": {
     "@types/graphql-iso-date": "^3.3.3",
     "@types/node-fetch": "^2.5.4",
-    "apollo-server-express": "^2.9.14",
-    "apollo-server-testing": "^2.9.14",
+    "apollo-server-express": "^2.9.15",
+    "apollo-server-testing": "^2.9.15",
     "body-parser": "^1.19.0",
     "concurrently": "^5.0.2",
     "dotenv": "^8.2.0",
@@ -71,9 +71,9 @@
     "graphql-iso-date": "^3.6.1",
     "graphql-tag": "^2.10.1",
     "lodash": "^4.17.15",
-    "pg": "^7.15.1",
+    "pg": "^7.16.0",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^4.1.1",
-    "typeorm": "^0.2.21"
+    "typeorm": "^0.2.22"
   }
 }

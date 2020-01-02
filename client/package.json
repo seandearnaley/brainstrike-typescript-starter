@@ -12,7 +12,7 @@
     "generate": "graphql-codegen --config codegen.yml",
     "generate:dev": "graphql-codegen --config codegen.yml --watch",
     "apollo:schema:download": "apollo schema:download --endpoint=http://localhost:4000/graphql graphql.schema.json",
-    "dev": "concurrently \"npm run start\" \"npm run generate:dev\""
+    "dev": "concurrently \"yarn run start\" \"yarn run generate:dev\""
   },
   "eslintConfig": {
     "extends": "react-app"

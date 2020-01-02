@@ -5,15 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client-install": "cd client && npm install",
-    "server-install": "cd server && npm install",
-    "install-all-deps": "concurrently \"npm run server-install\" \"npm run client-install\"",
-    "client-test": "cd client && npm run test",
-    "server-test": "cd server && npm run test",
-    "all-tests": "concurrently \"npm run server-test\" \"npm run client-test\"",
-    "client-start": "cd client && npm run start",
-    "server-start": "cd server && npm run start:dev",
-    "all-start": "concurrently \"npm run server-start\" \"npm run client-start\""
+    "client-install": "cd client && yarn install",
+    "server-install": "cd server && yarn install",
+    "install-all-deps": "concurrently \"yarn run server-install\" \"yarn run client-install\"",
+    "client-test": "cd client && yarn run test",
+    "server-test": "cd server && yarn run test",
+    "all-tests": "concurrently \"yarn run server-test\" \"yarn run client-test\"",
+    "client-start": "cd client && yarn run start",
+    "server-start": "cd server && yarn run start:dev",
+    "all-start": "concurrently \"yarn run server-start\" \"yarn run client-start\""
   },
   "repository": {
     "type": "git",
@@ -37,7 +37,8 @@
   },
   "homepage": "https://github.com/seandearnaley/brainstrike-typescript-starter#readme",
   "dependencies": {
-    "concurrently": "^5.0.0"
+    "concurrently": "^5.0.0",
+    "prettier": "^1.19.1"
   },
   "devDependencies": {
     "eslint": "^6.7.1",

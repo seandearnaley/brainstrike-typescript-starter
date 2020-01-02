@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rimraf ./build && tsc",
     "start:dev": "nodemon",
-    "start": "npm run build && node build/index.js",
+    "start": "yarn run build && node build/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint './src/**/*.{ts,tsx}' --fix",
@@ -14,7 +14,7 @@
     "coverage": "jest --coverage",
     "generate": "graphql-codegen --config codegen.yml",
     "generate:dev": "graphql-codegen --config codegen.yml --watch",
-    "dev": "concurrently \"npm run start:dev\" \"npm run generate:dev\""
+    "dev": "concurrently \"yarn run start:dev\" \"yarn run generate:dev\""
   },
   "repository": {
     "type": "git",

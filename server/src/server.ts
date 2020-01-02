@@ -13,7 +13,14 @@ export default class Server {
     try {
       connection = await createConnection();
       console.log(`typeOrm db.isConnected=${connection.isConnected}`);
+
+      console.log("STARTING typeOrm schema synchronize");
       await connection.synchronize(); // setup database;
+      console.log("Schema synchronize complete- DO NOT USE IN PRODUCTION");
+
+      console.log("STARTING typeOrm runMigrations()");
+      await connection.runMigrations();
+      console.log("typeORM migrations complete.");
     } catch (err) {
       console.error(err);
       process.exit(1);

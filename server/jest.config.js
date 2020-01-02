@@ -6,7 +6,8 @@ module.exports = {
     "./src/**/*.{ts,tsx,js,jsx}",
     "!**/node_modules/**",
     "!**/build/**",
-    "!./src/generated/**"
+    "!./src/generated/**",
+    "!./src/migration/**"
   ],
-  testPathIgnorePatterns: ["/node_modules/", "/__utils"]
+  testPathIgnorePatterns: ["/node_modules/", "/build/", "/__utils"]
 };

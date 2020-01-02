@@ -2,17 +2,17 @@ module.exports = {
   type: "postgres",
   host: "localhost",
   port: 5432,
-  username: "username",
-  password: "username",
+  username: "your_username",
+  password: "your_password",
   database: "brainstrike",
-  synchronize: true,
+  synchronize: true, // don't use in production
   logging: false,
   entities: ["build/entity/**/*.{js,ts}"],
-  migrations: ["build/migration/**/*.ts"],
-  subscribers: ["build/subscriber/**/*.ts"],
+  migrations: ["build/migration/**/*.{js,ts}"],
+  subscribers: ["build/subscriber/**/*.{js,ts}"],
   cli: {
-    entitiesDir: "build/entity",
-    migrationsDir: "build/migration",
-    subscribersDir: "build/subscriber"
+    entitiesDir: "src/entity",
+    migrationsDir: "src/migration",
+    subscribersDir: "src/subscriber"
   }
 };

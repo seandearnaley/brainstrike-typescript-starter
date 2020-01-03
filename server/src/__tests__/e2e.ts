@@ -1,6 +1,3 @@
-// import our production apollo-server instance
-import Server from "../server";
-
 import {
   GraphQLRequest,
   Observable,
@@ -8,7 +5,13 @@ import {
   toPromise
 } from "apollo-link";
 
-import { startTestServer } from "./__utils";
+import {
+  startTestServer,
+  constructTestServer,
+  createDbConnection,
+  Connection
+} from "./__utils";
+
 import gql from "graphql-tag";
 
 const GET_CARDS = gql`
@@ -22,14 +25,27 @@ const GET_CARDS = gql`
   }
 `;
 
+let connection: Connection;
+
+beforeAll(async () => {
+  console.log("creating test connection");
+  connection = await createDbConnection("testConnection");
+  await connection.runMigrations();
+  console.log("TypeORM runMigrations() COMPLETE.");
+});
+
+afterAll(async () => {
+  console.log("closing test connection");
+  await connection.close();
+});
+
 describe("Server - e2e", () => {
   let stop: () => void,
     graphql: ({}: GraphQLRequest) => Observable<FetchResult>;
 
   beforeEach(async () => {
-    const server = new Server();
-    await server.setupApolloServer();
-    const testServer = await startTestServer(server.apolloServer);
+    const { apolloServer } = await constructTestServer(connection);
+    const testServer = await startTestServer(apolloServer);
     stop = testServer.stop;
     graphql = testServer.graphql;
   });

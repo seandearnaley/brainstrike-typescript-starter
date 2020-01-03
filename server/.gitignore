@@ -8,4 +8,4 @@ temp/
 .vscode/
 .env
 coverage
-ormconfig.js
+ormconfig.json

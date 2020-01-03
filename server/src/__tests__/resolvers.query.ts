@@ -1,39 +1,39 @@
 import resolvers from "../graphql/resolvers";
-import { mockRepos } from "./__utils";
-import { CardAPI } from "../../src/datasources/card";
+
 import {
   mockFirstCardResponse,
   mockFirstCardResponseId
 } from "../datasources/__tests__/card";
 
-const mockContext = {
-  dataSources: {
-    cardAPI: new CardAPI({ repos: mockRepos })
-  }
-};
-
 describe("[Query.cards]", () => {
-  it("calls getCards from card api", async () => {
-    const mock = jest.spyOn(mockContext.dataSources.cardAPI, "getCards");
+  const mockContext = {
+    dataSources: {
+      cardAPI: { getCards: jest.fn() }
+    }
+  };
 
-    mock.mockReturnValueOnce(Promise.resolve([mockFirstCardResponse]));
+  const { getCards } = mockContext.dataSources.cardAPI;
+
+  it("calls getCards from card api", async () => {
+    getCards.mockReturnValueOnce(Promise.resolve([mockFirstCardResponse]));
 
     // check the resolver response
     const res = await resolvers.Query.cards(null, {}, mockContext, null);
-
-    expect(mock).toHaveBeenCalled();
     expect(res).toStrictEqual([mockFirstCardResponse]);
-
-    // restore getCards
-    mock.mockRestore();
   });
 });
 
 describe("[Query.card]", () => {
-  it("calls getCard from card api", async () => {
-    const mock = jest.spyOn(mockContext.dataSources.cardAPI, "getCard");
+  const mockContext = {
+    dataSources: {
+      cardAPI: { getCard: jest.fn() }
+    }
+  };
 
-    mock.mockReturnValueOnce(Promise.resolve(mockFirstCardResponse));
+  const { getCard } = mockContext.dataSources.cardAPI;
+
+  it("calls getCard from card api", async () => {
+    getCard.mockReturnValueOnce(Promise.resolve(mockFirstCardResponse));
 
     // check the resolver response
     const res = await resolvers.Query.card(
@@ -46,10 +46,7 @@ describe("[Query.card]", () => {
     );
 
     // make sure the dataSources were called properly
-    expect(mock).toHaveBeenCalledWith(mockFirstCardResponseId);
+    expect(getCard).toHaveBeenCalledWith(mockFirstCardResponseId);
     expect(res).toStrictEqual(mockFirstCardResponse);
-
-    // restore getCards
-    mock.mockRestore();
   });
 });

@@ -2,12 +2,12 @@ import { Card } from "../entity/Card";
 import { CardInput, CardsUpdatedResponse } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
-import { RepoInterface } from "../apollo";
+import { DataSourceRepos } from "../";
 
 export class CardAPI extends DataSource {
   context!: ApolloContext;
-  repos: RepoInterface;
-  constructor({ repos }: { repos: RepoInterface }) {
+  repos: DataSourceRepos;
+  constructor({ repos }: { repos: DataSourceRepos }) {
     super();
     this.repos = repos;
   }

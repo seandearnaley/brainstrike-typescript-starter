@@ -3,7 +3,7 @@ import { Connection } from "typeorm";
 
 export interface ApolloContext {
   dataSources?: {
-    cardAPI: CardAPI;
+    cardAPI: Partial<CardAPI>;
   };
   connection?: Connection;
 }

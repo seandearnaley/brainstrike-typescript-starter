@@ -67,7 +67,7 @@ const start = async () => {
 
   const { apolloServer } = await createServer(connection);
 
-  apolloServer.applyMiddleware({ app }); // attach Apollo to Express
+  apolloServer.applyMiddleware({ app });
 
   app.listen(NODE_PORT, () => {
     console.log(

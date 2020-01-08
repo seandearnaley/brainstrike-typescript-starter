@@ -38,9 +38,11 @@
   "homepage": "https://github.com/seandearnaley/brainstrike-typescript-starter#readme",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^2.15.0",
+    "@typescript-eslint/parser": "^2.15.0",
     "concurrently": "^5.0.2",
     "eslint-plugin-react-hooks": "^2.3.0",
     "prettier": "^1.19.1",
+    "react": "^16.12.0",
     "typescript": "3.7.4"
   },
   "devDependencies": {

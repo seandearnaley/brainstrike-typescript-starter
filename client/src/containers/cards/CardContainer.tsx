@@ -16,7 +16,7 @@ import {
   useGetCardsQuery,
   useRemoveCardMutation,
 } from '../../generated/graphql';
-import { SimpleCard } from './SimpleCard';
+import { SimpleCard } from '../../components/cards/SimpleCard';
 import NewCardForm from './NewCardForm';
 
 const useStyles = makeStyles((theme: Theme) =>

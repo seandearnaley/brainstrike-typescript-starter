@@ -7,7 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloProvider } from '@apollo/react-hooks';
 
-import Dashboard from './dash/Dashboard';
+import Dashboard from './pages/Dashboard';
 
 import * as serviceWorker from './serviceWorker';
 

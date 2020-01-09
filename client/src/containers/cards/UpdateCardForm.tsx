@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { CardForm } from './CardForm';
+import { CardForm } from '../../components/cards/CardForm';
 import {
   useUpdateCardMutation,
   Card as CardType,

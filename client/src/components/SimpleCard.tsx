@@ -4,8 +4,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Card as CardType } from '../../generated/graphql';
-import { UpdateCardForm } from '../../containers/cards/UpdateCardForm';
+import { Card as CardType } from '../generated/graphql';
+import { UpdateCardForm } from '../containers/UpdateCardForm';
 
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';

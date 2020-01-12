@@ -12,11 +12,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
-import {
-  useGetCardsQuery,
-  useRemoveCardMutation,
-} from '../../generated/graphql';
-import { SimpleCard } from '../../components/cards/SimpleCard';
+import { useGetCardsQuery, useRemoveCardMutation } from '../generated/graphql';
+import { SimpleCard } from '../components/SimpleCard';
 import NewCardForm from './NewCardForm';
 
 const useStyles = makeStyles((theme: Theme) =>

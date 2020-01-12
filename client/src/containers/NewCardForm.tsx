@@ -1,11 +1,11 @@
 import React, { ReactElement } from 'react';
 
-import { CardForm } from '../../components/cards/CardForm';
+import { CardForm } from '../components/CardForm';
 import {
   useAddCardMutation,
   GetCardsDocument,
   GetCardsQuery,
-} from '../../generated/graphql';
+} from '../generated/graphql';
 
 export const NewCardForm: React.FC = (): React.ReactElement => {
   const [addCardMutation, { data, loading, error }] = useAddCardMutation({

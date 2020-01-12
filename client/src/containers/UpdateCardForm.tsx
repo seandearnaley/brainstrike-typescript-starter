@@ -1,10 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import { CardForm } from '../../components/cards/CardForm';
-import {
-  useUpdateCardMutation,
-  Card as CardType,
-} from '../../generated/graphql';
+import { CardForm } from '../components/CardForm';
+import { useUpdateCardMutation, Card as CardType } from '../generated/graphql';
 
 interface UpdateCardProps {
   card: CardType;

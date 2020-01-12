@@ -16,25 +16,9 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /**
-   * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
-   * `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
-   * 8601 standard for representation of dates and times using the Gregorian calendar.
-   */
   DateTime: any;
-  /**
-   * A date string, such as 2007-12-03, compliant with the `full-date` format
-   * outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for
-   * representation of dates and times using the Gregorian calendar.
-   */
   Date: any;
-  /**
-   * A time string at UTC, such as 10:15:30Z, compliant with the `full-time` format
-   * outlined in section 5.6 of the RFC 3339profile of the ISO 8601 standard for
-   * representation of dates and times using the Gregorian calendar.
-   */
   Time: any;
-  /** The `Upload` scalar type represents a file upload. */
   Upload: any;
 };
 
@@ -66,11 +50,32 @@ export type CardsUpdatedResponse = {
   card: Card;
 };
 
+export type Category = {
+  __typename?: "Category";
+  id: Scalars["ID"];
+  name?: Maybe<Scalars["String"]>;
+  parentId?: Maybe<Scalars["ID"]>;
+};
+
+export type CategoryInput = {
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type CategoryUpdatedResponse = {
+  __typename?: "CategoryUpdatedResponse";
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+  category: Category;
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   addCard: CardsUpdatedResponse;
   updateCard: CardsUpdatedResponse;
   removeCard: CardsUpdatedResponse;
+  addCategory: CategoryUpdatedResponse;
+  updateCategory: CategoryUpdatedResponse;
+  removeCategory: CategoryUpdatedResponse;
 };
 
 export type MutationAddCardArgs = {
@@ -86,14 +91,33 @@ export type MutationRemoveCardArgs = {
   id: Scalars["ID"];
 };
 
+export type MutationAddCategoryArgs = {
+  input?: Maybe<CardInput>;
+};
+
+export type MutationUpdateCategoryArgs = {
+  id: Scalars["ID"];
+  input?: Maybe<CategoryInput>;
+};
+
+export type MutationRemoveCategoryArgs = {
+  id: Scalars["ID"];
+};
+
 export type Query = {
   __typename?: "Query";
   cards?: Maybe<Array<Card>>;
   card?: Maybe<Card>;
+  categories?: Maybe<Array<Category>>;
+  category?: Maybe<Category>;
   me?: Maybe<User>;
 };
 
 export type QueryCardArgs = {
+  id: Scalars["ID"];
+};
+
+export type QueryCategoryArgs = {
   id: Scalars["ID"];
 };
 
@@ -218,11 +242,14 @@ export type ResolversTypes = ResolversObject<{
   Int: ResolverTypeWrapper<Scalars["Int"]>;
   String: ResolverTypeWrapper<Scalars["String"]>;
   DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
+  Category: ResolverTypeWrapper<Category>;
   User: ResolverTypeWrapper<User>;
   Mutation: ResolverTypeWrapper<{}>;
   CardInput: CardInput;
   CardsUpdatedResponse: ResolverTypeWrapper<CardsUpdatedResponse>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
+  CategoryUpdatedResponse: ResolverTypeWrapper<CategoryUpdatedResponse>;
+  CategoryInput: CategoryInput;
   CacheControlScope: CacheControlScope;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
   Time: ResolverTypeWrapper<Scalars["Time"]>;
@@ -237,11 +264,14 @@ export type ResolversParentTypes = ResolversObject<{
   Int: Scalars["Int"];
   String: Scalars["String"];
   DateTime: Scalars["DateTime"];
+  Category: Category;
   User: User;
   Mutation: {};
   CardInput: CardInput;
   CardsUpdatedResponse: CardsUpdatedResponse;
   Boolean: Scalars["Boolean"];
+  CategoryUpdatedResponse: CategoryUpdatedResponse;
+  CategoryInput: CategoryInput;
   CacheControlScope: CacheControlScope;
   Date: Scalars["Date"];
   Time: Scalars["Time"];
@@ -291,6 +321,24 @@ export type CardsUpdatedResponseResolvers<
   card?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
 }>;
 
+export type CategoryResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes["Category"] = ResolversParentTypes["Category"]
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  parentId?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
+}>;
+
+export type CategoryUpdatedResponseResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes["CategoryUpdatedResponse"] = ResolversParentTypes["CategoryUpdatedResponse"]
+> = ResolversObject<{
+  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  category?: Resolver<ResolversTypes["Category"], ParentType, ContextType>;
+}>;
+
 export interface DateScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["Date"], any> {
   name: "Date";
@@ -323,6 +371,24 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationRemoveCardArgs, "id">
   >;
+  addCategory?: Resolver<
+    ResolversTypes["CategoryUpdatedResponse"],
+    ParentType,
+    ContextType,
+    MutationAddCategoryArgs
+  >;
+  updateCategory?: Resolver<
+    ResolversTypes["CategoryUpdatedResponse"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateCategoryArgs, "id">
+  >;
+  removeCategory?: Resolver<
+    ResolversTypes["CategoryUpdatedResponse"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationRemoveCategoryArgs, "id">
+  >;
 }>;
 
 export type QueryResolvers<
@@ -339,6 +405,17 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryCardArgs, "id">
+  >;
+  categories?: Resolver<
+    Maybe<Array<ResolversTypes["Category"]>>,
+    ParentType,
+    ContextType
+  >;
+  category?: Resolver<
+    Maybe<ResolversTypes["Category"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCategoryArgs, "id">
   >;
   me?: Resolver<Maybe<ResolversTypes["User"]>, ParentType, ContextType>;
 }>;
@@ -377,6 +454,8 @@ export type UserResolvers<
 export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
   Card?: CardResolvers<ContextType>;
   CardsUpdatedResponse?: CardsUpdatedResponseResolvers<ContextType>;
+  Category?: CategoryResolvers<ContextType>;
+  CategoryUpdatedResponse?: CategoryUpdatedResponseResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;

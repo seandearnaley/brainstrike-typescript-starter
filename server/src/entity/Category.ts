@@ -4,8 +4,8 @@ import {
   Column,
   PrimaryGeneratedColumn,
   TreeChildren,
-  TreeParent,
-  TreeLevelColumn
+  TreeParent
+  // TreeLevelColumn
 } from "typeorm";
 
 @Entity()

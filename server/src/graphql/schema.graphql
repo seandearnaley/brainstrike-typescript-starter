@@ -1,5 +1,6 @@
 # import Card from "card/card.graphql";
 # import User from "user/user.graphql";
+# import Category from "category/category.graphql";
 
 scalar Date
 scalar DateTime
@@ -8,6 +9,8 @@ scalar Time
 type Query {
   cards: [Card!]
   card(id: ID!): Card
+  categories: [Category!]
+  category(id: ID!): Category
   # Queries for the current user
   me: User
 }
@@ -17,4 +20,8 @@ type Mutation {
   addCard(input: CardInput): CardsUpdatedResponse!
   updateCard(id: ID!, input: CardInput): CardsUpdatedResponse!
   removeCard(id: ID!): CardsUpdatedResponse!
+  # category mutations
+  addCategory(input: CardInput): CategoryUpdatedResponse!
+  updateCategory(id: ID!, input: CategoryInput): CategoryUpdatedResponse!
+  removeCategory(id: ID!): CategoryUpdatedResponse!
 }

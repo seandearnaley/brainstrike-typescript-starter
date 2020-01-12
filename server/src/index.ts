@@ -2,10 +2,10 @@ import "reflect-metadata";
 import express = require("express");
 import { config as setupDotEnv } from "dotenv";
 import { createConnection, Connection, Repository } from "typeorm";
-import { Card } from "./entity/Card";
+import { Card, Category } from "./entity";
 import { typeDefs, resolvers } from "./graphql";
 import { ApolloServer } from "apollo-server-express";
-import { CardAPI } from "./datasources/card";
+import { CardAPI, CategoryAPI } from "./datasources";
 import { DataSources } from "apollo-server-core/dist/graphqlOptions";
 import { ApolloContext } from "./types/context";
 
@@ -17,17 +17,15 @@ const { NODE_PORT, NODE_HOST, NODE_ENV } = process.env; // environment variables
 // only have to implement part of the repo interface
 interface DataSourceRepos {
   cards: Partial<Repository<Card>>;
-}
-
-interface ServerConfig {
-  apolloServer: ApolloServer;
-  cardAPI: CardAPI;
+  categories: Partial<Repository<Category>>;
 }
 
 const defaultContext = {};
 const app = express();
 
-const createDbConnection = async (connectionName: string = "dbConnection") => {
+const createDbConnection = async (
+  connectionName = "dbConnection"
+): Promise<Connection> => {
   try {
     const connection: Connection = await createConnection(connectionName);
     console.log(`TypeORM Connected`);
@@ -39,28 +37,36 @@ const createDbConnection = async (connectionName: string = "dbConnection") => {
   }
 };
 
+interface ServerConfig {
+  apolloServer: ApolloServer;
+  cardAPI: CardAPI;
+  categoryAPI: CategoryAPI;
+}
+
 const createServer = async (
   connection: Connection,
   context = defaultContext
 ): Promise<ServerConfig> => {
   // construct TypeORM repos for Apollo DataSource API's
   const repos = {
-    cards: connection.getRepository(Card)
+    cards: connection.getRepository(Card),
+    categories: connection.getRepository(Category)
   } as DataSourceRepos;
 
   const cardAPI = new CardAPI({ repos });
+  const categoryAPI = new CategoryAPI({ repos });
 
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
     context,
-    dataSources: (): DataSources<ApolloContext> => ({ cardAPI })
+    dataSources: (): DataSources<ApolloContext> => ({ cardAPI, categoryAPI })
   });
 
-  return { apolloServer, cardAPI };
+  return { apolloServer, cardAPI, categoryAPI };
 };
 
-const start = async () => {
+const start = async (): Promise<void> => {
   const connection = await createDbConnection("dbConnection");
   await connection.runMigrations();
   console.log("TypeORM runMigrations() COMPLETE.");

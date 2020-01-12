@@ -1,0 +1,15 @@
+type Category {
+  id: ID!
+  name: String
+  parentId: ID
+}
+
+input CategoryInput {
+  name: String
+}
+
+type CategoryUpdatedResponse {
+  success: Boolean!
+  message: String!
+  category: Category!
+}

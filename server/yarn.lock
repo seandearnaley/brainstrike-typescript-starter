@@ -3082,10 +3082,10 @@ eslint-module-utils@^2.4.1:
     debug "^2.6.9"
     pkg-dir "^2.0.0"
 
-eslint-plugin-import@^2.19.1:
-  version "2.19.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.19.1.tgz#5654e10b7839d064dd0d46cd1b88ec2133a11448"
-  integrity sha512-x68131aKoCZlCae7rDXKSAQmbT5DQuManyXo2sK6fJJ0aK5CWAkv6A6HJZGgqC8IhjQxYPgo6/IY4Oz8AFsbBw==
+eslint-plugin-import@^2.20.0:
+  version "2.20.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.20.0.tgz#d749a7263fb6c29980def8e960d380a6aa6aecaa"
+  integrity sha512-NK42oA0mUc8Ngn4kONOPsPB1XhbUvNHqF+g307dPV28aknPoiNnKLFd9em4nkswwepdF5ouieqv5Th/63U7YJQ==
   dependencies:
     array-includes "^3.0.3"
     array.prototype.flat "^1.2.1"
@@ -7594,10 +7594,10 @@ ts-node@^8:
     source-map-support "^0.5.6"
     yn "^3.0.0"
 
-ts-node@^8.6.0:
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.6.0.tgz#347a5d2225b7bc2f617d40853e38f6507c39ce0a"
-  integrity sha512-NVJ/5ZjrxCS445zMIxGWiieTZoWcHbqtVKa+1V7opSmOFCYi7fvkugEXZBC9IvUnEzNewZWy8dw0u6iSTridpA==
+ts-node@^8.6.1:
+  version "8.6.1"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.6.1.tgz#a31838d93cb67bbe2c56026848ab6c9224564c4e"
+  integrity sha512-KqPbO7/UuOPE4ANAOV9geZjk6tet6rK2K+DFeEJq6kIXUi0nLkrOMksozGkIlFopOorkStlwar3DdWYrdl7zCw==
   dependencies:
     arg "^4.1.0"
     diff "^4.0.1"

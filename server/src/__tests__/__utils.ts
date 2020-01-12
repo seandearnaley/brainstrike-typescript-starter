@@ -8,17 +8,14 @@ import {
   Observable,
   FetchResult
 } from "apollo-link";
-import { DataSources } from "apollo-server-core/dist/graphqlOptions";
 import { ApolloContext } from "../../src/types/context";
 
 import {
-  typeDefs,
-  resolvers,
   createServer,
   ApolloServer,
   ServerConfig,
   Connection,
-  createDbConnection,
+  createDbConnection
 } from "../../src";
 
 const defaultContext = {};
@@ -29,6 +26,12 @@ export type Mockify<T> = {
 
 export const mockRepos = {
   cards: {
+    find: jest.fn(),
+    findOne: jest.fn(),
+    save: jest.fn(),
+    remove: jest.fn()
+  },
+  categories: {
     find: jest.fn(),
     findOne: jest.fn(),
     save: jest.fn(),
@@ -44,7 +47,10 @@ export const mockContext: Mockify<ApolloContext> = {
 /**
  * Integration testing utils
  */
-export const constructTestServer = async (connection: Connection, { context = defaultContext } = {}): Promise<ServerConfig> => {
+export const constructTestServer = async (
+  connection: Connection,
+  { context = defaultContext } = {}
+): Promise<ServerConfig> => {
   return createServer(connection, context);
 };
 

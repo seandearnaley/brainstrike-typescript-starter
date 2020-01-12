@@ -92,7 +92,7 @@ export type MutationRemoveCardArgs = {
 };
 
 export type MutationAddCategoryArgs = {
-  input?: Maybe<CardInput>;
+  input?: Maybe<CategoryInput>;
 };
 
 export type MutationUpdateCategoryArgs = {
@@ -248,8 +248,8 @@ export type ResolversTypes = ResolversObject<{
   CardInput: CardInput;
   CardsUpdatedResponse: ResolverTypeWrapper<CardsUpdatedResponse>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
-  CategoryUpdatedResponse: ResolverTypeWrapper<CategoryUpdatedResponse>;
   CategoryInput: CategoryInput;
+  CategoryUpdatedResponse: ResolverTypeWrapper<CategoryUpdatedResponse>;
   CacheControlScope: CacheControlScope;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
   Time: ResolverTypeWrapper<Scalars["Time"]>;
@@ -270,8 +270,8 @@ export type ResolversParentTypes = ResolversObject<{
   CardInput: CardInput;
   CardsUpdatedResponse: CardsUpdatedResponse;
   Boolean: Scalars["Boolean"];
-  CategoryUpdatedResponse: CategoryUpdatedResponse;
   CategoryInput: CategoryInput;
+  CategoryUpdatedResponse: CategoryUpdatedResponse;
   CacheControlScope: CacheControlScope;
   Date: Scalars["Date"];
   Time: Scalars["Time"];

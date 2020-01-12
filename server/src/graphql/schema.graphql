@@ -21,7 +21,7 @@ type Mutation {
   updateCard(id: ID!, input: CardInput): CardsUpdatedResponse!
   removeCard(id: ID!): CardsUpdatedResponse!
   # category mutations
-  addCategory(input: CardInput): CategoryUpdatedResponse!
+  addCategory(input: CategoryInput): CategoryUpdatedResponse!
   updateCategory(id: ID!, input: CategoryInput): CategoryUpdatedResponse!
   removeCategory(id: ID!): CategoryUpdatedResponse!
 }

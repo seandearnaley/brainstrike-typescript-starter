@@ -72,12 +72,20 @@ export class CardAPI extends DataSource {
    */
   async updateCard(
     id: string,
-    { number, label, description }: CardInput
+    { number, label, description, categoryId }: CardInput
   ): Promise<CardsUpdatedResponse> {
     const card = await this.getCard(id);
     card.number = number;
     card.label = label;
     card.description = description;
+
+    if (categoryId) {
+      const category = await this.repos.categories.findOne(categoryId);
+      card.categories = [category];
+    } else {
+      card.categories = null;
+    }
+
     const savedCard = await this.repos.cards.save(card);
     return {
       success: true,

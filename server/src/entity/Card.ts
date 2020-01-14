@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from "typeorm";
+import { Category } from "./Category";
 
 @Entity()
 export class Card {
@@ -23,4 +24,10 @@ export class Card {
 
   @Column({ type: "timestamp", nullable: true, default: null })
   updated: Date;
+
+  @ManyToMany(
+    () => Category,
+    category => category.cards
+  )
+  categories: Category[];
 }

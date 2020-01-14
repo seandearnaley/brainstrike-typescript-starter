@@ -1,6 +1,7 @@
 import { CardAPI } from "../card";
 import { Card } from "../../entity/Card";
 import { Mockify, mockRepos, mockContext } from "../../__tests__/__utils";
+import { Category } from "../../../src/entity";
 
 export const mockFirstCardResponseId = "e303f7e5-15ce-4a5f-9179-a75ffb4f8191";
 
@@ -14,7 +15,8 @@ export const mockFirstCardResponse = {
   id: mockFirstCardResponseId,
   ...mockCardInput,
   created: new Date(),
-  updated: new Date()
+  updated: new Date(),
+  categories: [] as Category[]
 };
 
 const mockCardsResponse = [

@@ -21,14 +21,14 @@ export class CategoryAPI extends DataSource {
   }
 
   /**
-   * Get all categories in a deck
+   * Get all categories
    */
   async getCategories(): Promise<Category[]> {
     return this.repos.categories.find(); // get all
   }
 
   /**
-   * Get a particular category from the deck
+   * Get a particular category
    * @param id category uuid
    */
   async getCategory(id: string): Promise<Category> {
@@ -36,8 +36,8 @@ export class CategoryAPI extends DataSource {
   }
 
   /**
-   * Adds a new category to a deck
-   * @param input category number, label, description
+   * Adds a new category
+   * @param input category name
    */
   async addCategory({ name }: CategoryInput): Promise<CategoryUpdatedResponse> {
     const category = new Category();
@@ -51,9 +51,9 @@ export class CategoryAPI extends DataSource {
   }
 
   /**
-   * Updates a category in a deck
+   * Updates a category
    * @param id category uuid
-   * @param input category number, label, description
+   * @param input category name
    */
   async updateCategory(
     id: string,

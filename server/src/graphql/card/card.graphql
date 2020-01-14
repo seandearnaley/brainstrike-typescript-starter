@@ -5,6 +5,7 @@ type Card {
   description: String
   created: DateTime
   updated: DateTime
+  categories: [Category]
 }
 
 input CardInput {

@@ -3,9 +3,9 @@ import gql from "graphql-tag";
 import { constructTestServer, createDbConnection, Connection } from "./__utils";
 import {
   mockFirstCardResponse,
-  mockFirstCardResponseId,
-  mockReturnCard,
-  mockCardInput
+  mockFirstCardResponseId
+  //mockReturnCard,
+  //mockCardInput
 } from "../datasources/__tests__/card";
 
 const GET_CARDS = gql`
@@ -30,44 +30,44 @@ const GET_CARD = gql`
   }
 `;
 
-const ADD_CARD = gql`
-  mutation addCard($input: CardInput!) {
-    addCard(input: $input) {
-      success
-      message
-      card {
-        id
-        number
-        label
-        description
-      }
-    }
-  }
-`;
+// const ADD_CARD = gql`
+//   mutation addCard($input: CardInput!) {
+//     addCard(input: $input) {
+//       success
+//       message
+//       card {
+//         id
+//         number
+//         label
+//         description
+//       }
+//     }
+//   }
+// `;
 
-const UPDATE_CARD = gql`
-  mutation updateCard($id: ID!, $input: CardInput!) {
-    updateCard(id: $id, input: $input) {
-      success
-      message
-      card {
-        id
-        number
-        label
-        description
-      }
-    }
-  }
-`;
+// const UPDATE_CARD = gql`
+//   mutation updateCard($id: ID!, $input: CardInput!) {
+//     updateCard(id: $id, input: $input) {
+//       success
+//       message
+//       card {
+//         id
+//         number
+//         label
+//         description
+//       }
+//     }
+//   }
+// `;
 
-const REMOVE_CARD = gql`
-  mutation removeCard($id: ID!) {
-    removeCard(id: $id) {
-      success
-      message
-    }
-  }
-`;
+// const REMOVE_CARD = gql`
+//   mutation removeCard($id: ID!) {
+//     removeCard(id: $id) {
+//       success
+//       message
+//     }
+//   }
+// `;
 
 let connection: Connection;
 

@@ -4,9 +4,13 @@ import {
   Column,
   PrimaryGeneratedColumn,
   TreeChildren,
-  TreeParent
+  TreeParent,
+  ManyToMany,
+  JoinTable
   // TreeLevelColumn
 } from "typeorm";
+
+import { Card } from "./Card";
 
 @Entity()
 @Tree("closure-table")
@@ -22,4 +26,11 @@ export class Category {
 
   @TreeParent()
   parent: Category;
+
+  @ManyToMany(
+    () => Card,
+    card => card.categories
+  )
+  @JoinTable()
+  cards: Card[];
 }

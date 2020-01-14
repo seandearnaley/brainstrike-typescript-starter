@@ -5,16 +5,16 @@ Object {
   "data": Object {
     "cards": Array [
       Object {
-        "description": "Card 1 Description",
-        "id": "bc1f54d7-b8d7-4e81-85c0-49bbfeab1bc5",
-        "label": "Card 1",
-        "number": 1,
-      },
-      Object {
         "description": "Card 2 Description",
         "id": "892ffe70-3c08-430b-a80d-3375a1489e4d",
         "label": "Card 2",
         "number": 2,
+      },
+      Object {
+        "description": "Card 1 Description",
+        "id": "bc1f54d7-b8d7-4e81-85c0-49bbfeab1bc5",
+        "label": "Card 1",
+        "number": 1,
       },
     ],
   },

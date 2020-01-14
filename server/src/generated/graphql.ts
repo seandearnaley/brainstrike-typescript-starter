@@ -35,12 +35,14 @@ export type Card = {
   description?: Maybe<Scalars["String"]>;
   created?: Maybe<Scalars["DateTime"]>;
   updated?: Maybe<Scalars["DateTime"]>;
+  categories?: Maybe<Array<Maybe<Category>>>;
 };
 
 export type CardInput = {
   number?: Maybe<Scalars["Int"]>;
   label?: Maybe<Scalars["String"]>;
   description?: Maybe<Scalars["String"]>;
+  categoryId?: Maybe<Scalars["ID"]>;
 };
 
 export type CardsUpdatedResponse = {
@@ -307,6 +309,11 @@ export type CardResolvers<
   >;
   updated?: Resolver<
     Maybe<ResolversTypes["DateTime"]>,
+    ParentType,
+    ContextType
+  >;
+  categories?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Category"]>>>,
     ParentType,
     ContextType
   >;

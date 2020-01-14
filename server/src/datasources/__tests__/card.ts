@@ -8,7 +8,8 @@ export const mockFirstCardResponseId = "e303f7e5-15ce-4a5f-9179-a75ffb4f8191";
 export const mockCardInput = {
   number: 1,
   label: "Test Card 1",
-  description: "testing"
+  description: "testing",
+  categoryId: null as string
 };
 
 export const mockFirstCardResponse = {

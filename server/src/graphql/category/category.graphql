@@ -2,6 +2,7 @@ type Category {
   id: ID!
   name: String
   parentId: ID
+  cards: [Card]
 }
 
 input CategoryInput {

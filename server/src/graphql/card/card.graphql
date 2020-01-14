@@ -12,6 +12,7 @@ input CardInput {
   number: Int
   label: String
   description: String
+  categoryId: ID
 }
 
 type CardsUpdatedResponse {

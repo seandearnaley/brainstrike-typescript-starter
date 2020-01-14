@@ -1,4 +1,4 @@
-import { Card } from "../entity/Card";
+import { Card } from "../entity";
 import { CardInput, CardsUpdatedResponse } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
@@ -42,12 +42,21 @@ export class CardAPI extends DataSource {
   async addCard({
     number,
     label,
-    description
+    description,
+    categoryId
   }: CardInput): Promise<CardsUpdatedResponse> {
     const card = new Card();
     card.number = number;
     card.label = label;
     card.description = description;
+
+    if (categoryId) {
+      const category = await this.repos.categories.findOne(categoryId);
+      card.categories = [category];
+    } else {
+      card.categories = null;
+    }
+
     const savedCard = await this.repos.cards.save(card);
     return {
       success: true,

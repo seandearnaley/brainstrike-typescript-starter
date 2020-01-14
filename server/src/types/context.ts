@@ -1,10 +1,12 @@
 import { CardAPI, CategoryAPI } from "../datasources";
 import { Connection } from "typeorm";
 
+interface APIInterface {
+  cardAPI: Partial<CardAPI>;
+  categoryAPI: Partial<CategoryAPI>;
+}
+
 export interface ApolloContext {
-  dataSources?: {
-    cardAPI: Partial<CardAPI>;
-    categoryAPI: Partial<CategoryAPI>;
-  };
+  dataSources?: Partial<APIInterface>;
   connection?: Connection;
 }

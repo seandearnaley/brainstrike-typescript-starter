@@ -1,0 +1,14 @@
+query getCard($id: ID!) {
+  card(id: $id) {
+    created
+    description
+    id
+    label
+    number
+    updated
+    categories {
+      id
+      name
+    }
+  }
+}

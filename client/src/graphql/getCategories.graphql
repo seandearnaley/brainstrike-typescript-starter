@@ -1,0 +1,19 @@
+query getCategories {
+  categories {
+    id
+    name
+    parentId
+    children {
+      id
+      name
+    }
+    cards {
+    	id
+      number
+      label
+      description
+      created
+      updated
+    }
+  }
+}

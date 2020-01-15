@@ -57,6 +57,7 @@ export type Category = {
   id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
   parentId?: Maybe<Scalars["ID"]>;
+  cards?: Maybe<Array<Maybe<Card>>>;
 };
 
 export type CategoryInput = {
@@ -335,6 +336,11 @@ export type CategoryResolvers<
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   parentId?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
+  cards?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Card"]>>>,
+    ParentType,
+    ContextType
+  >;
 }>;
 
 export type CategoryUpdatedResponseResolvers<

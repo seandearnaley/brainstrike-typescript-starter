@@ -1,7 +1,8 @@
 type Category {
-  id: ID!
+  id: ID
   name: String
   parentId: ID
+  children: [Category]
   cards: [Card]
 }
 
@@ -12,5 +13,5 @@ input CategoryInput {
 type CategoryUpdatedResponse {
   success: Boolean!
   message: String!
-  category: Category!
+  category: Category
 }

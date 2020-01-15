@@ -1,0 +1,10 @@
+mutation addCategory($input: CategoryInput!) {
+  addCategory(input: $input) {
+    success
+    message
+    category {
+      id
+      name
+    }
+  }
+}

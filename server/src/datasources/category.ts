@@ -79,7 +79,17 @@ export class CategoryAPI extends DataSource {
    */
   async removeCategory(id: string): Promise<CategoryUpdatedResponse> {
     const category = await this.getCategory(id);
+
+    // remove dependant tree relations, unfortunately hasn't been implemented in TypeORM yet
+    await this.repos.categories
+      .createQueryBuilder()
+      .delete()
+      .from("category_closure") // check your db or migrations for the actual table name
+      .where('"id_ancestor" = :id', { id })
+      .execute();
+
     const removedCategory = await this.repos.categories.remove(category);
+
     return {
       success: true,
       message: "Category Removed",

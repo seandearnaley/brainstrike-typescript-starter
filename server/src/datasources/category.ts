@@ -88,12 +88,11 @@ export class CategoryAPI extends DataSource {
       .where('"id_ancestor" = :id', { id })
       .execute();
 
-    const removedCategory = await this.repos.categories.remove(category);
+    await this.repos.categories.remove(category);
 
     return {
       success: true,
-      message: "Category Removed",
-      category: removedCategory
+      message: "Category Removed"
     };
   }
 }

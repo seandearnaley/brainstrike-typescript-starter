@@ -1,5 +1,5 @@
 type Category {
-  id: ID
+  id: ID!
   name: String
   parentId: ID
   children: [Category]

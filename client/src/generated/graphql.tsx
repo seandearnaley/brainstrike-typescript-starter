@@ -47,7 +47,7 @@ export type CardsUpdatedResponse = {
 
 export type Category = {
   __typename?: 'Category';
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   parentId?: Maybe<Scalars['ID']>;
   children?: Maybe<Array<Maybe<Category>>>;

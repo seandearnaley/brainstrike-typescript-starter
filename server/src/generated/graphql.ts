@@ -54,9 +54,10 @@ export type CardsUpdatedResponse = {
 
 export type Category = {
   __typename?: "Category";
-  id: Scalars["ID"];
+  id?: Maybe<Scalars["ID"]>;
   name?: Maybe<Scalars["String"]>;
   parentId?: Maybe<Scalars["ID"]>;
+  children?: Maybe<Array<Maybe<Category>>>;
   cards?: Maybe<Array<Maybe<Card>>>;
 };
 
@@ -68,7 +69,7 @@ export type CategoryUpdatedResponse = {
   __typename?: "CategoryUpdatedResponse";
   success: Scalars["Boolean"];
   message: Scalars["String"];
-  category: Category;
+  category?: Maybe<Category>;
 };
 
 export type Mutation = {
@@ -333,9 +334,14 @@ export type CategoryResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Category"] = ResolversParentTypes["Category"]
 > = ResolversObject<{
-  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   parentId?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
+  children?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Category"]>>>,
+    ParentType,
+    ContextType
+  >;
   cards?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["Card"]>>>,
     ParentType,
@@ -349,7 +355,11 @@ export type CategoryUpdatedResponseResolvers<
 > = ResolversObject<{
   success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  category?: Resolver<ResolversTypes["Category"], ParentType, ContextType>;
+  category?: Resolver<
+    Maybe<ResolversTypes["Category"]>,
+    ParentType,
+    ContextType
+  >;
 }>;
 
 export interface DateScalarConfig

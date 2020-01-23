@@ -53,4 +53,3 @@ Good article with example here
 
 https://www.cronj.com/blog/difference-container-component-react-js/
 
-Testing Actions Again

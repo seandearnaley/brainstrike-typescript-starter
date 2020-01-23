@@ -52,3 +52,5 @@ Dumb/presentational components are those which are responsible for presenting vi
 Good article with example here
 
 https://www.cronj.com/blog/difference-container-component-react-js/
+
+Testing Action

@@ -7,7 +7,6 @@ import {
   TreeParent,
   ManyToMany,
   JoinTable
-  // TreeLevelColumn
 } from "typeorm";
 
 import { Card } from "./Card";

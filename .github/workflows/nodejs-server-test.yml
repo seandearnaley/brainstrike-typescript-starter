@@ -16,6 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Postgres stack
+      working-directory: server
       run: docker-compose up -d
       env:
         POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
@@ -27,7 +28,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: yarn install, build, and test
-      working-directory: client
+      working-directory: server
       run: |
         yarn install --frozen-lockfile
         yarn build

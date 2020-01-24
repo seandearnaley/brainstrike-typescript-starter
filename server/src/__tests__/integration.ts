@@ -1,6 +1,10 @@
 import { createTestClient } from "apollo-server-testing";
 import gql from "graphql-tag";
-import { constructTestServer, createDbConnection, Connection } from "./__utils";
+import {
+  constructTestServer,
+  createTestingConnection,
+  Connection
+} from "./__utils";
 import {
   mockFirstCardResponse,
   mockFirstCardResponseId
@@ -73,7 +77,7 @@ let connection: Connection;
 
 beforeAll(async () => {
   console.log("creating test connection");
-  connection = await createDbConnection("testConnection");
+  connection = await createTestingConnection();
 });
 
 afterAll(async () => {

@@ -1,7 +1,12 @@
 import "reflect-metadata";
 import express = require("express");
 import { config as setupDotEnv } from "dotenv";
-import { createConnection, Connection, Repository } from "typeorm";
+import {
+  createConnection,
+  Connection,
+  Repository,
+  ConnectionOptions
+} from "typeorm";
 import { Card, Category } from "./entity";
 import { typeDefs, resolvers } from "./graphql";
 import { ApolloServer } from "apollo-server-express";
@@ -11,7 +16,26 @@ import { ApolloContext } from "./types/context";
 
 setupDotEnv(); // adds .env environment file support
 
-const { NODE_PORT, NODE_HOST, NODE_ENV } = process.env; // environment variables
+const {
+  NODE_PORT = 4000,
+  NODE_HOST = "localhost",
+  NODE_ENV = "development",
+  POSTGRES_USER,
+  POSTGRES_PASSWORD,
+  POSTGRES_HOST = "localhost",
+  POSTGRES_PORT = 5432
+} = process.env; // environment variables
+
+const schemaConfig = {
+  entities: ["build/entity/**/*.{js,ts}"],
+  migrations: ["build/migration/**/*.{js,ts}"],
+  subscribers: ["build/subscriber/**/*.{js,ts}"],
+  cli: {
+    entitiesDir: "src/entity",
+    migrationsDir: "src/migration",
+    subscribersDir: "src/subscriber"
+  }
+};
 
 // NOTE: using partial here to make it easier to mock repos in unit tests,
 // only have to implement part of the repo interface
@@ -24,10 +48,10 @@ const defaultContext = {};
 const app = express();
 
 const createDbConnection = async (
-  connectionName = "dbConnection"
+  options: ConnectionOptions
 ): Promise<Connection> => {
   try {
-    const connection: Connection = await createConnection(connectionName);
+    const connection: Connection = await createConnection(options);
     console.log(`TypeORM Connected`);
     return connection;
   } catch (err) {
@@ -36,6 +60,21 @@ const createDbConnection = async (
     process.exit(1);
   }
 };
+
+const createTestingConnection = (): Promise<Connection> =>
+  createDbConnection({
+    name: "testConnection",
+    type: "postgres",
+    host: POSTGRES_HOST,
+    port: Number(POSTGRES_PORT),
+    username: POSTGRES_USER,
+    password: POSTGRES_PASSWORD,
+    database: "brainstrike_test",
+    synchronize: true,
+    logging: false,
+    dropSchema: true,
+    ...schemaConfig
+  });
 
 interface ServerConfig {
   apolloServer: ApolloServer;
@@ -67,7 +106,19 @@ const createServer = async (
 };
 
 const start = async (): Promise<void> => {
-  const connection = await createDbConnection("dbConnection");
+  const connection = await createDbConnection({
+    name: "dbConnection",
+    type: "postgres",
+    host: POSTGRES_HOST,
+    port: Number(POSTGRES_PORT),
+    username: POSTGRES_USER,
+    password: POSTGRES_PASSWORD,
+    database: "brainstrike",
+    synchronize: true,
+    logging: false,
+    dropSchema: false,
+    ...schemaConfig
+  });
   await connection.runMigrations();
   console.log("TypeORM runMigrations() COMPLETE.");
 
@@ -93,6 +144,7 @@ export {
   createServer,
   DataSourceRepos,
   createDbConnection,
+  createTestingConnection,
   Connection,
   ServerConfig
 };

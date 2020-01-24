@@ -8,7 +8,7 @@ import {
 import {
   startTestServer,
   constructTestServer,
-  createDbConnection,
+  createTestingConnection,
   Connection
 } from "./__utils";
 
@@ -29,7 +29,7 @@ let connection: Connection;
 
 beforeAll(async () => {
   console.log("creating test connection");
-  connection = await createDbConnection("testConnection");
+  connection = await createTestingConnection();
   await connection.runMigrations();
   console.log("TypeORM runMigrations() COMPLETE.");
 });

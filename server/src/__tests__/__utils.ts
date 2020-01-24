@@ -15,7 +15,7 @@ import {
   ApolloServer,
   ServerConfig,
   Connection,
-  createDbConnection
+  createTestingConnection
 } from "../../src";
 
 const defaultContext = {};
@@ -98,4 +98,4 @@ export const startTestServer = async (
   };
 };
 
-export { createDbConnection, Connection };
+export { createTestingConnection, Connection };

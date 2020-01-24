@@ -22,7 +22,7 @@ const {
   NODE_ENV = "development",
   POSTGRES_USER,
   POSTGRES_PASSWORD,
-  POSTGRES_HOST = "localhost",
+  POSTGRES_HOST = "127.0.0.1",
   POSTGRES_PORT = 5432
 } = process.env; // environment variables
 

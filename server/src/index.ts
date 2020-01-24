@@ -16,8 +16,6 @@ import { ApolloContext } from "./types/context";
 
 setupDotEnv(); // adds .env environment file support
 
-console.log("hello");
-
 const {
   NODE_PORT = 4000,
   NODE_HOST = "localhost",

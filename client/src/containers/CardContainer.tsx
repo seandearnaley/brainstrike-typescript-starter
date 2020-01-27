@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container } from '@material-ui/core';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
@@ -16,43 +15,7 @@ import { useGetCardsQuery, useRemoveCardMutation } from '../generated/graphql';
 import { SimpleCard } from '../components/SimpleCard';
 import NewCardForm from './NewCardForm';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      '& > *': {
-        margin: theme.spacing(1),
-      },
-    },
-    gridItem: {
-      alignItems: 'center',
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    },
-    extendedIcon: {
-      marginRight: theme.spacing(1),
-    },
-    fabAdd: {
-      margin: '0px',
-      top: 'auto',
-      right: '20px',
-      bottom: '20px',
-      left: 'auto',
-      position: 'fixed',
-    },
-    modal: {
-      position: 'absolute',
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-  }),
-);
+import { useStyles } from '../styles';
 
 function getModalStyle(): { top: string; left: string; transform: string } {
   const top = 50;
@@ -65,7 +28,7 @@ function getModalStyle(): { top: string; left: string; transform: string } {
   };
 }
 
-export const Cards: React.FC = (): React.ReactElement => {
+export const CardContainer: React.FC = (): React.ReactElement => {
   const classes = useStyles();
   const { data, loading, error } = useGetCardsQuery();
 
@@ -109,19 +72,17 @@ export const Cards: React.FC = (): React.ReactElement => {
   if (removeError) return <p>ERROR: {removeError.message}</p>;
 
   return (
-    <div className={classes.root}>
+    <div className={classes.cardContainerRoot}>
       <Container maxWidth={false}>
         <Grid container spacing={3}>
-          {data &&
-            data.cards &&
-            data.cards.map(card => (
-              <Grid key={card.id} item sm={3} className={classes.gridItem}>
-                <SimpleCard
-                  card={card}
-                  handleDeleteOpen={handleDeleteOpen}
-                ></SimpleCard>
-              </Grid>
-            ))}
+          {data?.cards?.map(card => (
+            <Grid key={card.id} item sm={3} className={classes.gridItem}>
+              <SimpleCard
+                card={card}
+                handleDeleteOpen={handleDeleteOpen}
+              ></SimpleCard>
+            </Grid>
+          ))}
         </Grid>
       </Container>
       <Fab

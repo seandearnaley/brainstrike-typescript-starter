@@ -1,18 +1,8 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Switch, Route } from 'react-router-dom';
-import { Cards } from '../containers/CardContainer';
+import { CardContainer } from '../containers/CardContainer';
 import { CardsNav } from './CardsNav';
-
-const useStyles = makeStyles(theme => ({
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    padding: '10px',
-    height: '100vh',
-    overflow: 'auto',
-    width: '100vw',
-  },
-}));
+import { useStyles } from '../styles';
 
 export const MainPanel: React.FC = () => {
   const classes = useStyles();
@@ -22,7 +12,7 @@ export const MainPanel: React.FC = () => {
 
       <Switch>
         <Route path="/cards">
-          <Cards></Cards>
+          <CardContainer></CardContainer>
         </Route>
         <Route path="/sets">
           <CardsNav></CardsNav>

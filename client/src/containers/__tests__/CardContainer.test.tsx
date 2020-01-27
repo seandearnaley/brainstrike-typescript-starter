@@ -1,9 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Cards } from '../CardContainer';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Cards />, div);
-  ReactDOM.unmountComponentAtNode(div);
+import {
+  renderApollo,
+  cleanup,
+  waitForElement,
+} from '../../test-utils';
+
+import { CardContainer } from '../CardContainer';
+
+
+describe('card container', () => {
+  // automatically unmount and cleanup DOM after the test is finished.
+  afterEach(cleanup);
+
+  it('renders without crashing', async () => {
+    const component  = renderApollo(<CardContainer />)
+    await waitForElement(() => component );
+  });
+
 });

@@ -8,8 +8,8 @@ Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 - Material UI
 - Apollo GraphQL
 - GraphQL Code Generator
-- TypeORM w/ testing connections
-- Unit tests
+- TypeORM w/ testing connections (Docker-Compose Postgres + GitHub Actions)
+- Unit/Integration/E2E tests
 - React client with Hooks
 - Prettier + ESLint configuration
 

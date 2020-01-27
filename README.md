@@ -1,6 +1,6 @@
 # brainstrike-typescript-starter
 
-<img src="./brainstrike.svg" style="width:200px">
+<img src="./brainstrike.svg" width="200">
 
 Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 

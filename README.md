@@ -1,5 +1,8 @@
 # brainstrike-typescript-starter
 
+![BrainStrike](./brainstrike.svg)
+<img src="./brainstrike.svg" style="width:200px">
+
 Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 
 ## Features
@@ -16,4 +19,4 @@ Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 Installation + Instructions to come.
 
 vscode
- "eslint.workingDirectories": [ "./client", "./server" ]
+"eslint.workingDirectories": [ "./client", "./server" ]

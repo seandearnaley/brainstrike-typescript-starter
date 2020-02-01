@@ -84,10 +84,6 @@ describe("Queries", () => {
   afterAll(() => connection.close());
 
   it("fetches list of cards", async () => {
-    const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {
-      throw new Error("Mock");
-    });
-
     // create an instance of ApolloServer that mocks out context, while reusing
     // existing dataSources, resolvers, and typeDefs.
     const { apolloServer, cardAPI } = await constructTestServer(connection, {
@@ -107,10 +103,6 @@ describe("Queries", () => {
       query: GET_CARDS
     });
     expect(res).toMatchSnapshot();
-
-    expect(mockExit).not.toHaveBeenCalledWith();
-
-    mockExit.mockRestore();
   });
 
   it("fetches single card", async () => {

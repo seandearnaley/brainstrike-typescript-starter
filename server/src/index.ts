@@ -71,8 +71,6 @@ const createTestingConnection = (): Promise<Connection> =>
     password: POSTGRES_PASSWORD,
     database: "brainstrike_test",
     synchronize: false,
-    logging: false,
-    dropSchema: false,
     ...schemaConfig
   });
 
@@ -114,9 +112,7 @@ const start = async (): Promise<void> => {
     username: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
     database: "brainstrike",
-    synchronize: true,
-    logging: false,
-    dropSchema: false,
+    synchronize: true, // don't use in production
     ...schemaConfig
   });
   await connection.runMigrations();

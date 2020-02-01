@@ -26,6 +26,13 @@ const {
   POSTGRES_PORT = 5432
 } = process.env; // environment variables
 
+const postgresCreds = {
+  host: POSTGRES_HOST,
+  port: Number(POSTGRES_PORT),
+  username: POSTGRES_USER,
+  password: POSTGRES_PASSWORD
+};
+
 const schemaConfig = {
   entities: ["build/entity/**/*.{js,ts}"],
   migrations: ["build/migration/**/*.{js,ts}"],
@@ -65,12 +72,9 @@ const createTestingConnection = (): Promise<Connection> =>
   createDbConnection({
     name: "testConnection",
     type: "postgres",
-    host: POSTGRES_HOST,
-    port: Number(POSTGRES_PORT),
-    username: POSTGRES_USER,
-    password: POSTGRES_PASSWORD,
     database: "brainstrike_test",
     synchronize: false,
+    ...postgresCreds,
     ...schemaConfig
   });
 
@@ -107,12 +111,9 @@ const start = async (): Promise<void> => {
   const connection = await createDbConnection({
     name: "dbConnection",
     type: "postgres",
-    host: POSTGRES_HOST,
-    port: Number(POSTGRES_PORT),
-    username: POSTGRES_USER,
-    password: POSTGRES_PASSWORD,
     database: "brainstrike",
     synchronize: true, // don't use in production
+    ...postgresCreds,
     ...schemaConfig
   });
   await connection.runMigrations();

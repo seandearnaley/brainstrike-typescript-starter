@@ -52,11 +52,11 @@ const createDbConnection = async (
 ): Promise<Connection> => {
   try {
     const connection: Connection = await createConnection(options);
-    console.log(`TypeORM Connected`);
+    console.log(`TypeORM Connected to ${options.database}`);
     return connection;
   } catch (err) {
     console.log("Problem with TypeORM connection, check Postgres docker-up");
-    console.error(err);
+    throw err.message;
     process.exit(1);
   }
 };
@@ -70,9 +70,9 @@ const createTestingConnection = (): Promise<Connection> =>
     username: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
     database: "brainstrike_test",
-    synchronize: true,
+    synchronize: false,
     logging: false,
-    dropSchema: true,
+    dropSchema: false,
     ...schemaConfig
   });
 

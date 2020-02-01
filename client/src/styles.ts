@@ -1,9 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { CSSProperties } from '@material-ui/styles';
 
 const drawerWidth = 240;
 
 export const useStyles = makeStyles(theme => ({
-  appBarSpacer: theme.mixins.toolbar,
+  appBarSpacer: theme.mixins.toolbar as CSSProperties,
   content: {
     padding: '10px',
     height: '100vh',

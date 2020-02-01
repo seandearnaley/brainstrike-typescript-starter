@@ -1,9 +1,6 @@
 import resolvers from "../graphql/resolvers";
 
-import {
-  mockFirstCardResponse,
-  mockFirstCardResponseId
-} from "../datasources/__tests__/card";
+import { mockFirstCardResponse, mockFirstCardResponseId } from "./__testData";
 
 describe("[Query.cards]", () => {
   const mockContext = {

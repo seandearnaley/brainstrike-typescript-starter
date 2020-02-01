@@ -25,23 +25,15 @@ const GET_CARDS = gql`
   }
 `;
 
-let connection: Connection;
-
-beforeAll(async () => {
-  console.log("creating test connection");
-  connection = await createTestingConnection();
-  await connection.runMigrations();
-  console.log("TypeORM runMigrations() COMPLETE.");
-});
-
-afterAll(async () => {
-  console.log("closing test connection");
-  await connection.close();
-});
-
 describe("Server - e2e", () => {
+  let connection: Connection;
+
   let stop: () => void,
     graphql: ({}: GraphQLRequest) => Observable<FetchResult>;
+
+  beforeAll(async () => {
+    connection = await createTestingConnection();
+  });
 
   beforeEach(async () => {
     const { apolloServer } = await constructTestServer(connection);
@@ -50,7 +42,13 @@ describe("Server - e2e", () => {
     graphql = testServer.graphql;
   });
 
-  afterEach((): void => stop());
+  afterEach(async () => {
+    stop();
+  });
+
+  afterAll(async () => {
+    await connection.close();
+  });
 
   it("gets list of cards", async () => {
     const res = await toPromise(

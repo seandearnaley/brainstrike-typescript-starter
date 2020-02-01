@@ -9,5 +9,11 @@ module.exports = {
     "!./src/generated/**",
     "!./src/migration/**"
   ],
-  testPathIgnorePatterns: ["/node_modules/", "/build/", "/__utils"]
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/build/",
+    "/__utils",
+    "/__testData"
+  ],
+  globalSetup: "./jest.globalSetup.ts"
 };

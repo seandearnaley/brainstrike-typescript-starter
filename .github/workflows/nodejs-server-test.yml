@@ -31,7 +31,6 @@ jobs:
       working-directory: server
       run: |
         yarn install --frozen-lockfile
-        yarn build
         yarn test --verbose
       env:
         CI: true

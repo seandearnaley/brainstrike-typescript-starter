@@ -15,5 +15,5 @@ module.exports = {
     "/__utils",
     "/__testData"
   ],
-  globalSetup: "./jest.globalSetup.ts"
+  globalSetup: "./src/jest.globalSetup.ts"
 };

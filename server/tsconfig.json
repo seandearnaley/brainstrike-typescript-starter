@@ -16,7 +16,7 @@
       "typings/*": ["src/typings/*"]
     }
   },
-  "include": ["src/**/*.ts", "jest.globalSetup.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["src/test/**/*.spec.ts", "node_modules"]
 }
 

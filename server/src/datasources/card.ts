@@ -26,7 +26,10 @@ export class CardAPI extends DataSource {
   async getCards(options?: { limit: number }): Promise<Card[]> {
     return this.repos.cards.find({
       relations: ["categories"],
-      take: options?.limit
+      take: options?.limit,
+      order: {
+        id: "ASC"
+      }
     }); // get all
   }
 

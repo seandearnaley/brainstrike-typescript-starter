@@ -20,6 +20,7 @@ export class SeedData1580670494808 implements MigrationInterface {
 
     const CardSeed = fakeCards.reduce((acc, value) => {
       const card = new Card();
+      card.id = value.id;
       card.number = value.number;
       card.label = value.label;
       card.description = value.description;

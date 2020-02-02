@@ -26,6 +26,20 @@ export class Category {
   @TreeParent()
   parent: Category;
 
+  @Column({
+    type: "timestamp",
+    nullable: false,
+    default: () => "LOCALTIMESTAMP"
+  })
+  created: Date;
+
+  @Column({
+    type: "timestamp",
+    nullable: false,
+    default: () => "LOCALTIMESTAMP"
+  })
+  updated: Date;
+
   @ManyToMany(
     () => Card,
     card => card.categories

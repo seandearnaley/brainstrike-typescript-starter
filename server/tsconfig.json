@@ -4,6 +4,7 @@
     "target": "ES2016",
     "module": "commonjs",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "outDir": "./build",
     "noImplicitAny": true,
     "sourceMap": true,
@@ -19,4 +20,3 @@
   "include": ["src/**/*.ts"],
   "exclude": ["src/test/**/*.spec.ts", "node_modules"]
 }
-

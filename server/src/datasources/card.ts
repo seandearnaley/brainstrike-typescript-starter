@@ -23,8 +23,11 @@ export class CardAPI extends DataSource {
   /**
    * Get all cards in a deck
    */
-  async getCards(): Promise<Card[]> {
-    return this.repos.cards.find({ relations: ["categories"] }); // get all
+  async getCards(options?: { limit: number }): Promise<Card[]> {
+    return this.repos.cards.find({
+      relations: ["categories"],
+      take: options?.limit
+    }); // get all
   }
 
   /**

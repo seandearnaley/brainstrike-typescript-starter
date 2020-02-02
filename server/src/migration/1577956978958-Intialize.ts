@@ -13,7 +13,7 @@ export class Intialize1577956978958 implements MigrationInterface {
           username character varying COLLATE pg_catalog."default" NOT NULL,
           password character varying COLLATE pg_catalog."default" NOT NULL,
           created timestamp without time zone NOT NULL DEFAULT LOCALTIMESTAMP,
-          updated timestamp without time zone,
+          updated timestamp without time zone NOT NULL DEFAULT LOCALTIMESTAMP,
           CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY (id)
       )
     `);
@@ -26,7 +26,7 @@ export class Intialize1577956978958 implements MigrationInterface {
           label character varying COLLATE pg_catalog."default" NOT NULL,
           description text COLLATE pg_catalog."default" NOT NULL,
           created timestamp without time zone NOT NULL DEFAULT LOCALTIMESTAMP,
-          updated timestamp without time zone,
+          updated timestamp without time zone NOT NULL DEFAULT LOCALTIMESTAMP,
           CONSTRAINT "PK_9451069b6f1199730791a7f4ae4" PRIMARY KEY (id)
       )
     `);
@@ -36,6 +36,8 @@ export class Intialize1577956978958 implements MigrationInterface {
       (
           id uuid NOT NULL DEFAULT uuid_generate_v4(),
           name character varying COLLATE pg_catalog."default" NOT NULL,
+          created timestamp without time zone NOT NULL DEFAULT LOCALTIMESTAMP,
+          updated timestamp without time zone NOT NULL DEFAULT LOCALTIMESTAMP,
           "parentId" uuid,
           CONSTRAINT "PK_9c4e4a89e3674fc9f382d733f03" PRIMARY KEY (id),
           CONSTRAINT "FK_d5456fd7e4c4866fec8ada1fa10" FOREIGN KEY ("parentId")
@@ -107,11 +109,11 @@ export class Intialize1577956978958 implements MigrationInterface {
       TABLESPACE pg_default;
     `);
 
-    await queryRunner.query(
-      `INSERT INTO card (id, number, label, description, created, updated) VALUES
-            ('bc1f54d7-b8d7-4e81-85c0-49bbfeab1bc5', 1, 'Card 1', 'Card 1 Description', current_timestamp, current_timestamp),
-            ('892ffe70-3c08-430b-a80d-3375a1489e4d', 2, 'Card 2', 'Card 2 Description', current_timestamp, current_timestamp);`
-    );
+    // await queryRunner.query(
+    //   `INSERT INTO card (id, number, label, description, created, updated) VALUES
+    //         ('bc1f54d7-b8d7-4e81-85c0-49bbfeab1bc5', 1, 'Card 1', 'Card 1 Description', current_timestamp, current_timestamp),
+    //         ('892ffe70-3c08-430b-a80d-3375a1489e4d', 2, 'Card 2', 'Card 2 Description', current_timestamp, current_timestamp);`
+    // );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

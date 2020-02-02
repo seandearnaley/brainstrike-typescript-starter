@@ -54,7 +54,7 @@ export type CardsUpdatedResponse = {
 
 export type Category = {
   __typename?: "Category";
-  id?: Maybe<Scalars["ID"]>;
+  id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
   parentId?: Maybe<Scalars["ID"]>;
   children?: Maybe<Array<Maybe<Category>>>;
@@ -115,6 +115,10 @@ export type Query = {
   categories?: Maybe<Array<Category>>;
   category?: Maybe<Category>;
   me?: Maybe<User>;
+};
+
+export type QueryCardsArgs = {
+  limit?: Maybe<Scalars["Int"]>;
 };
 
 export type QueryCardArgs = {
@@ -223,6 +227,11 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes>;
 
+export type isTypeOfResolverFn = (
+  obj: any,
+  info: GraphQLResolveInfo
+) => boolean;
+
 export type NextResolverFn<T> = () => Promise<T>;
 
 export type DirectiveResolverFn<
@@ -241,9 +250,9 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>;
+  Int: ResolverTypeWrapper<Scalars["Int"]>;
   Card: ResolverTypeWrapper<Card>;
   ID: ResolverTypeWrapper<Scalars["ID"]>;
-  Int: ResolverTypeWrapper<Scalars["Int"]>;
   String: ResolverTypeWrapper<Scalars["String"]>;
   DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
   Category: ResolverTypeWrapper<Category>;
@@ -254,18 +263,18 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   CategoryInput: CategoryInput;
   CategoryUpdatedResponse: ResolverTypeWrapper<CategoryUpdatedResponse>;
-  CacheControlScope: CacheControlScope;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
   Time: ResolverTypeWrapper<Scalars["Time"]>;
+  CacheControlScope: CacheControlScope;
   Upload: ResolverTypeWrapper<Scalars["Upload"]>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Query: {};
+  Int: Scalars["Int"];
   Card: Card;
   ID: Scalars["ID"];
-  Int: Scalars["Int"];
   String: Scalars["String"];
   DateTime: Scalars["DateTime"];
   Category: Category;
@@ -276,21 +285,11 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars["Boolean"];
   CategoryInput: CategoryInput;
   CategoryUpdatedResponse: CategoryUpdatedResponse;
-  CacheControlScope: CacheControlScope;
   Date: Scalars["Date"];
   Time: Scalars["Time"];
+  CacheControlScope: CacheControlScope;
   Upload: Scalars["Upload"];
 }>;
-
-export type CacheControlDirectiveResolver<
-  Result,
-  Parent,
-  ContextType = ApolloContext,
-  Args = {
-    maxAge?: Maybe<Maybe<Scalars["Int"]>>;
-    scope?: Maybe<Maybe<CacheControlScope>>;
-  }
-> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type CardResolvers<
   ContextType = ApolloContext,
@@ -319,6 +318,7 @@ export type CardResolvers<
     ParentType,
     ContextType
   >;
+  __isTypeOf?: isTypeOfResolverFn;
 }>;
 
 export type CardsUpdatedResponseResolvers<
@@ -328,13 +328,14 @@ export type CardsUpdatedResponseResolvers<
   success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   card?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
+  __isTypeOf?: isTypeOfResolverFn;
 }>;
 
 export type CategoryResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Category"] = ResolversParentTypes["Category"]
 > = ResolversObject<{
-  id?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   parentId?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
   children?: Resolver<
@@ -347,6 +348,7 @@ export type CategoryResolvers<
     ParentType,
     ContextType
   >;
+  __isTypeOf?: isTypeOfResolverFn;
 }>;
 
 export type CategoryUpdatedResponseResolvers<
@@ -360,6 +362,7 @@ export type CategoryUpdatedResponseResolvers<
     ParentType,
     ContextType
   >;
+  __isTypeOf?: isTypeOfResolverFn;
 }>;
 
 export interface DateScalarConfig
@@ -421,7 +424,8 @@ export type QueryResolvers<
   cards?: Resolver<
     Maybe<Array<ResolversTypes["Card"]>>,
     ParentType,
-    ContextType
+    ContextType,
+    QueryCardsArgs
   >;
   card?: Resolver<
     Maybe<ResolversTypes["Card"]>,
@@ -472,6 +476,7 @@ export type UserResolvers<
     ParentType,
     ContextType
   >;
+  __isTypeOf?: isTypeOfResolverFn;
 }>;
 
 export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
@@ -493,14 +498,3 @@ export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
 export type IResolvers<ContextType = ApolloContext> = Resolvers<ContextType>;
-export type DirectiveResolvers<ContextType = ApolloContext> = ResolversObject<{
-  cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>;
-}>;
-
-/**
- * @deprecated
- * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
- */
-export type IDirectiveResolvers<
-  ContextType = ApolloContext
-> = DirectiveResolvers<ContextType>;

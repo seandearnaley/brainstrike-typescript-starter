@@ -110,6 +110,10 @@ export type Query = {
   me?: Maybe<User>;
 };
 
+export type QueryCardsArgs = {
+  limit?: Maybe<Scalars['Int']>;
+};
+
 export type QueryCardArgs = {
   id: Scalars['ID'];
 };
@@ -458,7 +462,7 @@ export type GetCardQueryResult = ApolloReactCommon.QueryResult<
 >;
 export const GetCardsDocument = gql`
   query getCards {
-    cards {
+    cards(limit: 1000) {
       created
       description
       id

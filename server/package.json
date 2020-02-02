@@ -7,7 +7,7 @@
     "build": "rimraf ./build && tsc",
     "start:dev": "nodemon",
     "start": "yarn run build && node build/index.js",
-    "test": "yarn run build && jest",
+    "test": "yarn run build && jest --verbose",
     "test:watch": "yarn run build && jest --watch",
     "lint": "eslint './src/**/*.{ts,tsx}' --fix",
     "lint:fix": "eslint './src/**/*.{ts,tsx}' --fix",

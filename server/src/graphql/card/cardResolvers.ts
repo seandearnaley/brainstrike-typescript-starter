@@ -2,8 +2,8 @@ import { Resolvers, Card, CardsUpdatedResponse } from "../../generated/graphql";
 
 export const resolvers: Resolvers = {
   Query: {
-    cards: (_, __, { dataSources }): Promise<Card[]> =>
-      dataSources.cardAPI.getCards(),
+    cards: (_, { limit }, { dataSources }): Promise<Card[]> =>
+      dataSources.cardAPI.getCards({ limit }),
     card: (_, { id }, { dataSources }): Promise<Card> =>
       dataSources.cardAPI.getCard(id)
   },

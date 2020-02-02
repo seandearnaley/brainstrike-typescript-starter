@@ -31,7 +31,7 @@ jobs:
       working-directory: server
       run: |
         yarn install --frozen-lockfile
-        yarn test --verbose
+        yarn test
       env:
         CI: true
         POSTGRES_USER: ${{ secrets.POSTGRES_USER }}

@@ -1,5 +1,5 @@
 query getCards {
-  cards {
+  cards(limit: 1000) {
     created
     description
     id

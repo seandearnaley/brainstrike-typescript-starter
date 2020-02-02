@@ -24,7 +24,11 @@ export class User {
   })
   created: Date;
 
-  @Column({ type: "timestamp", nullable: true, default: null })
+  @Column({
+    type: "timestamp",
+    nullable: false,
+    default: () => "LOCALTIMESTAMP"
+  })
   updated: Date;
 
   // @BeforeInsert()

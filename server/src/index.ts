@@ -14,35 +14,15 @@ import { CardAPI, CategoryAPI } from "./datasources";
 import { DataSources } from "apollo-server-core/dist/graphqlOptions";
 import { ApolloContext } from "./types/context";
 
+import ormConfig, { postgresCreds, schemaConfig } from "./ormConfig";
+
 setupDotEnv(); // adds .env environment file support
 
 const {
   NODE_PORT = 4000,
   NODE_HOST = "localhost",
-  NODE_ENV = "development",
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-  POSTGRES_HOST = "localhost",
-  POSTGRES_PORT = 5432
+  NODE_ENV = "development"
 } = process.env; // environment variables
-
-const postgresCreds = {
-  host: POSTGRES_HOST,
-  port: Number(POSTGRES_PORT),
-  username: POSTGRES_USER,
-  password: POSTGRES_PASSWORD
-};
-
-const schemaConfig = {
-  entities: ["build/entity/**/*.{js,ts}"],
-  migrations: ["build/migration/**/*.{js,ts}"],
-  subscribers: ["build/subscriber/**/*.{js,ts}"],
-  cli: {
-    entitiesDir: "src/entity",
-    migrationsDir: "src/migration",
-    subscribersDir: "src/subscriber"
-  }
-};
 
 // NOTE: using partial here to make it easier to mock repos in unit tests,
 // only have to implement part of the repo interface
@@ -108,14 +88,7 @@ const createServer = async (
 };
 
 const start = async (): Promise<void> => {
-  const connection = await createDbConnection({
-    name: "dbConnection",
-    type: "postgres",
-    database: "brainstrike",
-    synchronize: true, // don't use in production
-    ...postgresCreds,
-    ...schemaConfig
-  });
+  const connection = await createDbConnection(ormConfig as ConnectionOptions);
   await connection.runMigrations();
   console.log("TypeORM runMigrations() COMPLETE.");
 
@@ -132,7 +105,7 @@ const start = async (): Promise<void> => {
 
 // Start our server if we're not in a test env. (JEST sets NODE_ENV=test)
 // if we're in a test env, we'll manually start it in a test
-if (NODE_ENV !== "test") start();
+if (NODE_ENV !== "test" && NODE_ENV !== "migration") start();
 
 export {
   typeDefs,

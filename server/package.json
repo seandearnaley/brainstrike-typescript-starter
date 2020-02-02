@@ -11,10 +11,13 @@
     "test:watch": "yarn run build && jest --watch",
     "lint": "eslint './src/**/*.{ts,tsx}' --fix",
     "lint:fix": "eslint './src/**/*.{ts,tsx}' --fix",
+    "create-fake-content": "yarn run build && node build/utility/faker/createFakeContent.js",
     "coverage": "jest --coverage",
     "generate": "graphql-codegen --config codegen.yml",
     "generate:dev": "graphql-codegen --config codegen.yml --watch",
-    "dev": "concurrently \"yarn run start:dev\" \"yarn run generate:dev\""
+    "dev": "concurrently \"yarn run start:dev\" \"yarn run generate:dev\"",
+    "migrate:up": "yarn run build && NODE_ENV=migration node build/migrate.js up",
+    "migrate:down": "yarn run build && NODE_ENV=migration node build/migrate.js down"
   },
   "repository": {
     "type": "git",
@@ -39,9 +42,12 @@
     "@graphql-codegen/cli": "^1.12.1",
     "@graphql-codegen/typescript": "1.12.1",
     "@graphql-codegen/typescript-resolvers": "1.12.1",
+    "@types/faker": "^4.1.9",
+    "@types/graphql-iso-date": "^3.3.3",
     "@types/jest": "^25.1.1",
     "@types/lodash": "^4.14.149",
     "@types/node": "^13.7.0",
+    "@types/node-fetch": "^2.5.4",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "apollo-link": "^1.2.13",
@@ -62,13 +68,12 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "@types/graphql-iso-date": "^3.3.3",
-    "@types/node-fetch": "^2.5.4",
     "apollo-server-express": "^2.9.16",
     "apollo-server-testing": "^2.9.16",
     "concurrently": "^5.1.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "faker": "^4.1.0",
     "graphql": "^14.6.0",
     "graphql-import": "^0.7.1",
     "graphql-iso-date": "^3.6.1",

@@ -7,10 +7,10 @@ export const resolvers: Resolvers = {
   //   }
   // },
   Node: {
-    __resolveType(): any {
-      // if (obj.title) {
-      //   return "Card";
-      // }
+    __resolveType: (obj, args, ctx): "Card" | null => {
+      if (obj.hasOwnProperty("number")) {
+        return "Card";
+      }
 
       return null;
     }

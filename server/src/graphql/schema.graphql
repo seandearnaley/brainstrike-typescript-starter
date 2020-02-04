@@ -6,13 +6,32 @@ scalar Date
 scalar DateTime
 scalar Time
 
+enum DirectionEnum {
+  ASC
+  DESC
+}
+
+interface Node {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
 type Query {
-  cards(limit: Int): [Card!]
+  cards(first: Int, after: String, sortOptions: CardSortOptionsInput): CardConnection!
   card(id: ID!): Card
   categories: [Category!]
   category(id: ID!): Category
   # Queries for the current user
   me: User
+  node(id: ID!): Node
 }
 
 type Mutation {

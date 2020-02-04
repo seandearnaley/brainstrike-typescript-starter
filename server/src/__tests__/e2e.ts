@@ -17,7 +17,7 @@ import gql from "graphql-tag";
 // limit to the first 25 seeded records
 const GET_CARDS = gql`
   query getCards {
-    cards(limit: 25) {
+    cards(first: 25) {
       id
       number
       label

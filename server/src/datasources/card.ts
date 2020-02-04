@@ -3,6 +3,7 @@ import { CardInput, CardsUpdatedResponse } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { DataSourceRepos } from "../";
+import { FindInterface } from "./__utils";
 
 export class CardAPI extends DataSource {
   context!: ApolloContext;
@@ -23,11 +24,13 @@ export class CardAPI extends DataSource {
   /**
    * Get all cards in a deck
    */
-  async getCards(options?: { limit: number }): Promise<Card[]> {
+  async getCards(options?: FindInterface<Card>): Promise<Card[]> {
+    console.log("options=", options);
+
     return this.repos.cards.find({
       relations: ["categories"],
-      take: options?.limit,
-      order: {
+      take: options?.first ?? 100,
+      order: options?.sortOptions ?? {
         id: "ASC"
       }
     }); // get all

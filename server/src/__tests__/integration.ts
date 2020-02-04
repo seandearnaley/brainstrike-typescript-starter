@@ -14,7 +14,7 @@ import {
 
 const GET_CARDS = gql`
   query getCards {
-    cards {
+    cards(first: 100) {
       id
       number
       label

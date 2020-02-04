@@ -1,9 +1,34 @@
-import { Resolvers, Card, CardsUpdatedResponse } from "../../generated/graphql";
+import {
+  Resolvers,
+  Card,
+  CardsUpdatedResponse,
+  CardConnection
+} from "../../generated/graphql";
 
 export const resolvers: Resolvers = {
   Query: {
-    cards: (_, { limit }, { dataSources }): Promise<Card[]> =>
-      dataSources.cardAPI.getCards({ limit }),
+    cards: async (
+      _,
+      { first, after, sortOptions },
+      { dataSources }
+    ): Promise<CardConnection> => {
+      const cards = await dataSources.cardAPI.getCards({
+        first,
+        after,
+        sortOptions
+      });
+
+      return Promise.resolve({
+        pageInfo: {
+          hasNextPage: true, // TODO: implement
+          hasPreviousPage: true // TODO: implement
+        },
+        edges: cards.map(card => ({
+          cursor: "hello", // TODO: make opaque
+          node: card
+        }))
+      });
+    },
     card: (_, { id }, { dataSources }): Promise<Card> =>
       dataSources.cardAPI.getCard(id)
   },

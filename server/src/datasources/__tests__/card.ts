@@ -22,7 +22,7 @@ ds.initialize({
 describe("[CardAPI.getCards]", () => {
   it("gets all cards in cards repo", async () => {
     mockRepos.cards.find.mockReturnValueOnce(mockCardsResponse);
-    const res = await ds.getCards({ limit: 100 });
+    const res = await ds.getCards({ first: 100 });
     expect(res).toEqual(mockCardsResponse);
   });
 });

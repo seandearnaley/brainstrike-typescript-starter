@@ -26,12 +26,12 @@ type PageInfo {
 
 type Query {
   cards(first: Int, after: String, sortOptions: CardSortOptionsInput): CardConnection!
-  card(id: ID!): Card
-  categories: [Category!]
-  category(id: ID!): Category
+  # card(id: ID!): Card
+  # categories: [Category!]
+  # category(id: ID!): Category
   # Queries for the current user
-  me: User
-  node(id: ID!): Node
+  # me: User
+  # node(id: ID!): Node
 }
 
 type Mutation {
@@ -40,7 +40,7 @@ type Mutation {
   updateCard(id: ID!, input: CardInput): CardsUpdatedResponse!
   removeCard(id: ID!): CardsUpdatedResponse!
   # category mutations
-  addCategory(input: CategoryInput): CategoryUpdatedResponse!
-  updateCategory(id: ID!, input: CategoryInput): CategoryUpdatedResponse!
-  removeCategory(id: ID!): CategoryUpdatedResponse!
+  # addCategory(input: CategoryInput): CategoryUpdatedResponse!
+  # updateCategory(id: ID!, input: CategoryInput): CategoryUpdatedResponse!
+  # removeCategory(id: ID!): CategoryUpdatedResponse!
 }

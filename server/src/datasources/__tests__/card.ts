@@ -1,5 +1,5 @@
 import { CardAPI } from "../card";
-import { mockRepos, mockContext } from "../../__tests__/__utils";
+import { mockContext, Connection } from "../../__tests__/__utils";
 
 import {
   mockCardsResponse,
@@ -12,50 +12,84 @@ import {
   mockSuccessfulRemoveResponse
 } from "../../__tests__/__testData";
 
-const ds = new CardAPI({ repos: mockRepos });
+describe("Queries", () => {
+  let connection: Partial<Connection>;
+  let ds: CardAPI;
+  let mockCardFind: any;
+  let mockCardFindOne: any;
+  let mockCardSave: any;
+  let mockCardRemove: any;
 
-ds.initialize({
-  context: mockContext,
-  cache: null
-});
+  beforeAll(() => {
+    mockCardFind = jest.fn();
+    mockCardFindOne = jest.fn();
+    mockCardSave = jest.fn();
+    mockCardRemove = jest.fn();
 
-describe("[CardAPI.getCards]", () => {
-  it("gets all cards in cards repo", async () => {
-    mockRepos.cards.find.mockReturnValueOnce(mockCardsResponse);
-    const res = await ds.getCards({ first: 100 });
-    expect(res).toEqual(mockCardsResponse);
+    connection = {
+      getRepository: jest.fn().mockImplementation(target => {
+        switch (target.name) {
+          case "Card": {
+            return {
+              find: mockCardFind,
+              findOne: mockCardFindOne,
+              save: mockCardSave,
+              remove: mockCardRemove
+            };
+          }
+          default: {
+            return {};
+          }
+        }
+      })
+    };
+
+    ds = new CardAPI({ connection });
+
+    ds.initialize({
+      context: mockContext,
+      cache: null
+    });
   });
-});
 
-describe("[CardAPI.getCard]", () => {
-  it("gets a single card in card repo", async () => {
-    mockRepos.cards.findOne.mockReturnValueOnce(mockFirstCardResponse);
-    const res = await ds.getCard(mockFirstCardResponseId);
-    expect(res).toEqual(mockFirstCardResponse);
+  describe("[CardAPI.getCards]", () => {
+    it("gets all cards in cards repo", async () => {
+      mockCardFind.mockReturnValue(mockCardsResponse);
+      const res = await ds.getCards({ first: 100 });
+      expect(res).toEqual(mockCardsResponse);
+    });
   });
-});
 
-describe("[CardAPI.addCard]", () => {
-  it("adds a card to the card repo", async () => {
-    mockRepos.cards.save.mockReturnValueOnce(mockReturnCard);
-    const res = await ds.addCard(mockCardInput);
-    expect(res).toEqual(mockSuccessfulAddResponse);
+  describe("[CardAPI.getCard]", () => {
+    it("gets a single card in card repo", async () => {
+      mockCardFindOne.mockReturnValue(mockFirstCardResponse);
+      const res = await ds.getCard(mockFirstCardResponseId);
+      expect(res).toEqual(mockFirstCardResponse);
+    });
   });
-});
 
-describe("[CardAPI.updateCard]", () => {
-  it("updates a card in the card repo", async () => {
-    mockRepos.cards.findOne.mockReturnValueOnce(mockReturnCard);
-    mockRepos.cards.save.mockReturnValueOnce(mockReturnCard);
-    const res = await ds.updateCard(mockFirstCardResponseId, mockCardInput);
-    expect(res).toEqual(mockSuccessfulUpdateResponse);
+  describe("[CardAPI.addCard]", () => {
+    it("adds a card to the card repo", async () => {
+      mockCardSave.mockReturnValue(mockReturnCard);
+      const res = await ds.addCard(mockCardInput);
+      expect(res).toEqual(mockSuccessfulAddResponse);
+    });
   });
-});
 
-describe("[CardAPI.removeCard]", () => {
-  it("removes a card from the card repo", async () => {
-    mockRepos.cards.remove.mockReturnValueOnce(mockReturnCard);
-    const res = await ds.removeCard(mockFirstCardResponseId);
-    expect(res).toEqual(mockSuccessfulRemoveResponse);
+  describe("[CardAPI.updateCard]", () => {
+    it("updates a card in the card repo", async () => {
+      mockCardFindOne.mockReturnValue(mockReturnCard);
+      mockCardSave.mockReturnValue(mockReturnCard);
+      const res = await ds.updateCard(mockFirstCardResponseId, mockCardInput);
+      expect(res).toEqual(mockSuccessfulUpdateResponse);
+    });
+  });
+
+  describe("[CardAPI.removeCard]", () => {
+    it("removes a card from the card repo", async () => {
+      mockCardRemove.mockReturnValue(mockReturnCard);
+      const res = await ds.removeCard(mockFirstCardResponseId);
+      expect(res).toEqual(mockSuccessfulRemoveResponse);
+    });
   });
 });

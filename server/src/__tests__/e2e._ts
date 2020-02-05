@@ -18,10 +18,19 @@ import gql from "graphql-tag";
 const GET_CARDS = gql`
   query getCards {
     cards(first: 25) {
-      id
-      number
-      label
-      description
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        cursor
+        node {
+          __typename
+          id
+          number
+          label
+        }
+      }
     }
   }
 `;

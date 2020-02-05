@@ -15,24 +15,33 @@ import {
 const GET_CARDS = gql`
   query getCards {
     cards(first: 100) {
-      id
-      number
-      label
-      description
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        cursor
+        node {
+          __typename
+          id
+          number
+          label
+        }
+      }
     }
   }
 `;
 
-const GET_CARD = gql`
-  query card($id: ID!) {
-    card(id: $id) {
-      id
-      number
-      label
-      description
-    }
-  }
-`;
+// const GET_CARD = gql`
+//   query card($id: ID!) {
+//     card(id: $id) {
+//       id
+//       number
+//       label
+//       description
+//     }
+//   }
+// `;
 
 // const ADD_CARD = gql`
 //   mutation addCard($input: CardInput!) {
@@ -105,22 +114,22 @@ describe("Queries", () => {
     expect(res).toMatchSnapshot();
   });
 
-  it("fetches single card", async () => {
-    const { apolloServer, cardAPI } = await constructTestServer(connection, {
-      context: () => ({})
-    });
+  // it("fetches single card", async () => {
+  //   const { apolloServer, cardAPI } = await constructTestServer(connection, {
+  //     context: () => ({})
+  //   });
 
-    cardAPI.getCard = jest.fn(async () =>
-      Promise.resolve(mockFirstCardResponse)
-    );
+  //   cardAPI.getCard = jest.fn(async () =>
+  //     Promise.resolve(mockFirstCardResponse)
+  //   );
 
-    const { query } = createTestClient(apolloServer);
-    const res = await query({
-      query: GET_CARD,
-      variables: { id: mockFirstCardResponseId }
-    });
-    expect(res).toMatchSnapshot();
-  });
+  //   const { query } = createTestClient(apolloServer);
+  //   const res = await query({
+  //     query: GET_CARD,
+  //     variables: { id: mockFirstCardResponseId }
+  //   });
+  //   expect(res).toMatchSnapshot();
+  // });
 });
 
 // describe("Mutations", () => {

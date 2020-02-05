@@ -1,16 +1,27 @@
-import { Card } from "../entity";
-import { CardInput, CardsUpdatedResponse } from "../generated/graphql";
-import { ApolloContext } from "../types/context";
 import { DataSource, DataSourceConfig } from "apollo-datasource";
+import { Connection } from "typeorm";
+
+import { Card } from "../entity";
+import {
+  CardInput,
+  CardsUpdatedResponse,
+  CardConnection
+} from "../generated/graphql";
+import { ApolloContext } from "../types/context";
+import { FindInterface, CursorPagination } from "./__utils";
 import { DataSourceRepos } from "../";
-import { FindInterface } from "./__utils";
 
 export class CardAPI extends DataSource {
   context!: ApolloContext;
+  connection: Partial<Connection>;
   repos: DataSourceRepos;
-  constructor({ repos }: { repos: DataSourceRepos }) {
+
+  constructor({ connection }: { connection: Partial<Connection> }) {
     super();
-    this.repos = repos;
+    this.connection = connection;
+    this.repos = {
+      cards: connection.getRepository(Card)
+    };
   }
 
   /**
@@ -24,16 +35,15 @@ export class CardAPI extends DataSource {
   /**
    * Get all cards in a deck
    */
-  async getCards(options?: FindInterface<Card>): Promise<Card[]> {
-    console.log("options=", options);
+  async getCards(options?: FindInterface<Card>): Promise<CardConnection> {
+    const cp = new CursorPagination<Card>(
+      this.repos.cards.createQueryBuilder("card"),
+      { limit: options?.first ?? 100 },
+      "card",
+      "id"
+    );
 
-    return this.repos.cards.find({
-      relations: ["categories"],
-      take: options?.first ?? 100,
-      order: options?.sortOptions ?? {
-        id: "ASC"
-      }
-    }); // get all
+    return cp.buildResponse();
   }
 
   /**

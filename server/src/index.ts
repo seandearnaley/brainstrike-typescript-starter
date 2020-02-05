@@ -27,8 +27,8 @@ const {
 // NOTE: using partial here to make it easier to mock repos in unit tests,
 // only have to implement part of the repo interface
 interface DataSourceRepos {
-  cards: Partial<Repository<Card>>;
-  categories: Partial<Repository<Category>>;
+  cards?: Partial<Repository<Card>>;
+  categories?: Partial<Repository<Category>>;
 }
 
 const defaultContext = {};
@@ -68,14 +68,8 @@ const createServer = async (
   connection: Connection,
   context = defaultContext
 ): Promise<ServerConfig> => {
-  // construct TypeORM repos for Apollo DataSource API's
-  const repos = {
-    cards: connection.getRepository(Card),
-    categories: connection.getRepository(Category)
-  } as DataSourceRepos;
-
-  const cardAPI = new CardAPI({ repos });
-  const categoryAPI = new CategoryAPI({ repos });
+  const cardAPI = new CardAPI({ connection });
+  const categoryAPI = new CategoryAPI({ connection });
 
   const apolloServer = new ApolloServer({
     typeDefs,

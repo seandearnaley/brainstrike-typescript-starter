@@ -8,7 +8,7 @@ import {
   CardConnection
 } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
-import { FindInterface, CursorPagination } from "./__utils";
+import { CursorPagination, CursorPaginationArgs } from "./__utils";
 import { DataSourceRepos } from "../";
 
 export class CardAPI extends DataSource {
@@ -35,10 +35,15 @@ export class CardAPI extends DataSource {
   /**
    * Get all cards in a deck
    */
-  async getCards(options?: FindInterface<Card>): Promise<CardConnection> {
+  async getCards({
+    after,
+    before,
+    first = 100,
+    sortOptions = { id: "ASC" }
+  }: CursorPaginationArgs<Card>): Promise<CardConnection> {
     const cp = new CursorPagination<Card>(
       this.repos.cards.createQueryBuilder("card"),
-      { limit: options?.first ?? 100 },
+      { after, before, first, sortOptions },
       "card",
       "id"
     );

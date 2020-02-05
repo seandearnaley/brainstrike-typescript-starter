@@ -1,21 +1,12 @@
 import { SelectQueryBuilder } from "typeorm";
 
-export interface FindInterface<Entity> {
+export class CursorPaginationArgs<Entity> {
   before?: string;
   after?: string;
-  first?: number;
-  /**
-   * Order, in which entities should be ordered.
-   */
+  first?: number = 10;
   sortOptions?: {
     [P in keyof Entity]?: "ASC" | "DESC" | 1 | -1;
   };
-}
-
-export class CursorPaginationArgs {
-  after?: string;
-  before?: string;
-  limit?: number = 10;
 }
 
 export interface MayHaveId {
@@ -25,14 +16,14 @@ export interface MayHaveId {
 export class CursorPagination<TEntity extends MayHaveId> {
   protected resultsQuery: SelectQueryBuilder<TEntity>;
   protected countQuery: SelectQueryBuilder<TEntity>;
-  protected args: CursorPaginationArgs;
+  protected args: CursorPaginationArgs<TEntity>;
   protected tableName: string;
   protected cursorColumn: string;
   protected results: TEntity[];
 
   constructor(
     query: SelectQueryBuilder<TEntity>,
-    args: CursorPaginationArgs,
+    args: CursorPaginationArgs<TEntity>,
     tableName?: string,
     cursorColumn?: string
   ) {
@@ -41,7 +32,7 @@ export class CursorPagination<TEntity extends MayHaveId> {
     this.args = args;
 
     let selectiveCondition: [string, Record<string, any>?] = [
-      `${this.cursorColumn} >= '00000000-0000-0000-0000-000000000000'`
+      `${this.cursorColumn} >= '00000000-0000-0000-0000-000000000000'` // TODO: must be a better way
     ];
 
     if (args.after) {
@@ -61,8 +52,9 @@ export class CursorPagination<TEntity extends MayHaveId> {
       query,
       selectiveCondition
     )
+      // .orderBy({ ...args.sortOptions })
       .orderBy(`${this.tableName}.${this.cursorColumn}`, "ASC")
-      .limit(args.limit);
+      .limit(args.first);
   }
 
   public async buildResponse(): Promise<any> {
@@ -121,8 +113,6 @@ export class CursorPagination<TEntity extends MayHaveId> {
 
     return {
       totalCount: await totalCountQuery.getCount(),
-      // moreAfter: afterCountResult["count"],
-      // moreBefore: beforeCountResult["count"],
       hasNextPage: Number(afterCountResult["count"]) > 0,
       hasPreviousPage: Number(beforeCountResult["count"]) > 0
     };

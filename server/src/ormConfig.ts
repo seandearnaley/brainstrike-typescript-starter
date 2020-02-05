@@ -33,5 +33,6 @@ export default {
   database: "brainstrike",
   synchronize: false, // don't use in production
   ...postgresCreds,
-  ...schemaConfig
+  ...schemaConfig,
+  logging: ["query", "error"]
 };

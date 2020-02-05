@@ -1,6 +1,5 @@
 import {
   Resolvers,
-  Card,
   CardsUpdatedResponse,
   CardConnection
 } from "../../generated/graphql";

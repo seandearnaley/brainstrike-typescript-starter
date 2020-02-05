@@ -22,10 +22,11 @@ type PageInfo {
   hasPreviousPage: Boolean!
   startCursor: String
   endCursor: String
+  totalCount: Int
 }
 
 type Query {
-  cards(first: Int, after: String, sortOptions: CardSortOptionsInput): CardConnection!
+  cards(first: Int, after: ID, before: ID, sortOptions: CardSortOptionsInput): CardConnection!
   # card(id: ID!): Card
   # categories: [Category!]
   # category(id: ID!): Category

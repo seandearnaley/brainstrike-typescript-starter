@@ -55,7 +55,8 @@ const createTestingConnection = (): Promise<Connection> =>
     database: "brainstrike_test",
     synchronize: false,
     ...postgresCreds,
-    ...schemaConfig
+    ...schemaConfig,
+    logging: ["query", "error"]
   });
 
 interface ServerConfig {

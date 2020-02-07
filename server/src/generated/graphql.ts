@@ -70,7 +70,17 @@ export type Category = {
   name?: Maybe<Scalars["String"]>;
   parentId?: Maybe<Scalars["ID"]>;
   children?: Maybe<Array<Maybe<Category>>>;
-  cards?: Maybe<Array<Maybe<Card>>>;
+};
+
+export type CategoryInput = {
+  name?: Maybe<Scalars["String"]>;
+};
+
+export type CategoryUpdatedResponse = {
+  __typename?: "CategoryUpdatedResponse";
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+  category?: Maybe<Category>;
 };
 
 export enum DirectionEnum {
@@ -83,6 +93,9 @@ export type Mutation = {
   addCard: CardsUpdatedResponse;
   updateCard: CardsUpdatedResponse;
   removeCard: CardsUpdatedResponse;
+  addCategory: CategoryUpdatedResponse;
+  updateCategory: CategoryUpdatedResponse;
+  removeCategory: CategoryUpdatedResponse;
 };
 
 export type MutationAddCardArgs = {
@@ -95,6 +108,19 @@ export type MutationUpdateCardArgs = {
 };
 
 export type MutationRemoveCardArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationAddCategoryArgs = {
+  input?: Maybe<CategoryInput>;
+};
+
+export type MutationUpdateCategoryArgs = {
+  id: Scalars["ID"];
+  input?: Maybe<CategoryInput>;
+};
+
+export type MutationRemoveCategoryArgs = {
   id: Scalars["ID"];
 };
 
@@ -115,15 +141,27 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: "Query";
-  cards: CardConnection;
+  card?: Maybe<Card>;
+  cards?: Maybe<CardConnection>;
+  categories?: Maybe<Array<Category>>;
+  category?: Maybe<Category>;
+};
+
+export type QueryCardArgs = {
+  id: Scalars["ID"];
 };
 
 export type QueryCardsArgs = {
   first?: Maybe<Scalars["Int"]>;
   last?: Maybe<Scalars["Int"]>;
-  after?: Maybe<Scalars["DateTime"]>;
-  before?: Maybe<Scalars["DateTime"]>;
-  orderBy?: Maybe<Scalars["String"]>;
+  after?: Maybe<Scalars["String"]>;
+  before?: Maybe<Scalars["String"]>;
+  orderByColumn?: Maybe<Scalars["String"]>;
+  orderByDirection?: Maybe<DirectionEnum>;
+};
+
+export type QueryCategoryArgs = {
+  id: Scalars["ID"];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -236,23 +274,25 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>;
-  Int: ResolverTypeWrapper<Scalars["Int"]>;
+  ID: ResolverTypeWrapper<Scalars["ID"]>;
+  Card: ResolverTypeWrapper<Card>;
+  Node: ResolverTypeWrapper<Node>;
   DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
+  Int: ResolverTypeWrapper<Scalars["Int"]>;
   String: ResolverTypeWrapper<Scalars["String"]>;
+  Category: ResolverTypeWrapper<Category>;
+  DirectionEnum: DirectionEnum;
   CardConnection: ResolverTypeWrapper<CardConnection>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   CardEdge: ResolverTypeWrapper<CardEdge>;
-  Card: ResolverTypeWrapper<Card>;
-  Node: ResolverTypeWrapper<Node>;
-  ID: ResolverTypeWrapper<Scalars["ID"]>;
-  Category: ResolverTypeWrapper<Category>;
   Mutation: ResolverTypeWrapper<{}>;
   CardInput: CardInput;
   CardsUpdatedResponse: ResolverTypeWrapper<CardsUpdatedResponse>;
+  CategoryInput: CategoryInput;
+  CategoryUpdatedResponse: ResolverTypeWrapper<CategoryUpdatedResponse>;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
   Time: ResolverTypeWrapper<Scalars["Time"]>;
-  DirectionEnum: DirectionEnum;
   CacheControlScope: CacheControlScope;
   Upload: ResolverTypeWrapper<Scalars["Upload"]>;
 }>;
@@ -260,23 +300,25 @@ export type ResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Query: {};
-  Int: Scalars["Int"];
+  ID: Scalars["ID"];
+  Card: Card;
+  Node: Node;
   DateTime: Scalars["DateTime"];
+  Int: Scalars["Int"];
   String: Scalars["String"];
+  Category: Category;
+  DirectionEnum: DirectionEnum;
   CardConnection: CardConnection;
   PageInfo: PageInfo;
   Boolean: Scalars["Boolean"];
   CardEdge: CardEdge;
-  Card: Card;
-  Node: Node;
-  ID: Scalars["ID"];
-  Category: Category;
   Mutation: {};
   CardInput: CardInput;
   CardsUpdatedResponse: CardsUpdatedResponse;
+  CategoryInput: CategoryInput;
+  CategoryUpdatedResponse: CategoryUpdatedResponse;
   Date: Scalars["Date"];
   Time: Scalars["Time"];
-  DirectionEnum: DirectionEnum;
   CacheControlScope: CacheControlScope;
   Upload: Scalars["Upload"];
 }>;
@@ -351,8 +393,17 @@ export type CategoryResolvers<
     ParentType,
     ContextType
   >;
-  cards?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Card"]>>>,
+  __isTypeOf?: isTypeOfResolverFn;
+}>;
+
+export type CategoryUpdatedResponseResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes["CategoryUpdatedResponse"] = ResolversParentTypes["CategoryUpdatedResponse"]
+> = ResolversObject<{
+  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  category?: Resolver<
+    Maybe<ResolversTypes["Category"]>,
     ParentType,
     ContextType
   >;
@@ -390,6 +441,24 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationRemoveCardArgs, "id">
+  >;
+  addCategory?: Resolver<
+    ResolversTypes["CategoryUpdatedResponse"],
+    ParentType,
+    ContextType,
+    MutationAddCategoryArgs
+  >;
+  updateCategory?: Resolver<
+    ResolversTypes["CategoryUpdatedResponse"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateCategoryArgs, "id">
+  >;
+  removeCategory?: Resolver<
+    ResolversTypes["CategoryUpdatedResponse"],
+    ParentType,
+    ContextType,
+    RequireFields<MutationRemoveCategoryArgs, "id">
   >;
 }>;
 
@@ -435,11 +504,28 @@ export type QueryResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = ResolversObject<{
+  card?: Resolver<
+    Maybe<ResolversTypes["Card"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCardArgs, "id">
+  >;
   cards?: Resolver<
-    ResolversTypes["CardConnection"],
+    Maybe<ResolversTypes["CardConnection"]>,
     ParentType,
     ContextType,
     QueryCardsArgs
+  >;
+  categories?: Resolver<
+    Maybe<Array<ResolversTypes["Category"]>>,
+    ParentType,
+    ContextType
+  >;
+  category?: Resolver<
+    Maybe<ResolversTypes["Category"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCategoryArgs, "id">
   >;
 }>;
 
@@ -459,6 +545,7 @@ export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
   CardEdge?: CardEdgeResolvers<ContextType>;
   CardsUpdatedResponse?: CardsUpdatedResponseResolvers<ContextType>;
   Category?: CategoryResolvers<ContextType>;
+  CategoryUpdatedResponse?: CategoryUpdatedResponseResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;

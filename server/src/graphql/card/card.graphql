@@ -24,15 +24,6 @@ input CardInput {
   categoryId: ID
 }
 
-input CardSortOptionsInput {
-  id: DirectionEnum
-  number: DirectionEnum
-  label: DirectionEnum
-  description: DirectionEnum
-  created: DirectionEnum
-  updated: DirectionEnum
-}
-
 type CardsUpdatedResponse {
   success: Boolean!
   message: String!

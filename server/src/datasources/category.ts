@@ -30,9 +30,7 @@ export class CategoryAPI extends DataSource {
    * Get all categories
    */
   async getCategories(): Promise<Category[]> {
-    return this.repos.categories.find({
-      relations: ["cards"]
-    }); // get all
+    return this.repos.categories.find(); // get all
   }
 
   /**
@@ -40,9 +38,7 @@ export class CategoryAPI extends DataSource {
    * @param id category uuid
    */
   async getCategory(id: string): Promise<Category> {
-    return this.repos.categories.findOne(id, {
-      relations: ["cards"]
-    }); // find by id
+    return this.repos.categories.findOne(id); // find by id
   }
 
   /**

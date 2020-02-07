@@ -3,7 +3,6 @@ type Category {
   name: String
   parentId: ID
   children: [Category]
-  cards: [Card]
 }
 
 input CategoryInput {

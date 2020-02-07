@@ -1,3 +1,2 @@
 export { CardAPI } from "./card";
-// export { CategoryAPI } from "./category";
-// export { UserAPI } from "./user";
+export { CategoryAPI } from "./category";

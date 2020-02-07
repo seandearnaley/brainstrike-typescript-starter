@@ -4,7 +4,8 @@ import { Card } from "../entity";
 import {
   CardInput,
   CardsUpdatedResponse,
-  CardConnection
+  CardConnection,
+  DirectionEnum
 } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
 // import { CursorPaginator, CursorPaginatorArgs } from "./utils/cursorPaginator";
@@ -12,18 +13,13 @@ import { DataSourceRepos } from "../";
 
 import { encodeCursor, decodeCursor } from "./__utils";
 
-enum Direction {
-  ASC = "ASC",
-  DESC = "DESC"
-}
-
 export class CursorPaginatorArgs {
   before?: string;
   after?: string;
   first?: number;
   last?: number;
   orderByColumn?: string;
-  orderByDirection?: Direction;
+  orderByDirection?: DirectionEnum;
 }
 
 interface Edge {
@@ -60,8 +56,8 @@ export class CardAPI extends DataSource {
     last = 0,
     before = null,
     after = null,
-    orderByColumn = "id",
-    orderByDirection = Direction.ASC
+    orderByColumn = "number",
+    orderByDirection = DirectionEnum.Desc
   }: CursorPaginatorArgs): Promise<CardConnection> {
     const cursorColumn = this.connection.driver.escape("id");
     const cardTableName = this.connection.driver.escape("card");
@@ -91,13 +87,9 @@ export class CardAPI extends DataSource {
     if (after) {
       params.push(decodeCursor(after, "card").id);
 
-      wheres.push(`
-          row_number > (
-            SELECT t2.row_number
-            FROM (${rowNumQuery}) as t2
-            WHERE ${cursorColumn} = $1
-          )
-        `);
+      wheres.push(
+        `row_number > ( SELECT t2.row_number FROM (${rowNumQuery}) as t2 WHERE ${cursorColumn} = $1 )`
+      );
     }
 
     if (before) {
@@ -161,7 +153,6 @@ export class CardAPI extends DataSource {
     `);
 
     const edges = this.createEdges(results);
-
     const startCursor = edges[0].cursor;
     const endCursor = edges[edges.length - 1].cursor;
 
@@ -174,7 +165,7 @@ export class CardAPI extends DataSource {
         hasNextPage:
           Number(results[results.length - 1]["row_number"]) <
           Number(totalCount),
-        hasPreviousPage: Number(results[0]["row_number"]) > 0
+        hasPreviousPage: Number(results[0]["row_number"]) > 1
       }
     };
   }
@@ -182,7 +173,7 @@ export class CardAPI extends DataSource {
   protected createEdges(results: Card[]): Edge[] {
     return results.map((result: Card, i) => ({
       node: result,
-      cursor: encodeCursor(result.id, "card", i) // TODO: get rid of this hard-code
+      cursor: encodeCursor(result.id, "card", i) // TODO: this cursor column could probably be dynamic
     }));
   }
 

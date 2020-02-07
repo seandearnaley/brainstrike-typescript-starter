@@ -1,15 +1,23 @@
 import { CardAPI } from "../card";
-import { mockContext, Connection } from "../../__tests__/__utils";
+import {
+  mockContext,
+  createTestingConnection,
+  Connection
+} from "../../__tests__/__utils";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
-  mockCardsResponse,
   mockFirstCardResponse,
   mockFirstCardResponseId,
+  mockCardsResult,
   mockReturnCard,
   mockCardInput,
   mockSuccessfulAddResponse,
   mockSuccessfulUpdateResponse,
-  mockSuccessfulRemoveResponse
+  mockSuccessfulRemoveResponse,
+  mockCardsConnectionResult,
+  mockCardsTotalResult
 } from "../../__tests__/__testData";
 
 describe("Queries", () => {
@@ -19,30 +27,35 @@ describe("Queries", () => {
   let mockCardFindOne: any;
   let mockCardSave: any;
   let mockCardRemove: any;
+  let mockCardQuery: any;
 
-  beforeAll(() => {
+  beforeAll(async () => {
+    console.log("creating test connection");
+    connection = await createTestingConnection();
+
     mockCardFind = jest.fn();
     mockCardFindOne = jest.fn();
     mockCardSave = jest.fn();
     mockCardRemove = jest.fn();
+    mockCardQuery = jest.fn();
 
-    connection = {
-      getRepository: jest.fn().mockImplementation(target => {
-        switch (target.name) {
-          case "Card": {
-            return {
-              find: mockCardFind,
-              findOne: mockCardFindOne,
-              save: mockCardSave,
-              remove: mockCardRemove
-            };
-          }
-          default: {
-            return {};
-          }
+    connection.getRepository = jest.fn().mockImplementation(target => {
+      switch (target.name) {
+        case "Card": {
+          return {
+            find: mockCardFind,
+            findOne: mockCardFindOne,
+            save: mockCardSave,
+            remove: mockCardRemove
+          };
         }
-      })
-    };
+        default: {
+          return {};
+        }
+      }
+    });
+
+    connection.query = mockCardQuery;
 
     ds = new CardAPI({ connection });
 
@@ -52,11 +65,15 @@ describe("Queries", () => {
     });
   });
 
+  afterAll(() => connection.close());
+
   describe("[CardAPI.getCards]", () => {
     it("gets all cards in cards repo", async () => {
-      mockCardFind.mockReturnValue(mockCardsResponse);
-      const res = await ds.getCards({ first: 100 });
-      expect(res).toEqual(mockCardsResponse);
+      mockCardQuery
+        .mockReturnValueOnce(mockCardsResult)
+        .mockReturnValueOnce(mockCardsTotalResult);
+      const res = await ds.getCards({ first: 3 });
+      expect(res).toEqual(mockCardsConnectionResult);
     });
   });
 

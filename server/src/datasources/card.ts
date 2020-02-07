@@ -69,7 +69,7 @@ export class CardAPI extends DataSource {
 
     orderByColumn = this.connection.driver.escape(orderByColumn); // escape string
 
-    const rowNumberOverStr = `ROW_NUMBER () OVER (ORDER BY ${cardTableName}.${orderByColumn} ${orderByDirection})`;
+    const rowNumberOverStr = `ROW_NUMBER () OVER (ORDER BY ${cardTableName}.${orderByColumn} ${orderByDirection}) as "rowNumber"`;
 
     // MANY-to-MANY JOIN
     const joinCode = `
@@ -89,7 +89,7 @@ export class CardAPI extends DataSource {
       params.push(decodeCursor(after, "card").id);
 
       wheres.push(
-        `row_number > ( SELECT t2.row_number FROM (${rowNumQuery}) as t2 WHERE ${cursorColumn} = $1 )`
+        `"rowNumber" > ( SELECT "t2"."rowNumber" FROM (${rowNumQuery}) as t2 WHERE ${cursorColumn} = $1 )`
       );
     }
 
@@ -97,8 +97,8 @@ export class CardAPI extends DataSource {
       params.push(decodeCursor(before, "card").id);
 
       wheres.push(`
-          row_number < (
-            SELECT t3.row_number FROM (${rowNumQuery}) as t3
+          "rowNumber" < (
+            SELECT "t3"."rowNumber" FROM (${rowNumQuery}) as t3
             WHERE ${cursorColumn} = ${after ? "$2" : "$1"}
           )
         `);
@@ -107,34 +107,34 @@ export class CardAPI extends DataSource {
     if (first > 0) {
       if (after) {
         wheres.push(`
-          row_number <= (
-            SELECT t4.row_number + ${first} FROM (${rowNumQuery}) as t4
+          "rowNumber" <= (
+            SELECT "t4"."rowNumber" + ${first} FROM (${rowNumQuery}) as t4
             WHERE ${cursorColumn} = $1
           )
         `);
       } else {
-        wheres.push(`row_number <= ${first}`);
+        wheres.push(`"rowNumber" <= ${first}`);
       }
     }
 
     if (last > 0) {
       if (before) {
         wheres.push(`
-          row_number >= (
-            SELECT t5.row_number - ${last} FROM (${rowNumQuery}) as t5
+          "rowNumber" >= (
+            SELECT "t5"."rowNumber" - ${last} FROM (${rowNumQuery}) as t5
             WHERE ${cursorColumn} = ${after ? "$2" : "$1"}
           )
         `);
       } else {
         wheres.push(
-          `row_number > ( SELECT MAX(t6.row_number) - ${last} FROM (${rowNumQuery}) as t6 )`
+          `"rowNumber" > ( SELECT MAX("t6"."rowNumber") - ${last} FROM (${rowNumQuery}) as t6 )`
         );
       }
     }
 
     let queryStr = `
       SELECT t1.* FROM (
-        SELECT ${cardTableName}.*, ${categoryTableName}."name" as category_name, ${rowNumberOverStr} FROM ${cardTableName}
+        SELECT ${cardTableName}.*, ${categoryTableName}."name" as "categoryName", ${rowNumberOverStr} FROM ${cardTableName}
         ${joinCode}
       ) as t1
     `;
@@ -158,9 +158,8 @@ export class CardAPI extends DataSource {
         endCursor,
         totalCount: Number(totalCount),
         hasNextPage:
-          Number(results[results.length - 1]["row_number"]) <
-          Number(totalCount),
-        hasPreviousPage: Number(results[0]["row_number"]) > 1
+          Number(results[results.length - 1]["rowNumber"]) < Number(totalCount),
+        hasPreviousPage: Number(results[0]["rowNumber"]) > 1
       }
     };
   }

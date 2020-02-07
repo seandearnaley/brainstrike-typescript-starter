@@ -56,7 +56,7 @@ const createTestingConnection = (): Promise<Connection> =>
     synchronize: false,
     ...postgresCreds,
     ...schemaConfig,
-    logging: ["query", "error"]
+    logging: ["error"]
   });
 
 interface ServerConfig {

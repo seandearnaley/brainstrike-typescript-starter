@@ -57,9 +57,10 @@ export class CardAPI extends DataSource {
     last = 0,
     before = null,
     after = null,
-    orderByColumn = "number",
+    orderByColumn = "created",
     orderByDirection = DirectionEnum.Desc
   }: CursorPaginatorArgs): Promise<CardConnection> {
+    // escape input values for Postgres
     const cursorColumn = this.connection.driver.escape("id");
     const cardTableName = this.connection.driver.escape("card");
     const categoryTableName = this.connection.driver.escape("category");
@@ -67,14 +68,14 @@ export class CardAPI extends DataSource {
       "category_cards_card"
     );
 
-    orderByColumn = this.connection.driver.escape(orderByColumn); // escape string
+    orderByColumn = this.connection.driver.escape(orderByColumn);
 
     const rowNumberOverStr = `ROW_NUMBER () OVER (ORDER BY ${cardTableName}.${orderByColumn} ${orderByDirection}) as "rowNumber"`;
 
     // MANY-to-MANY JOIN
     const joinCode = `
-      LEFT JOIN ${categoryCardsTableName} ${categoryCardsTableName} on (${cardTableName}."id" = ${categoryCardsTableName}."cardId")
-      LEFT JOIN ${categoryTableName} ${categoryTableName} on (${categoryCardsTableName}."categoryId" = ${categoryTableName}."id")
+      LEFT JOIN ${categoryCardsTableName} on (${cardTableName}."id" = ${categoryCardsTableName}."cardId")
+      LEFT JOIN ${categoryTableName} on (${categoryCardsTableName}."categoryId" = ${categoryTableName}."id")
     `;
 
     const rowNumQuery = `
@@ -141,15 +142,24 @@ export class CardAPI extends DataSource {
 
     if (wheres.length) queryStr += `WHERE ${wheres.join(" AND ")}`;
 
-    const results = await this.connection.query(queryStr, [...params]);
-
-    const [{ totalCount }] = await this.connection.query(
-      `SELECT COUNT(*) as "totalCount" FROM (${rowNumQuery}) as countTable `
-    );
+    const [results, [{ totalCount }]] = await Promise.all([
+      this.connection.query(queryStr, [...params]),
+      this.connection.query(
+        `SELECT COUNT(*) as "totalCount" FROM (${rowNumQuery}) as countTable `
+      )
+    ]);
 
     const edges = this.createEdges(results);
     const startCursor = edges[0].cursor;
     const endCursor = edges[edges.length - 1].cursor;
+
+    const hasNextPage = results.length
+      ? Number(results[results.length - 1]["rowNumber"]) < Number(totalCount)
+      : false;
+
+    const hasPreviousPage = results.length
+      ? Number(results[0]["rowNumber"]) > 1
+      : false;
 
     return {
       edges,
@@ -157,9 +167,8 @@ export class CardAPI extends DataSource {
         startCursor,
         endCursor,
         totalCount: Number(totalCount),
-        hasNextPage:
-          Number(results[results.length - 1]["rowNumber"]) < Number(totalCount),
-        hasPreviousPage: Number(results[0]["rowNumber"]) > 1
+        hasNextPage,
+        hasPreviousPage
       }
     };
   }

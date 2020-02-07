@@ -1,4 +1,5 @@
 import { DataSource, DataSourceConfig } from "apollo-datasource";
+import DataLoader = require("dataloader");
 import { Connection } from "typeorm";
 import { Card } from "../entity";
 import {
@@ -20,6 +21,7 @@ export class CursorPaginatorArgs {
   last?: number;
   orderByColumn?: string;
   orderByDirection?: DirectionEnum;
+  categoryId?: string;
 }
 
 interface Edge {
@@ -58,7 +60,8 @@ export class CardAPI extends DataSource {
     before = null,
     after = null,
     orderByColumn = "created",
-    orderByDirection = DirectionEnum.Desc
+    orderByDirection = DirectionEnum.Desc,
+    categoryId
   }: CursorPaginatorArgs): Promise<CardConnection> {
     // escape input values for Postgres
     const cursorColumn = this.connection.driver.escape("id");
@@ -69,14 +72,17 @@ export class CardAPI extends DataSource {
     );
 
     orderByColumn = this.connection.driver.escape(orderByColumn);
-
     const rowNumberOverStr = `ROW_NUMBER () OVER (ORDER BY ${cardTableName}.${orderByColumn} ${orderByDirection}) as "rowNumber"`;
 
     // MANY-to-MANY JOIN
-    const joinCode = `
+    let joinCode = `
       LEFT JOIN ${categoryCardsTableName} on (${cardTableName}."id" = ${categoryCardsTableName}."cardId")
       LEFT JOIN ${categoryTableName} on (${categoryCardsTableName}."categoryId" = ${categoryTableName}."id")
     `;
+
+    if (categoryId) {
+      joinCode += `WHERE ${categoryCardsTableName}."categoryId" = '${categoryId}'`;
+    }
 
     const rowNumQuery = `
       SELECT ${cardTableName}."id", ${rowNumberOverStr} FROM ${cardTableName}
@@ -135,7 +141,7 @@ export class CardAPI extends DataSource {
 
     let queryStr = `
       SELECT t1.* FROM (
-        SELECT ${cardTableName}.*, ${categoryTableName}."name" as "categoryName", ${rowNumberOverStr} FROM ${cardTableName}
+        SELECT ${cardTableName}.*, ${categoryTableName}."id" as "categoryId", ${rowNumberOverStr} FROM ${cardTableName}
         ${joinCode}
       ) as t1
     `;
@@ -150,15 +156,19 @@ export class CardAPI extends DataSource {
     ]);
 
     const edges = this.createEdges(results);
-    const startCursor = edges[0].cursor;
-    const endCursor = edges[edges.length - 1].cursor;
 
-    const hasNextPage = results.length
-      ? Number(results[results.length - 1]["rowNumber"]) < Number(totalCount)
+    const firstEdge = edges[0] ?? null;
+    const lastEdge = edges.length ? edges[edges.length - 1] : null;
+
+    const startCursor = firstEdge?.cursor ?? null;
+    const endCursor = lastEdge?.cursor ?? null;
+
+    const hasNextPage = lastEdge
+      ? Number(lastEdge.node.rowNumber) < Number(totalCount)
       : false;
 
-    const hasPreviousPage = results.length
-      ? Number(results[0]["rowNumber"]) > 1
+    const hasPreviousPage = edges.length
+      ? Number(firstEdge.node.rowNumber) > 1
       : false;
 
     return {
@@ -178,6 +188,35 @@ export class CardAPI extends DataSource {
       node: result,
       cursor: encodeCursor(result.id, "card", i) // TODO: this cursor column could probably be dynamic
     }));
+  }
+
+  private cardLoader = (
+    categoryId: string,
+    args: CursorPaginatorArgs
+  ): Promise<CardConnection> => {
+    const dataLoader = new DataLoader<string, CardConnection>(
+      async (categoryIds: string[]): Promise<CardConnection[]> => {
+        return Promise.all(
+          categoryIds.map(async id => {
+            const cardConnection = await this.getCards({
+              ...args,
+              categoryId: id
+            });
+
+            return cardConnection;
+          })
+        );
+      }
+    );
+
+    return dataLoader.load(categoryId);
+  };
+
+  async getCardConnectionFor(
+    categoryId: string,
+    args: CursorPaginatorArgs
+  ): Promise<CardConnection> {
+    return this.cardLoader(categoryId, args);
   }
 
   /**

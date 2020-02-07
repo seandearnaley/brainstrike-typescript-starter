@@ -137,7 +137,7 @@ export type PageInfo = {
 export type Query = {
   __typename?: 'Query';
   card?: Maybe<Card>;
-  cards?: Maybe<CardConnection>;
+  cards: CardConnection;
   categories?: Maybe<Array<Category>>;
   category?: Maybe<Category>;
 };
@@ -200,26 +200,24 @@ export type GetCardsQueryVariables = {
 };
 
 export type GetCardsQuery = { __typename?: 'Query' } & {
-  cards: Maybe<
-    { __typename?: 'CardConnection' } & {
-      pageInfo: { __typename?: 'PageInfo' } & Pick<
-        PageInfo,
-        | 'hasNextPage'
-        | 'hasPreviousPage'
-        | 'startCursor'
-        | 'endCursor'
-        | 'totalCount'
-      >;
-      edges: Array<
-        { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-            node: { __typename?: 'Card' } & Pick<
-              Card,
-              'id' | 'number' | 'label' | 'created' | 'updated'
-            >;
-          }
-      >;
-    }
-  >;
+  cards: { __typename?: 'CardConnection' } & {
+    pageInfo: { __typename?: 'PageInfo' } & Pick<
+      PageInfo,
+      | 'hasNextPage'
+      | 'hasPreviousPage'
+      | 'startCursor'
+      | 'endCursor'
+      | 'totalCount'
+    >;
+    edges: Array<
+      { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+          node: { __typename?: 'Card' } & Pick<
+            Card,
+            'id' | 'number' | 'label' | 'created' | 'updated'
+          >;
+        }
+    >;
+  };
 };
 
 export type GetCategoriesQueryVariables = {};

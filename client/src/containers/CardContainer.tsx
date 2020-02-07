@@ -1,18 +1,12 @@
 import React from 'react';
+import moment from 'moment';
 import { Container } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
-import Grid from '@material-ui/core/Grid';
 import Modal from '@material-ui/core/Modal';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
 
-import { useGetCardsQuery, useRemoveCardMutation } from '../generated/graphql';
-import { SimpleCard } from '../components/SimpleCard';
+import { useGetCardsQuery } from '../generated/graphql';
+
 import NewCardForm from './NewCardForm';
 
 import { useStyles } from '../styles';
@@ -34,17 +28,9 @@ export const CardContainer: React.FC = (): React.ReactElement => {
     variables: { first: 25 },
   });
 
-  const [
-    removeCardMutation,
-    { loading: removeLoading, error: removeError },
-  ] = useRemoveCardMutation();
-
-  const [deleteOpen, setDeleteOpen] = React.useState(false);
-
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-  const [cardToDelete, setCardToDelete] = React.useState('');
 
   const handleOpen = (): void => {
     setOpen(true);
@@ -54,38 +40,37 @@ export const CardContainer: React.FC = (): React.ReactElement => {
     setOpen(false);
   };
 
-  const handleDeleteOpen = (id: string): void => {
-    setCardToDelete(id);
-    setDeleteOpen(true);
-  };
-
-  const handleDeleteClose = (): void => {
-    setDeleteOpen(false);
-  };
-
-  const handleDeleteConfirm = async (): Promise<void> => {
-    await removeCardMutation({ variables: { id: cardToDelete } });
-    setDeleteOpen(false);
-  };
-
-  if (loading || removeLoading) return <div>loading....</div>;
+  if (loading) return <div>loading....</div>;
   if (error) return <p>ERROR: {error.message}</p>;
-
-  if (removeError) return <p>ERROR: {removeError.message}</p>;
 
   return (
     <div className={classes.cardContainerRoot}>
       <Container maxWidth={false}>
-        <Grid container spacing={3}>
-          {data?.cards?.edges.map(edge => (
-            <Grid key={edge.node.id} item sm={3} className={classes.gridItem}>
-              <SimpleCard
-                card={edge.node}
-                handleDeleteOpen={handleDeleteOpen}
-              ></SimpleCard>
-            </Grid>
-          ))}
-        </Grid>
+        <table className={classes.tableC}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Number</th>
+              <th>Label</th>
+              <th>Created</th>
+              <th>Updated</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data?.cards.edges.map(edge => {
+              const { id, number, label, created, updated } = edge.node;
+              return (
+                <tr key={id}>
+                  <td>{id}</td>
+                  <td>{number}</td>
+                  <td>{label}</td>
+                  <td>{moment(created).format('MMMM Do YYYY, h:mm:ss a')}</td>
+                  <td>{moment(updated).format('MMMM Do YYYY, h:mm:ss a')}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </Container>
       <Fab
         color="primary"
@@ -106,27 +91,6 @@ export const CardContainer: React.FC = (): React.ReactElement => {
           <NewCardForm></NewCardForm>
         </div>
       </Modal>
-      <Dialog
-        open={deleteOpen}
-        onClose={handleDeleteClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{'Confirm Delete'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this card?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleDeleteConfirm} color="primary" autoFocus>
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };

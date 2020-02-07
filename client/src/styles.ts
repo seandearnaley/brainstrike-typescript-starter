@@ -116,4 +116,14 @@ export const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  tableC: {
+    borderCollapse: 'collapse',
+    '& th,td': {
+      border: '1px solid black',
+      padding: '5px',
+      '& span': {
+        color: 'blue',
+      },
+    },
+  },
 }));

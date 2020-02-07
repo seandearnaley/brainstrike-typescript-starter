@@ -5,7 +5,7 @@ type Card implements Node {
   description: String
   created: DateTime!
   updated: DateTime
-  categories: [Category]
+  categoryId: String
 }
 
 type CardConnection {

@@ -35,13 +35,13 @@ export type Card = Node & {
   description?: Maybe<Scalars["String"]>;
   created: Scalars["DateTime"];
   updated?: Maybe<Scalars["DateTime"]>;
-  categories?: Maybe<Array<Maybe<Category>>>;
+  categoryId?: Maybe<Scalars["String"]>;
 };
 
 export type CardConnection = {
   __typename?: "CardConnection";
   pageInfo: PageInfo;
-  edges: Array<Maybe<CardEdge>>;
+  edges: Array<CardEdge>;
 };
 
 export type CardEdge = {
@@ -72,6 +72,16 @@ export type Category = {
   children?: Maybe<Array<Maybe<Category>>>;
   updated?: Maybe<Scalars["DateTime"]>;
   created?: Maybe<Scalars["DateTime"]>;
+  cardConnection?: Maybe<CardConnection>;
+};
+
+export type CategoryCardConnectionArgs = {
+  first?: Maybe<Scalars["Int"]>;
+  last?: Maybe<Scalars["Int"]>;
+  after?: Maybe<Scalars["String"]>;
+  before?: Maybe<Scalars["String"]>;
+  orderByColumn?: Maybe<Scalars["String"]>;
+  orderByDirection?: Maybe<DirectionEnum>;
 };
 
 export type CategoryInput = {
@@ -144,7 +154,7 @@ export type PageInfo = {
 export type Query = {
   __typename?: "Query";
   card?: Maybe<Card>;
-  cards?: Maybe<CardConnection>;
+  cards: CardConnection;
   categories?: Maybe<Array<Category>>;
   category?: Maybe<Category>;
 };
@@ -282,12 +292,12 @@ export type ResolversTypes = ResolversObject<{
   DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
   Int: ResolverTypeWrapper<Scalars["Int"]>;
   String: ResolverTypeWrapper<Scalars["String"]>;
-  Category: ResolverTypeWrapper<Category>;
   DirectionEnum: DirectionEnum;
   CardConnection: ResolverTypeWrapper<CardConnection>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   CardEdge: ResolverTypeWrapper<CardEdge>;
+  Category: ResolverTypeWrapper<Category>;
   Mutation: ResolverTypeWrapper<{}>;
   CardInput: CardInput;
   CardsUpdatedResponse: ResolverTypeWrapper<CardsUpdatedResponse>;
@@ -308,12 +318,12 @@ export type ResolversParentTypes = ResolversObject<{
   DateTime: Scalars["DateTime"];
   Int: Scalars["Int"];
   String: Scalars["String"];
-  Category: Category;
   DirectionEnum: DirectionEnum;
   CardConnection: CardConnection;
   PageInfo: PageInfo;
   Boolean: Scalars["Boolean"];
   CardEdge: CardEdge;
+  Category: Category;
   Mutation: {};
   CardInput: CardInput;
   CardsUpdatedResponse: CardsUpdatedResponse;
@@ -343,8 +353,8 @@ export type CardResolvers<
     ParentType,
     ContextType
   >;
-  categories?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Category"]>>>,
+  categoryId?: Resolver<
+    Maybe<ResolversTypes["String"]>,
     ParentType,
     ContextType
   >;
@@ -356,11 +366,7 @@ export type CardConnectionResolvers<
   ParentType extends ResolversParentTypes["CardConnection"] = ResolversParentTypes["CardConnection"]
 > = ResolversObject<{
   pageInfo?: Resolver<ResolversTypes["PageInfo"], ParentType, ContextType>;
-  edges?: Resolver<
-    Array<Maybe<ResolversTypes["CardEdge"]>>,
-    ParentType,
-    ContextType
-  >;
+  edges?: Resolver<Array<ResolversTypes["CardEdge"]>, ParentType, ContextType>;
   __isTypeOf?: isTypeOfResolverFn;
 }>;
 
@@ -404,6 +410,12 @@ export type CategoryResolvers<
     Maybe<ResolversTypes["DateTime"]>,
     ParentType,
     ContextType
+  >;
+  cardConnection?: Resolver<
+    Maybe<ResolversTypes["CardConnection"]>,
+    ParentType,
+    ContextType,
+    CategoryCardConnectionArgs
   >;
   __isTypeOf?: isTypeOfResolverFn;
 }>;
@@ -523,7 +535,7 @@ export type QueryResolvers<
     RequireFields<QueryCardArgs, "id">
   >;
   cards?: Resolver<
-    Maybe<ResolversTypes["CardConnection"]>,
+    ResolversTypes["CardConnection"],
     ParentType,
     ContextType,
     QueryCardsArgs

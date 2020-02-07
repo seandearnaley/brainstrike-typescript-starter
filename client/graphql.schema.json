@@ -106,9 +106,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "CardConnection",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CardConnection",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null

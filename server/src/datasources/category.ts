@@ -1,7 +1,7 @@
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Connection } from "typeorm";
 
-import { Category } from "../entity/Category";
+import { Category } from "../entity";
 import { CategoryInput, CategoryUpdatedResponse } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
 import { DataSourceRepos } from "..";
@@ -18,6 +18,7 @@ export class CategoryAPI extends DataSource {
       categories: connection.getRepository(Category)
     };
   }
+
   /**
    * Apollo init function, called by apollo when setup
    * @param config used by apollo internally

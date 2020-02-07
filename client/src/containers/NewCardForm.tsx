@@ -10,21 +10,20 @@ import {
 export const NewCardForm: React.FC = (): React.ReactElement => {
   const [addCardMutation, { data, loading, error }] = useAddCardMutation({
     update(cache, { data }) {
-      const cardQuery = cache.readQuery<GetCardsQuery>({
-        query: GetCardsDocument,
-      });
-
-      cache.writeQuery<GetCardsQuery>({
-        query: GetCardsDocument,
-        data: {
-          cards:
-            cardQuery &&
-            cardQuery.cards &&
-            cardQuery.cards.concat(
-              data && data.addCard.card ? [data.addCard.card] : [],
-            ),
-        },
-      });
+      // const cardQuery = cache.readQuery<GetCardsQuery>({
+      //   query: GetCardsDocument,
+      // });
+      // cache.writeQuery<GetCardsQuery>({
+      //   query: GetCardsDocument,
+      //   data: {
+      //     cards:
+      //       cardQuery &&
+      //       cardQuery.cards &&
+      //       cardQuery.cards.concat(
+      //         data && data.addCard.card ? [data.addCard.card] : [],
+      //       ),
+      //   },
+      // });
     },
   });
 

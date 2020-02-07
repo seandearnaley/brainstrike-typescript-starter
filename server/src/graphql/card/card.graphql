@@ -10,11 +10,11 @@ type Card implements Node {
 
 type CardConnection {
   pageInfo: PageInfo!
-  edges: [CardEdge]
+  edges: [CardEdge!]!
 }
 type CardEdge {
   cursor: String!
-  node: Card
+  node: Card!
 }
 
 input CardInput {

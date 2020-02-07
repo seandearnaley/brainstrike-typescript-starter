@@ -1,0 +1,34 @@
+query getCards(
+  $first: Int,
+  $last: Int,
+  $after: String,
+  $before: String,
+  $orderByColumn: String,
+  $orderByDirection: DirectionEnum
+) {
+  cards(
+    first: $first,
+    last: $last,
+    after: $after,
+    before: $before,
+    orderByColumn: $orderByColumn,
+    orderByDirection: $orderByDirection) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+        totalCount
+      },
+      edges {
+        cursor
+        node {
+          id
+          number
+          label
+          created
+          updated
+        }
+      }
+  }
+}

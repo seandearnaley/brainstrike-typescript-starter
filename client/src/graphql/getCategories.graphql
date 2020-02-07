@@ -1,0 +1,13 @@
+query getCategories {
+  categories {
+    id
+    name
+    parentId
+    created
+    updated
+    children {
+      id
+      name
+    }
+  }
+}

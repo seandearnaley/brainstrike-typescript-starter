@@ -1,0 +1,9 @@
+query getCategory($id: ID!) {
+  category(id: $id) {
+    id
+    name
+    children {
+      id
+    }
+  }
+}

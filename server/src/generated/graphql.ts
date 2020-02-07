@@ -41,13 +41,13 @@ export type Card = Node & {
 export type CardConnection = {
   __typename?: "CardConnection";
   pageInfo: PageInfo;
-  edges?: Maybe<Array<Maybe<CardEdge>>>;
+  edges: Array<Maybe<CardEdge>>;
 };
 
 export type CardEdge = {
   __typename?: "CardEdge";
   cursor: Scalars["String"];
-  node?: Maybe<Card>;
+  node: Card;
 };
 
 export type CardInput = {
@@ -70,6 +70,8 @@ export type Category = {
   name?: Maybe<Scalars["String"]>;
   parentId?: Maybe<Scalars["ID"]>;
   children?: Maybe<Array<Maybe<Category>>>;
+  updated?: Maybe<Scalars["DateTime"]>;
+  created?: Maybe<Scalars["DateTime"]>;
 };
 
 export type CategoryInput = {
@@ -355,7 +357,7 @@ export type CardConnectionResolvers<
 > = ResolversObject<{
   pageInfo?: Resolver<ResolversTypes["PageInfo"], ParentType, ContextType>;
   edges?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["CardEdge"]>>>,
+    Array<Maybe<ResolversTypes["CardEdge"]>>,
     ParentType,
     ContextType
   >;
@@ -367,7 +369,7 @@ export type CardEdgeResolvers<
   ParentType extends ResolversParentTypes["CardEdge"] = ResolversParentTypes["CardEdge"]
 > = ResolversObject<{
   cursor?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  node?: Resolver<Maybe<ResolversTypes["Card"]>, ParentType, ContextType>;
+  node?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
   __isTypeOf?: isTypeOfResolverFn;
 }>;
 
@@ -390,6 +392,16 @@ export type CategoryResolvers<
   parentId?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
   children?: Resolver<
     Maybe<Array<Maybe<ResolversTypes["Category"]>>>,
+    ParentType,
+    ContextType
+  >;
+  updated?: Resolver<
+    Maybe<ResolversTypes["DateTime"]>,
+    ParentType,
+    ContextType
+  >;
+  created?: Resolver<
+    Maybe<ResolversTypes["DateTime"]>,
     ParentType,
     ContextType
   >;

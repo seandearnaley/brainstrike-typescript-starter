@@ -76,7 +76,7 @@ const createServer = async (
     typeDefs,
     resolvers,
     context,
-    dataSources: (): DataSources<ApolloContext> => ({ cardAPI })
+    dataSources: (): DataSources<ApolloContext> => ({ cardAPI, categoryAPI })
   });
 
   return { apolloServer, cardAPI, categoryAPI };

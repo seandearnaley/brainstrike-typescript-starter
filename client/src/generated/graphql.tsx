@@ -20,15 +20,27 @@ export enum CacheControlScope {
   Private = 'PRIVATE',
 }
 
-export type Card = {
+export type Card = Node & {
   __typename?: 'Card';
   id: Scalars['ID'];
   number?: Maybe<Scalars['Int']>;
   label?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  created?: Maybe<Scalars['DateTime']>;
+  created: Scalars['DateTime'];
   updated?: Maybe<Scalars['DateTime']>;
   categories?: Maybe<Array<Maybe<Category>>>;
+};
+
+export type CardConnection = {
+  __typename?: 'CardConnection';
+  pageInfo: PageInfo;
+  edges: Array<CardEdge>;
+};
+
+export type CardEdge = {
+  __typename?: 'CardEdge';
+  cursor: Scalars['String'];
+  node: Card;
 };
 
 export type CardInput = {
@@ -51,7 +63,8 @@ export type Category = {
   name?: Maybe<Scalars['String']>;
   parentId?: Maybe<Scalars['ID']>;
   children?: Maybe<Array<Maybe<Category>>>;
-  cards?: Maybe<Array<Maybe<Card>>>;
+  updated?: Maybe<Scalars['DateTime']>;
+  created?: Maybe<Scalars['DateTime']>;
 };
 
 export type CategoryInput = {
@@ -64,6 +77,11 @@ export type CategoryUpdatedResponse = {
   message: Scalars['String'];
   category?: Maybe<Category>;
 };
+
+export enum DirectionEnum {
+  Asc = 'ASC',
+  Desc = 'DESC',
+}
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -101,36 +119,44 @@ export type MutationRemoveCategoryArgs = {
   id: Scalars['ID'];
 };
 
-export type Query = {
-  __typename?: 'Query';
-  cards?: Maybe<Array<Card>>;
-  card?: Maybe<Card>;
-  categories?: Maybe<Array<Category>>;
-  category?: Maybe<Category>;
-  me?: Maybe<User>;
+export type Node = {
+  id: Scalars['ID'];
+  created: Scalars['DateTime'];
+  updated?: Maybe<Scalars['DateTime']>;
 };
 
-export type QueryCardsArgs = {
-  limit?: Maybe<Scalars['Int']>;
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  hasNextPage: Scalars['Boolean'];
+  hasPreviousPage: Scalars['Boolean'];
+  startCursor?: Maybe<Scalars['String']>;
+  endCursor?: Maybe<Scalars['String']>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  card?: Maybe<Card>;
+  cards?: Maybe<CardConnection>;
+  categories?: Maybe<Array<Category>>;
+  category?: Maybe<Category>;
 };
 
 export type QueryCardArgs = {
   id: Scalars['ID'];
 };
 
-export type QueryCategoryArgs = {
-  id: Scalars['ID'];
+export type QueryCardsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  orderByColumn?: Maybe<Scalars['String']>;
+  orderByDirection?: Maybe<DirectionEnum>;
 };
 
-export type User = {
-  __typename?: 'User';
+export type QueryCategoryArgs = {
   id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
-  created?: Maybe<Scalars['DateTime']>;
-  updated?: Maybe<Scalars['DateTime']>;
 };
 
 export type AddCardMutationVariables = {
@@ -164,35 +190,35 @@ export type AddCategoryMutation = { __typename?: 'Mutation' } & {
     };
 };
 
-export type GetCardQueryVariables = {
-  id: Scalars['ID'];
+export type GetCardsQueryVariables = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  orderByColumn?: Maybe<Scalars['String']>;
+  orderByDirection?: Maybe<DirectionEnum>;
 };
-
-export type GetCardQuery = { __typename?: 'Query' } & {
-  card: Maybe<
-    { __typename?: 'Card' } & Pick<
-      Card,
-      'created' | 'description' | 'id' | 'label' | 'number' | 'updated'
-    > & {
-        categories: Maybe<
-          Array<
-            Maybe<{ __typename?: 'Category' } & Pick<Category, 'id' | 'name'>>
-          >
-        >;
-      }
-  >;
-};
-
-export type GetCardsQueryVariables = {};
 
 export type GetCardsQuery = { __typename?: 'Query' } & {
   cards: Maybe<
-    Array<
-      { __typename?: 'Card' } & Pick<
-        Card,
-        'created' | 'description' | 'id' | 'label' | 'number' | 'updated'
-      >
-    >
+    { __typename?: 'CardConnection' } & {
+      pageInfo: { __typename?: 'PageInfo' } & Pick<
+        PageInfo,
+        | 'hasNextPage'
+        | 'hasPreviousPage'
+        | 'startCursor'
+        | 'endCursor'
+        | 'totalCount'
+      >;
+      edges: Array<
+        { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+            node: { __typename?: 'Card' } & Pick<
+              Card,
+              'id' | 'number' | 'label' | 'created' | 'updated'
+            >;
+          }
+      >;
+    }
   >;
 };
 
@@ -203,26 +229,11 @@ export type GetCategoriesQuery = { __typename?: 'Query' } & {
     Array<
       { __typename?: 'Category' } & Pick<
         Category,
-        'id' | 'name' | 'parentId'
+        'id' | 'name' | 'parentId' | 'created' | 'updated'
       > & {
           children: Maybe<
             Array<
               Maybe<{ __typename?: 'Category' } & Pick<Category, 'id' | 'name'>>
-            >
-          >;
-          cards: Maybe<
-            Array<
-              Maybe<
-                { __typename?: 'Card' } & Pick<
-                  Card,
-                  | 'id'
-                  | 'number'
-                  | 'label'
-                  | 'description'
-                  | 'created'
-                  | 'updated'
-                >
-              >
             >
           >;
         }
@@ -399,76 +410,40 @@ export type AddCategoryMutationOptions = ApolloReactCommon.BaseMutationOptions<
   AddCategoryMutation,
   AddCategoryMutationVariables
 >;
-export const GetCardDocument = gql`
-  query getCard($id: ID!) {
-    card(id: $id) {
-      created
-      description
-      id
-      label
-      number
-      updated
-      categories {
-        id
-        name
-      }
-    }
-  }
-`;
-
-/**
- * __useGetCardQuery__
- *
- * To run a query within a React component, call `useGetCardQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCardQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCardQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetCardQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
-    GetCardQuery,
-    GetCardQueryVariables
-  >,
-) {
-  return ApolloReactHooks.useQuery<GetCardQuery, GetCardQueryVariables>(
-    GetCardDocument,
-    baseOptions,
-  );
-}
-export function useGetCardLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    GetCardQuery,
-    GetCardQueryVariables
-  >,
-) {
-  return ApolloReactHooks.useLazyQuery<GetCardQuery, GetCardQueryVariables>(
-    GetCardDocument,
-    baseOptions,
-  );
-}
-export type GetCardQueryHookResult = ReturnType<typeof useGetCardQuery>;
-export type GetCardLazyQueryHookResult = ReturnType<typeof useGetCardLazyQuery>;
-export type GetCardQueryResult = ApolloReactCommon.QueryResult<
-  GetCardQuery,
-  GetCardQueryVariables
->;
 export const GetCardsDocument = gql`
-  query getCards {
-    cards(limit: 1000) {
-      created
-      description
-      id
-      label
-      number
-      updated
+  query getCards(
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+    $orderByColumn: String
+    $orderByDirection: DirectionEnum
+  ) {
+    cards(
+      first: $first
+      last: $last
+      after: $after
+      before: $before
+      orderByColumn: $orderByColumn
+      orderByDirection: $orderByDirection
+    ) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+        totalCount
+      }
+      edges {
+        cursor
+        node {
+          id
+          number
+          label
+          created
+          updated
+        }
+      }
     }
   }
 `;
@@ -485,6 +460,12 @@ export const GetCardsDocument = gql`
  * @example
  * const { data, loading, error } = useGetCardsQuery({
  *   variables: {
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      orderByColumn: // value for 'orderByColumn'
+ *      orderByDirection: // value for 'orderByDirection'
  *   },
  * });
  */
@@ -524,17 +505,11 @@ export const GetCategoriesDocument = gql`
       id
       name
       parentId
+      created
+      updated
       children {
         id
         name
-      }
-      cards {
-        id
-        number
-        label
-        description
-        created
-        updated
       }
     }
   }

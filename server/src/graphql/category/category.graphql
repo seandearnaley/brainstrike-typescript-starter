@@ -3,6 +3,8 @@ type Category {
   name: String
   parentId: ID
   children: [Category]
+  updated: DateTime
+  created: DateTime
 }
 
 input CategoryInput {

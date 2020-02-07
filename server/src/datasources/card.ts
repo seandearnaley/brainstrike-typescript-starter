@@ -49,7 +49,8 @@ export class CardAPI extends DataSource {
   }
 
   /**
-   * Get all cards in a deck
+   * Get all cards in a deck, based on Relay Style Pagination Spec
+   * https://facebook.github.io/relay/graphql/connections.htm#
    */
   async getCards({
     first = 0,
@@ -97,8 +98,7 @@ export class CardAPI extends DataSource {
 
       wheres.push(`
           row_number < (
-            SELECT t3.row_number
-            FROM (${rowNumQuery}) as t3
+            SELECT t3.row_number FROM (${rowNumQuery}) as t3
             WHERE ${cursorColumn} = ${after ? "$2" : "$1"}
           )
         `);
@@ -108,8 +108,7 @@ export class CardAPI extends DataSource {
       if (after) {
         wheres.push(`
           row_number <= (
-            SELECT t4.row_number + ${first}
-            FROM (${rowNumQuery}) as t4
+            SELECT t4.row_number + ${first} FROM (${rowNumQuery}) as t4
             WHERE ${cursorColumn} = $1
           )
         `);
@@ -122,35 +121,31 @@ export class CardAPI extends DataSource {
       if (before) {
         wheres.push(`
           row_number >= (
-            SELECT t5.row_number - ${last}
-            FROM (${rowNumQuery}) as t5
+            SELECT t5.row_number - ${last} FROM (${rowNumQuery}) as t5
             WHERE ${cursorColumn} = ${after ? "$2" : "$1"}
           )
         `);
       } else {
-        wheres.push(`row_number > (
-            SELECT MAX(t6.row_number) - ${last}
-            FROM (${rowNumQuery}) as t6
-          )
-        `);
+        wheres.push(
+          `row_number > ( SELECT MAX(t6.row_number) - ${last} FROM (${rowNumQuery}) as t6 )`
+        );
       }
     }
 
-    const queryStr = `
-      SELECT t1.*
-      FROM (
+    let queryStr = `
+      SELECT t1.* FROM (
         SELECT ${cardTableName}.*, ${categoryTableName}."name" as category_name, ${rowNumberOverStr} FROM ${cardTableName}
         ${joinCode}
       ) as t1
-      WHERE ${wheres.join(" AND ")}
     `;
+
+    if (wheres.length) queryStr += `WHERE ${wheres.join(" AND ")}`;
 
     const results = await this.connection.query(queryStr, [...params]);
 
-    const [{ totalCount }] = await this.connection.query(`
-      SELECT COUNT(*) as "totalCount"
-      FROM (${rowNumQuery}) as countTable
-    `);
+    const [{ totalCount }] = await this.connection.query(
+      `SELECT COUNT(*) as "totalCount" FROM (${rowNumQuery}) as countTable `
+    );
 
     const edges = this.createEdges(results);
     const startCursor = edges[0].cursor;

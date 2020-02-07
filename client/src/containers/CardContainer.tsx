@@ -30,7 +30,9 @@ function getModalStyle(): { top: string; left: string; transform: string } {
 
 export const CardContainer: React.FC = (): React.ReactElement => {
   const classes = useStyles();
-  const { data, loading, error } = useGetCardsQuery();
+  const { data, loading, error } = useGetCardsQuery({
+    variables: { first: 25 },
+  });
 
   const [
     removeCardMutation,
@@ -75,10 +77,10 @@ export const CardContainer: React.FC = (): React.ReactElement => {
     <div className={classes.cardContainerRoot}>
       <Container maxWidth={false}>
         <Grid container spacing={3}>
-          {data?.cards?.map(card => (
-            <Grid key={card.id} item sm={3} className={classes.gridItem}>
+          {data?.cards?.edges.map(edge => (
+            <Grid key={edge.node.id} item sm={3} className={classes.gridItem}>
               <SimpleCard
-                card={card}
+                card={edge.node}
                 handleDeleteOpen={handleDeleteOpen}
               ></SimpleCard>
             </Grid>

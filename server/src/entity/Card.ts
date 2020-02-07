@@ -3,6 +3,8 @@ import { Category } from "./Category";
 
 @Entity()
 export class Card {
+  [key: string]: any;
+
   @PrimaryGeneratedColumn("uuid")
   id: string;
 

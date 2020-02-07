@@ -8,13 +8,14 @@ export const resolvers: Resolvers = {
   Query: {
     cards: async (
       _,
-      { first, after, sortOptions },
+      { first, last, before, after },
       { dataSources }
     ): Promise<CardConnection> =>
       dataSources.cardAPI.getCards({
         first,
-        after,
-        sortOptions
+        last,
+        before,
+        after
       })
     // card: (_, { id }, { dataSources }): Promise<Card> =>
     //   dataSources.cardAPI.getCard(id)

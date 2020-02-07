@@ -1,6 +1,5 @@
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Connection } from "typeorm";
-
 import { Card } from "../entity";
 import {
   CardInput,
@@ -8,8 +7,29 @@ import {
   CardConnection
 } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
-import { CursorPagination, CursorPaginationArgs } from "./__utils";
+// import { CursorPaginator, CursorPaginatorArgs } from "./utils/cursorPaginator";
 import { DataSourceRepos } from "../";
+
+import { encodeCursor, decodeCursor } from "./__utils";
+
+enum Direction {
+  ASC = "ASC",
+  DESC = "DESC"
+}
+
+export class CursorPaginatorArgs {
+  before?: string;
+  after?: string;
+  first?: number;
+  last?: number;
+  orderByColumn?: string;
+  orderByDirection?: Direction;
+}
+
+interface Edge {
+  cursor: string;
+  node: Card;
+}
 
 export class CardAPI extends DataSource {
   context!: ApolloContext;
@@ -36,19 +56,134 @@ export class CardAPI extends DataSource {
    * Get all cards in a deck
    */
   async getCards({
-    after,
-    before,
-    first = 100,
-    sortOptions = { id: "ASC" }
-  }: CursorPaginationArgs<Card>): Promise<CardConnection> {
-    const cp = new CursorPagination<Card>(
-      this.repos.cards.createQueryBuilder("card"),
-      { after, before, first, sortOptions },
-      "card",
-      "id"
+    first = 0,
+    last = 0,
+    before = null,
+    after = null,
+    orderByColumn = "id",
+    orderByDirection = Direction.ASC
+  }: CursorPaginatorArgs): Promise<CardConnection> {
+    const cursorColumn = this.connection.driver.escape("id");
+    const cardTableName = this.connection.driver.escape("card");
+    const categoryTableName = this.connection.driver.escape("category");
+    const categoryCardsTableName = this.connection.driver.escape(
+      "category_cards_card"
     );
 
-    return cp.buildResponse();
+    orderByColumn = this.connection.driver.escape(orderByColumn); // escape string
+
+    const rowNumberOverStr = `ROW_NUMBER () OVER (ORDER BY ${cardTableName}.${orderByColumn} ${orderByDirection})`;
+
+    // MANY-to-MANY JOIN
+    const joinCode = `
+      LEFT JOIN ${categoryCardsTableName} ${categoryCardsTableName} on (${cardTableName}."id" = ${categoryCardsTableName}."cardId")
+      LEFT JOIN ${categoryTableName} ${categoryTableName} on (${categoryCardsTableName}."categoryId" = ${categoryTableName}."id")
+    `;
+
+    const rowNumQuery = `
+      SELECT ${cardTableName}."id", ${rowNumberOverStr} FROM ${cardTableName}
+      ${joinCode}
+    `;
+
+    const wheres = [];
+    const params = [];
+
+    if (after) {
+      params.push(decodeCursor(after, "card").id);
+
+      wheres.push(`
+          row_number > (
+            SELECT t2.row_number
+            FROM (${rowNumQuery}) as t2
+            WHERE ${cursorColumn} = $1
+          )
+        `);
+    }
+
+    if (before) {
+      params.push(decodeCursor(before, "card").id);
+
+      wheres.push(`
+          row_number < (
+            SELECT t3.row_number
+            FROM (${rowNumQuery}) as t3
+            WHERE ${cursorColumn} = ${after ? "$2" : "$1"}
+          )
+        `);
+    }
+
+    if (first > 0) {
+      if (after) {
+        wheres.push(`
+          row_number <= (
+            SELECT t4.row_number + ${first}
+            FROM (${rowNumQuery}) as t4
+            WHERE ${cursorColumn} = $1
+          )
+        `);
+      } else {
+        wheres.push(`row_number <= ${first}`);
+      }
+    }
+
+    if (last > 0) {
+      if (before) {
+        wheres.push(`
+          row_number >= (
+            SELECT t5.row_number - ${last}
+            FROM (${rowNumQuery}) as t5
+            WHERE ${cursorColumn} = ${after ? "$2" : "$1"}
+          )
+        `);
+      } else {
+        wheres.push(`row_number > (
+            SELECT MAX(t6.row_number) - ${last}
+            FROM (${rowNumQuery}) as t6
+          )
+        `);
+      }
+    }
+
+    const queryStr = `
+      SELECT t1.*
+      FROM (
+        SELECT ${cardTableName}.*, ${categoryTableName}."name" as category_name, ${rowNumberOverStr} FROM ${cardTableName}
+        ${joinCode}
+      ) as t1
+      WHERE ${wheres.join(" AND ")}
+    `;
+
+    const results = await this.connection.query(queryStr, [...params]);
+
+    const [{ totalCount }] = await this.connection.query(`
+      SELECT COUNT(*) as "totalCount"
+      FROM (${rowNumQuery}) as countTable
+    `);
+
+    const edges = this.createEdges(results);
+
+    const startCursor = edges[0].cursor;
+    const endCursor = edges[edges.length - 1].cursor;
+
+    return {
+      edges,
+      pageInfo: {
+        startCursor,
+        endCursor,
+        totalCount: Number(totalCount),
+        hasNextPage:
+          Number(results[results.length - 1]["row_number"]) <
+          Number(totalCount),
+        hasPreviousPage: Number(results[0]["row_number"]) > 0
+      }
+    };
+  }
+
+  protected createEdges(results: Card[]): Edge[] {
+    return results.map((result: Card, i) => ({
+      node: result,
+      cursor: encodeCursor(result.id, "card", i) // TODO: get rid of this hard-code
+    }));
   }
 
   /**

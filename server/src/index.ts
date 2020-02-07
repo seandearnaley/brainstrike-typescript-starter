@@ -10,7 +10,7 @@ import {
 import { Card, Category } from "./entity";
 import { typeDefs, resolvers } from "./graphql";
 import { ApolloServer } from "apollo-server-express";
-import { CardAPI, CategoryAPI } from "./datasources";
+import { CardAPI } from "./datasources";
 import { DataSources } from "apollo-server-core/dist/graphqlOptions";
 import { ApolloContext } from "./types/context";
 
@@ -62,7 +62,7 @@ const createTestingConnection = (): Promise<Connection> =>
 interface ServerConfig {
   apolloServer: ApolloServer;
   cardAPI: CardAPI;
-  categoryAPI: CategoryAPI;
+  // categoryAPI: CategoryAPI;
 }
 
 const createServer = async (
@@ -70,16 +70,16 @@ const createServer = async (
   context = defaultContext
 ): Promise<ServerConfig> => {
   const cardAPI = new CardAPI({ connection });
-  const categoryAPI = new CategoryAPI({ connection });
+  // const categoryAPI = new CategoryAPI({ connection });
 
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
     context,
-    dataSources: (): DataSources<ApolloContext> => ({ cardAPI, categoryAPI })
+    dataSources: (): DataSources<ApolloContext> => ({ cardAPI })
   });
 
-  return { apolloServer, cardAPI, categoryAPI };
+  return { apolloServer, cardAPI };
 };
 
 const start = async (): Promise<void> => {

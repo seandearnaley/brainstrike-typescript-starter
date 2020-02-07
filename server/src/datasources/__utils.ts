@@ -1,150 +1,93 @@
-import { SelectQueryBuilder } from "typeorm";
+// encodeCursor and decodeCursor code borrowed from https://github.com/kirkbrauer/typeorm-graphql-pagination by Kirk Brauer.
 
-export class CursorPaginationArgs<Entity> {
-  before?: string;
-  after?: string;
-  first?: number = 10;
-  sortOptions?: {
-    [P in keyof Entity]?: "ASC" | "DESC" | 1 | -1;
+import { encode, decode } from "opaqueid";
+
+/**
+ * A cursor object.
+ */
+export interface Cursor {
+  /**
+   * The ID of the entity.
+   */
+  id: string;
+  /**
+   * The entity type.
+   */
+  type: string;
+  /**
+   * The entity index in the results.
+   */
+  index: number;
+}
+
+/**
+ * The invalid cursor error.
+ */
+export class InvalidCursorError extends Error {
+  /**
+   * Constructs a new InvalidCursorError.
+   */
+  constructor() {
+    super();
+    this.name = "Invalid Cursor Error";
+    this.message = "Invalid cursor";
+  }
+}
+
+/**
+ * The invalid cursor type error.
+ */
+export class InvalidCursorTypeError extends Error {
+  /**
+   * The expected cursor type.
+   */
+  private expectedType: string;
+
+  /**
+   * The actual cursor type.
+   */
+  private actualType: string;
+
+  /**
+   * Constructs a new InvalidCursorTypeError
+   * @param expectedType The expected cursor type.
+   * @param actualType The actual cursor type.
+   */
+  constructor(expectedType: string, actualType: string) {
+    super();
+    this.name = "Invalid Cursor Type Error";
+    this.expectedType = expectedType;
+    this.actualType = actualType;
+    this.message = `Invalid cursor, expected type ${expectedType}, but got type ${actualType}`;
+  }
+}
+
+/**
+ * Encodes a pagination cursor.
+ * @param id The entity ID.
+ * @param type The entity type.
+ * @param index The entity index in the results.
+ */
+export function encodeCursor(id: string, type: string, index: number): string {
+  return encode(`C|${type}|${id}|${index}`);
+}
+
+/**
+ * Decodes a pagination cursor.
+ * @param cursor The cursor to decode.
+ * @param type The entity type.
+ */
+export function decodeCursor(cursor: string, type: string): Cursor {
+  // Split the cursor
+  const split: any[] = decode(cursor).split("|");
+  // Verify that it is a valid cursor
+  if (split[0] !== "C") throw new InvalidCursorError();
+  // Throw an error if the cursor type is incorrect
+  if (split[1] !== type) throw new InvalidCursorTypeError(type, split[1]);
+  // Return the cursor data
+  return {
+    id: split[2],
+    type: split[1],
+    index: split[3] * 1
   };
-}
-
-export interface MayHaveId {
-  id?: string; // you can use any type, number is just an example
-}
-
-export class CursorPagination<TEntity extends MayHaveId> {
-  protected resultsQuery: SelectQueryBuilder<TEntity>;
-  protected countQuery: SelectQueryBuilder<TEntity>;
-  protected args: CursorPaginationArgs<TEntity>;
-  protected tableName: string;
-  protected cursorColumn: string;
-  protected results: TEntity[];
-
-  constructor(
-    query: SelectQueryBuilder<TEntity>,
-    args: CursorPaginationArgs<TEntity>,
-    tableName?: string,
-    cursorColumn?: string
-  ) {
-    this.tableName = query.escape(tableName);
-    this.cursorColumn = query.escape(cursorColumn);
-    this.args = args;
-
-    let selectiveCondition: [string, Record<string, any>?] = [
-      `${this.cursorColumn} >= '00000000-0000-0000-0000-000000000000'` // TODO: must be a better way
-    ];
-
-    if (args.after) {
-      selectiveCondition = [
-        `${this.tableName}.${this.cursorColumn} > :cursor`,
-        { cursor: args.after }
-      ];
-    } else if (args.before) {
-      selectiveCondition = [
-        `${this.tableName}.${this.cursorColumn} < :cursor`,
-        { cursor: args.before }
-      ];
-    }
-
-    this.countQuery = query.clone();
-    this.resultsQuery = this.applyWhereConditionToQuery(
-      query,
-      selectiveCondition
-    )
-      // .orderBy({ ...args.sortOptions })
-      .orderBy(`${this.tableName}.${this.cursorColumn}`, "ASC")
-      .limit(args.first);
-  }
-
-  public async buildResponse(): Promise<any> {
-    const results = await this.getResults();
-    const edges = this.createEdges(results);
-
-    const startCursor = edges[0].cursor;
-    const endCursor = edges[edges.length - 1].cursor;
-    const count = await this.getCount(startCursor, endCursor);
-    return {
-      edges: edges,
-      pageInfo: {
-        startCursor,
-        endCursor,
-        ...count
-      }
-    };
-  }
-
-  public async getResults(): Promise<TEntity[]> {
-    if (!this.results) {
-      this.results = await this.resultsQuery.getMany();
-    }
-
-    return this.results;
-  }
-
-  protected async getCount(
-    startCursor: string,
-    endCursor: string
-  ): Promise<any> {
-    const totalCountQuery = this.stipLimitationsFromQuery(this.countQuery);
-
-    const beforeCountQuery = totalCountQuery
-      .clone()
-      .select(
-        `COUNT(DISTINCT(${this.tableName}.${this.cursorColumn})) as \"count\"`
-      );
-    const afterCountQuery = beforeCountQuery.clone();
-
-    const beforeCountResult = await this.applyWhereConditionToQuery(
-      beforeCountQuery,
-      [
-        `${this.tableName}.${this.cursorColumn} < :cursor`,
-        { cursor: startCursor }
-      ]
-    ).getRawOne();
-
-    const afterCountResult = await this.applyWhereConditionToQuery(
-      afterCountQuery,
-      [
-        `${this.tableName}.${this.cursorColumn} > :cursor`,
-        { cursor: endCursor }
-      ]
-    ).getRawOne();
-
-    return {
-      totalCount: await totalCountQuery.getCount(),
-      hasNextPage: Number(afterCountResult["count"]) > 0,
-      hasPreviousPage: Number(beforeCountResult["count"]) > 0
-    };
-  }
-
-  protected createEdges(results: TEntity[]): any {
-    return results.map((result: TEntity) => ({
-      node: result,
-      cursor: result.id // TODO: get rid of this hard-code
-    }));
-  }
-
-  protected applyWhereConditionToQuery(
-    query: SelectQueryBuilder<TEntity>,
-    condition: [string, Record<string, any>?]
-  ): any {
-    if (query.expressionMap.wheres && query.expressionMap.wheres.length) {
-      query = query.andWhere(...condition);
-    } else {
-      query = query.where(...condition);
-    }
-
-    return query;
-  }
-
-  protected stipLimitationsFromQuery(query: SelectQueryBuilder<TEntity>): any {
-    query.expressionMap.groupBys = [];
-    query.expressionMap.offset = undefined;
-    query.expressionMap.limit = undefined;
-    query.expressionMap.skip = undefined;
-    query.expressionMap.take = undefined;
-
-    return query;
-  }
 }

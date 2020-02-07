@@ -1,5 +1,4 @@
 # import Card from "card/card.graphql";
-# import User from "user/user.graphql";
 # import Category from "category/category.graphql";
 
 scalar Date
@@ -26,13 +25,7 @@ type PageInfo {
 }
 
 type Query {
-  cards(first: Int, after: ID, before: ID, sortOptions: CardSortOptionsInput): CardConnection!
-  # card(id: ID!): Card
-  # categories: [Category!]
-  # category(id: ID!): Category
-  # Queries for the current user
-  # me: User
-  # node(id: ID!): Node
+  cards(first: Int, last: Int, after: String, before: String, orderByColumn: String, orderByDirection: DirectionEnum): CardConnection
 }
 
 type Mutation {

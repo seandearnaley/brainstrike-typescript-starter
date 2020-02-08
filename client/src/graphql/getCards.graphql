@@ -5,6 +5,7 @@ query getCards(
   $before: String,
   $orderByColumn: String,
   $orderByDirection: DirectionEnum
+  $categoryId: ID
 ) {
   cards(
     first: $first,
@@ -12,7 +13,8 @@ query getCards(
     after: $after,
     before: $before,
     orderByColumn: $orderByColumn,
-    orderByDirection: $orderByDirection) {
+    orderByDirection: $orderByDirection,
+  	categoryId: $categoryId) @connection(key: "Card_card")  {
       pageInfo {
         hasNextPage
         hasPreviousPage
@@ -23,11 +25,11 @@ query getCards(
       edges {
         cursor
         node {
-          id
-          number
-          label
           created
           updated
+          id
+          label
+          number
         }
       }
   }

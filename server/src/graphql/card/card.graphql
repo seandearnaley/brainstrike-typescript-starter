@@ -12,6 +12,7 @@ type CardConnection {
   pageInfo: PageInfo!
   edges: [CardEdge!]!
 }
+
 type CardEdge {
   cursor: String!
   node: Card!

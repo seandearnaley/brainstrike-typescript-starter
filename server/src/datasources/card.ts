@@ -12,7 +12,7 @@ import { ApolloContext } from "../types/context";
 // import { CursorPaginator, CursorPaginatorArgs } from "./utils/cursorPaginator";
 import { DataSourceRepos } from "../";
 
-import { encodeCursor, decodeCursor } from "./__utils";
+import { encodeCursor, decodeCursor, buildPageInfo, Edge } from "./__utils";
 
 export class CursorPaginatorArgs {
   before?: string;
@@ -24,9 +24,8 @@ export class CursorPaginatorArgs {
   categoryId?: string;
 }
 
-interface Edge {
-  cursor: string;
-  node: Card;
+interface CardWithRowNumber extends Card {
+  rowNumber: number;
 }
 
 export class CardAPI extends DataSource {
@@ -157,36 +156,18 @@ export class CardAPI extends DataSource {
 
     const edges = this.createEdges(results);
 
-    const firstEdge = edges[0] ?? null;
-    const lastEdge = edges.length ? edges[edges.length - 1] : null;
-
-    const startCursor = firstEdge?.cursor ?? null;
-    const endCursor = lastEdge?.cursor ?? null;
-
-    const hasNextPage = lastEdge
-      ? Number(lastEdge.node.rowNumber) < Number(totalCount)
-      : false;
-
-    const hasPreviousPage = edges.length
-      ? Number(firstEdge.node.rowNumber) > 1
-      : false;
-
     return {
       edges,
-      pageInfo: {
-        startCursor,
-        endCursor,
-        totalCount: Number(totalCount),
-        hasNextPage,
-        hasPreviousPage
-      }
+      pageInfo: buildPageInfo<Edge<CardWithRowNumber>>(edges, totalCount)
     };
   }
 
-  protected createEdges(results: Card[]): Edge[] {
-    return results.map((result: Card, i) => ({
+  protected createEdges(
+    results: CardWithRowNumber[]
+  ): Edge<CardWithRowNumber>[] {
+    return results.map((result: CardWithRowNumber) => ({
       node: result,
-      cursor: encodeCursor(result.id, "card", i) // TODO: this cursor column could probably be dynamic
+      cursor: encodeCursor(result.id, "card") // TODO: this cursor column could probably be dynamic
     }));
   }
 

@@ -28,7 +28,7 @@ export type Card = Node & {
   description?: Maybe<Scalars['String']>;
   created: Scalars['DateTime'];
   updated?: Maybe<Scalars['DateTime']>;
-  categories?: Maybe<Array<Maybe<Category>>>;
+  categoryId?: Maybe<Scalars['String']>;
 };
 
 export type CardConnection = {
@@ -65,6 +65,16 @@ export type Category = {
   children?: Maybe<Array<Maybe<Category>>>;
   updated?: Maybe<Scalars['DateTime']>;
   created?: Maybe<Scalars['DateTime']>;
+  cardConnection?: Maybe<CardConnection>;
+};
+
+export type CategoryCardConnectionArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  orderByColumn?: Maybe<Scalars['String']>;
+  orderByDirection?: Maybe<DirectionEnum>;
 };
 
 export type CategoryInput = {
@@ -153,6 +163,7 @@ export type QueryCardsArgs = {
   before?: Maybe<Scalars['String']>;
   orderByColumn?: Maybe<Scalars['String']>;
   orderByDirection?: Maybe<DirectionEnum>;
+  categoryId?: Maybe<Scalars['ID']>;
 };
 
 export type QueryCategoryArgs = {
@@ -197,6 +208,7 @@ export type GetCardsQueryVariables = {
   before?: Maybe<Scalars['String']>;
   orderByColumn?: Maybe<Scalars['String']>;
   orderByDirection?: Maybe<DirectionEnum>;
+  categoryId?: Maybe<Scalars['ID']>;
 };
 
 export type GetCardsQuery = { __typename?: 'Query' } & {
@@ -213,7 +225,7 @@ export type GetCardsQuery = { __typename?: 'Query' } & {
       { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
           node: { __typename?: 'Card' } & Pick<
             Card,
-            'id' | 'number' | 'label' | 'created' | 'updated'
+            'created' | 'updated' | 'id' | 'label' | 'number'
           >;
         }
     >;
@@ -416,6 +428,7 @@ export const GetCardsDocument = gql`
     $before: String
     $orderByColumn: String
     $orderByDirection: DirectionEnum
+    $categoryId: ID
   ) {
     cards(
       first: $first
@@ -424,7 +437,8 @@ export const GetCardsDocument = gql`
       before: $before
       orderByColumn: $orderByColumn
       orderByDirection: $orderByDirection
-    ) {
+      categoryId: $categoryId
+    ) @connection(key: "Card_card") {
       pageInfo {
         hasNextPage
         hasPreviousPage
@@ -435,11 +449,11 @@ export const GetCardsDocument = gql`
       edges {
         cursor
         node {
-          id
-          number
-          label
           created
           updated
+          id
+          label
+          number
         }
       }
     }
@@ -464,6 +478,7 @@ export const GetCardsDocument = gql`
  *      before: // value for 'before'
  *      orderByColumn: // value for 'orderByColumn'
  *      orderByDirection: // value for 'orderByDirection'
+ *      categoryId: // value for 'categoryId'
  *   },
  * });
  */

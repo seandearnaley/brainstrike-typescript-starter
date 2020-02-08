@@ -170,6 +170,7 @@ export type QueryCardsArgs = {
   before?: Maybe<Scalars["String"]>;
   orderByColumn?: Maybe<Scalars["String"]>;
   orderByDirection?: Maybe<DirectionEnum>;
+  categoryId?: Maybe<Scalars["ID"]>;
 };
 
 export type QueryCategoryArgs = {

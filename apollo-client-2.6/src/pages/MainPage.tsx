@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
+import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
 import moment from 'moment';
 
@@ -99,7 +100,7 @@ const MainPage: React.FC = () => {
 
       {data?.cards.pageInfo.hasNextPage && (
         <button
-          onClick={(): any =>
+          onClick={(): Promise<ApolloQueryResult<GetCardsTypes.getCards>> =>
             fetchMore({
               variables: {
                 first: 10,

@@ -56,14 +56,6 @@ export const GET_CARD_DATA = gql`
   ${CARD_DATA}
 `;
 
-const tableColumns = [
-  { field: 'number', label: 'Number' },
-  { field: 'id', label: 'Label' },
-  { field: 'label', label: 'Label' },
-  { field: 'created', label: 'Created' },
-  { field: 'updated', label: 'Updated' },
-];
-
 export const CardContainer: React.FC = () => {
   const { data, loading, error, fetchMore } = useQuery<
     GetCardsTypes.getCards,
@@ -121,7 +113,7 @@ export const CardContainer: React.FC = () => {
 
   return (
     <div>
-      <CardTable columns={tableColumns} data={cardData}></CardTable>
+      <CardTable data={cardData}></CardTable>
 
       {data?.cards.pageInfo.hasNextPage && (
         <button onClick={getMoreData}>Load More</button>

@@ -17,9 +17,16 @@ interface CardTableColumnConfig {
 
 interface CardTableProps {
   data: CardTableData[];
-  columns: CardTableColumnConfig[];
   selected?: Record<string, CardTableData>;
 }
+
+const tableColumns = [
+  { field: 'number', label: 'Number' },
+  { field: 'id', label: 'ID' },
+  { field: 'label', label: 'Label' },
+  { field: 'created', label: 'Created' },
+  { field: 'updated', label: 'Updated' },
+];
 
 export const CardTable: React.FC<CardTableProps> = (
   props: CardTableProps,
@@ -43,7 +50,7 @@ export const CardTable: React.FC<CardTableProps> = (
     >
       <thead>
         <tr>
-          {props.columns.map(col => (
+          {tableColumns.map(col => (
             <th key={col.field}>{col.label}</th>
           ))}
         </tr>

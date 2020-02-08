@@ -20,5 +20,6 @@ Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 
 Installation + Instructions to come.
 
-vscode
-"eslint.workingDirectories": [ "./client", "./server" ]
+NOTE VS Code settings for ESLint+Prettier
+
+"eslint.workingDirectories": [ "./client", "./server", "./apollo-client-2.6" ],

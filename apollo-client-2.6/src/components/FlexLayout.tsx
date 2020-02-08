@@ -14,6 +14,9 @@ export const FlexLayout: React.FC<FlexLayoutProps> = (
     <div
       className={css`
         display: flex;
+        div {
+          padding: 5px;
+        }
       `}
     >
       <div

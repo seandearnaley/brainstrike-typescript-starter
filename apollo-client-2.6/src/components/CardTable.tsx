@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { css } from 'emotion';
 
 interface CardTableData {
   id: string;
@@ -24,7 +25,22 @@ export const CardTable: React.FC<CardTableProps> = (
   props: CardTableProps,
 ): React.ReactElement => {
   return (
-    <table>
+    <table
+      className={css`
+        border-collapse: collapse;
+        th {
+          text-align: left;
+        }
+        td,
+        th {
+          border: 1px solid black;
+          padding: 5px;
+          & span {
+            color: blue;
+          }
+        }
+      `}
+    >
       <thead>
         <tr>
           {props.columns.map(col => (
@@ -36,8 +52,16 @@ export const CardTable: React.FC<CardTableProps> = (
         {props.data.map(data => {
           return (
             <tr key={data.id}>
-              <td>{data.number}</td>
-              <td>{data.id}</td>
+              <td
+                className={css`
+                  text-align: center;
+                `}
+              >
+                {data.number}
+              </td>
+              <td>
+                <span>{data.id}</span>
+              </td>
               <td>{data.label}</td>
               <td>{moment(data.created).format('MMMM Do YYYY, h:mm:ss a')}</td>
               <td>

@@ -1,6 +1,6 @@
 module.exports = {
   client: {
-    includes: ['./src/**/*.graphql'],
+    includes: ['./src/**/*.tsx'],
     service: {
       name: 'brainstrike',
       url: 'http://localhost:4000/graphql',

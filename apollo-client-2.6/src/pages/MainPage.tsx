@@ -4,7 +4,6 @@ import gql from 'graphql-tag';
 import moment from 'moment';
 
 import { DirectionEnum } from '../generated/globalTypes';
-
 import * as GetCardsTypes from '../graphql/generated/getCards';
 
 export const CARD_DATA = gql`
@@ -109,7 +108,7 @@ const MainPage: React.FC = () => {
               updateQuery: (previousResult, { fetchMoreResult }) => {
                 if (!fetchMoreResult) return previousResult;
 
-                const newEdges = fetchMoreResult.cards.edges ?? [];
+                const newEdges = fetchMoreResult.cards.edges;
                 const pageInfo = fetchMoreResult.cards.pageInfo;
 
                 return newEdges.length

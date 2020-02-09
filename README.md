@@ -20,7 +20,7 @@ Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 
 Detailed Installation + Instructions to come.
 
-NOTE VS Code settings for ESLint+Prettier
+NOTE: VS Code settings for ESLint+Prettier (consequence of mono repo structure)
 
 "eslint.workingDirectories": [ "./client", "./server", "./apollo-client-2.6" ]
 

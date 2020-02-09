@@ -18,8 +18,18 @@ Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 - React client with Hooks
 - Prettier + ESLint configuration
 
-Installation + Instructions to come.
+Detailed Installation + Instructions to come.
 
 NOTE VS Code settings for ESLint+Prettier
 
-"eslint.workingDirectories": [ "./client", "./server", "./apollo-client-2.6" ],
+"eslint.workingDirectories": [ "./client", "./server", "./apollo-client-2.6" ]
+
+## Folders
+
+This is setup like a mono-repo with seperate folders for clients and server, each with their own package and config. You could set these up in their own repos, switch to each folder to start the respective packages.
+
+Clients under construction
+
+- client = Material UI based React TypeScript (create-react-app non ejected), using [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator) for hooks + TypeScript Types.
+- apollo-client-2.6 = Bare bones React TypeScript (create-react-app non ejected) using [Apollo Tooling](https://github.com/apollographql/apollo-tooling) for TypeScript Types.
+- server - Apollo Server using [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator) for resolvers + types. Using TypeORM for database access, working examples of relay style cursor pagination, unit, integration and e2e tests.

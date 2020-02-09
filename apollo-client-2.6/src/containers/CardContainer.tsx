@@ -1,66 +1,17 @@
 import React, { useMemo } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { ApolloQueryResult } from 'apollo-client';
-import gql from 'graphql-tag';
-
 import { DirectionEnum } from '../generated/globalTypes';
 import * as GetCardsTypes from '../graphql/generated/getCards';
 
+import * as GQL from '../graphql/gql';
 import { CardTable } from '../components/CardTable';
-
-export const CARD_DATA = gql`
-  fragment CardData on Card {
-    __typename
-    created
-    updated
-    id
-    label
-    number
-  }
-`;
-
-export const GET_CARD_DATA = gql`
-  query getCards(
-    $first: Int
-    $last: Int
-    $after: String
-    $before: String
-    $orderByColumn: String
-    $orderByDirection: DirectionEnum
-    $categoryId: ID
-  ) {
-    cards(
-      first: $first
-      last: $last
-      after: $after
-      before: $before
-      orderByColumn: $orderByColumn
-      orderByDirection: $orderByDirection
-      categoryId: $categoryId
-    ) @connection(key: "Card_card") {
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-        totalCount
-      }
-      edges {
-        cursor
-        node {
-          ...CardData
-        }
-      }
-    }
-  }
-  ${CARD_DATA}
-`;
 
 export const CardContainer: React.FC = () => {
   const { data, loading, error, fetchMore } = useQuery<
     GetCardsTypes.getCards,
     GetCardsTypes.getCardsVariables
-  >(GET_CARD_DATA, {
+  >(GQL.GET_CARD_DATA, {
     variables: {
       first: 10,
       orderByColumn: 'number',

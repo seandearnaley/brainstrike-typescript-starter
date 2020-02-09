@@ -13,7 +13,8 @@ module.exports = {
     "/node_modules/",
     "/build/",
     "/__utils",
-    "/__testData"
+    "/__testData",
+    "/__queries"
   ],
   globalSetup: "./src/jest.globalSetup.ts"
 };

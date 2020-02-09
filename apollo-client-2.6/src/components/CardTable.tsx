@@ -20,6 +20,7 @@ interface CardTableProps {
   selected?: Record<string, CardTableData>;
 }
 
+// NOTE: field not used yet
 const tableColumns = [
   { field: 'number', label: 'Number' },
   { field: 'id', label: 'ID' },

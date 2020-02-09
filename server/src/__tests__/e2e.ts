@@ -4,6 +4,7 @@ import {
   FetchResult,
   toPromise
 } from "apollo-link";
+import gql from "graphql-tag";
 
 import {
   startTestServer,
@@ -12,8 +13,10 @@ import {
   Connection
 } from "./__utils";
 
-import gql from "graphql-tag";
+import * as TDATA from "./__testData";
+import * as GQL from "./__queries";
 
+// NOTE: would've like to share the GQL.GET_CARD_DATA but doesn't work for some reason, will investigate later
 // limit to the first 25 seeded records
 const GET_CARDS = gql`
   query getCards {
@@ -42,8 +45,11 @@ describe("Server - e2e", () => {
     graphql: ({}: GraphQLRequest) => Observable<FetchResult>;
 
   beforeAll(async () => {
+    console.log("creating test connection");
     connection = await createTestingConnection();
   });
+
+  afterAll(() => connection.close());
 
   beforeEach(async () => {
     const { apolloServer } = await constructTestServer(connection);
@@ -56,19 +62,23 @@ describe("Server - e2e", () => {
     stop();
   });
 
-  afterAll(async () => {
-    await connection.close();
-  });
-
   it("gets list of cards", async () => {
     const res = await toPromise(
       graphql({
         query: GET_CARDS
       })
     );
+
     expect(res).toMatchSnapshot();
   });
 
-  // TODO
-  // it("gets a single card", async () => {});
+  it("gets a single card", async () => {
+    const res = await toPromise(
+      graphql({
+        query: GQL.GET_CARD,
+        variables: { id: TDATA.mockE2EFirstId }
+      })
+    );
+    expect(res).toMatchSnapshot();
+  });
 });

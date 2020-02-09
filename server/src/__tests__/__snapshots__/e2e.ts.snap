@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Server - e2e gets a single card 1`] = `
+Object {
+  "data": Object {
+    "card": Object {
+      "description": "Amet autem et.",
+      "id": "75f77473-b74c-4a20-ae0d-73e04b427cde",
+      "label": "sed possimus tempore",
+      "number": 99999,
+    },
+  },
+}
+`;
+
+exports[`Server - e2e gets list of cards 1`] = `
+Object {
+  "data": Object {
+    "cards": Object {
+      "edges": Array [
+        Object {
+          "cursor": "Q3xjYXJkfGU5MTU3NTE3LTRkNzgtNDNkZC1hMjUxLTBkNDI2OGJkNDY1ZA==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "e9157517-4d78-43dd-a251-0d4268bd465d",
+            "label": "voluptas dolores distinctio",
+            "number": 12210,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGNjMTg4YzZhLTU1YTUtNDY0ZS04M2U2LWVlY2E3OGQzNGQ3NA==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "cc188c6a-55a5-464e-83e6-eeca78d34d74",
+            "label": "aut exercitationem laborum",
+            "number": 98246,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDBhYmM1ODIxLTY5ZGMtNDE5Mi04MjRjLTVhM2M5MTRkZmFhZQ==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "0abc5821-69dc-4192-824c-5a3c914dfaae",
+            "label": "rerum minus iure",
+            "number": 98249,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGRlM2I5OGViLTQ5ODktNGRmYS04MjNjLTA3MDY5ZWZiYmE3Zg==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "de3b98eb-4989-4dfa-823c-07069efbba7f",
+            "label": "adipisci quia explicabo",
+            "number": 5095,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGE3ZGIxY2VhLWU3ZGMtNDVkYy05NzRiLTM0OTE5MjEyY2VkMQ==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "a7db1cea-e7dc-45dc-974b-34919212ced1",
+            "label": "iste aperiam et",
+            "number": 39346,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGRhMGU5MzA2LTk1ODctNGNmNC05YzRjLWRhZjE3MWFlOWJiNg==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "da0e9306-9587-4cf4-9c4c-daf171ae9bb6",
+            "label": "quas molestiae esse",
+            "number": 29301,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDA1NTM3Zjc1LWRjMmUtNDc4Yy1iNzJlLWYyNmM2NzhlYTM5Nw==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "05537f75-dc2e-478c-b72e-f26c678ea397",
+            "label": "est voluptate et",
+            "number": 34517,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGZhOGZmOTM2LTI5MzItNDU3ZS04ZjMzLTg4YjY5Mzg0YTc1MA==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "fa8ff936-2932-457e-8f33-88b69384a750",
+            "label": "repellat et quia",
+            "number": 42478,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDE2NmZjNmE1LWEwMTQtNDk1MC1hNGY3LWUyMWQ4ZjlmMWEyMg==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "166fc6a5-a014-4950-a4f7-e21d8f9f1a22",
+            "label": "officiis quibusdam ipsam",
+            "number": 8553,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDJjZTRhOGExLTdlNjAtNGYyZS05NDBiLWMzZTM3Y2M4ZjQzMg==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "2ce4a8a1-7e60-4f2e-940b-c3e37cc8f432",
+            "label": "omnis dolorem iusto",
+            "number": 80662,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDE3MjBjZjc0LTdkOTItNGJmYS05MTBiLTc1MGMyZWNmYzdlNw==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "1720cf74-7d92-4bfa-910b-750c2ecfc7e7",
+            "label": "facilis necessitatibus atque",
+            "number": 92561,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDcyYTRiN2MzLWYxNjEtNDg1OS1iMzI4LTUzYjM3OTE5MzliMA==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "72a4b7c3-f161-4859-b328-53b3791939b0",
+            "label": "eos sint placeat",
+            "number": 33375,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGIzOTE3MTk5LTAyODEtNGYxMC1iMWJlLTFjYmMwZmIyYWMxNw==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "b3917199-0281-4f10-b1be-1cbc0fb2ac17",
+            "label": "deleniti et qui",
+            "number": 45499,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGM5ZGE2MzRmLTk4NjktNGI0MS1hY2FiLThhM2IzZTRmZjQxMg==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "c9da634f-9869-4b41-acab-8a3b3e4ff412",
+            "label": "culpa vitae est",
+            "number": 38482,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGEzYzdhYTU1LWM4ZWYtNDczMS05NDNlLTlhNTdjMjA2NTcxYQ==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "a3c7aa55-c8ef-4731-943e-9a57c206571a",
+            "label": "quae ullam illo",
+            "number": 88443,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDVkMWUyOTIzLTM3MDMtNDcxZi1iZTNlLWY1ZWJhNmZiNTlmYw==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "5d1e2923-3703-471f-be3e-f5eba6fb59fc",
+            "label": "cumque ipsam ut",
+            "number": 14665,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGJjYzAzMjg2LTkyM2EtNDNkNi1hYTBkLTMyODVkNTJjZDk0ZA==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "bcc03286-923a-43d6-aa0d-3285d52cd94d",
+            "label": "ducimus laboriosam porro",
+            "number": 68703,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDJmMjRmNjg4LTEzMmMtNDFjZC04NjkwLWY5MjNlMWJkYTc0MQ==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "2f24f688-132c-41cd-8690-f923e1bda741",
+            "label": "unde odit laudantium",
+            "number": 88574,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGQxNDFiMTRlLTFmOGItNDQwZS05YjUxLTllMTBlN2ZkYmMzZA==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "d141b14e-1f8b-440e-9b51-9e10e7fdbc3d",
+            "label": "sed modi maxime",
+            "number": 67971,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDQxYjZkM2U4LTk4NjgtNDMyMC04ZDNlLWJlZTAzMDU1Y2ZmOA==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "41b6d3e8-9868-4320-8d3e-bee03055cff8",
+            "label": "labore sapiente fugiat",
+            "number": 36728,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGViYmFiMDE1LTA1ZjUtNDM2NS04ZmJjLWYxNDIwMjkyYjI4Yg==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "ebbab015-05f5-4365-8fbc-f1420292b28b",
+            "label": "a sunt vero",
+            "number": 52462,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDhlNDUzMDk2LTAwMzktNDNkYS1iZTM1LWNmMTVhNDczMWU4OA==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "8e453096-0039-43da-be35-cf15a4731e88",
+            "label": "voluptatem eveniet provident",
+            "number": 77865,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDEzNGFjYzQxLWIyM2UtNDNhOC04ZmM0LTFmMDZiNWU2ZmUyMA==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "134acc41-b23e-43a8-8fc4-1f06b5e6fe20",
+            "label": "id sapiente natus",
+            "number": 87707,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDIwYmRiNjdjLWZjNDEtNGJjNi1hOGU1LWQ4NTdkN2ZiMjAzYg==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "20bdb67c-fc41-4bc6-a8e5-d857d7fb203b",
+            "label": "dicta culpa dolores",
+            "number": 84272,
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGVhZWU1MDEyLTgxZTEtNDBkNS1hMjJiLTI5MDIzYTI4ZGNhNg==",
+          "node": Object {
+            "__typename": "Card",
+            "id": "eaee5012-81e1-40d5-a22b-29023a28dca6",
+            "label": "ducimus aperiam vel",
+            "number": 54545,
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+      },
+    },
+  },
+}
+`;

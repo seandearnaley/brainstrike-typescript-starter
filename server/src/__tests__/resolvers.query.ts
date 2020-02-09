@@ -1,6 +1,10 @@
 import resolvers from "../graphql/resolvers";
 
-import { mockFirstCardResponse, mockFirstCardResponseId } from "./__testData";
+import {
+  mockCardsConnectionResult,
+  mockFirstCardResponse,
+  mockFirstCardResponseId
+} from "./__testData";
 
 describe("[Query.cards]", () => {
   const mockContext = {
@@ -12,11 +16,11 @@ describe("[Query.cards]", () => {
   const { getCards } = mockContext.dataSources.cardAPI;
 
   it("calls getCards from card api", async () => {
-    getCards.mockReturnValueOnce(Promise.resolve([mockFirstCardResponse]));
+    getCards.mockReturnValueOnce(Promise.resolve(mockCardsConnectionResult));
 
     // check the resolver response
     const res = await resolvers.Query.cards(null, {}, mockContext, null);
-    expect(res).toStrictEqual([mockFirstCardResponse]);
+    expect(res).toStrictEqual(mockCardsConnectionResult);
   });
 });
 

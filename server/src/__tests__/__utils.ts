@@ -25,21 +25,6 @@ export type Mockify<T> = {
   [P in keyof T]: T[P] extends Function ? jest.Mock<{}> : T[P];
 };
 
-export const mockRepos = {
-  cards: {
-    find: jest.fn(),
-    findOne: jest.fn(),
-    save: jest.fn(),
-    remove: jest.fn()
-  },
-  categories: {
-    find: jest.fn(),
-    findOne: jest.fn(),
-    save: jest.fn(),
-    remove: jest.fn()
-  }
-};
-
 export const mockContext: Mockify<ApolloContext> = {
   dataSources: null,
   connection: null

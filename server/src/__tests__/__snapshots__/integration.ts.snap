@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Mutations create card 1`] = `
+Object {
+  "data": Object {
+    "addCard": Object {
+      "card": Object {
+        "description": "testing",
+        "id": "e303f7e5-15ce-4a5f-9179-a75ffb4f8191",
+        "label": "Test Card 1",
+        "number": 1,
+      },
+      "message": "Card Added",
+      "success": true,
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Mutations remove card 1`] = `
+Object {
+  "data": Object {
+    "removeCard": Object {
+      "message": "Card Removed",
+      "success": true,
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Mutations update card 1`] = `
+Object {
+  "data": Object {
+    "updateCard": Object {
+      "card": Object {
+        "description": "testing",
+        "id": "e303f7e5-15ce-4a5f-9179-a75ffb4f8191",
+        "label": "Test Card 1",
+        "number": 1,
+      },
+      "message": "Card Updated",
+      "success": true,
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Queries fetches list of cards 1`] = `
+Object {
+  "data": undefined,
+  "errors": Array [
+    [ValidationError: Unknown directive "connection".],
+  ],
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Queries fetches single card 1`] = `
+Object {
+  "data": Object {
+    "card": Object {
+      "description": "testing",
+      "id": "e303f7e5-15ce-4a5f-9179-a75ffb4f8191",
+      "label": "Test Card 1",
+      "number": 1,
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;

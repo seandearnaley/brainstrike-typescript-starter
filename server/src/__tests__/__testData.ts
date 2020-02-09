@@ -19,6 +19,8 @@ export const mockFirstCardResponse = {
   categories: [] as Category[]
 };
 
+export const mockE2EFirstId = "75f77473-b74c-4a20-ae0d-73e04b427cde";
+
 export const mockCardsResult = [
   {
     id: "75f77473-b74c-4a20-ae0d-73e04b427cde",

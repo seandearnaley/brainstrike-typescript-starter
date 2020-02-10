@@ -56,8 +56,9 @@ describe("Queries", () => {
     const { query } = createTestClient(apolloServer);
     const res = await query({
       query: GQL.GET_CARD,
-      variables: { id: TDATA.mockFirstCardResponseId }
+      variables: { id: TDATA.mockFirstCardQueryId }
     });
+
     expect(res).toMatchSnapshot();
   });
 });
@@ -102,7 +103,7 @@ describe("Mutations", () => {
     const res = await mutate({
       mutation: GQL.UPDATE_CARD,
       variables: {
-        id: TDATA.mockFirstCardResponseId,
+        id: TDATA.mockFirstCardQueryId,
         input: TDATA.mockCardInput
       }
     });
@@ -121,7 +122,7 @@ describe("Mutations", () => {
     const { mutate } = createTestClient(apolloServer);
     const res = await mutate({
       mutation: GQL.REMOVE_CARD,
-      variables: { id: TDATA.mockFirstCardResponseId }
+      variables: { id: TDATA.mockFirstCardQueryId }
     });
     expect(res).toMatchSnapshot();
   });

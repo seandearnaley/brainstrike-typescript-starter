@@ -6,7 +6,7 @@ interface CardWithTypeName extends Card {
   __typename: string;
 }
 
-type NodeResolverTypes = Promise<CardWithTypeName> | null;
+type NodeResolverTypes = Promise<CardWithTypeName | null>;
 
 export const resolvers: Resolvers = {
   Query: {
@@ -14,14 +14,10 @@ export const resolvers: Resolvers = {
       const __typename = decodeGlobalID(id).__typename;
       let node;
 
-      switch (__typename) {
-        case "Card": {
-          node = await dataSources.cardAPI.getCard(id);
-          break;
-        }
-        default: {
-          return null;
-        }
+      if (__typename === "Card") {
+        node = await dataSources.cardAPI.getCard(id);
+      } else {
+        throw Error("Invalid ID");
       }
 
       return {

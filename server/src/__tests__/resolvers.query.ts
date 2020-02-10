@@ -48,9 +48,6 @@ describe("[Query.node card]", () => {
 
     // make sure the dataSources were called properly
     expect(getCard).toHaveBeenCalledWith(mockFirstCardQueryId);
-    expect(res).toStrictEqual({
-      ...mockFirstCardResponse,
-      __typename: "Card"
-    });
+    expect(res).toStrictEqual(mockFirstCardResponse);
   });
 });

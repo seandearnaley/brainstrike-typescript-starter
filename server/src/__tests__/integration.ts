@@ -50,7 +50,7 @@ describe("Queries", () => {
     });
 
     cardAPI.getCard = jest.fn(async () =>
-      Promise.resolve(TDATA.mockFirstCardResponse)
+      Promise.resolve(TDATA.mockFirstCardResponseEncoded)
     );
 
     const { query } = createTestClient(apolloServer);

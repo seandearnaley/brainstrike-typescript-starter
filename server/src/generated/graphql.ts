@@ -19,13 +19,7 @@ export type Scalars = {
   DateTime: any;
   Date: any;
   Time: any;
-  Upload: any;
 };
-
-export enum CacheControlScope {
-  Public = "PUBLIC",
-  Private = "PRIVATE"
-}
 
 export type Card = Node & {
   __typename?: "Card";
@@ -63,18 +57,18 @@ export type CardsUpdatedResponse = {
   card: Card;
 };
 
-export type Category = {
+export type Category = Node & {
   __typename?: "Category";
   id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
   parentId?: Maybe<Scalars["ID"]>;
   children?: Maybe<Array<Maybe<Category>>>;
   updated?: Maybe<Scalars["DateTime"]>;
-  created?: Maybe<Scalars["DateTime"]>;
-  cardConnection?: Maybe<CardConnection>;
+  created: Scalars["DateTime"];
+  _cards?: Maybe<CardConnection>;
 };
 
-export type CategoryCardConnectionArgs = {
+export type Category_CardsArgs = {
   first?: Maybe<Scalars["Int"]>;
   last?: Maybe<Scalars["Int"]>;
   after?: Maybe<Scalars["String"]>;
@@ -152,15 +146,9 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: "Query";
-  card?: Maybe<Card>;
   cards: CardConnection;
   categories?: Maybe<Array<Category>>;
-  category?: Maybe<Category>;
   node?: Maybe<Node>;
-};
-
-export type QueryCardArgs = {
-  id: Scalars["ID"];
 };
 
 export type QueryCardsArgs = {
@@ -171,10 +159,6 @@ export type QueryCardsArgs = {
   orderByColumn?: Maybe<Scalars["String"]>;
   orderByDirection?: Maybe<DirectionEnum>;
   categoryId?: Maybe<Scalars["ID"]>;
-};
-
-export type QueryCategoryArgs = {
-  id: Scalars["ID"];
 };
 
 export type QueryNodeArgs = {
@@ -291,17 +275,17 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>;
-  ID: ResolverTypeWrapper<Scalars["ID"]>;
-  Card: ResolverTypeWrapper<Card>;
-  Node: ResolverTypeWrapper<Node>;
-  DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
   Int: ResolverTypeWrapper<Scalars["Int"]>;
   String: ResolverTypeWrapper<Scalars["String"]>;
   DirectionEnum: DirectionEnum;
+  ID: ResolverTypeWrapper<Scalars["ID"]>;
   CardConnection: ResolverTypeWrapper<CardConnection>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
   CardEdge: ResolverTypeWrapper<CardEdge>;
+  Card: ResolverTypeWrapper<Card>;
+  Node: ResolverTypeWrapper<Node>;
+  DateTime: ResolverTypeWrapper<Scalars["DateTime"]>;
   Category: ResolverTypeWrapper<Category>;
   Mutation: ResolverTypeWrapper<{}>;
   CardInput: CardInput;
@@ -310,24 +294,22 @@ export type ResolversTypes = ResolversObject<{
   CategoryUpdatedResponse: ResolverTypeWrapper<CategoryUpdatedResponse>;
   Date: ResolverTypeWrapper<Scalars["Date"]>;
   Time: ResolverTypeWrapper<Scalars["Time"]>;
-  CacheControlScope: CacheControlScope;
-  Upload: ResolverTypeWrapper<Scalars["Upload"]>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Query: {};
-  ID: Scalars["ID"];
-  Card: Card;
-  Node: Node;
-  DateTime: Scalars["DateTime"];
   Int: Scalars["Int"];
   String: Scalars["String"];
   DirectionEnum: DirectionEnum;
+  ID: Scalars["ID"];
   CardConnection: CardConnection;
   PageInfo: PageInfo;
   Boolean: Scalars["Boolean"];
   CardEdge: CardEdge;
+  Card: Card;
+  Node: Node;
+  DateTime: Scalars["DateTime"];
   Category: Category;
   Mutation: {};
   CardInput: CardInput;
@@ -336,8 +318,6 @@ export type ResolversParentTypes = ResolversObject<{
   CategoryUpdatedResponse: CategoryUpdatedResponse;
   Date: Scalars["Date"];
   Time: Scalars["Time"];
-  CacheControlScope: CacheControlScope;
-  Upload: Scalars["Upload"];
 }>;
 
 export type CardResolvers<
@@ -406,16 +386,12 @@ export type CategoryResolvers<
     ParentType,
     ContextType
   >;
-  created?: Resolver<
-    Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  cardConnection?: Resolver<
+  created?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  _cards?: Resolver<
     Maybe<ResolversTypes["CardConnection"]>,
     ParentType,
     ContextType,
-    CategoryCardConnectionArgs
+    Category_CardsArgs
   >;
   __isTypeOf?: isTypeOfResolverFn;
 }>;
@@ -490,7 +466,7 @@ export type NodeResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Node"] = ResolversParentTypes["Node"]
 > = ResolversObject<{
-  __resolveType?: TypeResolveFn<"Card", ParentType, ContextType>;
+  __resolveType?: TypeResolveFn<"Card" | "Category", ParentType, ContextType>;
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   created?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   updated?: Resolver<
@@ -528,12 +504,6 @@ export type QueryResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
 > = ResolversObject<{
-  card?: Resolver<
-    Maybe<ResolversTypes["Card"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryCardArgs, "id">
-  >;
   cards?: Resolver<
     ResolversTypes["CardConnection"],
     ParentType,
@@ -544,12 +514,6 @@ export type QueryResolvers<
     Maybe<Array<ResolversTypes["Category"]>>,
     ParentType,
     ContextType
-  >;
-  category?: Resolver<
-    Maybe<ResolversTypes["Category"]>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryCategoryArgs, "id">
   >;
   node?: Resolver<
     Maybe<ResolversTypes["Node"]>,
@@ -562,11 +526,6 @@ export type QueryResolvers<
 export interface TimeScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["Time"], any> {
   name: "Time";
-}
-
-export interface UploadScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes["Upload"], any> {
-  name: "Upload";
 }
 
 export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
@@ -583,7 +542,6 @@ export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
   PageInfo?: PageInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Time?: GraphQLScalarType;
-  Upload?: GraphQLScalarType;
 }>;
 
 /**

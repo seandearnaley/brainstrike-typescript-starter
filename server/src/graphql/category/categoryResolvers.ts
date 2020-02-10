@@ -31,7 +31,7 @@ export const resolvers: Resolvers = {
       dataSources.categoryAPI.removeCategory(id)
   },
   Category: {
-    cardConnection(root, args, { dataSources }): Promise<CardConnection> {
+    _cards(root, args, { dataSources }): Promise<CardConnection> {
       return dataSources.cardAPI.getCardConnectionFor(root.id, args);
     }
   }

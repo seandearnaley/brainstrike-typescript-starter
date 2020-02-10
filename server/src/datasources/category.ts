@@ -5,6 +5,7 @@ import { Category } from "../entity";
 import { CategoryInput, CategoryUpdatedResponse } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
 import { DataSourceRepos } from "..";
+import { encodeGlobalID, decodeGlobalID } from "./__utils";
 
 export class CategoryAPI extends DataSource {
   context!: ApolloContext;
@@ -27,11 +28,38 @@ export class CategoryAPI extends DataSource {
     this.context = config.context;
   }
 
+  protected encodeCategory(data: Category): Category {
+    const { id, name, parent, created, updated, children, cards } = data;
+    return {
+      id: encodeGlobalID(id, "Category"), // replace ID with a global ID
+      name,
+      parent,
+      created,
+      updated,
+      children,
+      cards
+    };
+  }
+
   /**
    * Get all categories
    */
   async getCategories(): Promise<Category[]> {
-    return this.repos.categories.find(); // get all
+    const data = await this.repos.categories.find();
+
+    return data.map(this.encodeCategory); // get all
+  }
+
+  /**
+   * Get a particular category using global id
+   * @param id global id
+   */
+  async getCategoryByGlobalID(id: string): Promise<Category> {
+    id = decodeGlobalID(id).id;
+    const category = await this.repos.categories.findOne(id); // find by id
+
+    if (!category) throw new Error("Category Not Found");
+    return category;
   }
 
   /**
@@ -39,7 +67,8 @@ export class CategoryAPI extends DataSource {
    * @param id category uuid
    */
   async getCategory(id: string): Promise<Category> {
-    return this.repos.categories.findOne(id); // find by id
+    const category = await this.getCategoryByGlobalID(id); // find by global id
+    return this.encodeCategory(category);
   }
 
   /**
@@ -53,7 +82,7 @@ export class CategoryAPI extends DataSource {
     return {
       success: true,
       message: "Category Added",
-      category: savedCategory
+      category: this.encodeCategory(savedCategory)
     };
   }
 
@@ -66,13 +95,13 @@ export class CategoryAPI extends DataSource {
     id: string,
     { name }: CategoryInput
   ): Promise<CategoryUpdatedResponse> {
-    const category = await this.getCategory(id);
+    const category = await this.getCategoryByGlobalID(id);
     category.name = name;
     const savedCategory = await this.repos.categories.save(category);
     return {
       success: true,
       message: "Category Updated",
-      category: savedCategory
+      category: this.encodeCategory(savedCategory)
     };
   }
 
@@ -81,7 +110,8 @@ export class CategoryAPI extends DataSource {
    * @param id category uuid
    */
   async removeCategory(id: string): Promise<CategoryUpdatedResponse> {
-    const category = await this.getCategory(id);
+    const category = await this.getCategoryByGlobalID(id);
+    const originalCategory = { ...category }; // remove wipes the ip, creating a copy for the category field
 
     // remove dependant tree relations, unfortunately hasn't been implemented in TypeORM yet
     await this.repos.categories
@@ -95,7 +125,8 @@ export class CategoryAPI extends DataSource {
 
     return {
       success: true,
-      message: "Category Removed"
+      message: "Category Removed",
+      category: this.encodeCategory(originalCategory)
     };
   }
 }

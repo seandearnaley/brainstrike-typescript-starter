@@ -21,7 +21,7 @@ export class Category {
   name: string;
 
   @TreeChildren()
-  children: Category[];
+  children?: Category[];
 
   @TreeParent()
   parent: Category;
@@ -45,5 +45,5 @@ export class Category {
     card => card.categories
   )
   @JoinTable()
-  cards: Card[];
+  cards?: Card[];
 }

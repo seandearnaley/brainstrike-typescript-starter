@@ -146,3 +146,7 @@ export function escapeStringsWithDriver(
 ): string[] {
   return strs.map(str => driver.escape(str));
 }
+
+export const getTypeName = (id: string): string => {
+  return decodeGlobalID(id).__typename;
+};

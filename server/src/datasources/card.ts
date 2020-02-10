@@ -70,8 +70,6 @@ export class CardAPI extends DataSource {
     orderByDirection = DirectionEnum.Desc,
     categoryId
   }: CardDsArgs): Promise<CardConnection> {
-    //TODO: decode categoryId
-
     // escape input values for Postgres
     const [
       cursorColumn,
@@ -96,7 +94,9 @@ export class CardAPI extends DataSource {
           ? `
             LEFT JOIN ${categoryCardsTableName} on (${cardTableName}."id" = ${categoryCardsTableName}."cardId")
             LEFT JOIN ${categoryTableName} on (${categoryCardsTableName}."categoryId" = ${categoryTableName}."id")
-            WHERE ${categoryCardsTableName}."categoryId" = '${categoryId}'
+            WHERE ${categoryCardsTableName}."categoryId" = '${
+              decodeGlobalID(categoryId).id
+            }'
           `
           : ""
       }

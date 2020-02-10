@@ -1,11 +1,11 @@
-type Category {
+type Category implements Node {
   id: ID!
   name: String
   parentId: ID
   children: [Category]
   updated: DateTime
-  created: DateTime
-  cardConnection(first: Int, last: Int, after: String, before: String, orderByColumn: String, orderByDirection: DirectionEnum): CardConnection
+  created: DateTime!
+  _cards(first: Int, last: Int, after: String, before: String, orderByColumn: String, orderByDirection: DirectionEnum): CardConnection
 }
 
 input CategoryInput {

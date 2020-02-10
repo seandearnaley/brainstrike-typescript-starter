@@ -1,5 +1,7 @@
 import gql from "graphql-tag";
 
+// NOTE @connection directives throw errors in tests
+
 export const CARD_DATA = gql`
   fragment CardData on Card {
     __typename
@@ -29,7 +31,7 @@ export const GET_CARD_DATA = gql`
       orderByColumn: $orderByColumn
       orderByDirection: $orderByDirection
       categoryId: $categoryId
-    ) @connection(key: "Card_card") {
+    ) {
       pageInfo {
         hasNextPage
         hasPreviousPage
@@ -50,11 +52,17 @@ export const GET_CARD_DATA = gql`
 
 export const GET_CARD = gql`
   query card($id: ID!) {
-    card(id: $id) {
+    card: node(id: $id) {
       id
-      number
-      label
-      description
+      created
+      updated
+      ... on Card {
+        id
+        number
+        label
+        description
+        __typename
+      }
     }
   }
 `;

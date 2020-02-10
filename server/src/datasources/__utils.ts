@@ -1,5 +1,6 @@
-// encodeCursor and decodeCursor code borrowed from https://github.com/kirkbrauer/typeorm-graphql-pagination by Kirk Brauer.
+// encodeCursor and decodeCursor code from https://github.com/kirkbrauer/typeorm-graphql-pagination by Kirk Brauer.
 import { encode, decode } from "opaqueid";
+import { Driver } from "typeorm";
 
 export interface Edge<T> {
   cursor: string;
@@ -100,7 +101,7 @@ export function decodeCursor(cursor: string, type: string): Cursor {
 }
 
 export function buildPageInfo<
-  T extends { cursor: string; node: { rowNumber: number } }
+  T extends { cursor: string; node: { rowNumber?: number } }
 >(edges: T[], totalCount: string): PageInfoInterface {
   const firstEdge = edges[0] ?? null;
   const lastEdge = edges.length ? edges[edges.length - 1] : null;
@@ -123,4 +124,25 @@ export function buildPageInfo<
     hasNextPage,
     hasPreviousPage
   };
+}
+
+export function encodeGlobalID(id: string, __typename: string): string {
+  return encode(`${id}:${__typename}`);
+}
+
+export function decodeGlobalID(
+  objectId: string
+): { id: string; __typename: string } {
+  const parts = decode(objectId).split(":");
+  return {
+    id: parts[0],
+    __typename: parts[1]
+  };
+}
+
+export function escapeStringsWithDriver(
+  driver: Driver,
+  ...strs: string[]
+): string[] {
+  return strs.map(str => driver.escape(str));
 }

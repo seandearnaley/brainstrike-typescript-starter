@@ -9,7 +9,8 @@ import {
 
 import {
   mockFirstCardResponse,
-  mockFirstCardResponseId,
+  mockFirstCardResponseEncoded,
+  mockFirstCardQueryId,
   mockCardsResult,
   mockReturnCard,
   mockCardInput,
@@ -80,8 +81,8 @@ describe("Queries", () => {
   describe("[CardAPI.getCard]", () => {
     it("gets a single card in card repo", async () => {
       mockCardFindOne.mockReturnValue(mockFirstCardResponse);
-      const res = await ds.getCard(mockFirstCardResponseId);
-      expect(res).toEqual(mockFirstCardResponse);
+      const res = await ds.getCard(mockFirstCardQueryId);
+      expect(res).toEqual(mockFirstCardResponseEncoded);
     });
   });
 
@@ -97,7 +98,7 @@ describe("Queries", () => {
     it("updates a card in the card repo", async () => {
       mockCardFindOne.mockReturnValue(mockReturnCard);
       mockCardSave.mockReturnValue(mockReturnCard);
-      const res = await ds.updateCard(mockFirstCardResponseId, mockCardInput);
+      const res = await ds.updateCard(mockFirstCardQueryId, mockCardInput);
       expect(res).toEqual(mockSuccessfulUpdateResponse);
     });
   });
@@ -105,7 +106,7 @@ describe("Queries", () => {
   describe("[CardAPI.removeCard]", () => {
     it("removes a card from the card repo", async () => {
       mockCardRemove.mockReturnValue(mockReturnCard);
-      const res = await ds.removeCard(mockFirstCardResponseId);
+      const res = await ds.removeCard(mockFirstCardQueryId);
       expect(res).toEqual(mockSuccessfulRemoveResponse);
     });
   });

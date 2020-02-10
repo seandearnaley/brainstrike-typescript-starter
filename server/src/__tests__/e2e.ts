@@ -4,7 +4,6 @@ import {
   FetchResult,
   toPromise
 } from "apollo-link";
-import gql from "graphql-tag";
 
 import {
   startTestServer,
@@ -15,28 +14,6 @@ import {
 
 import * as TDATA from "./__testData";
 import * as GQL from "./__queries";
-
-// NOTE: would've like to share the GQL.GET_CARD_DATA but doesn't work for some reason, will investigate later
-// limit to the first 25 seeded records
-const GET_CARDS = gql`
-  query getCards {
-    cards(first: 25) {
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-      }
-      edges {
-        cursor
-        node {
-          __typename
-          id
-          number
-          label
-        }
-      }
-    }
-  }
-`;
 
 describe("Server - e2e", () => {
   let connection: Connection;
@@ -65,7 +42,8 @@ describe("Server - e2e", () => {
   it("gets list of cards", async () => {
     const res = await toPromise(
       graphql({
-        query: GET_CARDS
+        query: GQL.GET_CARD_DATA,
+        variables: { first: 20 }
       })
     );
 

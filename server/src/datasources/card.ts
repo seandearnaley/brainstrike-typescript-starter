@@ -1,7 +1,7 @@
-import { DataSource, DataSourceConfig } from "apollo-datasource";
 import DataLoader = require("dataloader");
+import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Connection } from "typeorm";
-import { Card } from "../entity";
+import { Card, Category } from "../entity";
 import {
   CardInput,
   CardsUpdatedResponse,
@@ -9,12 +9,19 @@ import {
   DirectionEnum
 } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
-// import { CursorPaginator, CursorPaginatorArgs } from "./utils/cursorPaginator";
 import { DataSourceRepos } from "../";
 
-import { encodeCursor, decodeCursor, buildPageInfo, Edge } from "./__utils";
+import {
+  encodeCursor,
+  decodeCursor,
+  buildPageInfo,
+  Edge,
+  escapeStringsWithDriver,
+  encodeGlobalID,
+  decodeGlobalID
+} from "./__utils";
 
-export class CursorPaginatorArgs {
+export class CardDsArgs {
   before?: string;
   after?: string;
   first?: number;
@@ -25,7 +32,7 @@ export class CursorPaginatorArgs {
 }
 
 interface CardWithRowNumber extends Card {
-  rowNumber: number;
+  rowNumber?: number;
 }
 
 export class CardAPI extends DataSource {
@@ -37,7 +44,8 @@ export class CardAPI extends DataSource {
     super();
     this.connection = connection;
     this.repos = {
-      cards: connection.getRepository(Card)
+      cards: connection.getRepository(Card),
+      categories: connection.getRepository(Category)
     };
   }
 
@@ -54,38 +62,44 @@ export class CardAPI extends DataSource {
    * https://facebook.github.io/relay/graphql/connections.htm#
    */
   async getCards({
-    first = 0,
+    first = 100,
     last = 0,
     before = null,
     after = null,
     orderByColumn = "created",
     orderByDirection = DirectionEnum.Desc,
     categoryId
-  }: CursorPaginatorArgs): Promise<CardConnection> {
+  }: CardDsArgs): Promise<CardConnection> {
+    //TODO: decode categoryId
+
     // escape input values for Postgres
-    const cursorColumn = this.connection.driver.escape("id");
-    const cardTableName = this.connection.driver.escape("card");
-    const categoryTableName = this.connection.driver.escape("category");
-    const categoryCardsTableName = this.connection.driver.escape(
-      "category_cards_card"
+    const [
+      cursorColumn,
+      cardTableName,
+      categoryTableName,
+      categoryCardsTableName,
+      _orderByColumn
+    ] = escapeStringsWithDriver(
+      this.connection.driver,
+      "id",
+      "card",
+      "category",
+      "category_cards_card",
+      orderByColumn
     );
 
-    orderByColumn = this.connection.driver.escape(orderByColumn);
-    const rowNumberOverStr = `ROW_NUMBER () OVER (ORDER BY ${cardTableName}.${orderByColumn} ${orderByDirection}) as "rowNumber"`;
-
     // MANY-to-MANY JOIN
-    let joinCode = `
-      LEFT JOIN ${categoryCardsTableName} on (${cardTableName}."id" = ${categoryCardsTableName}."cardId")
-      LEFT JOIN ${categoryTableName} on (${categoryCardsTableName}."categoryId" = ${categoryTableName}."id")
-    `;
-
-    if (categoryId) {
-      joinCode += `WHERE ${categoryCardsTableName}."categoryId" = '${categoryId}'`;
-    }
-
     const rowNumQuery = `
-      SELECT ${cardTableName}."id", ${rowNumberOverStr} FROM ${cardTableName}
-      ${joinCode}
+      SELECT ${cardTableName}.*, ROW_NUMBER () OVER (ORDER BY ${cardTableName}.${_orderByColumn} ${orderByDirection}) as "rowNumber" FROM ${cardTableName}
+      ${
+        categoryId // only need to add the joins if a categoryId is supplied, note its a many to many relationship, cards can be in multiple categories
+          ? `
+            LEFT JOIN ${categoryCardsTableName} on (${cardTableName}."id" = ${categoryCardsTableName}."cardId")
+            LEFT JOIN ${categoryTableName} on (${categoryCardsTableName}."categoryId" = ${categoryTableName}."id")
+            WHERE ${categoryCardsTableName}."categoryId" = '${categoryId}'
+          `
+          : ""
+      }
     `;
 
     const wheres = [];
@@ -139,10 +153,7 @@ export class CardAPI extends DataSource {
     }
 
     let queryStr = `
-      SELECT t1.* FROM (
-        SELECT ${cardTableName}.*, ${categoryTableName}."id" as "categoryId", ${rowNumberOverStr} FROM ${cardTableName}
-        ${joinCode}
-      ) as t1
+      SELECT t1.* FROM (${rowNumQuery}) as t1
     `;
 
     if (wheres.length) queryStr += `WHERE ${wheres.join(" AND ")}`;
@@ -155,10 +166,21 @@ export class CardAPI extends DataSource {
     ]);
 
     const edges = this.createEdges(results);
+    const pageInfo = buildPageInfo<Edge<CardWithRowNumber>>(edges, totalCount);
 
     return {
-      edges,
-      pageInfo: buildPageInfo<Edge<CardWithRowNumber>>(edges, totalCount)
+      edges: edges.map(edge => ({
+        node: this.encodeCard(edge.node),
+        cursor: edge.cursor
+      })),
+      pageInfo
+    };
+  }
+
+  protected encodeCard(data: Card): Card {
+    return {
+      ...data,
+      id: encodeGlobalID(data.id, "Card") // replace ID with a global ID
     };
   }
 
@@ -173,39 +195,48 @@ export class CardAPI extends DataSource {
 
   private cardLoader = (
     categoryId: string,
-    args: CursorPaginatorArgs
+    args: CardDsArgs
   ): Promise<CardConnection> => {
-    const dataLoader = new DataLoader<string, CardConnection>(
+    return new DataLoader<string, CardConnection>(
       async (categoryIds: string[]): Promise<CardConnection[]> => {
         return Promise.all(
-          categoryIds.map(async id => {
-            const cardConnection = await this.getCards({
+          categoryIds.map(async id =>
+            this.getCards({
               ...args,
               categoryId: id
-            });
-
-            return cardConnection;
-          })
+            })
+          )
         );
       }
-    );
-
-    return dataLoader.load(categoryId);
+    ).load(categoryId);
   };
 
   async getCardConnectionFor(
     categoryId: string,
-    args: CursorPaginatorArgs
+    args: CardDsArgs
   ): Promise<CardConnection> {
     return this.cardLoader(categoryId, args);
   }
 
   /**
-   * Get a particular card from the deck
-   * @param id card uuid
+   * Get a particular card from the deck using global id
+   * @param id global id
+   */
+  async getCardByGlobalID(id: string): Promise<Card> {
+    id = decodeGlobalID(id).id;
+    const card = await this.repos.cards.findOne(id); // find by id
+
+    if (!card) throw new Error("Card Not Found");
+    return card;
+  }
+
+  /**
+   * Get a particular card from the deck, returns encoded card
+   * @param id global id
    */
   async getCard(id: string): Promise<Card> {
-    return this.repos.cards.findOne(id, { relations: ["categories"] }); // find by id
+    const card = await this.getCardByGlobalID(id); // find by global id
+    return this.encodeCard(card);
   }
 
   /**
@@ -234,7 +265,7 @@ export class CardAPI extends DataSource {
     return {
       success: true,
       message: "Card Added",
-      card: savedCard
+      card: this.encodeCard(savedCard)
     };
   }
 
@@ -247,7 +278,7 @@ export class CardAPI extends DataSource {
     id: string,
     { number, label, description, categoryId }: CardInput
   ): Promise<CardsUpdatedResponse> {
-    const card = await this.getCard(id);
+    const card = await this.getCardByGlobalID(id); // find by id
     card.number = number;
     card.label = label;
     card.description = description;
@@ -263,7 +294,7 @@ export class CardAPI extends DataSource {
     return {
       success: true,
       message: "Card Updated",
-      card: savedCard
+      card: this.encodeCard(savedCard)
     };
   }
 
@@ -272,12 +303,13 @@ export class CardAPI extends DataSource {
    * @param id card uuid
    */
   async removeCard(id: string): Promise<CardsUpdatedResponse> {
-    const card = await this.getCard(id);
-    const removedCard = await this.repos.cards.remove(card);
+    const card = await this.getCardByGlobalID(id); // find by id
+    const originalCard = { ...card }; // remove wipes the ip, creating a copy for the card field
+    await this.repos.cards.remove(card);
     return {
       success: true,
       message: "Card Removed",
-      card: removedCard
+      card: this.encodeCard(originalCard)
     };
   }
 }

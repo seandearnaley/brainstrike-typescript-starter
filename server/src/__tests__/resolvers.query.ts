@@ -3,7 +3,7 @@ import resolvers from "../graphql/resolvers";
 import {
   mockCardsConnectionResult,
   mockFirstCardResponse,
-  mockFirstCardResponseId
+  mockFirstCardQueryId
 } from "./__testData";
 
 describe("[Query.cards]", () => {
@@ -24,7 +24,7 @@ describe("[Query.cards]", () => {
   });
 });
 
-describe("[Query.card]", () => {
+describe("[Query.node card]", () => {
   const mockContext = {
     dataSources: {
       cardAPI: { getCard: jest.fn() }
@@ -37,17 +37,20 @@ describe("[Query.card]", () => {
     getCard.mockReturnValueOnce(Promise.resolve(mockFirstCardResponse));
 
     // check the resolver response
-    const res = await resolvers.Query.card(
+    const res = await resolvers.Query.node(
       null,
       {
-        id: mockFirstCardResponseId
+        id: mockFirstCardQueryId
       },
       mockContext,
       null
     );
 
     // make sure the dataSources were called properly
-    expect(getCard).toHaveBeenCalledWith(mockFirstCardResponseId);
-    expect(res).toStrictEqual(mockFirstCardResponse);
+    expect(getCard).toHaveBeenCalledWith(mockFirstCardQueryId);
+    expect(res).toStrictEqual({
+      ...mockFirstCardResponse,
+      __typename: "Card"
+    });
   });
 });

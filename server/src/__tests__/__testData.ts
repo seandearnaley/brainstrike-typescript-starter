@@ -1,8 +1,5 @@
-import { Card } from "../entity/Card";
-import { Mockify } from "./__utils";
-import { Category } from "../entity";
-
-export const mockFirstCardResponseId = "e303f7e5-15ce-4a5f-9179-a75ffb4f8191";
+export const mockFirstCardQueryId =
+  "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ";
 
 export const mockCardInput = {
   number: 1,
@@ -12,14 +9,22 @@ export const mockCardInput = {
 };
 
 export const mockFirstCardResponse = {
-  id: mockFirstCardResponseId,
-  ...mockCardInput,
-  created: new Date(),
-  updated: new Date(),
-  categories: [] as Category[]
+  id: "e303f7e5-15ce-4a5f-9179-a75ffb4f8191",
+  number: 1,
+  label: "Test Card 1",
+  description: "testing",
+  created: new Date("2020-02-01T20:19:27.909Z"),
+  updated: new Date("2020-02-01T20:19:27.909Z"),
+  categories: null as []
 };
 
-export const mockE2EFirstId = "75f77473-b74c-4a20-ae0d-73e04b427cde";
+export const mockFirstCardResponseEncoded = {
+  ...mockFirstCardResponse,
+  id: "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ="
+};
+
+export const mockE2EFirstId =
+  "NzVmNzc0NzMtYjc0Yy00YTIwLWFlMGQtNzNlMDRiNDI3Y2RlOkNhcmQ=";
 
 export const mockCardsResult = [
   {
@@ -60,15 +65,24 @@ export const mockCardsConnectionResult = {
   edges: [
     {
       cursor: "Q3xjYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZQ==",
-      node: mockCardsResult[0]
+      node: {
+        ...mockCardsResult[0],
+        id: "NzVmNzc0NzMtYjc0Yy00YTIwLWFlMGQtNzNlMDRiNDI3Y2RlOkNhcmQ="
+      }
     },
     {
       cursor: "Q3xjYXJkfDc4NTU1YTkwLWY2OGItNDU0Yy1iZWIyLWU3MDIxZjNkOGM2Mw==",
-      node: mockCardsResult[1]
+      node: {
+        ...mockCardsResult[1],
+        id: "Nzg1NTVhOTAtZjY4Yi00NTRjLWJlYjItZTcwMjFmM2Q4YzYzOkNhcmQ="
+      }
     },
     {
       cursor: "Q3xjYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyNw==",
-      node: mockCardsResult[2]
+      node: {
+        ...mockCardsResult[2],
+        id: "Y2FmMzhiMzEtZTU1MS00MzNiLWIxYjAtYzY1ODA3ZTk3OTI3OkNhcmQ="
+      }
     }
   ],
   pageInfo: {
@@ -80,31 +94,18 @@ export const mockCardsConnectionResult = {
   }
 };
 
-export const mockCardsResponse = [
-  mockFirstCardResponse,
-  {
-    id: "c74121e7-8471-4fa4-8320-dcfe685eaf24",
-    number: 2,
-    label: "Test Card 2",
-    description: "more testing"
-  },
-  {
-    id: "1f266640-25fe-4015-bbfc-f551ed0aa38e",
-    number: 3,
-    label: "Test Card 3",
-    description: "even more testing"
-  }
-];
-
-export const mockReturnCard: Mockify<Card> = {
+export const mockReturnCard = {
   ...mockFirstCardResponse,
   created: new Date(),
-  updated: null
+  updated: null as Date
 };
 
 export const defaultReturn = {
   success: true,
-  card: mockReturnCard
+  card: {
+    ...mockReturnCard,
+    id: "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ="
+  }
 };
 
 export const mockSuccessfulAddResponse = {

@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import { Card, Category } from "./entity";
 import { typeDefs, resolvers } from "./graphql";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, makeExecutableSchema } from "apollo-server-express";
 import { CardAPI, CategoryAPI } from "./datasources";
 import { DataSources } from "apollo-server-core/dist/graphqlOptions";
 import { ApolloContext } from "./types/context";
@@ -72,9 +72,15 @@ const createServer = async (
   const cardAPI = new CardAPI({ connection });
   const categoryAPI = new CategoryAPI({ connection });
 
-  const apolloServer = new ApolloServer({
+  // have to use this to get resolverValidationOptions into Apollo
+  const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
+    resolverValidationOptions: { requireResolversForResolveType: false }
+  });
+
+  const apolloServer = new ApolloServer({
+    schema,
     context,
     dataSources: (): DataSources<ApolloContext> => ({ cardAPI, categoryAPI })
   });

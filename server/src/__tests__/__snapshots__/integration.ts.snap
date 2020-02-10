@@ -6,7 +6,7 @@ Object {
     "addCard": Object {
       "card": Object {
         "description": "testing",
-        "id": "e303f7e5-15ce-4a5f-9179-a75ffb4f8191",
+        "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
         "label": "Test Card 1",
         "number": 1,
       },
@@ -48,7 +48,7 @@ Object {
     "updateCard": Object {
       "card": Object {
         "description": "testing",
-        "id": "e303f7e5-15ce-4a5f-9179-a75ffb4f8191",
+        "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
         "label": "Test Card 1",
         "number": 1,
       },
@@ -68,10 +68,53 @@ Object {
 
 exports[`Queries fetches list of cards 1`] = `
 Object {
-  "data": undefined,
-  "errors": Array [
-    [ValidationError: Unknown directive "connection".],
-  ],
+  "data": Object {
+    "cards": Object {
+      "edges": Array [
+        Object {
+          "cursor": "Q3xjYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZQ==",
+          "node": Object {
+            "__typename": "Card",
+            "created": "2020-02-01T20:19:27.909Z",
+            "id": "NzVmNzc0NzMtYjc0Yy00YTIwLWFlMGQtNzNlMDRiNDI3Y2RlOkNhcmQ=",
+            "label": "sed possimus tempore",
+            "number": 99999,
+            "updated": "2020-02-01T20:19:27.909Z",
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfDc4NTU1YTkwLWY2OGItNDU0Yy1iZWIyLWU3MDIxZjNkOGM2Mw==",
+          "node": Object {
+            "__typename": "Card",
+            "created": "2020-02-01T23:03:03.942Z",
+            "id": "Nzg1NTVhOTAtZjY4Yi00NTRjLWJlYjItZTcwMjFmM2Q4YzYzOkNhcmQ=",
+            "label": "necessitatibus id error",
+            "number": 99995,
+            "updated": "2020-02-01T23:03:03.942Z",
+          },
+        },
+        Object {
+          "cursor": "Q3xjYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyNw==",
+          "node": Object {
+            "__typename": "Card",
+            "created": "2020-02-02T04:59:07.272Z",
+            "id": "Y2FmMzhiMzEtZTU1MS00MzNiLWIxYjAtYzY1ODA3ZTk3OTI3OkNhcmQ=",
+            "label": "doloribus explicabo explicabo",
+            "number": 99974,
+            "updated": "2020-02-02T04:59:07.272Z",
+          },
+        },
+      ],
+      "pageInfo": Object {
+        "endCursor": "Q3xjYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyNw==",
+        "hasNextPage": true,
+        "hasPreviousPage": false,
+        "startCursor": "Q3xjYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZQ==",
+        "totalCount": 10000,
+      },
+    },
+  },
+  "errors": undefined,
   "extensions": undefined,
   "http": Object {
     "headers": Headers {
@@ -85,10 +128,13 @@ exports[`Queries fetches single card 1`] = `
 Object {
   "data": Object {
     "card": Object {
+      "__typename": "Card",
+      "created": "2020-02-01T20:19:27.909Z",
       "description": "testing",
       "id": "e303f7e5-15ce-4a5f-9179-a75ffb4f8191",
       "label": "Test Card 1",
       "number": 1,
+      "updated": "2020-02-01T20:19:27.909Z",
     },
   },
   "errors": undefined,

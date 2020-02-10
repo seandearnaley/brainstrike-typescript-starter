@@ -35,7 +35,6 @@ export type Card = Node & {
   description?: Maybe<Scalars["String"]>;
   created: Scalars["DateTime"];
   updated?: Maybe<Scalars["DateTime"]>;
-  categoryId?: Maybe<Scalars["String"]>;
 };
 
 export type CardConnection = {
@@ -157,6 +156,7 @@ export type Query = {
   cards: CardConnection;
   categories?: Maybe<Array<Category>>;
   category?: Maybe<Category>;
+  node?: Maybe<Node>;
 };
 
 export type QueryCardArgs = {
@@ -174,6 +174,10 @@ export type QueryCardsArgs = {
 };
 
 export type QueryCategoryArgs = {
+  id: Scalars["ID"];
+};
+
+export type QueryNodeArgs = {
   id: Scalars["ID"];
 };
 
@@ -351,11 +355,6 @@ export type CardResolvers<
   created?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   updated?: Resolver<
     Maybe<ResolversTypes["DateTime"]>,
-    ParentType,
-    ContextType
-  >;
-  categoryId?: Resolver<
-    Maybe<ResolversTypes["String"]>,
     ParentType,
     ContextType
   >;
@@ -551,6 +550,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryCategoryArgs, "id">
+  >;
+  node?: Resolver<
+    Maybe<ResolversTypes["Node"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryNodeArgs, "id">
   >;
 }>;
 

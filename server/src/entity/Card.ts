@@ -33,5 +33,5 @@ export class Card {
     () => Category,
     category => category.cards
   )
-  categories: Category[];
+  categories?: Category[]; // marked optional because we want to return categories via a resolver/dataloader
 }

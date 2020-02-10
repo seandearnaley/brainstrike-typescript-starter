@@ -27,10 +27,17 @@ export const FlexLayout: React.FC<FlexLayoutProps> = (
       <div
         className={css`
           flex: 2;
-          padding: 5px;
+          height: 100%;
+          overflow: auto;
         `}
       >
-        {props.middle}
+        <div
+          className={css`
+            padding: 5px;
+          `}
+        >
+          {props.middle}
+        </div>
       </div>
       <div
         className={css`

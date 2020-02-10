@@ -13,10 +13,8 @@ export const FlexLayout: React.FC<FlexLayoutProps> = (
   return (
     <div
       className={css`
+        height: 100%;
         display: flex;
-        div {
-          padding: 5px;
-        }
       `}
     >
       <div
@@ -29,6 +27,7 @@ export const FlexLayout: React.FC<FlexLayoutProps> = (
       <div
         className={css`
           flex: 2;
+          padding: 5px;
         `}
       >
         {props.middle}
@@ -36,6 +35,7 @@ export const FlexLayout: React.FC<FlexLayoutProps> = (
       <div
         className={css`
           flex: 2;
+          padding: 5px;
         `}
       >
         {props.right}

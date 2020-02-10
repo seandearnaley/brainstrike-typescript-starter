@@ -19,9 +19,15 @@ export const CategorySelector: React.FC<CategorySelectorProps> = (
     <div
       className={css`
         background-color: silver;
+        height: 100%;
+        overflow: auto;
       `}
     >
-      <div>
+      <div
+        className={css`
+          padding: 5px;
+        `}
+      >
         {props.data.map(data => {
           return <div key={data.id}>{data.name}</div>;
         })}

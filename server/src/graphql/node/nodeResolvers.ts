@@ -1,16 +1,9 @@
-import { Resolvers } from "../../generated/graphql";
-import { Card } from "../../entity";
+import { Resolvers, Card } from "../../generated/graphql";
 import { decodeGlobalID } from "../../datasources/__utils";
-
-interface CardWithTypeName extends Card {
-  __typename: string;
-}
-
-type NodeResolverTypes = Promise<CardWithTypeName | null>;
 
 export const resolvers: Resolvers = {
   Query: {
-    node: async (parent, { id }, { dataSources }): NodeResolverTypes => {
+    node: async (parent, { id }, { dataSources }): Promise<Card | null> => {
       const __typename = decodeGlobalID(id).__typename;
       let node;
 

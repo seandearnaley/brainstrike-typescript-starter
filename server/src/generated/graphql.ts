@@ -257,8 +257,8 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes>;
 
-export type isTypeOfResolverFn = (
-  obj: any,
+export type isTypeOfResolverFn<T = {}> = (
+  obj: T,
   info: GraphQLResolveInfo
 ) => boolean;
 
@@ -348,7 +348,7 @@ export type CardResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: isTypeOfResolverFn;
+  __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
 export type CardConnectionResolvers<
@@ -357,7 +357,7 @@ export type CardConnectionResolvers<
 > = ResolversObject<{
   pageInfo?: Resolver<ResolversTypes["PageInfo"], ParentType, ContextType>;
   edges?: Resolver<Array<ResolversTypes["CardEdge"]>, ParentType, ContextType>;
-  __isTypeOf?: isTypeOfResolverFn;
+  __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
 export type CardEdgeResolvers<
@@ -366,7 +366,7 @@ export type CardEdgeResolvers<
 > = ResolversObject<{
   cursor?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   node?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
-  __isTypeOf?: isTypeOfResolverFn;
+  __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
 export type CardsUpdatedResponseResolvers<
@@ -376,7 +376,7 @@ export type CardsUpdatedResponseResolvers<
   success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
   message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   card?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
-  __isTypeOf?: isTypeOfResolverFn;
+  __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
 export type CategoryResolvers<
@@ -403,7 +403,7 @@ export type CategoryResolvers<
     ContextType,
     Category_CardsArgs
   >;
-  __isTypeOf?: isTypeOfResolverFn;
+  __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
 export type CategoryUpdatedResponseResolvers<
@@ -417,7 +417,7 @@ export type CategoryUpdatedResponseResolvers<
     ParentType,
     ContextType
   >;
-  __isTypeOf?: isTypeOfResolverFn;
+  __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
 export interface DateScalarConfig
@@ -507,7 +507,7 @@ export type PageInfoResolvers<
     ContextType
   >;
   totalCount?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
-  __isTypeOf?: isTypeOfResolverFn;
+  __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
 export type QueryResolvers<

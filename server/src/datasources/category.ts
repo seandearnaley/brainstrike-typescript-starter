@@ -73,18 +73,27 @@ export class CategoryAPI extends DataSource {
   /**
    * Get all categories
    */
-  async getCategories(args?: CategoryDsArgs): Promise<Category[]> {
+  async getCategories({
+    cardIds,
+    orderByColumn = "category.name",
+    orderByDirection = DirectionEnum.Asc
+  }: CategoryDsArgs): Promise<Category[]> {
     let query = this.repos.categories
       .createQueryBuilder("category")
       .leftJoinAndSelect("category.cards", "card");
 
-    if (args?.cardIds?.length) {
+    if (cardIds?.length) {
       // filter by CardID
-      const decodedIds = args.cardIds
+
+      const decodedIds = cardIds
         .split(",")
         .map(encodedId => decodeGlobalID(encodedId).id);
 
       query = query.where("card.id IN (:...cardIds)", { cardIds: decodedIds });
+    }
+
+    if (orderByColumn) {
+      query = query.orderBy(orderByColumn, orderByDirection);
     }
 
     const data = await query.getMany();

@@ -164,6 +164,8 @@ export type QueryCardsArgs = {
 
 export type QueryCategoriesArgs = {
   cardIds?: Maybe<Scalars["String"]>;
+  orderByColumn?: Maybe<Scalars["String"]>;
+  orderByDirection?: Maybe<DirectionEnum>;
 };
 
 export type QueryNodeArgs = {

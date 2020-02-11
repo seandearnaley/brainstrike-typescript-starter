@@ -26,7 +26,7 @@ type PageInfo {
 
 type Query {
   cards(first: Int, last: Int, after: String, before: String, orderByColumn: String, orderByDirection: DirectionEnum, categoryId: ID): CardConnection!
-  categories(cardIds: String): [Category!]
+  categories(cardIds: String, orderByColumn: String, orderByDirection: DirectionEnum): [Category!]
   node(id: ID!): Node
 }
 

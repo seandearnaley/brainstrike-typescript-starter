@@ -14,8 +14,11 @@ generates:
     plugins:
       - "introspection"
 config:
-   apolloClientVersion: 3
-   withHooks: true
-   withHOC: false
-   withComponent: false
- 
+  apolloClientVersion: 3
+  withHooks: true
+  withHOC: false
+  withComponent: false
+  apolloReactCommonImportFrom: "@apollo/client"
+  apolloReactComponentsImportFrom: "@apollo/client"
+  apolloReactHocImportFrom: "@apollo/client"
+  apolloReactHooksImportFrom: "@apollo/client"

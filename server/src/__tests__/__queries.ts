@@ -5,11 +5,12 @@ import gql from "graphql-tag";
 export const CARD_DATA = gql`
   fragment CardData on Card {
     __typename
-    created
-    updated
     id
     label
     number
+    description
+    created
+    updated
   }
 `;
 
@@ -52,19 +53,11 @@ export const GET_CARD_DATA = gql`
 
 export const GET_CARD = gql`
   query card($id: ID!) {
-    card: node(id: $id) {
-      id
-      created
-      updated
-      ... on Card {
-        id
-        number
-        label
-        description
-        __typename
-      }
+    card(id: $id) {
+      ...CardData
     }
   }
+  ${CARD_DATA}
 `;
 
 export const ADD_CARD = gql`
@@ -73,13 +66,11 @@ export const ADD_CARD = gql`
       success
       message
       card {
-        id
-        number
-        label
-        description
+        ...CardData
       }
     }
   }
+  ${CARD_DATA}
 `;
 
 export const UPDATE_CARD = gql`
@@ -88,13 +79,11 @@ export const UPDATE_CARD = gql`
       success
       message
       card {
-        id
-        number
-        label
-        description
+        ...CardData
       }
     }
   }
+  ${CARD_DATA}
 `;
 
 export const REMOVE_CARD = gql`
@@ -102,6 +91,10 @@ export const REMOVE_CARD = gql`
     removeCard(id: $id) {
       success
       message
+      card {
+        ...CardData
+      }
     }
   }
+  ${CARD_DATA}
 `;

@@ -1,4 +1,4 @@
-query getCategory(
+query getCategoryNode(
     $id: ID!
     $first: Int
     $last: Int
@@ -8,13 +8,13 @@ query getCategory(
     $orderByDirection: DirectionEnum
   ) {
     category: node(id: $id) {
+      __typename,
       ... on Node {
         id
         created
         updated
       }
       ... on Category {
-        __typename
         name
         parentId
         _cards(

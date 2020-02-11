@@ -5,10 +5,13 @@ Object {
   "data": Object {
     "addCard": Object {
       "card": Object {
+        "__typename": "Card",
+        "created": "2020-02-11T23:23:44.862Z",
         "description": "testing",
         "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
         "label": "Test Card 1",
         "number": 1,
+        "updated": null,
       },
       "message": "Card Added",
       "success": true,
@@ -28,6 +31,15 @@ exports[`Mutations remove card 1`] = `
 Object {
   "data": Object {
     "removeCard": Object {
+      "card": Object {
+        "__typename": "Card",
+        "created": "2020-02-11T23:23:44.862Z",
+        "description": "testing",
+        "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
+        "label": "Test Card 1",
+        "number": 1,
+        "updated": null,
+      },
       "message": "Card Removed",
       "success": true,
     },
@@ -47,10 +59,13 @@ Object {
   "data": Object {
     "updateCard": Object {
       "card": Object {
+        "__typename": "Card",
+        "created": "2020-02-11T23:23:44.862Z",
         "description": "testing",
         "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
         "label": "Test Card 1",
         "number": 1,
+        "updated": null,
       },
       "message": "Card Updated",
       "success": true,
@@ -76,6 +91,7 @@ Object {
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-01T20:19:27.909Z",
+            "description": "Amet autem et.",
             "id": "NzVmNzc0NzMtYjc0Yy00YTIwLWFlMGQtNzNlMDRiNDI3Y2RlOkNhcmQ=",
             "label": "sed possimus tempore",
             "number": 99999,
@@ -87,6 +103,7 @@ Object {
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-01T23:03:03.942Z",
+            "description": "Odit officia esse hic qui est perspiciatis.",
             "id": "Nzg1NTVhOTAtZjY4Yi00NTRjLWJlYjItZTcwMjFmM2Q4YzYzOkNhcmQ=",
             "label": "necessitatibus id error",
             "number": 99995,
@@ -98,6 +115,7 @@ Object {
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T04:59:07.272Z",
+            "description": "Et in sequi eum enim ratione.",
             "id": "Y2FmMzhiMzEtZTU1MS00MzNiLWIxYjAtYzY1ODA3ZTk3OTI3OkNhcmQ=",
             "label": "doloribus explicabo explicabo",
             "number": 99974,

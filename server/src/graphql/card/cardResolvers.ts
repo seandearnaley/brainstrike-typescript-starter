@@ -2,13 +2,16 @@ import {
   Resolvers,
   CardsUpdatedResponse,
   CardConnection,
+  Card,
   Category
 } from "../../generated/graphql";
 
 export const resolvers: Resolvers = {
   Query: {
     cards: async (_, args, { dataSources }): Promise<CardConnection> =>
-      dataSources.cardAPI.getCards(args)
+      dataSources.cardAPI.getCards(args),
+    card: async (_, { id }, { dataSources }): Promise<Card> =>
+      dataSources.cardAPI.getCard(id)
   },
   Mutation: {
     addCard: (_, { input }, { dataSources }): Promise<CardsUpdatedResponse> =>

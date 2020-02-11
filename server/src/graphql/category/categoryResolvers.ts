@@ -8,7 +8,9 @@ import {
 export const resolvers: Resolvers = {
   Query: {
     categories: (_, args, { dataSources }): Promise<Category[]> =>
-      dataSources.categoryAPI.getCategories(args)
+      dataSources.categoryAPI.getCategories(args),
+    category: async (_, { id }, { dataSources }): Promise<Category> =>
+      dataSources.categoryAPI.getCategory(id)
   },
   Mutation: {
     addCategory: (

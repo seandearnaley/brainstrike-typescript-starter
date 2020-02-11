@@ -1,3 +1,5 @@
+// experimental
+
 import React, { useMemo, useEffect } from 'react';
 import { ApolloQueryResult } from '@apollo/client';
 import {
@@ -7,13 +9,13 @@ import {
 } from '../generated/graphql';
 import { CardTable } from '../components/CardTable';
 
-interface CardContainerProps {
+interface NodeCategoryContainerProps {
   selectedCategory: string;
 }
 
-export const CardContainer: React.FC<CardContainerProps> = ({
+export const NodeCategoryContainer: React.FC<NodeCategoryContainerProps> = ({
   selectedCategory,
-}: CardContainerProps) => {
+}: NodeCategoryContainerProps) => {
   const variables = {
     first: 5,
     orderByColumn: 'number',

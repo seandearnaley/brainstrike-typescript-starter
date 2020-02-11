@@ -16,7 +16,11 @@ import * as serviceWorker from './serviceWorker';
 
 // Set up our apollo-client to point at the server we created
 // this can be local or a remote en}dpoint
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  possibleTypes: {
+    Node: ['Card', 'Category'],
+  },
+});
 const client = new ApolloClient({
   cache,
   link: new HttpLink({

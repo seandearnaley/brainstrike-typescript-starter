@@ -148,7 +148,9 @@ export type PageInfo = {
 export type Query = {
   __typename?: "Query";
   cards: CardConnection;
+  card?: Maybe<Card>;
   categories?: Maybe<Array<Category>>;
+  category?: Maybe<Category>;
   node?: Maybe<Node>;
 };
 
@@ -162,10 +164,18 @@ export type QueryCardsArgs = {
   categoryId?: Maybe<Scalars["ID"]>;
 };
 
+export type QueryCardArgs = {
+  id: Scalars["ID"];
+};
+
 export type QueryCategoriesArgs = {
   cardIds?: Maybe<Scalars["String"]>;
   orderByColumn?: Maybe<Scalars["String"]>;
   orderByDirection?: Maybe<DirectionEnum>;
+};
+
+export type QueryCategoryArgs = {
+  id: Scalars["ID"];
 };
 
 export type QueryNodeArgs = {
@@ -522,11 +532,23 @@ export type QueryResolvers<
     ContextType,
     QueryCardsArgs
   >;
+  card?: Resolver<
+    Maybe<ResolversTypes["Card"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCardArgs, "id">
+  >;
   categories?: Resolver<
     Maybe<Array<ResolversTypes["Category"]>>,
     ParentType,
     ContextType,
     QueryCategoriesArgs
+  >;
+  category?: Resolver<
+    Maybe<ResolversTypes["Category"]>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCategoryArgs, "id">
   >;
   node?: Resolver<
     Maybe<ResolversTypes["Node"]>,

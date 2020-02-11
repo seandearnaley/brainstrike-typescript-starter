@@ -1,23 +1,29 @@
-import React, { useMemo } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { ApolloQueryResult } from 'apollo-client';
+import React, { useMemo, useEffect } from 'react';
+import { ApolloQueryResult, useQuery } from '@apollo/client';
 import { DirectionEnum } from '../generated/globalTypes';
 import * as GetCardsTypes from '../graphql/generated/getCards';
 
 import * as GQL from '../graphql/gql';
 import { CardTable } from '../components/CardTable';
 
-export const CardContainer: React.FC = () => {
-  const { data, loading, error, fetchMore } = useQuery<
+interface CardContainerProps {
+  selectedCategory: string;
+}
+
+export const CardContainer: React.FC<CardContainerProps> = ({
+  selectedCategory,
+}: CardContainerProps) => {
+  const variables = {
+    first: 5,
+    orderByColumn: 'number',
+    orderByDirection: DirectionEnum.ASC,
+    categoryId: selectedCategory,
+  };
+
+  const { data, loading, error, fetchMore, refetch } = useQuery<
     GetCardsTypes.getCards,
     GetCardsTypes.getCardsVariables
-  >(GQL.GET_CARD_DATA, {
-    variables: {
-      first: 10,
-      orderByColumn: 'number',
-      orderByDirection: DirectionEnum.ASC,
-    },
-  });
+  >(GQL.GET_CARD_DATA, { variables });
 
   const cardData = useMemo(
     () =>
@@ -33,10 +39,14 @@ export const CardContainer: React.FC = () => {
     [data],
   );
 
+  useEffect(() => {
+    refetch();
+  }, [refetch, selectedCategory]);
+
   const getMoreData = (): Promise<ApolloQueryResult<GetCardsTypes.getCards>> =>
     fetchMore({
       variables: {
-        first: 10,
+        ...variables,
         after: data?.cards.pageInfo.endCursor,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
@@ -60,15 +70,17 @@ export const CardContainer: React.FC = () => {
     });
 
   if (loading) return <p>Loading...</p>;
-  if (error || !data) return <p>ERROR</p>;
+  if (error) return <p>ERROR</p>;
 
   return (
     <div>
+      <div>Selected: {variables.categoryId}</div>
       <CardTable data={cardData}></CardTable>
-
       {data?.cards.pageInfo.hasNextPage && (
         <button onClick={getMoreData}>Load More</button>
       )}
+      Showing {data?.cards.edges.length} / {data?.cards.pageInfo.totalCount}{' '}
+      Total
     </div>
   );
 };

@@ -2,11 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { MainPage } from './pages/MainPage';
+// import { InMemoryCache } from 'apollo-cache-inmemory';
+// import { HttpLink } from 'apollo-link-http';
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client';
+import { CardManager } from './pages/CardManager';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -26,7 +30,7 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <MainPage></MainPage>
+    <CardManager></CardManager>
   </ApolloProvider>,
   document.getElementById('root'),
 );

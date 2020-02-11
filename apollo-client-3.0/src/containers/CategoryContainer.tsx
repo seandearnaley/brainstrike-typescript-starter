@@ -1,11 +1,17 @@
 import React, { useMemo } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import * as GetCategoryTypes from '../graphql/generated/getCategories';
 
 import * as GQL from '../graphql/gql';
 import { CategorySelector } from '../components/CategorySelector';
 
-export const CategoryContainer: React.FC = () => {
+interface CategoryContainerProps {
+  onSelectCategory: (id: string) => void;
+}
+
+export const CategoryContainer: React.FC<CategoryContainerProps> = ({
+  onSelectCategory,
+}: CategoryContainerProps) => {
   const { data, loading, error } = useQuery<GetCategoryTypes.getCategories>(
     GQL.GET_CARD_CATEGORIES,
   );
@@ -24,5 +30,10 @@ export const CategoryContainer: React.FC = () => {
   if (loading) return <p>Loading...</p>;
   if (error || !data) return <p>ERROR</p>;
 
-  return <CategorySelector data={categoryData}></CategorySelector>;
+  return (
+    <CategorySelector
+      data={categoryData}
+      onSelectCategory={onSelectCategory}
+    ></CategorySelector>
+  );
 };

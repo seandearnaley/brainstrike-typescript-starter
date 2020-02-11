@@ -2,7 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { DirectionEnum } from "./../../generated/globalTypes";
+import { DirectionEnum } from "./../../../generated/globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCards
@@ -19,9 +19,9 @@ export interface getCards_cards_pageInfo {
 
 export interface getCards_cards_edges_node {
   __typename: "Card";
+  id: string;
   created: any;
   updated: any | null;
-  id: string;
   label: string | null;
   number: number | null;
 }

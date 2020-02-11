@@ -1,0 +1,38 @@
+ query getCards(
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+    $orderByColumn: String
+    $orderByDirection: DirectionEnum
+    $categoryId: ID
+  ) {
+    cards(
+      first: $first
+      last: $last
+      after: $after
+      before: $before
+      orderByColumn: $orderByColumn
+      orderByDirection: $orderByDirection
+      categoryId: $categoryId
+    ) @connection(key: "Cards") {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+        totalCount
+      }
+      edges {
+        cursor
+        node {
+          __typename
+          id
+          created
+          updated
+          label
+          number
+        }
+      }
+    }
+  }

@@ -1,0 +1,10 @@
+  query getCategories {
+    categories {
+      __typename
+      id
+      created
+      updated
+      name
+      parentId
+    }
+  }

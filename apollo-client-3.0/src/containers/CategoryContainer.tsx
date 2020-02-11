@@ -1,8 +1,5 @@
 import React, { useMemo } from 'react';
-import { useQuery } from '@apollo/client';
-import * as GetCategoryTypes from '../graphql/generated/getCategories';
-
-import * as GQL from '../graphql/gql';
+import { useGetCategoriesQuery } from '../generated/graphql';
 import { CategorySelector } from '../components/CategorySelector';
 
 interface CategoryContainerProps {
@@ -12,9 +9,7 @@ interface CategoryContainerProps {
 export const CategoryContainer: React.FC<CategoryContainerProps> = ({
   onSelectCategory,
 }: CategoryContainerProps) => {
-  const { data, loading, error } = useQuery<GetCategoryTypes.getCategories>(
-    GQL.GET_CARD_CATEGORIES,
-  );
+  const { data, loading, error } = useGetCategoriesQuery();
 
   const categoryData = useMemo(
     () =>

@@ -3,7 +3,7 @@ import { css } from 'emotion';
 
 interface CategoryData {
   id: string;
-  name: string | null;
+  name: string | null | undefined;
   created: string | null; //ISOString
   updated: string | null; //ISOString
 }

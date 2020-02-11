@@ -4,8 +4,8 @@ import { css } from 'emotion';
 
 interface CardTableData {
   id: string;
-  number: number | null;
-  label: string | null;
+  number: number | null | undefined;
+  label: string | null | undefined;
   created: string; //ISOString
   updated: string | null; //ISOString
 }

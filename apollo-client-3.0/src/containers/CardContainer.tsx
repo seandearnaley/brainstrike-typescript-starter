@@ -1,9 +1,10 @@
 import React, { useMemo, useEffect } from 'react';
-import { ApolloQueryResult, useQuery } from '@apollo/client';
-import { DirectionEnum } from '../generated/globalTypes';
-import * as GetCardsTypes from '../graphql/generated/getCards';
-
-import * as GQL from '../graphql/gql';
+import { ApolloQueryResult } from '@apollo/client';
+import {
+  useGetCardsQuery,
+  GetCardsQuery,
+  DirectionEnum,
+} from '../generated/graphql';
 import { CardTable } from '../components/CardTable';
 
 interface CardContainerProps {
@@ -16,14 +17,13 @@ export const CardContainer: React.FC<CardContainerProps> = ({
   const variables = {
     first: 5,
     orderByColumn: 'number',
-    orderByDirection: DirectionEnum.ASC,
+    orderByDirection: DirectionEnum.Asc,
     categoryId: selectedCategory,
   };
 
-  const { data, loading, error, fetchMore, refetch } = useQuery<
-    GetCardsTypes.getCards,
-    GetCardsTypes.getCardsVariables
-  >(GQL.GET_CARD_DATA, { variables });
+  const { data, loading, error, fetchMore, refetch } = useGetCardsQuery({
+    variables,
+  });
 
   const cardData = useMemo(
     () =>
@@ -43,7 +43,7 @@ export const CardContainer: React.FC<CardContainerProps> = ({
     refetch();
   }, [refetch, selectedCategory]);
 
-  const getMoreData = (): Promise<ApolloQueryResult<GetCardsTypes.getCards>> =>
+  const getMoreData = (): Promise<ApolloQueryResult<GetCardsQuery>> =>
     fetchMore({
       variables: {
         ...variables,

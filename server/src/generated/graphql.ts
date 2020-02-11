@@ -29,6 +29,7 @@ export type Card = Node & {
   description?: Maybe<Scalars["String"]>;
   created: Scalars["DateTime"];
   updated?: Maybe<Scalars["DateTime"]>;
+  _categories?: Maybe<Array<Category>>;
 };
 
 export type CardConnection = {
@@ -159,6 +160,10 @@ export type QueryCardsArgs = {
   orderByColumn?: Maybe<Scalars["String"]>;
   orderByDirection?: Maybe<DirectionEnum>;
   categoryId?: Maybe<Scalars["ID"]>;
+};
+
+export type QueryCategoriesArgs = {
+  cardIds?: Maybe<Scalars["String"]>;
 };
 
 export type QueryNodeArgs = {
@@ -338,6 +343,11 @@ export type CardResolvers<
     ParentType,
     ContextType
   >;
+  _categories?: Resolver<
+    Maybe<Array<ResolversTypes["Category"]>>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: isTypeOfResolverFn;
 }>;
 
@@ -513,7 +523,8 @@ export type QueryResolvers<
   categories?: Resolver<
     Maybe<Array<ResolversTypes["Category"]>>,
     ParentType,
-    ContextType
+    ContextType,
+    QueryCategoriesArgs
   >;
   node?: Resolver<
     Maybe<ResolversTypes["Node"]>,

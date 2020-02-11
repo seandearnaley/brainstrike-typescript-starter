@@ -1,11 +1,22 @@
+import DataLoader = require("dataloader");
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Connection } from "typeorm";
 
 import { Category } from "../entity";
-import { CategoryInput, CategoryUpdatedResponse } from "../generated/graphql";
+import {
+  CategoryInput,
+  CategoryUpdatedResponse,
+  DirectionEnum
+} from "../generated/graphql";
 import { ApolloContext } from "../types/context";
 import { DataSourceRepos } from "..";
 import { encodeGlobalID, decodeGlobalID } from "./__utils";
+
+export class CategoryDsArgs {
+  orderByColumn?: string;
+  orderByDirection?: DirectionEnum;
+  cardIds?: string;
+}
 
 export class CategoryAPI extends DataSource {
   context!: ApolloContext;
@@ -29,23 +40,56 @@ export class CategoryAPI extends DataSource {
   }
 
   protected encodeCategory(data: Category): Category {
-    const { id, name, parent, created, updated, children, cards } = data;
+    const { id, name, parent, created, updated, cards } = data;
     return {
       id: encodeGlobalID(id, "Category"), // replace ID with a global ID
       name,
       parent,
       created,
       updated,
-      children,
       cards
     };
+  }
+
+  private categoryLoader = new DataLoader<string, Category[]>(
+    async (cardIds: string[]): Promise<Array<Category[]>> => {
+      console.log("cardIds=", cardIds);
+      // batches cardIds into a single call per request
+      const categories = await this.getCategories({
+        cardIds: cardIds.join(",")
+      });
+
+      return cardIds.map(id =>
+        categories.filter(category =>
+          category.cards.find(card => card.id === decodeGlobalID(id).id)
+        )
+      );
+    }
+  );
+
+  async getCategoriesFor(cardId: string): Promise<Category[]> {
+    return this.categoryLoader.load(cardId);
   }
 
   /**
    * Get all categories
    */
-  async getCategories(): Promise<Category[]> {
-    const data = await this.repos.categories.find();
+  async getCategories(args?: CategoryDsArgs): Promise<Category[]> {
+    let data;
+    if (args?.cardIds?.length) {
+      // filter by CardID
+      const decodedIds = args.cardIds
+        .split(",")
+        .map(encodedId => decodeGlobalID(encodedId).id);
+
+      data = await this.repos.categories
+        .createQueryBuilder("category")
+        .leftJoinAndSelect("category.cards", "card")
+        .where("card.id IN (:...cardIds)", { cardIds: decodedIds })
+        .getMany();
+    } else {
+      data = await this.repos.categories.find();
+    }
 
     return data.map(this.encodeCategory); // get all
   }

@@ -35,6 +35,11 @@ interface CardWithRowNumber extends Card {
   rowNumber?: number;
 }
 
+interface CategoryLoader {
+  categoryId?: string;
+  args?: CardDsArgs;
+}
+
 export class CardAPI extends DataSource {
   context!: ApolloContext;
   connection: Partial<Connection>;
@@ -193,29 +198,23 @@ export class CardAPI extends DataSource {
     }));
   }
 
-  private cardLoader = (
-    categoryId: string,
-    args: CardDsArgs
-  ): Promise<CardConnection> => {
-    return new DataLoader<string, CardConnection>(
-      async (categoryIds: string[]): Promise<CardConnection[]> => {
-        return Promise.all(
-          categoryIds.map(async id =>
-            this.getCards({
-              ...args,
-              categoryId: id
-            })
-          )
-        );
-      }
-    ).load(categoryId);
-  };
+  private cardLoader = new DataLoader<CategoryLoader, CardConnection>(
+    async (categoryIds: CategoryLoader[]): Promise<CardConnection[]> =>
+      Promise.all(
+        categoryIds.map(async ({ categoryId, args }) =>
+          this.getCards({
+            ...args,
+            categoryId
+          })
+        )
+      )
+  );
 
   async getCardConnectionFor(
     categoryId: string,
     args: CardDsArgs
   ): Promise<CardConnection> {
-    return this.cardLoader(categoryId, args);
+    return this.cardLoader.load({ categoryId, args });
   }
 
   /**

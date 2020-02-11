@@ -1,7 +1,8 @@
 import {
   Resolvers,
   CardsUpdatedResponse,
-  CardConnection
+  CardConnection,
+  Category
 } from "../../generated/graphql";
 
 export const resolvers: Resolvers = {
@@ -20,5 +21,10 @@ export const resolvers: Resolvers = {
       dataSources.cardAPI.updateCard(id, input),
     removeCard: (_, { id }, { dataSources }): Promise<CardsUpdatedResponse> =>
       dataSources.cardAPI.removeCard(id)
+  },
+  Card: {
+    _categories(root, args, { dataSources }): Promise<Category[]> {
+      return dataSources.categoryAPI.getCategoriesFor(root.id);
+    }
   }
 };

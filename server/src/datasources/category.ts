@@ -53,7 +53,6 @@ export class CategoryAPI extends DataSource {
 
   private categoryLoader = new DataLoader<string, Category[]>(
     async (cardIds: string[]): Promise<Array<Category[]>> => {
-      console.log("cardIds=", cardIds);
       // batches cardIds into a single call per request
       const categories = await this.getCategories({
         cardIds: cardIds.join(",")

@@ -75,21 +75,20 @@ export class CategoryAPI extends DataSource {
    * Get all categories
    */
   async getCategories(args?: CategoryDsArgs): Promise<Category[]> {
-    let data;
+    let query = this.repos.categories
+      .createQueryBuilder("category")
+      .leftJoinAndSelect("category.cards", "card");
+
     if (args?.cardIds?.length) {
       // filter by CardID
       const decodedIds = args.cardIds
         .split(",")
         .map(encodedId => decodeGlobalID(encodedId).id);
 
-      data = await this.repos.categories
-        .createQueryBuilder("category")
-        .leftJoinAndSelect("category.cards", "card")
-        .where("card.id IN (:...cardIds)", { cardIds: decodedIds })
-        .getMany();
-    } else {
-      data = await this.repos.categories.find();
+      query = query.where("card.id IN (:...cardIds)", { cardIds: decodedIds });
     }
+
+    const data = await query.getMany();
 
     return data.map(this.encodeCategory); // get all
   }

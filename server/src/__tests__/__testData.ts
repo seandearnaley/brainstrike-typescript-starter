@@ -96,7 +96,7 @@ export const mockCardsConnectionResult = {
 
 export const mockReturnCard = {
   ...mockFirstCardResponse,
-  created: new Date(),
+  created: new Date("2020-02-01T20:19:27.909Z"),
   updated: null as Date
 };
 

@@ -6,7 +6,7 @@ Object {
     "addCard": Object {
       "card": Object {
         "__typename": "Card",
-        "created": "2020-02-11T23:23:44.862Z",
+        "created": "2020-02-01T20:19:27.909Z",
         "description": "testing",
         "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
         "label": "Test Card 1",
@@ -33,7 +33,7 @@ Object {
     "removeCard": Object {
       "card": Object {
         "__typename": "Card",
-        "created": "2020-02-11T23:23:44.862Z",
+        "created": "2020-02-01T20:19:27.909Z",
         "description": "testing",
         "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
         "label": "Test Card 1",
@@ -60,7 +60,7 @@ Object {
     "updateCard": Object {
       "card": Object {
         "__typename": "Card",
-        "created": "2020-02-11T23:23:44.862Z",
+        "created": "2020-02-01T20:19:27.909Z",
         "description": "testing",
         "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
         "label": "Test Card 1",

@@ -1,0 +1,38 @@
+# import CardParts from "CardParts.graphql";
+# import CategoryParts from "CategoryParts.graphql";
+
+query GetCategoryWithCards(
+  $id: ID!
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
+  $orderByColumn: String
+  $orderByDirection: DirectionEnum
+) {
+  category(id: $id) {
+    ...CategoryParts
+    _cards(
+      first: $first
+      last: $last
+      after: $after
+      before: $before
+      orderByColumn: $orderByColumn
+      orderByDirection: $orderByDirection
+    ) @connection(key: "CardConnection") {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+        totalCount
+      }
+      edges {
+        cursor
+        node {
+          ...CardParts
+        }
+      }
+    }
+  }
+}

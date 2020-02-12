@@ -1,0 +1,7 @@
+fragment CategoryParts on Category {
+  id
+  created
+  updated
+  name
+  parentId
+}

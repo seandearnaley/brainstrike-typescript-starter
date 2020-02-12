@@ -175,6 +175,16 @@ export type QueryNodeArgs = {
   id: Scalars['ID'];
 };
 
+export type CardPartsFragment = { __typename?: 'Card' } & Pick<
+  Card,
+  'id' | 'created' | 'updated' | 'label' | 'number'
+>;
+
+export type CategoryPartsFragment = { __typename?: 'Category' } & Pick<
+  Category,
+  'id' | 'created' | 'updated' | 'name' | 'parentId'
+>;
+
 export type GetCardsQueryVariables = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -197,10 +207,7 @@ export type GetCardsQuery = { __typename?: 'Query' } & {
     >;
     edges: Array<
       { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-          node: { __typename: 'Card' } & Pick<
-            Card,
-            'id' | 'created' | 'updated' | 'label' | 'number'
-          >;
+          node: { __typename?: 'Card' } & CardPartsFragment;
         }
     >;
   };
@@ -209,14 +216,7 @@ export type GetCardsQuery = { __typename?: 'Query' } & {
 export type GetCategoriesQueryVariables = {};
 
 export type GetCategoriesQuery = { __typename?: 'Query' } & {
-  categories: Maybe<
-    Array<
-      { __typename: 'Category' } & Pick<
-        Category,
-        'id' | 'created' | 'updated' | 'name' | 'parentId'
-      >
-    >
-  >;
+  categories: Maybe<Array<{ __typename?: 'Category' } & CategoryPartsFragment>>;
 };
 
 export type GetCategoryNodeQueryVariables = {
@@ -234,7 +234,7 @@ export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
     | ({ __typename: 'Card' } & Pick<Card, 'id' | 'created' | 'updated'>)
     | ({ __typename: 'Category' } & Pick<
         Category,
-        'id' | 'created' | 'updated' | 'name' | 'parentId'
+        'id' | 'created' | 'updated' | 'parentId'
       > & {
           _cards: Maybe<
             { __typename?: 'CardConnection' } & {
@@ -248,15 +248,12 @@ export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
               >;
               edges: Array<
                 { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-                    node: { __typename: 'Card' } & Pick<
-                      Card,
-                      'id' | 'label' | 'number' | 'created' | 'updated'
-                    >;
+                    node: { __typename?: 'Card' } & CardPartsFragment;
                   }
               >;
             }
           >;
-        })
+        } & CategoryPartsFragment)
   >;
 };
 
@@ -272,36 +269,48 @@ export type GetCategoryWithCardsQueryVariables = {
 
 export type GetCategoryWithCardsQuery = { __typename?: 'Query' } & {
   category: Maybe<
-    { __typename?: 'Category' } & Pick<
-      Category,
-      'id' | 'created' | 'updated' | 'name' | 'parentId'
-    > & {
-        _cards: Maybe<
-          { __typename?: 'CardConnection' } & {
-            pageInfo: { __typename?: 'PageInfo' } & Pick<
-              PageInfo,
-              | 'hasNextPage'
-              | 'hasPreviousPage'
-              | 'startCursor'
-              | 'endCursor'
-              | 'totalCount'
-            >;
-            edges: Array<
-              { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-                  node: { __typename?: 'Card' } & Pick<
-                    Card,
-                    'id' | 'label' | 'number' | 'created' | 'updated'
-                  >;
-                }
-            >;
-          }
-        >;
-      }
+    { __typename?: 'Category' } & {
+      _cards: Maybe<
+        { __typename?: 'CardConnection' } & {
+          pageInfo: { __typename?: 'PageInfo' } & Pick<
+            PageInfo,
+            | 'hasNextPage'
+            | 'hasPreviousPage'
+            | 'startCursor'
+            | 'endCursor'
+            | 'totalCount'
+          >;
+          edges: Array<
+            { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+                node: { __typename?: 'Card' } & CardPartsFragment;
+              }
+          >;
+        }
+      >;
+    } & CategoryPartsFragment
   >;
 };
 
+export const CardPartsFragmentDoc = gql`
+  fragment CardParts on Card {
+    id
+    created
+    updated
+    label
+    number
+  }
+`;
+export const CategoryPartsFragmentDoc = gql`
+  fragment CategoryParts on Category {
+    id
+    created
+    updated
+    name
+    parentId
+  }
+`;
 export const GetCardsDocument = gql`
-  query getCards(
+  query GetCards(
     $first: Int
     $last: Int
     $after: String
@@ -318,7 +327,7 @@ export const GetCardsDocument = gql`
       orderByColumn: $orderByColumn
       orderByDirection: $orderByDirection
       categoryId: $categoryId
-    ) @connection(key: "Cards") {
+    ) @connection(key: "CardConnection") {
       pageInfo {
         hasNextPage
         hasPreviousPage
@@ -329,16 +338,12 @@ export const GetCardsDocument = gql`
       edges {
         cursor
         node {
-          __typename
-          id
-          created
-          updated
-          label
-          number
+          ...CardParts
         }
       }
     }
   }
+  ${CardPartsFragmentDoc}
 `;
 
 /**
@@ -394,16 +399,12 @@ export type GetCardsQueryResult = ApolloReactCommon.QueryResult<
   GetCardsQueryVariables
 >;
 export const GetCategoriesDocument = gql`
-  query getCategories {
+  query GetCategories {
     categories {
-      __typename
-      id
-      created
-      updated
-      name
-      parentId
+      ...CategoryParts
     }
   }
+  ${CategoryPartsFragmentDoc}
 `;
 
 /**
@@ -454,7 +455,7 @@ export type GetCategoriesQueryResult = ApolloReactCommon.QueryResult<
   GetCategoriesQueryVariables
 >;
 export const GetCategoryNodeDocument = gql`
-  query getCategoryNode(
+  query GetCategoryNode(
     $id: ID!
     $first: Int
     $last: Int
@@ -471,7 +472,7 @@ export const GetCategoryNodeDocument = gql`
         updated
       }
       ... on Category {
-        name
+        ...CategoryParts
         parentId
         _cards(
           first: $first
@@ -491,18 +492,15 @@ export const GetCategoryNodeDocument = gql`
           edges {
             cursor
             node {
-              __typename
-              id
-              label
-              number
-              created
-              updated
+              ...CardParts
             }
           }
         }
       }
     }
   }
+  ${CategoryPartsFragmentDoc}
+  ${CardPartsFragmentDoc}
 `;
 
 /**
@@ -560,7 +558,7 @@ export type GetCategoryNodeQueryResult = ApolloReactCommon.QueryResult<
   GetCategoryNodeQueryVariables
 >;
 export const GetCategoryWithCardsDocument = gql`
-  query getCategoryWithCards(
+  query GetCategoryWithCards(
     $id: ID!
     $first: Int
     $last: Int
@@ -570,11 +568,7 @@ export const GetCategoryWithCardsDocument = gql`
     $orderByDirection: DirectionEnum
   ) {
     category(id: $id) {
-      id
-      created
-      updated
-      name
-      parentId
+      ...CategoryParts
       _cards(
         first: $first
         last: $last
@@ -582,7 +576,7 @@ export const GetCategoryWithCardsDocument = gql`
         before: $before
         orderByColumn: $orderByColumn
         orderByDirection: $orderByDirection
-      ) {
+      ) @connection(key: "CardConnection") {
         pageInfo {
           hasNextPage
           hasPreviousPage
@@ -593,16 +587,14 @@ export const GetCategoryWithCardsDocument = gql`
         edges {
           cursor
           node {
-            id
-            label
-            number
-            created
-            updated
+            ...CardParts
           }
         }
       }
     }
   }
+  ${CategoryPartsFragmentDoc}
+  ${CardPartsFragmentDoc}
 `;
 
 /**

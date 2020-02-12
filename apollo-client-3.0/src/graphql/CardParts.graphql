@@ -1,0 +1,7 @@
+fragment CardParts on Card {
+  id
+  created
+  updated
+  label
+  number
+}

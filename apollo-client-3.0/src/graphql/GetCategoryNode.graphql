@@ -1,17 +1,24 @@
-query getCategoryWithCards(
-    $id: ID!
-    $first: Int
-    $last: Int
-    $after: String
-    $before: String
-    $orderByColumn: String
-    $orderByDirection: DirectionEnum
-  ) {
-    category(id: $id) {
+# import CardParts from "CardParts.graphql";
+# import CategoryParts from "CategoryParts.graphql";
+
+query GetCategoryNode(
+  $id: ID!
+  $first: Int
+  $last: Int
+  $after: String
+  $before: String
+  $orderByColumn: String
+  $orderByDirection: DirectionEnum
+) {
+  category: node(id: $id) {
+    __typename
+    ... on Node {
       id
       created
       updated
-      name
+    }
+    ... on Category {
+      ...CategoryParts
       parentId
       _cards(
         first: $first
@@ -31,13 +38,10 @@ query getCategoryWithCards(
         edges {
           cursor
           node {
-            id
-            label
-            number
-            created
-            updated
+            ...CardParts
           }
         }
       }
     }
   }
+}

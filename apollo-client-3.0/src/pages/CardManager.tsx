@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { FlexLayout } from '../components/FlexLayout';
-import { CardContainer } from '../containers/CardContainer';
 import { CategoryContainer } from '../containers/CategoryContainer';
+import { CategoriesContainer } from '../containers/CategoriesContainer';
 
 export const CardManager: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = React.useState('');
@@ -13,12 +13,14 @@ export const CardManager: React.FC = () => {
   return (
     <FlexLayout
       left={
-        <CategoryContainer
+        <CategoriesContainer
           onSelectCategory={onSelectCategory}
-        ></CategoryContainer>
+        ></CategoriesContainer>
       }
       middle={
-        <CardContainer selectedCategory={selectedCategory}></CardContainer>
+        <CategoryContainer
+          selectedCategory={selectedCategory}
+        ></CategoryContainer>
       }
       right={<div>right</div>}
     ></FlexLayout>

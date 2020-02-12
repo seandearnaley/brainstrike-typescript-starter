@@ -8,6 +8,7 @@ export const resolvers: Resolvers = {
       { id },
       { dataSources }
     ): Promise<Card | Category | null> => {
+      if (!id || id === "") throw new Error("ID is required");
       switch (getTypeName(id)) {
         case "Card":
           return dataSources.cardAPI.getCard(id);

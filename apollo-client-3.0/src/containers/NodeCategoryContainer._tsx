@@ -1,19 +1,20 @@
-import React, { useMemo, useEffect } from 'react';
+// experimental
+import React, { useMemo, useEffect, useCallback } from 'react';
 import { ApolloQueryResult } from '@apollo/client';
 import {
-  useGetCategoryNodeQuery,
+  useGetCategoryNodeLazyQuery,
   GetCategoryNodeQuery,
   DirectionEnum,
 } from '../generated/graphql';
 import { CardTable } from '../components/CardTable';
 
-interface CardContainerProps {
+interface NodeCardContainerProps {
   selectedCategory: string;
 }
 
-export const CardContainer: React.FC<CardContainerProps> = ({
+export const NodeCardContainer: React.FC<NodeCardContainerProps> = ({
   selectedCategory,
-}: CardContainerProps) => {
+}: NodeCardContainerProps) => {
   const variables = {
     first: 5,
     orderByColumn: 'number',
@@ -21,7 +22,10 @@ export const CardContainer: React.FC<CardContainerProps> = ({
     id: selectedCategory,
   };
 
-  const { data, loading, error, fetchMore, refetch } = useGetCategoryNodeQuery({
+  const [
+    getCat,
+    { data, loading, error, fetchMore },
+  ] = useGetCategoryNodeLazyQuery({
     variables,
   });
 
@@ -46,9 +50,13 @@ export const CardContainer: React.FC<CardContainerProps> = ({
     [retval],
   );
 
+  const memoizedGetCat = useCallback(() => {
+    getCat();
+  }, [getCat]);
+
   useEffect(() => {
-    if (selectedCategory !== '') refetch();
-  }, [refetch, selectedCategory]);
+    if (selectedCategory !== '') memoizedGetCat();
+  }, [memoizedGetCat, selectedCategory]);
 
   const getMoreData = (): Promise<ApolloQueryResult<GetCategoryNodeQuery>> =>
     fetchMore({

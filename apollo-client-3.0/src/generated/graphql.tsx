@@ -260,6 +260,46 @@ export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type GetCategoryWithCardsQueryVariables = {
+  id: Scalars['ID'];
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  orderByColumn?: Maybe<Scalars['String']>;
+  orderByDirection?: Maybe<DirectionEnum>;
+};
+
+export type GetCategoryWithCardsQuery = { __typename?: 'Query' } & {
+  category: Maybe<
+    { __typename?: 'Category' } & Pick<
+      Category,
+      'id' | 'created' | 'updated' | 'name' | 'parentId'
+    > & {
+        _cards: Maybe<
+          { __typename?: 'CardConnection' } & {
+            pageInfo: { __typename?: 'PageInfo' } & Pick<
+              PageInfo,
+              | 'hasNextPage'
+              | 'hasPreviousPage'
+              | 'startCursor'
+              | 'endCursor'
+              | 'totalCount'
+            >;
+            edges: Array<
+              { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+                  node: { __typename?: 'Card' } & Pick<
+                    Card,
+                    'id' | 'label' | 'number' | 'created' | 'updated'
+                  >;
+                }
+            >;
+          }
+        >;
+      }
+  >;
+};
+
 export const GetCardsDocument = gql`
   query getCards(
     $first: Int
@@ -518,4 +558,104 @@ export type GetCategoryNodeLazyQueryHookResult = ReturnType<
 export type GetCategoryNodeQueryResult = ApolloReactCommon.QueryResult<
   GetCategoryNodeQuery,
   GetCategoryNodeQueryVariables
+>;
+export const GetCategoryWithCardsDocument = gql`
+  query getCategoryWithCards(
+    $id: ID!
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+    $orderByColumn: String
+    $orderByDirection: DirectionEnum
+  ) {
+    category(id: $id) {
+      id
+      created
+      updated
+      name
+      parentId
+      _cards(
+        first: $first
+        last: $last
+        after: $after
+        before: $before
+        orderByColumn: $orderByColumn
+        orderByDirection: $orderByDirection
+      ) {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+          totalCount
+        }
+        edges {
+          cursor
+          node {
+            id
+            label
+            number
+            created
+            updated
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetCategoryWithCardsQuery__
+ *
+ * To run a query within a React component, call `useGetCategoryWithCardsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCategoryWithCardsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCategoryWithCardsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      orderByColumn: // value for 'orderByColumn'
+ *      orderByDirection: // value for 'orderByDirection'
+ *   },
+ * });
+ */
+export function useGetCategoryWithCardsQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetCategoryWithCardsQuery,
+    GetCategoryWithCardsQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useQuery<
+    GetCategoryWithCardsQuery,
+    GetCategoryWithCardsQueryVariables
+  >(GetCategoryWithCardsDocument, baseOptions);
+}
+export function useGetCategoryWithCardsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetCategoryWithCardsQuery,
+    GetCategoryWithCardsQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetCategoryWithCardsQuery,
+    GetCategoryWithCardsQueryVariables
+  >(GetCategoryWithCardsDocument, baseOptions);
+}
+export type GetCategoryWithCardsQueryHookResult = ReturnType<
+  typeof useGetCategoryWithCardsQuery
+>;
+export type GetCategoryWithCardsLazyQueryHookResult = ReturnType<
+  typeof useGetCategoryWithCardsLazyQuery
+>;
+export type GetCategoryWithCardsQueryResult = ApolloReactCommon.QueryResult<
+  GetCategoryWithCardsQuery,
+  GetCategoryWithCardsQueryVariables
 >;

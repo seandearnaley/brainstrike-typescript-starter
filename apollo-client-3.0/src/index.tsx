@@ -2,23 +2,58 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-// import { InMemoryCache } from 'apollo-cache-inmemory';
-// import { HttpLink } from 'apollo-link-http';
 import {
   ApolloClient,
   ApolloProvider,
   HttpLink,
   InMemoryCache,
 } from '@apollo/client';
-import { CardManager } from './pages/CardManager';
 
+import { CardManager } from './pages/CardManager';
 import * as serviceWorker from './serviceWorker';
 
 // Set up our apollo-client to point at the server we created
-// this can be local or a remote en}dpoint
+// this can be local or a remote endpoint
 const cache = new InMemoryCache({
   possibleTypes: {
     Node: ['Card', 'Category'],
+  },
+  typePolicies: {
+    Query: {
+      fields: {
+        card(existingData, { args, toReference }) {
+          return (
+            existingData || toReference({ __typename: 'Card', id: args?.id })
+          );
+        },
+        category(existingData, { args, toReference }) {
+          return (
+            existingData ||
+            toReference({ __typename: 'Category', id: args?.id })
+          );
+        },
+      },
+    },
+    Category: {
+      fields: {
+        // A dynamically computed field
+        // _cards(existingData, { args, variables, toReference }) {
+        //   console.log('args=', args);
+        //   console.log('variables=', variables);
+
+        //   const data =
+        //     existingData ||
+        //     toReference({
+        //       __typename: 'Cards',
+        //       categoryId: variables?.id,
+        //     });
+        //   return existingData;
+        // },
+        _cards: {
+          keyArgs: [],
+        },
+      },
+    },
   },
 });
 const client = new ApolloClient({

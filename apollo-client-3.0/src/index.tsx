@@ -34,6 +34,13 @@ const cache = new InMemoryCache({
         },
       },
     },
+    Card: {
+      fields: {
+        _categories: {
+          keyArgs: [],
+        },
+      },
+    },
     Category: {
       fields: {
         // A dynamically computed field

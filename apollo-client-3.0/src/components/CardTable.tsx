@@ -18,6 +18,7 @@ interface CardTableColumnConfig {
 interface CardTableProps {
   data: CardTableData[];
   selected?: Record<string, CardTableData>;
+  onSelectCard: (id: string) => void;
 }
 
 // NOTE: field not used yet
@@ -47,6 +48,10 @@ export const CardTable: React.FC<CardTableProps> = (
             color: blue;
           }
         }
+        tr: hover {
+          cursor: pointer;
+          background-color: silver;
+        }
       `}
     >
       <thead>
@@ -59,7 +64,7 @@ export const CardTable: React.FC<CardTableProps> = (
       <tbody>
         {props.data.map(data => {
           return (
-            <tr key={data.id}>
+            <tr key={data.id} onClick={(): void => props.onSelectCard(data.id)}>
               <td
                 className={css`
                   text-align: center;

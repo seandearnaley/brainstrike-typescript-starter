@@ -9,10 +9,12 @@ import { CardTable } from '../components/CardTable';
 
 interface CategoryContainerProps {
   selectedCategory: string;
+  onSelectCard: (id: string) => void;
 }
 
 export const CategoryContainer: React.FC<CategoryContainerProps> = ({
   selectedCategory,
+  onSelectCard,
 }: CategoryContainerProps) => {
   const variables = {
     first: 5,
@@ -89,7 +91,7 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
     <div>
       <h1>{data.category?.name}</h1>
       <div>Selected: {variables.id}</div>
-      <CardTable data={cardData}></CardTable>
+      <CardTable data={cardData} onSelectCard={onSelectCard}></CardTable>
       {data.category?._cards?.pageInfo.hasNextPage && (
         <button onClick={getMoreData}>Load More</button>
       )}

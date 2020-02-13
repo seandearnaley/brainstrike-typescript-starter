@@ -185,6 +185,20 @@ export type CategoryPartsFragment = { __typename?: 'Category' } & Pick<
   'id' | 'created' | 'updated' | 'name' | 'parentId'
 >;
 
+export type GetCardWithCategoriesQueryVariables = {
+  id: Scalars['ID'];
+};
+
+export type GetCardWithCategoriesQuery = { __typename?: 'Query' } & {
+  card: Maybe<
+    { __typename?: 'Card' } & Pick<Card, 'description'> & {
+        _categories: Maybe<
+          Array<{ __typename?: 'Category' } & CategoryPartsFragment>
+        >;
+      } & CardPartsFragment
+  >;
+};
+
 export type GetCardsQueryVariables = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -309,6 +323,68 @@ export const CategoryPartsFragmentDoc = gql`
     parentId
   }
 `;
+export const GetCardWithCategoriesDocument = gql`
+  query GetCardWithCategories($id: ID!) {
+    card(id: $id) {
+      ...CardParts
+      description
+      _categories @connection(key: "Categories") {
+        ...CategoryParts
+      }
+    }
+  }
+  ${CardPartsFragmentDoc}
+  ${CategoryPartsFragmentDoc}
+`;
+
+/**
+ * __useGetCardWithCategoriesQuery__
+ *
+ * To run a query within a React component, call `useGetCardWithCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCardWithCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCardWithCategoriesQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetCardWithCategoriesQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetCardWithCategoriesQuery,
+    GetCardWithCategoriesQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useQuery<
+    GetCardWithCategoriesQuery,
+    GetCardWithCategoriesQueryVariables
+  >(GetCardWithCategoriesDocument, baseOptions);
+}
+export function useGetCardWithCategoriesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetCardWithCategoriesQuery,
+    GetCardWithCategoriesQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetCardWithCategoriesQuery,
+    GetCardWithCategoriesQueryVariables
+  >(GetCardWithCategoriesDocument, baseOptions);
+}
+export type GetCardWithCategoriesQueryHookResult = ReturnType<
+  typeof useGetCardWithCategoriesQuery
+>;
+export type GetCardWithCategoriesLazyQueryHookResult = ReturnType<
+  typeof useGetCardWithCategoriesLazyQuery
+>;
+export type GetCardWithCategoriesQueryResult = ApolloReactCommon.QueryResult<
+  GetCardWithCategoriesQuery,
+  GetCardWithCategoriesQueryVariables
+>;
 export const GetCardsDocument = gql`
   query GetCards(
     $first: Int

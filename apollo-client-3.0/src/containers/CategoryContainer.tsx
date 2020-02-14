@@ -7,21 +7,24 @@ import {
 } from '../generated/graphql';
 import { CardTable } from '../components/CardTable';
 import { EditCategoryContainer } from './EditCategoryContainer';
+import { RemoveCategoryContainer } from './RemoveCategoryContainer';
 
 interface CategoryContainerProps {
-  selectedCategory: string;
-  onSelectCard: (id: string) => void;
+  selectedCategory: string | null;
+  onSelectCard: (id: string | null) => void;
+  onSelectCategory: (id: string | null) => void;
 }
 
 export const CategoryContainer: React.FC<CategoryContainerProps> = ({
   selectedCategory,
   onSelectCard,
+  onSelectCategory,
 }: CategoryContainerProps) => {
   const variables = {
     first: 5,
     orderByColumn: 'number',
     orderByDirection: DirectionEnum.Asc,
-    id: selectedCategory,
+    id: selectedCategory ?? '',
   };
 
   const [
@@ -48,7 +51,7 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
   const memoizedGetCat = useCallback(getCat, [getCat]);
 
   useEffect(() => {
-    if (selectedCategory !== '') memoizedGetCat();
+    if (selectedCategory) memoizedGetCat();
   }, [memoizedGetCat, selectedCategory]);
 
   const getMoreData = (): Promise<ApolloQueryResult<
@@ -84,7 +87,7 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
       },
     });
 
-  if (!data?.category) return <p>Pick Category</p>;
+  if (!selectedCategory || !data?.category) return <p>Select Category</p>;
   if (loading) return <p>Loading...</p>;
   if (error) return <p>ERROR</p>;
 
@@ -97,7 +100,11 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
         <button onClick={getMoreData}>Load More</button>
       )}
       Showing {data.category?._cards?.edges.length} /{' '}
-      {data.category?._cards?.pageInfo.totalCount} Total
+      {data.category?._cards?.pageInfo.totalCount}
+      <RemoveCategoryContainer
+        data={data}
+        onSelectCategory={onSelectCategory}
+      ></RemoveCategoryContainer>
     </div>
   );
 };

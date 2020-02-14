@@ -2,14 +2,14 @@ import React, { useEffect, useCallback } from 'react';
 import { useGetCardWithCategoriesLazyQuery } from '../generated/graphql';
 
 interface CardContainerProps {
-  selectedCard: string;
+  selectedCard: string | null;
 }
 
 export const CardContainer: React.FC<CardContainerProps> = ({
   selectedCard,
 }: CardContainerProps) => {
   const variables = {
-    id: selectedCard,
+    id: selectedCard ?? '',
   };
 
   const [getCard, { data, loading, error }] = useGetCardWithCategoriesLazyQuery(
@@ -18,21 +18,10 @@ export const CardContainer: React.FC<CardContainerProps> = ({
     },
   );
 
-  // const categoryData = useMemo(
-  //   () =>
-  //     data?.card?._categories.map(({ id, name, created, updated }) => ({
-  //       id,
-  //       name,
-  //       created,
-  //       updated,
-  //     })) ?? [],
-  //   [data],
-  // );
-
   const memoizedGetCard = useCallback(getCard, [getCard]);
 
   useEffect(() => {
-    if (selectedCard !== '') memoizedGetCard();
+    if (selectedCard) memoizedGetCard();
   }, [memoizedGetCard, selectedCard]);
 
   if (!data?.card) return <p>Pick Card</p>;

@@ -6,13 +6,13 @@ import { CategoriesContainer } from '../containers/CategoriesContainer';
 import { CardContainer } from '../containers/CardContainer';
 
 export const CardManager: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = React.useState('');
-  const [selectedCard, setSelectedCard] = React.useState('');
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
+    null,
+  );
+  const [selectedCard, setSelectedCard] = React.useState<string | null>(null);
 
-  const onSelectCategory = (categoryId: string): void =>
-    setSelectedCategory(categoryId);
-
-  const onSelectCard = (cardId: string): void => setSelectedCard(cardId);
+  const onSelectCategory = (id: string | null): void => setSelectedCategory(id);
+  const onSelectCard = (id: string | null): void => setSelectedCard(id);
 
   return (
     <FlexLayout
@@ -24,6 +24,7 @@ export const CardManager: React.FC = () => {
       middle={
         <CategoryContainer
           selectedCategory={selectedCategory}
+          onSelectCategory={onSelectCategory}
           onSelectCard={onSelectCard}
         ></CategoryContainer>
       }

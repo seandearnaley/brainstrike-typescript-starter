@@ -164,6 +164,7 @@ export class CategoryAPI extends DataSource {
     const category = await this.getCategoryByGlobalID(id);
     const originalCategory = { ...category }; // remove wipes the ip, creating a copy for the category field
 
+    id = decodeGlobalID(id).id;
     // remove dependant tree relations, unfortunately hasn't been implemented in TypeORM yet
     await this.repos.categories
       .createQueryBuilder()

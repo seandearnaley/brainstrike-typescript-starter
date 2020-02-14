@@ -1,58 +1,22 @@
 import React, { useState } from 'react';
-import {
-  GetCategoryWithCardsQuery,
-  GetCategoriesDocument,
-  useRemoveCategoryMutation,
-  CategoryPartsFragment,
-} from '../generated/graphql';
-import { cache } from '../index';
+import { useRemoveCategory } from './shared/useRemoveCategory';
 
 interface RemoveCategoryContainerProps {
-  data: GetCategoryWithCardsQuery;
+  id: string | null;
   onSelectCategory: (id: string | null) => void;
 }
 
 export const RemoveCategoryContainer: React.FC<RemoveCategoryContainerProps> = ({
-  data,
+  id,
   onSelectCategory,
 }: RemoveCategoryContainerProps) => {
   const [showConfirmRemove, setShowConfirmRemove] = useState(false);
+  const [removeCategory, loading, error] = useRemoveCategory();
 
-  const [
-    removeCategoryMutation,
-    { loading: mutationLoading, error: mutationError },
-  ] = useRemoveCategoryMutation();
-
-  const removeCategory = async () => {
-    if (data.category) {
-      await removeCategoryMutation({
-        variables: {
-          id: data.category.id,
-        },
-        update: (store, { data }) => {
-          const id = data?.removeCategory?.category?.id;
-          if (!id) return;
-          onSelectCategory(null);
-
-          // cache.evict(data.removeCategory.category.id);
-          // cache.gc();
-
-          const { categories } =
-            cache.readQuery({
-              query: GetCategoriesDocument,
-            }) || {};
-
-          cache.writeQuery({
-            query: GetCategoriesDocument,
-            data: {
-              categories: categories.filter(
-                (category: CategoryPartsFragment) => category.id !== id,
-              ),
-            },
-          });
-        },
-      });
-    }
+  const doRemoveCategory = async () => {
+    if (!id) return;
+    await removeCategory(id);
+    onSelectCategory(null);
   };
 
   return (
@@ -62,10 +26,12 @@ export const RemoveCategoryContainer: React.FC<RemoveCategoryContainerProps> = (
       </button>
 
       {showConfirmRemove && (
-        <button onClick={removeCategory}>Please Confirm Remove Category</button>
+        <button onClick={doRemoveCategory}>
+          Please Confirm Remove Category
+        </button>
       )}
-      {mutationLoading && <span>Updating...</span>}
-      {mutationError && <span>Error...</span>}
+      {loading && <span>Updating...</span>}
+      {error && <span>Error...</span>}
     </div>
   );
 };

@@ -102,7 +102,7 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
       Showing {data.category?._cards?.edges.length} /{' '}
       {data.category?._cards?.pageInfo.totalCount}
       <RemoveCategoryContainer
-        data={data}
+        id={data.category.id}
         onSelectCategory={onSelectCategory}
       ></RemoveCategoryContainer>
     </div>

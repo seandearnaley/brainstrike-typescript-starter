@@ -7,6 +7,8 @@ import {
 
 import { ApolloError, FetchResult } from '@apollo/client';
 
+// NOTE: the rationale for using a custom hook is for the cache update,
+// now the removeCategory function can be used elsewhere with shared cache logic
 export const useRemoveCategory = (): [
   (
     id: string | null,

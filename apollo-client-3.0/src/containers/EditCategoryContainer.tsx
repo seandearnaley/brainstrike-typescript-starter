@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
-import { GetCategoryWithCardsQuery } from '../generated/graphql';
+import {
+  GetCategoryWithCardsQuery,
+  useUpdateCategoryMutation,
+} from '../generated/graphql';
 import { cx, css } from 'emotion';
 
 interface EditCategoryContainerProps {
@@ -10,6 +13,11 @@ interface EditCategoryContainerProps {
 export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   data,
 }: EditCategoryContainerProps) => {
+  const [
+    updateCategoryMutation,
+    { loading: mutationLoading, error: mutationError },
+  ] = useUpdateCategoryMutation();
+
   const prevCategoryValue = useRef<string | null | undefined>(undefined);
   const categoryNameDivInput = useRef<HTMLDivElement>(null);
 
@@ -33,13 +41,20 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
     setCategoryName(evt.target.value);
   };
 
-  const saveCategoryNameChange = () => {
-    // if (categoryNameDivInput.current) {
-    //   setCategoryName(categoryNameDivInput.current.innerText);
-    // }
-
-    // do save
+  const saveCategoryNameChange = async () => {
     setCategoryEditDisabled(true);
+    if (data.category) {
+      const result = await updateCategoryMutation({
+        variables: {
+          id: data.category.id,
+          input: {
+            name: categoryName,
+          },
+        },
+      });
+
+      console.log('result=', result);
+    }
   };
 
   const cancelCategoryNameChange = () => {
@@ -81,6 +96,8 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
           <button onClick={cancelCategoryNameChange}>Cancel Changes</button>
         </span>
       )}
+      {mutationLoading && <span>Updating...</span>}
+      {mutationError && <span>Error...</span>}
     </div>
   );
 };

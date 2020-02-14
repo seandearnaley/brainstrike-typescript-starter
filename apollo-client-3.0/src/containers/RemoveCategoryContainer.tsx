@@ -30,7 +30,7 @@ export const RemoveCategoryContainer: React.FC<RemoveCategoryContainerProps> = (
           Please Confirm Remove Category
         </button>
       )}
-      {loading && <span>Updating...</span>}
+      {loading && <span>Removing...</span>}
       {error && <span>Error...</span>}
     </div>
   );

@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
-import {
-  GetCategoryWithCardsQuery,
-  useUpdateCategoryMutation,
-} from '../generated/graphql';
+import { useUpdateCategoryMutation } from '../generated/graphql';
 import { cx, css } from 'emotion';
 
 interface EditCategoryContainerProps {
-  data: GetCategoryWithCardsQuery;
+  data: {
+    // narrowed interface to take advantage of structural typing
+    id?: string;
+    name?: string | null;
+  };
 }
 
 export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
@@ -27,7 +28,7 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   );
 
   useEffect(() => {
-    setCategoryName(data?.category?.name);
+    setCategoryName(data?.name);
   }, [data]);
 
   const enableCategoryNameChange = () => {
@@ -43,10 +44,10 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
 
   const saveCategoryNameChange = async () => {
     setCategoryEditDisabled(true);
-    if (!data.category) return;
+    if (!data.id) return;
     await updateCategoryMutation({
       variables: {
-        id: data.category.id,
+        id: data.id,
         input: {
           name: categoryName,
         },

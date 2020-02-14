@@ -305,6 +305,18 @@ export type GetCategoryWithCardsQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type UpdateCategoryMutationVariables = {
+  id: Scalars['ID'];
+  input?: Maybe<CategoryInput>;
+};
+
+export type UpdateCategoryMutation = { __typename?: 'Mutation' } & {
+  updateCategory: { __typename?: 'CategoryUpdatedResponse' } & Pick<
+    CategoryUpdatedResponse,
+    'success' | 'message'
+  > & { category: Maybe<{ __typename?: 'Category' } & CategoryPartsFragment> };
+};
+
 export const CardPartsFragmentDoc = gql`
   fragment CardParts on Card {
     id
@@ -726,4 +738,60 @@ export type GetCategoryWithCardsLazyQueryHookResult = ReturnType<
 export type GetCategoryWithCardsQueryResult = ApolloReactCommon.QueryResult<
   GetCategoryWithCardsQuery,
   GetCategoryWithCardsQueryVariables
+>;
+export const UpdateCategoryDocument = gql`
+  mutation updateCategory($id: ID!, $input: CategoryInput) {
+    updateCategory(id: $id, input: $input) {
+      success
+      message
+      category {
+        ...CategoryParts
+      }
+    }
+  }
+  ${CategoryPartsFragmentDoc}
+`;
+export type UpdateCategoryMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateCategoryMutation,
+  UpdateCategoryMutationVariables
+>;
+
+/**
+ * __useUpdateCategoryMutation__
+ *
+ * To run a mutation, you first call `useUpdateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCategoryMutation, { data, loading, error }] = useUpdateCategoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateCategoryMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    UpdateCategoryMutation,
+    UpdateCategoryMutationVariables
+  >,
+) {
+  return ApolloReactHooks.useMutation<
+    UpdateCategoryMutation,
+    UpdateCategoryMutationVariables
+  >(UpdateCategoryDocument, baseOptions);
+}
+export type UpdateCategoryMutationHookResult = ReturnType<
+  typeof useUpdateCategoryMutation
+>;
+export type UpdateCategoryMutationResult = ApolloReactCommon.MutationResult<
+  UpdateCategoryMutation
+>;
+export type UpdateCategoryMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  UpdateCategoryMutation,
+  UpdateCategoryMutationVariables
 >;

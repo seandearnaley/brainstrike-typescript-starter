@@ -1,11 +1,11 @@
 # import CardParts from "CardParts.graphql";
 # import CategoryParts from "CategoryParts.graphql";
 
-query GetCardWithCategories($id: ID!) {
+query GetCardWithCategories($id: ID) {
   card(id: $id) {
     ...CardParts
     description
-    _categories @connection(key: "Categories") {
+    categories @connection(key: "Categories") {
       ...CategoryParts
     }
   }

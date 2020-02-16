@@ -1,7 +1,7 @@
 import DataLoader = require("dataloader");
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Connection } from "typeorm";
-import { Card, Category } from "../entity";
+import { Card as CardEntity, Category as CategoryEntity } from "../entity";
 import {
   CardInput,
   CardsUpdatedResponse,
@@ -31,7 +31,11 @@ export class CardDsArgs {
   categoryId?: string;
 }
 
-interface CardWithRowNumber extends Card {
+// NOTE: using Omit here because categories is used on the Card entity to join to the categories table,
+// but we actually want to use a dataloader for a "virtual" inner field using the same name "categories"
+// we may want an even narrower type definition to give back to the resolver that does not overlap with
+// the Card entity.
+interface CardObject extends Omit<CardEntity, "categories"> {
   rowNumber?: number;
 }
 
@@ -49,8 +53,8 @@ export class CardAPI extends DataSource {
     super();
     this.connection = connection;
     this.repos = {
-      cards: connection.getRepository(Card),
-      categories: connection.getRepository(Category)
+      cards: connection.getRepository(CardEntity),
+      categories: connection.getRepository(CategoryEntity)
     };
   }
 
@@ -171,7 +175,7 @@ export class CardAPI extends DataSource {
     ]);
 
     const edges = this.createEdges(results);
-    const pageInfo = buildPageInfo<Edge<CardWithRowNumber>>(edges, totalCount);
+    const pageInfo = buildPageInfo<Edge<CardObject>>(edges, totalCount);
 
     return {
       edges: edges.map(edge => ({
@@ -182,17 +186,15 @@ export class CardAPI extends DataSource {
     };
   }
 
-  protected encodeCard(data: Card): Card {
+  protected encodeCard(data: CardEntity): CardObject {
     return {
       ...data,
       id: encodeGlobalID(data.id, "Card") // replace ID with a global ID
     };
   }
 
-  protected createEdges(
-    results: CardWithRowNumber[]
-  ): Edge<CardWithRowNumber>[] {
-    return results.map((result: CardWithRowNumber) => ({
+  protected createEdges(results: CardObject[]): Edge<CardObject>[] {
+    return results.map((result: CardObject) => ({
       node: result,
       cursor: encodeCursor(result.id, "card") // TODO: this cursor column could probably be dynamic
     }));
@@ -202,6 +204,8 @@ export class CardAPI extends DataSource {
     async (categoryIds: CategoryLoader[]): Promise<CardConnection[]> =>
       Promise.all(
         categoryIds.map(async ({ categoryId, args }) =>
+          // TODO: make cards somehow batch this into one query, this version will result in multiple getCards calls.
+          // it's tricky to resolve because of how we're exploiting row number
           this.getCards({
             ...args,
             categoryId
@@ -221,19 +225,19 @@ export class CardAPI extends DataSource {
    * Get a particular card from the deck using global id
    * @param id global id
    */
-  async getCardByGlobalID(id: string): Promise<Card> {
+  async getCardByGlobalID(id: string): Promise<CardEntity> {
     id = decodeGlobalID(id).id;
     const card = await this.repos.cards.findOne(id); // find by id
 
     if (!card) throw new Error("Card Not Found");
-    return card;
+    return card; // NOTE: returning as a CardEntity rather a CardObject because it hasn't been encoded yet
   }
 
   /**
    * Get a particular card from the deck, returns encoded card
    * @param id global id
    */
-  async getCard(id: string): Promise<Card> {
+  async getCard(id: string): Promise<CardObject> {
     const card = await this.getCardByGlobalID(id); // find by global id
     return this.encodeCard(card);
   }
@@ -248,7 +252,7 @@ export class CardAPI extends DataSource {
     description,
     categoryId
   }: CardInput): Promise<CardsUpdatedResponse> {
-    const card = new Card();
+    const card = new CardEntity();
     card.number = number;
     card.label = label;
     card.description = description;

@@ -1,11 +1,9 @@
 type Category implements Node {
   id: ID!
   name: String
-  parentId: ID
-  children: [Category]
   updated: DateTime
   created: DateTime!
-  _cards(first: Int, last: Int, after: String, before: String, orderByColumn: String, orderByDirection: DirectionEnum): CardConnection
+  cards(first: Int, last: Int, after: String, before: String, orderByColumn: String, orderByDirection: DirectionEnum): CardConnection
 }
 
 input CategoryInput {
@@ -13,7 +11,7 @@ input CategoryInput {
 }
 
 type CategoryUpdatedResponse {
-  success: Boolean!
-  message: String!
+  success: Boolean
+  message: String
   category: Category
 }

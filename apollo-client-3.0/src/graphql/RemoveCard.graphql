@@ -1,0 +1,11 @@
+# import CardParts from "CardParts.graphql";
+
+mutation removeCard($id: ID!) {
+  removeCard(id: $id) {
+    success
+    message
+    card {
+      ...CardParts
+    }
+  }
+}

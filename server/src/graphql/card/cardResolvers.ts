@@ -26,7 +26,7 @@ export const resolvers: Resolvers = {
       dataSources.cardAPI.removeCard(id)
   },
   Card: {
-    _categories(root, args, { dataSources }): Promise<Category[]> {
+    categories(root, args, { dataSources }): Promise<Category[]> {
       return dataSources.categoryAPI.getCategoriesFor(root.id);
     }
   }

@@ -3,7 +3,7 @@ import moment from 'moment';
 import { css } from 'emotion';
 
 interface CardTableData {
-  id: string;
+  id: string | undefined;
   number: number | null | undefined;
   label: string | null | undefined;
   created: string; //ISOString
@@ -18,7 +18,7 @@ interface CardTableColumnConfig {
 interface CardTableProps {
   data: CardTableData[];
   selected?: Record<string, CardTableData>;
-  onSelectCard: (id: string) => void;
+  onSelectCard: (id: string | null) => void;
 }
 
 // NOTE: field not used yet
@@ -64,7 +64,10 @@ export const CardTable: React.FC<CardTableProps> = (
       <tbody>
         {props.data.map(data => {
           return (
-            <tr key={data.id} onClick={(): void => props.onSelectCard(data.id)}>
+            <tr
+              key={data.id}
+              onClick={(): void => props.onSelectCard(data.id ?? null)}
+            >
               <td
                 className={css`
                   text-align: center;

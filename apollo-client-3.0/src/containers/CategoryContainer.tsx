@@ -36,15 +36,13 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
 
   const cardData = useMemo(() => {
     return (
-      data?.category?._cards?.edges.map(
-        ({ node: { id, number, label, created, updated } }) => ({
-          id,
-          number,
-          label,
-          created,
-          updated,
-        }),
-      ) ?? []
+      data?.category?.cards?.edges?.map(edge => ({
+        id: edge?.node?.id,
+        number: edge?.node?.number,
+        label: edge?.node?.label,
+        created: edge?.node?.created,
+        updated: edge?.node?.updated,
+      })) ?? []
     );
   }, [data]);
 
@@ -60,23 +58,23 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
     fetchMore({
       variables: {
         ...variables,
-        after: data?.category?._cards?.pageInfo.endCursor,
+        after: data?.category?.cards?.pageInfo?.endCursor,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) return previousResult;
 
-        const newEdges = fetchMoreResult.category?._cards?.edges;
-        const pageInfo = fetchMoreResult.category?._cards?.pageInfo;
+        const newEdges = fetchMoreResult.category?.cards?.edges;
+        const pageInfo = fetchMoreResult.category?.cards?.pageInfo;
 
-        return newEdges?.length && previousResult.category && pageInfo
+        return newEdges?.length && previousResult?.category && pageInfo
           ? {
               // Put the new cards at the end of the list and update `pageInfo`
               // so we have the new `endCursor` and `hasNextPage` values
               category: {
                 ...previousResult.category,
-                _cards: {
+                cards: {
                   edges: [
-                    ...(previousResult.category?._cards?.edges ?? []),
+                    ...(previousResult.category.cards?.edges ?? []),
                     ...newEdges,
                   ],
                   pageInfo,
@@ -96,11 +94,11 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
       <EditCategoryContainer data={data.category}></EditCategoryContainer>
       <div>Selected: {variables.id}</div>
       <CardTable data={cardData} onSelectCard={onSelectCard}></CardTable>
-      {data.category?._cards?.pageInfo.hasNextPage && (
+      {data.category?.cards?.pageInfo?.hasNextPage && (
         <button onClick={getMoreData}>Load More</button>
       )}
-      Showing {data.category?._cards?.edges.length} /{' '}
-      {data.category?._cards?.pageInfo.totalCount}
+      Showing {data.category?.cards?.edges?.length} /{' '}
+      {data.category?.cards?.pageInfo?.totalCount}
       <RemoveCategoryContainer
         id={data.category.id}
         onSelectCategory={onSelectCategory}

@@ -19,8 +19,7 @@ query GetCategoryNode(
     }
     ... on Category {
       ...CategoryParts
-      parentId
-      _cards(
+      cards(
         first: $first
         last: $last
         after: $after

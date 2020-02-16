@@ -3,5 +3,4 @@ fragment CategoryParts on Category {
   created
   updated
   name
-  parentId
 }

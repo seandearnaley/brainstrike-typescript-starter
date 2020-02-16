@@ -28,7 +28,12 @@ export const CardManager: React.FC = () => {
           onSelectCard={onSelectCard}
         ></CategoryContainer>
       }
-      right={<CardContainer selectedCard={selectedCard}></CardContainer>}
+      right={
+        <CardContainer
+          onSelectCard={onSelectCard}
+          selectedCard={selectedCard}
+        ></CardContainer>
+      }
     ></FlexLayout>
   );
 };

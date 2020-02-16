@@ -36,7 +36,7 @@ export const cache = new InMemoryCache({
     },
     Card: {
       fields: {
-        _categories: {
+        categories: {
           keyArgs: [],
         },
       },
@@ -44,7 +44,7 @@ export const cache = new InMemoryCache({
     Category: {
       fields: {
         // A dynamically computed field
-        // _cards(existingData, { args, variables, toReference }) {
+        // cards(existingData, { args, variables, toReference }) {
         //   console.log('args=', args);
         //   console.log('variables=', variables);
 
@@ -56,7 +56,7 @@ export const cache = new InMemoryCache({
         //     });
         //   return existingData;
         // },
-        _cards: {
+        cards: {
           keyArgs: [],
         },
       },

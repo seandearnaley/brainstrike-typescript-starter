@@ -2,7 +2,7 @@
 # import CategoryParts from "CategoryParts.graphql";
 
 query GetCategoryWithCards(
-  $id: ID!
+  $id: ID
   $first: Int
   $last: Int
   $after: String
@@ -12,7 +12,7 @@ query GetCategoryWithCards(
 ) {
   category(id: $id) {
     ...CategoryParts
-    _cards(
+    cards(
       first: $first
       last: $last
       after: $after

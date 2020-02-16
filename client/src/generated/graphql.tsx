@@ -438,7 +438,7 @@ export const GetCardsDocument = gql`
       orderByColumn: $orderByColumn
       orderByDirection: $orderByDirection
       categoryId: $categoryId
-    ) @connection(key: "Card_card") {
+    ) @connection(key: "CardConnection") {
       pageInfo {
         hasNextPage
         hasPreviousPage

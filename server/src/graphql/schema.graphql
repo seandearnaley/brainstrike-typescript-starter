@@ -26,10 +26,10 @@ type PageInfo {
 
 type Query {
   cards(first: Int, last: Int, after: String, before: String, orderByColumn: String, orderByDirection: DirectionEnum, categoryId: ID): CardConnection!
-  card(id: ID!): Card
+  card(id: ID): Card
   categories(cardIds: String, orderByColumn: String, orderByDirection: DirectionEnum): [Category!]
-  category(id: ID!): Category
-  node(id: ID!): Node
+  category(id: ID): Category
+  node(id: ID): Node
 }
 
 type Mutation {

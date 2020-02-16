@@ -2,7 +2,7 @@ import DataLoader = require("dataloader");
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Connection } from "typeorm";
 
-import { Category } from "../entity";
+import { Category as CategoryEntity } from "../entity";
 import {
   CategoryInput,
   CategoryUpdatedResponse,
@@ -18,6 +18,15 @@ export class CategoryDsArgs {
   cardIds?: string;
 }
 
+// NOTE: using Omit here because cards is used on the Category entity to join to the cards table,
+// but we actually want to use a dataloader for a "virtual" inner field using the same name "cards"
+// we may want an even narrower type definition to give back to the resolver that does not overlap with
+// the Category entity.
+interface CategoryObject
+  extends Omit<CategoryEntity, "cards" | "parent" | "children"> {
+  rowNumber?: number;
+}
+
 export class CategoryAPI extends DataSource {
   context!: ApolloContext;
   connection: Connection;
@@ -27,7 +36,7 @@ export class CategoryAPI extends DataSource {
     super();
     this.connection = connection;
     this.repos = {
-      categories: connection.getRepository(Category)
+      categories: connection.getRepository(CategoryEntity)
     };
   }
 
@@ -39,45 +48,46 @@ export class CategoryAPI extends DataSource {
     this.context = config.context;
   }
 
-  protected encodeCategory(data: Category): Category {
-    const { id, name, parent, created, updated, cards } = data;
+  protected encodeCategory(data: CategoryEntity): CategoryObject {
+    const { id, name, created, updated } = data;
     return {
       id: encodeGlobalID(id, "Category"), // replace ID with a global ID
       name,
-      parent,
       created,
-      updated,
-      cards
+      updated
     };
   }
 
-  private categoryLoader = new DataLoader<string, Category[]>(
-    async (cardIds: string[]): Promise<Array<Category[]>> => {
+  private categoryLoader = new DataLoader<string, CategoryObject[]>(
+    async (cardIds: string[]): Promise<Array<CategoryObject[]>> => {
       // batches cardIds into a single call per request
-      const categories = await this.getCategories({
+      const categories = await this.getCategoryEntities({
         cardIds: cardIds.join(",")
       });
 
       return cardIds.map(id =>
-        categories.filter(category =>
-          category.cards.find(card => card.id === decodeGlobalID(id).id)
-        )
+        categories
+          .filter(category =>
+            category.cards.find(card => card.id === decodeGlobalID(id).id)
+          )
+          .map(this.encodeCategory)
       );
     }
   );
 
-  async getCategoriesFor(cardId: string): Promise<Category[]> {
+  async getCategoriesFor(cardId: string): Promise<CategoryObject[]> {
     return this.categoryLoader.load(cardId);
   }
 
   /**
-   * Get all categories
+   * Get all categories, note we need the cards field on the entity here to filter on the dataloader
+   * but we don't want to return that to the resolver because it will clash with our 'cards' virtual field
    */
-  async getCategories({
+  async getCategoryEntities({
     cardIds,
     orderByColumn = "category.name",
     orderByDirection = DirectionEnum.Asc
-  }: CategoryDsArgs): Promise<Category[]> {
+  }: CategoryDsArgs): Promise<CategoryEntity[]> {
     let query = this.repos.categories
       .createQueryBuilder("category")
       .leftJoinAndSelect("category.cards", "card");
@@ -96,7 +106,14 @@ export class CategoryAPI extends DataSource {
       query = query.orderBy(orderByColumn, orderByDirection);
     }
 
-    const data = await query.getMany();
+    return query.getMany();
+  }
+
+  /**
+   * Get all categories
+   */
+  async getCategories(args: CategoryDsArgs): Promise<CategoryObject[]> {
+    const data = await this.getCategoryEntities(args);
 
     return data.map(this.encodeCategory); // get all
   }
@@ -105,7 +122,7 @@ export class CategoryAPI extends DataSource {
    * Get a particular category using global id
    * @param id global id
    */
-  async getCategoryByGlobalID(id: string): Promise<Category> {
+  async getCategoryByGlobalID(id: string): Promise<CategoryEntity> {
     id = decodeGlobalID(id).id;
     const category = await this.repos.categories.findOne(id); // find by id
 
@@ -117,7 +134,7 @@ export class CategoryAPI extends DataSource {
    * Get a particular category
    * @param id category uuid
    */
-  async getCategory(id: string): Promise<Category> {
+  async getCategory(id: string): Promise<CategoryObject> {
     const category = await this.getCategoryByGlobalID(id); // find by global id
     return this.encodeCategory(category);
   }
@@ -127,7 +144,7 @@ export class CategoryAPI extends DataSource {
    * @param input category name
    */
   async addCategory({ name }: CategoryInput): Promise<CategoryUpdatedResponse> {
-    const category = new Category();
+    const category = new CategoryEntity();
     category.name = name;
     const savedCategory = await this.repos.categories.save(category);
     return {

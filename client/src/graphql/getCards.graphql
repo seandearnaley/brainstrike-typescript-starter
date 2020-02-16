@@ -14,7 +14,7 @@ query getCards(
     before: $before,
     orderByColumn: $orderByColumn,
     orderByDirection: $orderByDirection,
-  	categoryId: $categoryId) @connection(key: "Card_card")  {
+  	categoryId: $categoryId) @connection(key: "CardConnection")  {
       pageInfo {
         hasNextPage
         hasPreviousPage

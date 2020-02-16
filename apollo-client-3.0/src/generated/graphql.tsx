@@ -22,19 +22,19 @@ export type Card = Node & {
   description?: Maybe<Scalars['String']>;
   created: Scalars['DateTime'];
   updated?: Maybe<Scalars['DateTime']>;
-  _categories?: Maybe<Array<Category>>;
+  categories?: Maybe<Array<Maybe<Category>>>;
 };
 
 export type CardConnection = {
   __typename?: 'CardConnection';
-  pageInfo: PageInfo;
-  edges: Array<CardEdge>;
+  pageInfo?: Maybe<PageInfo>;
+  edges?: Maybe<Array<Maybe<CardEdge>>>;
 };
 
 export type CardEdge = {
   __typename?: 'CardEdge';
-  cursor: Scalars['String'];
-  node: Card;
+  cursor?: Maybe<Scalars['String']>;
+  node?: Maybe<Card>;
 };
 
 export type CardInput = {
@@ -46,23 +46,21 @@ export type CardInput = {
 
 export type CardsUpdatedResponse = {
   __typename?: 'CardsUpdatedResponse';
-  success: Scalars['Boolean'];
-  message: Scalars['String'];
-  card: Card;
+  success?: Maybe<Scalars['Boolean']>;
+  message?: Maybe<Scalars['String']>;
+  card?: Maybe<Card>;
 };
 
 export type Category = Node & {
   __typename?: 'Category';
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
-  parentId?: Maybe<Scalars['ID']>;
-  children?: Maybe<Array<Maybe<Category>>>;
   updated?: Maybe<Scalars['DateTime']>;
   created: Scalars['DateTime'];
-  _cards?: Maybe<CardConnection>;
+  cards?: Maybe<CardConnection>;
 };
 
-export type Category_CardsArgs = {
+export type CategoryCardsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
@@ -77,8 +75,8 @@ export type CategoryInput = {
 
 export type CategoryUpdatedResponse = {
   __typename?: 'CategoryUpdatedResponse';
-  success: Scalars['Boolean'];
-  message: Scalars['String'];
+  success?: Maybe<Scalars['Boolean']>;
+  message?: Maybe<Scalars['String']>;
   category?: Maybe<Category>;
 };
 
@@ -158,7 +156,7 @@ export type QueryCardsArgs = {
 };
 
 export type QueryCardArgs = {
-  id: Scalars['ID'];
+  id?: Maybe<Scalars['ID']>;
 };
 
 export type QueryCategoriesArgs = {
@@ -168,11 +166,11 @@ export type QueryCategoriesArgs = {
 };
 
 export type QueryCategoryArgs = {
-  id: Scalars['ID'];
+  id?: Maybe<Scalars['ID']>;
 };
 
 export type QueryNodeArgs = {
-  id: Scalars['ID'];
+  id?: Maybe<Scalars['ID']>;
 };
 
 export type CardPartsFragment = { __typename?: 'Card' } & Pick<
@@ -182,18 +180,18 @@ export type CardPartsFragment = { __typename?: 'Card' } & Pick<
 
 export type CategoryPartsFragment = { __typename?: 'Category' } & Pick<
   Category,
-  'id' | 'created' | 'updated' | 'name' | 'parentId'
+  'id' | 'created' | 'updated' | 'name'
 >;
 
 export type GetCardWithCategoriesQueryVariables = {
-  id: Scalars['ID'];
+  id?: Maybe<Scalars['ID']>;
 };
 
 export type GetCardWithCategoriesQuery = { __typename?: 'Query' } & {
   card: Maybe<
     { __typename?: 'Card' } & Pick<Card, 'description'> & {
-        _categories: Maybe<
-          Array<{ __typename?: 'Category' } & CategoryPartsFragment>
+        categories: Maybe<
+          Array<Maybe<{ __typename?: 'Category' } & CategoryPartsFragment>>
         >;
       } & CardPartsFragment
   >;
@@ -211,18 +209,24 @@ export type GetCardsQueryVariables = {
 
 export type GetCardsQuery = { __typename?: 'Query' } & {
   cards: { __typename?: 'CardConnection' } & {
-    pageInfo: { __typename?: 'PageInfo' } & Pick<
-      PageInfo,
-      | 'hasNextPage'
-      | 'hasPreviousPage'
-      | 'startCursor'
-      | 'endCursor'
-      | 'totalCount'
+    pageInfo: Maybe<
+      { __typename?: 'PageInfo' } & Pick<
+        PageInfo,
+        | 'hasNextPage'
+        | 'hasPreviousPage'
+        | 'startCursor'
+        | 'endCursor'
+        | 'totalCount'
+      >
     >;
-    edges: Array<
-      { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-          node: { __typename?: 'Card' } & CardPartsFragment;
-        }
+    edges: Maybe<
+      Array<
+        Maybe<
+          { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+              node: Maybe<{ __typename?: 'Card' } & CardPartsFragment>;
+            }
+        >
+      >
     >;
   };
 };
@@ -248,22 +252,30 @@ export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
     | ({ __typename: 'Card' } & Pick<Card, 'id' | 'created' | 'updated'>)
     | ({ __typename: 'Category' } & Pick<
         Category,
-        'id' | 'created' | 'updated' | 'parentId'
+        'id' | 'created' | 'updated'
       > & {
-          _cards: Maybe<
+          cards: Maybe<
             { __typename?: 'CardConnection' } & {
-              pageInfo: { __typename?: 'PageInfo' } & Pick<
-                PageInfo,
-                | 'hasNextPage'
-                | 'hasPreviousPage'
-                | 'startCursor'
-                | 'endCursor'
-                | 'totalCount'
+              pageInfo: Maybe<
+                { __typename?: 'PageInfo' } & Pick<
+                  PageInfo,
+                  | 'hasNextPage'
+                  | 'hasPreviousPage'
+                  | 'startCursor'
+                  | 'endCursor'
+                  | 'totalCount'
+                >
               >;
-              edges: Array<
-                { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-                    node: { __typename?: 'Card' } & CardPartsFragment;
-                  }
+              edges: Maybe<
+                Array<
+                  Maybe<
+                    { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+                        node: Maybe<
+                          { __typename?: 'Card' } & CardPartsFragment
+                        >;
+                      }
+                  >
+                >
               >;
             }
           >;
@@ -272,7 +284,7 @@ export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
 };
 
 export type GetCategoryWithCardsQueryVariables = {
-  id: Scalars['ID'];
+  id?: Maybe<Scalars['ID']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
@@ -284,25 +296,42 @@ export type GetCategoryWithCardsQueryVariables = {
 export type GetCategoryWithCardsQuery = { __typename?: 'Query' } & {
   category: Maybe<
     { __typename?: 'Category' } & {
-      _cards: Maybe<
+      cards: Maybe<
         { __typename?: 'CardConnection' } & {
-          pageInfo: { __typename?: 'PageInfo' } & Pick<
-            PageInfo,
-            | 'hasNextPage'
-            | 'hasPreviousPage'
-            | 'startCursor'
-            | 'endCursor'
-            | 'totalCount'
+          pageInfo: Maybe<
+            { __typename?: 'PageInfo' } & Pick<
+              PageInfo,
+              | 'hasNextPage'
+              | 'hasPreviousPage'
+              | 'startCursor'
+              | 'endCursor'
+              | 'totalCount'
+            >
           >;
-          edges: Array<
-            { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-                node: { __typename?: 'Card' } & CardPartsFragment;
-              }
+          edges: Maybe<
+            Array<
+              Maybe<
+                { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+                    node: Maybe<{ __typename?: 'Card' } & CardPartsFragment>;
+                  }
+              >
+            >
           >;
         }
       >;
     } & CategoryPartsFragment
   >;
+};
+
+export type RemoveCardMutationVariables = {
+  id: Scalars['ID'];
+};
+
+export type RemoveCardMutation = { __typename?: 'Mutation' } & {
+  removeCard: { __typename?: 'CardsUpdatedResponse' } & Pick<
+    CardsUpdatedResponse,
+    'success' | 'message'
+  > & { card: Maybe<{ __typename?: 'Card' } & CardPartsFragment> };
 };
 
 export type RemoveCategoryMutationVariables = {
@@ -313,11 +342,7 @@ export type RemoveCategoryMutation = { __typename?: 'Mutation' } & {
   removeCategory: { __typename?: 'CategoryUpdatedResponse' } & Pick<
     CategoryUpdatedResponse,
     'success' | 'message'
-  > & {
-      category: Maybe<
-        { __typename?: 'Category' } & Pick<Category, 'id' | 'name'>
-      >;
-    };
+  > & { category: Maybe<{ __typename?: 'Category' } & CategoryPartsFragment> };
 };
 
 export type UpdateCategoryMutationVariables = {
@@ -347,15 +372,14 @@ export const CategoryPartsFragmentDoc = gql`
     created
     updated
     name
-    parentId
   }
 `;
 export const GetCardWithCategoriesDocument = gql`
-  query GetCardWithCategories($id: ID!) {
+  query GetCardWithCategories($id: ID) {
     card(id: $id) {
       ...CardParts
       description
-      _categories @connection(key: "Categories") {
+      categories @connection(key: "Categories") {
         ...CategoryParts
       }
     }
@@ -576,8 +600,7 @@ export const GetCategoryNodeDocument = gql`
       }
       ... on Category {
         ...CategoryParts
-        parentId
-        _cards(
+        cards(
           first: $first
           last: $last
           after: $after
@@ -662,7 +685,7 @@ export type GetCategoryNodeQueryResult = ApolloReactCommon.QueryResult<
 >;
 export const GetCategoryWithCardsDocument = gql`
   query GetCategoryWithCards(
-    $id: ID!
+    $id: ID
     $first: Int
     $last: Int
     $after: String
@@ -672,7 +695,7 @@ export const GetCategoryWithCardsDocument = gql`
   ) {
     category(id: $id) {
       ...CategoryParts
-      _cards(
+      cards(
         first: $first
         last: $last
         after: $after
@@ -754,17 +777,72 @@ export type GetCategoryWithCardsQueryResult = ApolloReactCommon.QueryResult<
   GetCategoryWithCardsQuery,
   GetCategoryWithCardsQueryVariables
 >;
+export const RemoveCardDocument = gql`
+  mutation removeCard($id: ID!) {
+    removeCard(id: $id) {
+      success
+      message
+      card {
+        ...CardParts
+      }
+    }
+  }
+  ${CardPartsFragmentDoc}
+`;
+export type RemoveCardMutationFn = ApolloReactCommon.MutationFunction<
+  RemoveCardMutation,
+  RemoveCardMutationVariables
+>;
+
+/**
+ * __useRemoveCardMutation__
+ *
+ * To run a mutation, you first call `useRemoveCardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveCardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeCardMutation, { data, loading, error }] = useRemoveCardMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemoveCardMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    RemoveCardMutation,
+    RemoveCardMutationVariables
+  >,
+) {
+  return ApolloReactHooks.useMutation<
+    RemoveCardMutation,
+    RemoveCardMutationVariables
+  >(RemoveCardDocument, baseOptions);
+}
+export type RemoveCardMutationHookResult = ReturnType<
+  typeof useRemoveCardMutation
+>;
+export type RemoveCardMutationResult = ApolloReactCommon.MutationResult<
+  RemoveCardMutation
+>;
+export type RemoveCardMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  RemoveCardMutation,
+  RemoveCardMutationVariables
+>;
 export const RemoveCategoryDocument = gql`
   mutation removeCategory($id: ID!) {
     removeCategory(id: $id) {
       success
       message
       category {
-        id
-        name
+        ...CategoryParts
       }
     }
   }
+  ${CategoryPartsFragmentDoc}
 `;
 export type RemoveCategoryMutationFn = ApolloReactCommon.MutationFunction<
   RemoveCategoryMutation,

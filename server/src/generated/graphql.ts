@@ -29,19 +29,19 @@ export type Card = Node & {
   description?: Maybe<Scalars["String"]>;
   created: Scalars["DateTime"];
   updated?: Maybe<Scalars["DateTime"]>;
-  _categories?: Maybe<Array<Category>>;
+  categories?: Maybe<Array<Maybe<Category>>>;
 };
 
 export type CardConnection = {
   __typename?: "CardConnection";
-  pageInfo: PageInfo;
-  edges: Array<CardEdge>;
+  pageInfo?: Maybe<PageInfo>;
+  edges?: Maybe<Array<Maybe<CardEdge>>>;
 };
 
 export type CardEdge = {
   __typename?: "CardEdge";
-  cursor: Scalars["String"];
-  node: Card;
+  cursor?: Maybe<Scalars["String"]>;
+  node?: Maybe<Card>;
 };
 
 export type CardInput = {
@@ -53,23 +53,21 @@ export type CardInput = {
 
 export type CardsUpdatedResponse = {
   __typename?: "CardsUpdatedResponse";
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
-  card: Card;
+  success?: Maybe<Scalars["Boolean"]>;
+  message?: Maybe<Scalars["String"]>;
+  card?: Maybe<Card>;
 };
 
 export type Category = Node & {
   __typename?: "Category";
   id: Scalars["ID"];
   name?: Maybe<Scalars["String"]>;
-  parentId?: Maybe<Scalars["ID"]>;
-  children?: Maybe<Array<Maybe<Category>>>;
   updated?: Maybe<Scalars["DateTime"]>;
   created: Scalars["DateTime"];
-  _cards?: Maybe<CardConnection>;
+  cards?: Maybe<CardConnection>;
 };
 
-export type Category_CardsArgs = {
+export type CategoryCardsArgs = {
   first?: Maybe<Scalars["Int"]>;
   last?: Maybe<Scalars["Int"]>;
   after?: Maybe<Scalars["String"]>;
@@ -84,8 +82,8 @@ export type CategoryInput = {
 
 export type CategoryUpdatedResponse = {
   __typename?: "CategoryUpdatedResponse";
-  success: Scalars["Boolean"];
-  message: Scalars["String"];
+  success?: Maybe<Scalars["Boolean"]>;
+  message?: Maybe<Scalars["String"]>;
   category?: Maybe<Category>;
 };
 
@@ -165,7 +163,7 @@ export type QueryCardsArgs = {
 };
 
 export type QueryCardArgs = {
-  id: Scalars["ID"];
+  id?: Maybe<Scalars["ID"]>;
 };
 
 export type QueryCategoriesArgs = {
@@ -175,11 +173,11 @@ export type QueryCategoriesArgs = {
 };
 
 export type QueryCategoryArgs = {
-  id: Scalars["ID"];
+  id?: Maybe<Scalars["ID"]>;
 };
 
 export type QueryNodeArgs = {
-  id: Scalars["ID"];
+  id?: Maybe<Scalars["ID"]>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -355,8 +353,8 @@ export type CardResolvers<
     ParentType,
     ContextType
   >;
-  _categories?: Resolver<
-    Maybe<Array<ResolversTypes["Category"]>>,
+  categories?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["Category"]>>>,
     ParentType,
     ContextType
   >;
@@ -367,8 +365,16 @@ export type CardConnectionResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["CardConnection"] = ResolversParentTypes["CardConnection"]
 > = ResolversObject<{
-  pageInfo?: Resolver<ResolversTypes["PageInfo"], ParentType, ContextType>;
-  edges?: Resolver<Array<ResolversTypes["CardEdge"]>, ParentType, ContextType>;
+  pageInfo?: Resolver<
+    Maybe<ResolversTypes["PageInfo"]>,
+    ParentType,
+    ContextType
+  >;
+  edges?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes["CardEdge"]>>>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
@@ -376,8 +382,8 @@ export type CardEdgeResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["CardEdge"] = ResolversParentTypes["CardEdge"]
 > = ResolversObject<{
-  cursor?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  node?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
+  cursor?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  node?: Resolver<Maybe<ResolversTypes["Card"]>, ParentType, ContextType>;
   __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
@@ -385,9 +391,9 @@ export type CardsUpdatedResponseResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["CardsUpdatedResponse"] = ResolversParentTypes["CardsUpdatedResponse"]
 > = ResolversObject<{
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
-  card?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
+  success?: Resolver<Maybe<ResolversTypes["Boolean"]>, ParentType, ContextType>;
+  message?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  card?: Resolver<Maybe<ResolversTypes["Card"]>, ParentType, ContextType>;
   __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
@@ -397,23 +403,17 @@ export type CategoryResolvers<
 > = ResolversObject<{
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  parentId?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
-  children?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Category"]>>>,
-    ParentType,
-    ContextType
-  >;
   updated?: Resolver<
     Maybe<ResolversTypes["DateTime"]>,
     ParentType,
     ContextType
   >;
   created?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
-  _cards?: Resolver<
+  cards?: Resolver<
     Maybe<ResolversTypes["CardConnection"]>,
     ParentType,
     ContextType,
-    Category_CardsArgs
+    CategoryCardsArgs
   >;
   __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
@@ -422,8 +422,8 @@ export type CategoryUpdatedResponseResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["CategoryUpdatedResponse"] = ResolversParentTypes["CategoryUpdatedResponse"]
 > = ResolversObject<{
-  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  success?: Resolver<Maybe<ResolversTypes["Boolean"]>, ParentType, ContextType>;
+  message?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
   category?: Resolver<
     Maybe<ResolversTypes["Category"]>,
     ParentType,
@@ -536,7 +536,7 @@ export type QueryResolvers<
     Maybe<ResolversTypes["Card"]>,
     ParentType,
     ContextType,
-    RequireFields<QueryCardArgs, "id">
+    QueryCardArgs
   >;
   categories?: Resolver<
     Maybe<Array<ResolversTypes["Category"]>>,
@@ -548,13 +548,13 @@ export type QueryResolvers<
     Maybe<ResolversTypes["Category"]>,
     ParentType,
     ContextType,
-    RequireFields<QueryCategoryArgs, "id">
+    QueryCategoryArgs
   >;
   node?: Resolver<
     Maybe<ResolversTypes["Node"]>,
     ParentType,
     ContextType,
-    RequireFields<QueryNodeArgs, "id">
+    QueryNodeArgs
   >;
 }>;
 

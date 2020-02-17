@@ -91,7 +91,6 @@ export const CardTable: React.FC<CardTableProps> = (
             </tr>
           );
         })}
-        form
       </tbody>
     </table>
   );

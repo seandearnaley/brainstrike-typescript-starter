@@ -10,11 +10,21 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
+  src/generated/fragments.js:
+    hooks:
+      afterOneFileWrite:
+        - prettier --write  
+    plugins:
+      - "fragment-matcher"
   ./graphql.schema.json:
     plugins:
       - "introspection"
 config:
-   withHooks: true
-   withHOC: false
-   withComponent: false
- 
+  apolloClientVersion: 3
+  withHooks: true
+  withHOC: false
+  withComponent: false
+  apolloReactCommonImportFrom: "@apollo/client"
+  apolloReactComponentsImportFrom: "@apollo/client"
+  apolloReactHocImportFrom: "@apollo/client"
+  apolloReactHooksImportFrom: "@apollo/client"

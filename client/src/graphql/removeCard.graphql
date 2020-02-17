@@ -1,6 +1,0 @@
-mutation removeCard($id: ID!) {
-  removeCard(id: $id) {
-    success
-    message
-  }
-}

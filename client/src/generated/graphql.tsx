@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
-import * as ApolloReactCommon from '@apollo/react-common';
-import * as ApolloReactHooks from '@apollo/react-hooks';
+import * as ApolloReactCommon from '@apollo/client';
+import * as ApolloReactHooks from '@apollo/client';
 export type Maybe<T> = T | null;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -12,13 +12,7 @@ export type Scalars = {
   DateTime: any;
   Date: any;
   Time: any;
-  Upload: any;
 };
-
-export enum CacheControlScope {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE',
-}
 
 export type Card = Node & {
   __typename?: 'Card';
@@ -28,19 +22,19 @@ export type Card = Node & {
   description?: Maybe<Scalars['String']>;
   created: Scalars['DateTime'];
   updated?: Maybe<Scalars['DateTime']>;
-  categoryId?: Maybe<Scalars['String']>;
+  categories?: Maybe<Array<Maybe<Category>>>;
 };
 
 export type CardConnection = {
   __typename?: 'CardConnection';
-  pageInfo: PageInfo;
-  edges: Array<CardEdge>;
+  pageInfo?: Maybe<PageInfo>;
+  edges?: Maybe<Array<Maybe<CardEdge>>>;
 };
 
 export type CardEdge = {
   __typename?: 'CardEdge';
-  cursor: Scalars['String'];
-  node: Card;
+  cursor?: Maybe<Scalars['String']>;
+  node?: Maybe<Card>;
 };
 
 export type CardInput = {
@@ -52,23 +46,21 @@ export type CardInput = {
 
 export type CardsUpdatedResponse = {
   __typename?: 'CardsUpdatedResponse';
-  success: Scalars['Boolean'];
-  message: Scalars['String'];
-  card: Card;
+  success?: Maybe<Scalars['Boolean']>;
+  message?: Maybe<Scalars['String']>;
+  card?: Maybe<Card>;
 };
 
-export type Category = {
+export type Category = Node & {
   __typename?: 'Category';
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
-  parentId?: Maybe<Scalars['ID']>;
-  children?: Maybe<Array<Maybe<Category>>>;
   updated?: Maybe<Scalars['DateTime']>;
-  created?: Maybe<Scalars['DateTime']>;
-  cardConnection?: Maybe<CardConnection>;
+  created: Scalars['DateTime'];
+  cards?: Maybe<CardConnection>;
 };
 
-export type CategoryCardConnectionArgs = {
+export type CategoryCardsArgs = {
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
@@ -83,8 +75,8 @@ export type CategoryInput = {
 
 export type CategoryUpdatedResponse = {
   __typename?: 'CategoryUpdatedResponse';
-  success: Scalars['Boolean'];
-  message: Scalars['String'];
+  success?: Maybe<Scalars['Boolean']>;
+  message?: Maybe<Scalars['String']>;
   category?: Maybe<Category>;
 };
 
@@ -146,14 +138,11 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
-  card?: Maybe<Card>;
   cards: CardConnection;
+  card?: Maybe<Card>;
   categories?: Maybe<Array<Category>>;
   category?: Maybe<Category>;
-};
-
-export type QueryCardArgs = {
-  id: Scalars['ID'];
+  node?: Maybe<Node>;
 };
 
 export type QueryCardsArgs = {
@@ -166,39 +155,46 @@ export type QueryCardsArgs = {
   categoryId?: Maybe<Scalars['ID']>;
 };
 
+export type QueryCardArgs = {
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type QueryCategoriesArgs = {
+  cardIds?: Maybe<Scalars['String']>;
+  orderByColumn?: Maybe<Scalars['String']>;
+  orderByDirection?: Maybe<DirectionEnum>;
+};
+
 export type QueryCategoryArgs = {
-  id: Scalars['ID'];
+  id?: Maybe<Scalars['ID']>;
 };
 
-export type AddCardMutationVariables = {
-  input: CardInput;
+export type QueryNodeArgs = {
+  id?: Maybe<Scalars['ID']>;
 };
 
-export type AddCardMutation = { __typename?: 'Mutation' } & {
-  addCard: { __typename?: 'CardsUpdatedResponse' } & Pick<
-    CardsUpdatedResponse,
-    'success' | 'message'
-  > & {
-      card: { __typename?: 'Card' } & Pick<
-        Card,
-        'created' | 'description' | 'id' | 'label' | 'number' | 'updated'
-      >;
-    };
+export type CardPartsFragment = { __typename?: 'Card' } & Pick<
+  Card,
+  'id' | 'created' | 'updated' | 'label' | 'number'
+>;
+
+export type CategoryPartsFragment = { __typename?: 'Category' } & Pick<
+  Category,
+  'id' | 'name' | 'created' | 'updated'
+>;
+
+export type GetCardWithCategoriesQueryVariables = {
+  id?: Maybe<Scalars['ID']>;
 };
 
-export type AddCategoryMutationVariables = {
-  input: CategoryInput;
-};
-
-export type AddCategoryMutation = { __typename?: 'Mutation' } & {
-  addCategory: { __typename?: 'CategoryUpdatedResponse' } & Pick<
-    CategoryUpdatedResponse,
-    'success' | 'message'
-  > & {
-      category: Maybe<
-        { __typename?: 'Category' } & Pick<Category, 'id' | 'name'>
-      >;
-    };
+export type GetCardWithCategoriesQuery = { __typename?: 'Query' } & {
+  card: Maybe<
+    { __typename?: 'Card' } & Pick<Card, 'description'> & {
+        categories: Maybe<
+          Array<Maybe<{ __typename?: 'Category' } & CategoryPartsFragment>>
+        >;
+      } & CardPartsFragment
+  >;
 };
 
 export type GetCardsQueryVariables = {
@@ -213,21 +209,24 @@ export type GetCardsQueryVariables = {
 
 export type GetCardsQuery = { __typename?: 'Query' } & {
   cards: { __typename?: 'CardConnection' } & {
-    pageInfo: { __typename?: 'PageInfo' } & Pick<
-      PageInfo,
-      | 'hasNextPage'
-      | 'hasPreviousPage'
-      | 'startCursor'
-      | 'endCursor'
-      | 'totalCount'
+    pageInfo: Maybe<
+      { __typename?: 'PageInfo' } & Pick<
+        PageInfo,
+        | 'hasNextPage'
+        | 'hasPreviousPage'
+        | 'startCursor'
+        | 'endCursor'
+        | 'totalCount'
+      >
     >;
-    edges: Array<
-      { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-          node: { __typename?: 'Card' } & Pick<
-            Card,
-            'created' | 'updated' | 'id' | 'label' | 'number'
-          >;
-        }
+    edges: Maybe<
+      Array<
+        Maybe<
+          { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+              node: Maybe<{ __typename?: 'Card' } & CardPartsFragment>;
+            }
+        >
+      >
     >;
   };
 };
@@ -235,33 +234,92 @@ export type GetCardsQuery = { __typename?: 'Query' } & {
 export type GetCategoriesQueryVariables = {};
 
 export type GetCategoriesQuery = { __typename?: 'Query' } & {
-  categories: Maybe<
-    Array<
-      { __typename?: 'Category' } & Pick<
+  categories: Maybe<Array<{ __typename?: 'Category' } & CategoryPartsFragment>>;
+};
+
+export type GetCategoryNodeQueryVariables = {
+  id: Scalars['ID'];
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  orderByColumn?: Maybe<Scalars['String']>;
+  orderByDirection?: Maybe<DirectionEnum>;
+};
+
+export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
+  category: Maybe<
+    | ({ __typename: 'Card' } & Pick<Card, 'id' | 'created' | 'updated'>)
+    | ({ __typename: 'Category' } & Pick<
         Category,
-        'id' | 'name' | 'parentId' | 'created' | 'updated'
+        'id' | 'created' | 'updated'
       > & {
-          children: Maybe<
-            Array<
-              Maybe<{ __typename?: 'Category' } & Pick<Category, 'id' | 'name'>>
-            >
+          cards: Maybe<
+            { __typename?: 'CardConnection' } & {
+              pageInfo: Maybe<
+                { __typename?: 'PageInfo' } & Pick<
+                  PageInfo,
+                  | 'hasNextPage'
+                  | 'hasPreviousPage'
+                  | 'startCursor'
+                  | 'endCursor'
+                  | 'totalCount'
+                >
+              >;
+              edges: Maybe<
+                Array<
+                  Maybe<
+                    { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+                        node: Maybe<
+                          { __typename?: 'Card' } & CardPartsFragment
+                        >;
+                      }
+                  >
+                >
+              >;
+            }
           >;
-        }
-    >
+        } & CategoryPartsFragment)
   >;
 };
 
-export type GetCategoryQueryVariables = {
-  id: Scalars['ID'];
+export type GetCategoryWithCardsQueryVariables = {
+  id?: Maybe<Scalars['ID']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  orderByColumn?: Maybe<Scalars['String']>;
+  orderByDirection?: Maybe<DirectionEnum>;
 };
 
-export type GetCategoryQuery = { __typename?: 'Query' } & {
+export type GetCategoryWithCardsQuery = { __typename?: 'Query' } & {
   category: Maybe<
-    { __typename?: 'Category' } & Pick<Category, 'id' | 'name'> & {
-        children: Maybe<
-          Array<Maybe<{ __typename?: 'Category' } & Pick<Category, 'id'>>>
-        >;
-      }
+    { __typename?: 'Category' } & {
+      cards: Maybe<
+        { __typename?: 'CardConnection' } & {
+          pageInfo: Maybe<
+            { __typename?: 'PageInfo' } & Pick<
+              PageInfo,
+              | 'hasNextPage'
+              | 'hasPreviousPage'
+              | 'startCursor'
+              | 'endCursor'
+              | 'totalCount'
+            >
+          >;
+          edges: Maybe<
+            Array<
+              Maybe<
+                { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+                    node: Maybe<{ __typename?: 'Card' } & CardPartsFragment>;
+                  }
+              >
+            >
+          >;
+        }
+      >;
+    } & CategoryPartsFragment
   >;
 };
 
@@ -273,7 +331,7 @@ export type RemoveCardMutation = { __typename?: 'Mutation' } & {
   removeCard: { __typename?: 'CardsUpdatedResponse' } & Pick<
     CardsUpdatedResponse,
     'success' | 'message'
-  >;
+  > & { card: Maybe<{ __typename?: 'Card' } & CardPartsFragment> };
 };
 
 export type RemoveCategoryMutationVariables = {
@@ -284,144 +342,102 @@ export type RemoveCategoryMutation = { __typename?: 'Mutation' } & {
   removeCategory: { __typename?: 'CategoryUpdatedResponse' } & Pick<
     CategoryUpdatedResponse,
     'success' | 'message'
-  > & {
-      category: Maybe<
-        { __typename?: 'Category' } & Pick<Category, 'id' | 'name'>
-      >;
-    };
+  > & { category: Maybe<{ __typename?: 'Category' } & CategoryPartsFragment> };
 };
 
-export type UpdateCardMutationVariables = {
+export type UpdateCategoryMutationVariables = {
   id: Scalars['ID'];
-  input: CardInput;
+  input?: Maybe<CategoryInput>;
 };
 
-export type UpdateCardMutation = { __typename?: 'Mutation' } & {
-  updateCard: { __typename?: 'CardsUpdatedResponse' } & Pick<
-    CardsUpdatedResponse,
+export type UpdateCategoryMutation = { __typename?: 'Mutation' } & {
+  updateCategory: { __typename?: 'CategoryUpdatedResponse' } & Pick<
+    CategoryUpdatedResponse,
     'success' | 'message'
-  > & {
-      card: { __typename?: 'Card' } & Pick<
-        Card,
-        'id' | 'number' | 'label' | 'description'
-      >;
-    };
+  > & { category: Maybe<{ __typename?: 'Category' } & CategoryPartsFragment> };
 };
 
-export const AddCardDocument = gql`
-  mutation addCard($input: CardInput!) {
-    addCard(input: $input) {
-      success
-      message
-      card {
-        created
-        description
-        id
-        label
-        number
-        updated
+export const CardPartsFragmentDoc = gql`
+  fragment CardParts on Card {
+    id
+    created
+    updated
+    label
+    number
+  }
+`;
+export const CategoryPartsFragmentDoc = gql`
+  fragment CategoryParts on Category {
+    id
+    name
+    created
+    updated
+  }
+`;
+export const GetCardWithCategoriesDocument = gql`
+  query GetCardWithCategories($id: ID) {
+    card(id: $id) {
+      ...CardParts
+      description
+      categories @connection(key: "Categories") {
+        ...CategoryParts
       }
     }
   }
+  ${CardPartsFragmentDoc}
+  ${CategoryPartsFragmentDoc}
 `;
-export type AddCardMutationFn = ApolloReactCommon.MutationFunction<
-  AddCardMutation,
-  AddCardMutationVariables
->;
 
 /**
- * __useAddCardMutation__
+ * __useGetCardWithCategoriesQuery__
  *
- * To run a mutation, you first call `useAddCardMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddCardMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
+ * To run a query within a React component, call `useGetCardWithCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCardWithCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const [addCardMutation, { data, loading, error }] = useAddCardMutation({
+ * const { data, loading, error } = useGetCardWithCategoriesQuery({
  *   variables: {
- *      input: // value for 'input'
+ *      id: // value for 'id'
  *   },
  * });
  */
-export function useAddCardMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    AddCardMutation,
-    AddCardMutationVariables
+export function useGetCardWithCategoriesQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetCardWithCategoriesQuery,
+    GetCardWithCategoriesQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<
-    AddCardMutation,
-    AddCardMutationVariables
-  >(AddCardDocument, baseOptions);
+  return ApolloReactHooks.useQuery<
+    GetCardWithCategoriesQuery,
+    GetCardWithCategoriesQueryVariables
+  >(GetCardWithCategoriesDocument, baseOptions);
 }
-export type AddCardMutationHookResult = ReturnType<typeof useAddCardMutation>;
-export type AddCardMutationResult = ApolloReactCommon.MutationResult<
-  AddCardMutation
->;
-export type AddCardMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  AddCardMutation,
-  AddCardMutationVariables
->;
-export const AddCategoryDocument = gql`
-  mutation addCategory($input: CategoryInput!) {
-    addCategory(input: $input) {
-      success
-      message
-      category {
-        id
-        name
-      }
-    }
-  }
-`;
-export type AddCategoryMutationFn = ApolloReactCommon.MutationFunction<
-  AddCategoryMutation,
-  AddCategoryMutationVariables
->;
-
-/**
- * __useAddCategoryMutation__
- *
- * To run a mutation, you first call `useAddCategoryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddCategoryMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addCategoryMutation, { data, loading, error }] = useAddCategoryMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useAddCategoryMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
-    AddCategoryMutation,
-    AddCategoryMutationVariables
+export function useGetCardWithCategoriesLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetCardWithCategoriesQuery,
+    GetCardWithCategoriesQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<
-    AddCategoryMutation,
-    AddCategoryMutationVariables
-  >(AddCategoryDocument, baseOptions);
+  return ApolloReactHooks.useLazyQuery<
+    GetCardWithCategoriesQuery,
+    GetCardWithCategoriesQueryVariables
+  >(GetCardWithCategoriesDocument, baseOptions);
 }
-export type AddCategoryMutationHookResult = ReturnType<
-  typeof useAddCategoryMutation
+export type GetCardWithCategoriesQueryHookResult = ReturnType<
+  typeof useGetCardWithCategoriesQuery
 >;
-export type AddCategoryMutationResult = ApolloReactCommon.MutationResult<
-  AddCategoryMutation
+export type GetCardWithCategoriesLazyQueryHookResult = ReturnType<
+  typeof useGetCardWithCategoriesLazyQuery
 >;
-export type AddCategoryMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  AddCategoryMutation,
-  AddCategoryMutationVariables
+export type GetCardWithCategoriesQueryResult = ApolloReactCommon.QueryResult<
+  GetCardWithCategoriesQuery,
+  GetCardWithCategoriesQueryVariables
 >;
 export const GetCardsDocument = gql`
-  query getCards(
+  query GetCards(
     $first: Int
     $last: Int
     $after: String
@@ -449,15 +465,12 @@ export const GetCardsDocument = gql`
       edges {
         cursor
         node {
-          created
-          updated
-          id
-          label
-          number
+          ...CardParts
         }
       }
     }
   }
+  ${CardPartsFragmentDoc}
 `;
 
 /**
@@ -513,19 +526,12 @@ export type GetCardsQueryResult = ApolloReactCommon.QueryResult<
   GetCardsQueryVariables
 >;
 export const GetCategoriesDocument = gql`
-  query getCategories {
+  query GetCategories {
     categories {
-      id
-      name
-      parentId
-      created
-      updated
-      children {
-        id
-        name
-      }
+      ...CategoryParts
     }
   }
+  ${CategoryPartsFragmentDoc}
 `;
 
 /**
@@ -575,71 +581,213 @@ export type GetCategoriesQueryResult = ApolloReactCommon.QueryResult<
   GetCategoriesQuery,
   GetCategoriesQueryVariables
 >;
-export const GetCategoryDocument = gql`
-  query getCategory($id: ID!) {
-    category(id: $id) {
-      id
-      name
-      children {
+export const GetCategoryNodeDocument = gql`
+  query GetCategoryNode(
+    $id: ID!
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+    $orderByColumn: String
+    $orderByDirection: DirectionEnum
+  ) {
+    category: node(id: $id) {
+      __typename
+      ... on Node {
         id
+        created
+        updated
+      }
+      ... on Category {
+        ...CategoryParts
+        cards(
+          first: $first
+          last: $last
+          after: $after
+          before: $before
+          orderByColumn: $orderByColumn
+          orderByDirection: $orderByDirection
+        ) {
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+            totalCount
+          }
+          edges {
+            cursor
+            node {
+              ...CardParts
+            }
+          }
+        }
       }
     }
   }
+  ${CategoryPartsFragmentDoc}
+  ${CardPartsFragmentDoc}
 `;
 
 /**
- * __useGetCategoryQuery__
+ * __useGetCategoryNodeQuery__
  *
- * To run a query within a React component, call `useGetCategoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCategoryNodeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCategoryNodeQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetCategoryQuery({
+ * const { data, loading, error } = useGetCategoryNodeQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      orderByColumn: // value for 'orderByColumn'
+ *      orderByDirection: // value for 'orderByDirection'
  *   },
  * });
  */
-export function useGetCategoryQuery(
+export function useGetCategoryNodeQuery(
   baseOptions?: ApolloReactHooks.QueryHookOptions<
-    GetCategoryQuery,
-    GetCategoryQueryVariables
+    GetCategoryNodeQuery,
+    GetCategoryNodeQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useQuery<GetCategoryQuery, GetCategoryQueryVariables>(
-    GetCategoryDocument,
-    baseOptions,
-  );
+  return ApolloReactHooks.useQuery<
+    GetCategoryNodeQuery,
+    GetCategoryNodeQueryVariables
+  >(GetCategoryNodeDocument, baseOptions);
 }
-export function useGetCategoryLazyQuery(
+export function useGetCategoryNodeLazyQuery(
   baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    GetCategoryQuery,
-    GetCategoryQueryVariables
+    GetCategoryNodeQuery,
+    GetCategoryNodeQueryVariables
   >,
 ) {
   return ApolloReactHooks.useLazyQuery<
-    GetCategoryQuery,
-    GetCategoryQueryVariables
-  >(GetCategoryDocument, baseOptions);
+    GetCategoryNodeQuery,
+    GetCategoryNodeQueryVariables
+  >(GetCategoryNodeDocument, baseOptions);
 }
-export type GetCategoryQueryHookResult = ReturnType<typeof useGetCategoryQuery>;
-export type GetCategoryLazyQueryHookResult = ReturnType<
-  typeof useGetCategoryLazyQuery
+export type GetCategoryNodeQueryHookResult = ReturnType<
+  typeof useGetCategoryNodeQuery
 >;
-export type GetCategoryQueryResult = ApolloReactCommon.QueryResult<
-  GetCategoryQuery,
-  GetCategoryQueryVariables
+export type GetCategoryNodeLazyQueryHookResult = ReturnType<
+  typeof useGetCategoryNodeLazyQuery
+>;
+export type GetCategoryNodeQueryResult = ApolloReactCommon.QueryResult<
+  GetCategoryNodeQuery,
+  GetCategoryNodeQueryVariables
+>;
+export const GetCategoryWithCardsDocument = gql`
+  query GetCategoryWithCards(
+    $id: ID
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+    $orderByColumn: String
+    $orderByDirection: DirectionEnum
+  ) {
+    category(id: $id) {
+      ...CategoryParts
+      cards(
+        first: $first
+        last: $last
+        after: $after
+        before: $before
+        orderByColumn: $orderByColumn
+        orderByDirection: $orderByDirection
+      ) @connection(key: "CardConnection") {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+          totalCount
+        }
+        edges {
+          cursor
+          node {
+            ...CardParts
+          }
+        }
+      }
+    }
+  }
+  ${CategoryPartsFragmentDoc}
+  ${CardPartsFragmentDoc}
+`;
+
+/**
+ * __useGetCategoryWithCardsQuery__
+ *
+ * To run a query within a React component, call `useGetCategoryWithCardsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCategoryWithCardsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCategoryWithCardsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      after: // value for 'after'
+ *      before: // value for 'before'
+ *      orderByColumn: // value for 'orderByColumn'
+ *      orderByDirection: // value for 'orderByDirection'
+ *   },
+ * });
+ */
+export function useGetCategoryWithCardsQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    GetCategoryWithCardsQuery,
+    GetCategoryWithCardsQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useQuery<
+    GetCategoryWithCardsQuery,
+    GetCategoryWithCardsQueryVariables
+  >(GetCategoryWithCardsDocument, baseOptions);
+}
+export function useGetCategoryWithCardsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    GetCategoryWithCardsQuery,
+    GetCategoryWithCardsQueryVariables
+  >,
+) {
+  return ApolloReactHooks.useLazyQuery<
+    GetCategoryWithCardsQuery,
+    GetCategoryWithCardsQueryVariables
+  >(GetCategoryWithCardsDocument, baseOptions);
+}
+export type GetCategoryWithCardsQueryHookResult = ReturnType<
+  typeof useGetCategoryWithCardsQuery
+>;
+export type GetCategoryWithCardsLazyQueryHookResult = ReturnType<
+  typeof useGetCategoryWithCardsLazyQuery
+>;
+export type GetCategoryWithCardsQueryResult = ApolloReactCommon.QueryResult<
+  GetCategoryWithCardsQuery,
+  GetCategoryWithCardsQueryVariables
 >;
 export const RemoveCardDocument = gql`
   mutation removeCard($id: ID!) {
     removeCard(id: $id) {
       success
       message
+      card {
+        ...CardParts
+      }
     }
   }
+  ${CardPartsFragmentDoc}
 `;
 export type RemoveCardMutationFn = ApolloReactCommon.MutationFunction<
   RemoveCardMutation,
@@ -690,11 +838,11 @@ export const RemoveCategoryDocument = gql`
       success
       message
       category {
-        id
-        name
+        ...CategoryParts
       }
     }
   }
+  ${CategoryPartsFragmentDoc}
 `;
 export type RemoveCategoryMutationFn = ApolloReactCommon.MutationFunction<
   RemoveCategoryMutation,
@@ -739,61 +887,59 @@ export type RemoveCategoryMutationOptions = ApolloReactCommon.BaseMutationOption
   RemoveCategoryMutation,
   RemoveCategoryMutationVariables
 >;
-export const UpdateCardDocument = gql`
-  mutation updateCard($id: ID!, $input: CardInput!) {
-    updateCard(id: $id, input: $input) {
+export const UpdateCategoryDocument = gql`
+  mutation updateCategory($id: ID!, $input: CategoryInput) {
+    updateCategory(id: $id, input: $input) {
       success
       message
-      card {
-        id
-        number
-        label
-        description
+      category {
+        ...CategoryParts
       }
     }
   }
+  ${CategoryPartsFragmentDoc}
 `;
-export type UpdateCardMutationFn = ApolloReactCommon.MutationFunction<
-  UpdateCardMutation,
-  UpdateCardMutationVariables
+export type UpdateCategoryMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateCategoryMutation,
+  UpdateCategoryMutationVariables
 >;
 
 /**
- * __useUpdateCardMutation__
+ * __useUpdateCategoryMutation__
  *
- * To run a mutation, you first call `useUpdateCardMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateCardMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCategoryMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateCardMutation, { data, loading, error }] = useUpdateCardMutation({
+ * const [updateCategoryMutation, { data, loading, error }] = useUpdateCategoryMutation({
  *   variables: {
  *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useUpdateCardMutation(
+export function useUpdateCategoryMutation(
   baseOptions?: ApolloReactHooks.MutationHookOptions<
-    UpdateCardMutation,
-    UpdateCardMutationVariables
+    UpdateCategoryMutation,
+    UpdateCategoryMutationVariables
   >,
 ) {
   return ApolloReactHooks.useMutation<
-    UpdateCardMutation,
-    UpdateCardMutationVariables
-  >(UpdateCardDocument, baseOptions);
+    UpdateCategoryMutation,
+    UpdateCategoryMutationVariables
+  >(UpdateCategoryDocument, baseOptions);
 }
-export type UpdateCardMutationHookResult = ReturnType<
-  typeof useUpdateCardMutation
+export type UpdateCategoryMutationHookResult = ReturnType<
+  typeof useUpdateCategoryMutation
 >;
-export type UpdateCardMutationResult = ApolloReactCommon.MutationResult<
-  UpdateCardMutation
+export type UpdateCategoryMutationResult = ApolloReactCommon.MutationResult<
+  UpdateCategoryMutation
 >;
-export type UpdateCardMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  UpdateCardMutation,
-  UpdateCardMutationVariables
+export type UpdateCategoryMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  UpdateCategoryMutation,
+  UpdateCategoryMutationVariables
 >;

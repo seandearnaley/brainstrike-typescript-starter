@@ -19,6 +19,8 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["src/**/*.tsx", "src/styles.ts"],
+  "include": [
+    "src", "generated"
+  ],
   "exclude": ["src/**/*.spec.tsx"],
 }

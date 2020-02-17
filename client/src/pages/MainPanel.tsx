@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { CardContainer } from '../containers/CardContainer';
+import { CardManager } from './CardManager';
 import { CardsNav } from './CardsNav';
 import { useStyles } from '../styles';
 
@@ -12,7 +12,7 @@ export const MainPanel: React.FC = () => {
 
       <Switch>
         <Route path="/cards">
-          <CardContainer></CardContainer>
+          <CardManager></CardManager>
         </Route>
         <Route path="/sets">
           <CardsNav></CardsNav>

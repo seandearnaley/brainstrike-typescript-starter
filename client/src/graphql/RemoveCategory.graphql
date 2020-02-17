@@ -1,0 +1,11 @@
+# import CategoryParts from "CategoryParts.graphql";
+
+mutation removeCategory($id: ID!) {
+  removeCategory(id: $id) {
+    success
+    message
+    category {
+      ...CategoryParts
+    }
+  }
+}

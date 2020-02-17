@@ -10,7 +10,7 @@ interface CardContainerProps {
 export const CardContainer: React.FC<CardContainerProps> = ({
   selectedCard,
   onSelectCard,
-}: CardContainerProps) => {
+}: CardContainerProps): React.ReactElement => {
   const [showConfirmRemove, setShowConfirmRemove] = useState(false);
   const [removeCard, removeCardLoading, removeCardError] = useRemoveCard();
 

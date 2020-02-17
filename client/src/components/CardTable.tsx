@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { css } from 'emotion';
 
 interface CardTableData {
@@ -79,13 +79,19 @@ export const CardTable: React.FC<CardTableProps> = (
                 <span>{data.id}</span>
               </td>
               <td>{data.label}</td>
-              <td>{moment(data.created).format('MMMM Do YYYY, h:mm:ss a')}</td>
               <td>
-                {moment(data.updated ?? '').format('MMMM Do YYYY, h:mm:ss a')}
+                {format(new Date(data.created), 'MMMM Do yyyy, h:mm:ss a')}
+              </td>
+              <td>
+                {format(
+                  new Date(data.updated ?? ''),
+                  'MMMM Do yyyy, h:mm:ss a',
+                )}
               </td>
             </tr>
           );
         })}
+        form
       </tbody>
     </table>
   );

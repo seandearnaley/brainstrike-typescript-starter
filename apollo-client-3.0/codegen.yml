@@ -10,6 +10,12 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
+  src/generated/fragments.js:
+    hooks:
+      afterOneFileWrite:
+        - prettier --write  
+    plugins:
+      - "fragment-matcher"
   ./graphql.schema.json:
     plugins:
       - "introspection"

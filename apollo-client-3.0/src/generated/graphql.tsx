@@ -180,7 +180,7 @@ export type CardPartsFragment = { __typename?: 'Card' } & Pick<
 
 export type CategoryPartsFragment = { __typename?: 'Category' } & Pick<
   Category,
-  'id' | 'created' | 'updated' | 'name'
+  'id' | 'name' | 'created' | 'updated'
 >;
 
 export type GetCardWithCategoriesQueryVariables = {
@@ -369,9 +369,9 @@ export const CardPartsFragmentDoc = gql`
 export const CategoryPartsFragmentDoc = gql`
   fragment CategoryParts on Category {
     id
+    name
     created
     updated
-    name
   }
 `;
 export const GetCardWithCategoriesDocument = gql`

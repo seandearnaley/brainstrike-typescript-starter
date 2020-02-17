@@ -1,6 +1,6 @@
 fragment CategoryParts on Category {
   id
+  name
   created
   updated
-  name
 }

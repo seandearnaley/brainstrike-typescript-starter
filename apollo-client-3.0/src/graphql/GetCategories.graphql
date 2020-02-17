@@ -1,7 +1,0 @@
-# import CategoryParts from "CategoryParts.graphql";
-
-query GetCategories {
-  categories {
-    ...CategoryParts
-  }
-}

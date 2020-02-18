@@ -24,7 +24,7 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
     first: 5,
     orderByColumn: 'number',
     orderByDirection: DirectionEnum.Asc,
-    id: selectedCategory ?? '',
+    id: selectedCategory,
   };
 
   const [

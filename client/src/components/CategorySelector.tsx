@@ -26,9 +26,11 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
         li {
           color: black;
           cursor: pointer;
+          padding: 5px;
         }
         li:hover {
-          color: blue;
+          color: white;
+          background-color: black;
         }
       `}
     >

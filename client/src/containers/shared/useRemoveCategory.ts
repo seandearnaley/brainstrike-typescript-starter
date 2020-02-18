@@ -1,17 +1,17 @@
-import { ApolloError, FetchResult } from '@apollo/client';
+import { ApolloError, FetchResult, Reference } from '@apollo/client';
 
 import {
-  GetCategoriesDocument,
   useRemoveCategoryMutation,
-  CategoryPartsFragment,
   RemoveCategoryMutation,
 } from '../../generated/graphql';
+
+import { cache as inMemoryCache } from '../../index';
 
 // NOTE: the rationale for using a custom hook is for the cache update,
 // now the removeCategory function can be used elsewhere with shared cache logic
 export const useRemoveCategory = (): [
   (
-    id: string | null,
+    id: string,
   ) => Promise<
     FetchResult<
       RemoveCategoryMutation,
@@ -27,29 +27,21 @@ export const useRemoveCategory = (): [
     { loading, error },
   ] = useRemoveCategoryMutation();
 
-  const removeCategory = (id: string | null) =>
+  const removeCategory = (id: string) =>
     removeCategoryMutation({
       variables: {
-        id: id ?? '',
+        id,
       },
-      update: (cache, { data }) => {
-        const id = data?.removeCategory?.category?.id;
-        if (!id) return;
-
-        const { categories } =
-          cache.readQuery({
-            query: GetCategoriesDocument,
-          }) || {};
-
-        cache.writeQuery({
-          query: GetCategoriesDocument,
-          data: {
-            categories: categories.filter(
-              (category: CategoryPartsFragment) => category.id !== id,
-            ),
+      update: () => {
+        inMemoryCache.modify('ROOT_QUERY', {
+          categories(categories: Reference[], { readField }) {
+            return categories.filter(
+              category => id !== readField('id', category),
+            );
           },
         });
       },
     });
+
   return [removeCategory, loading, error];
 };

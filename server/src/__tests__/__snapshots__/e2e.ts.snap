@@ -22,7 +22,7 @@ Object {
     "cards": Object {
       "edges": Array [
         Object {
-          "cursor": "Q3xjYXJkfGU5MTU3NTE3LTRkNzgtNDNkZC1hMjUxLTBkNDI2OGJkNDY1ZA==",
+          "cursor": "Q3xDYXJkfGU5MTU3NTE3LTRkNzgtNDNkZC1hMjUxLTBkNDI2OGJkNDY1ZHwx",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:05:43.666Z",
@@ -34,7 +34,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfGNjMTg4YzZhLTU1YTUtNDY0ZS04M2U2LWVlY2E3OGQzNGQ3NA==",
+          "cursor": "Q3xDYXJkfGNjMTg4YzZhLTU1YTUtNDY0ZS04M2U2LWVlY2E3OGQzNGQ3NHwy",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:05:38.390Z",
@@ -46,7 +46,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfDBhYmM1ODIxLTY5ZGMtNDE5Mi04MjRjLTVhM2M5MTRkZmFhZQ==",
+          "cursor": "Q3xDYXJkfDBhYmM1ODIxLTY5ZGMtNDE5Mi04MjRjLTVhM2M5MTRkZmFhZXwz",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:05:33.031Z",
@@ -58,7 +58,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfGRlM2I5OGViLTQ5ODktNGRmYS04MjNjLTA3MDY5ZWZiYmE3Zg==",
+          "cursor": "Q3xDYXJkfGRlM2I5OGViLTQ5ODktNGRmYS04MjNjLTA3MDY5ZWZiYmE3Znw0",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:05:18.265Z",
@@ -70,7 +70,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfGE3ZGIxY2VhLWU3ZGMtNDVkYy05NzRiLTM0OTE5MjEyY2VkMQ==",
+          "cursor": "Q3xDYXJkfGE3ZGIxY2VhLWU3ZGMtNDVkYy05NzRiLTM0OTE5MjEyY2VkMXw1",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:04:38.922Z",
@@ -82,7 +82,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfGRhMGU5MzA2LTk1ODctNGNmNC05YzRjLWRhZjE3MWFlOWJiNg==",
+          "cursor": "Q3xDYXJkfGRhMGU5MzA2LTk1ODctNGNmNC05YzRjLWRhZjE3MWFlOWJiNnw2",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:04:12.131Z",
@@ -94,7 +94,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfDA1NTM3Zjc1LWRjMmUtNDc4Yy1iNzJlLWYyNmM2NzhlYTM5Nw==",
+          "cursor": "Q3xDYXJkfDA1NTM3Zjc1LWRjMmUtNDc4Yy1iNzJlLWYyNmM2NzhlYTM5N3w3",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:04:05.010Z",
@@ -106,7 +106,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfGZhOGZmOTM2LTI5MzItNDU3ZS04ZjMzLTg4YjY5Mzg0YTc1MA==",
+          "cursor": "Q3xDYXJkfGZhOGZmOTM2LTI5MzItNDU3ZS04ZjMzLTg4YjY5Mzg0YTc1MHw4",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:03:57.878Z",
@@ -118,7 +118,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfDE2NmZjNmE1LWEwMTQtNDk1MC1hNGY3LWUyMWQ4ZjlmMWEyMg==",
+          "cursor": "Q3xDYXJkfDE2NmZjNmE1LWEwMTQtNDk1MC1hNGY3LWUyMWQ4ZjlmMWEyMnw5",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:03:54.906Z",
@@ -130,7 +130,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfDJjZTRhOGExLTdlNjAtNGYyZS05NDBiLWMzZTM3Y2M4ZjQzMg==",
+          "cursor": "Q3xDYXJkfDJjZTRhOGExLTdlNjAtNGYyZS05NDBiLWMzZTM3Y2M4ZjQzMnwxMA==",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:03:53.654Z",
@@ -142,7 +142,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfDE3MjBjZjc0LTdkOTItNGJmYS05MTBiLTc1MGMyZWNmYzdlNw==",
+          "cursor": "Q3xDYXJkfDE3MjBjZjc0LTdkOTItNGJmYS05MTBiLTc1MGMyZWNmYzdlN3wxMQ==",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:03:38.174Z",
@@ -154,7 +154,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfDcyYTRiN2MzLWYxNjEtNDg1OS1iMzI4LTUzYjM3OTE5MzliMA==",
+          "cursor": "Q3xDYXJkfDcyYTRiN2MzLWYxNjEtNDg1OS1iMzI4LTUzYjM3OTE5MzliMHwxMg==",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:03:33.566Z",
@@ -166,7 +166,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfGIzOTE3MTk5LTAyODEtNGYxMC1iMWJlLTFjYmMwZmIyYWMxNw==",
+          "cursor": "Q3xDYXJkfGIzOTE3MTk5LTAyODEtNGYxMC1iMWJlLTFjYmMwZmIyYWMxN3wxMw==",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:03:24.499Z",
@@ -178,7 +178,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfGM5ZGE2MzRmLTk4NjktNGI0MS1hY2FiLThhM2IzZTRmZjQxMg==",
+          "cursor": "Q3xDYXJkfGM5ZGE2MzRmLTk4NjktNGI0MS1hY2FiLThhM2IzZTRmZjQxMnwxNA==",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:03:22.659Z",
@@ -190,7 +190,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfGEzYzdhYTU1LWM4ZWYtNDczMS05NDNlLTlhNTdjMjA2NTcxYQ==",
+          "cursor": "Q3xDYXJkfGEzYzdhYTU1LWM4ZWYtNDczMS05NDNlLTlhNTdjMjA2NTcxYXwxNQ==",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:03:16.177Z",
@@ -202,7 +202,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfDVkMWUyOTIzLTM3MDMtNDcxZi1iZTNlLWY1ZWJhNmZiNTlmYw==",
+          "cursor": "Q3xDYXJkfDVkMWUyOTIzLTM3MDMtNDcxZi1iZTNlLWY1ZWJhNmZiNTlmY3wxNg==",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:03:11.265Z",
@@ -214,7 +214,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfGJjYzAzMjg2LTkyM2EtNDNkNi1hYTBkLTMyODVkNTJjZDk0ZA==",
+          "cursor": "Q3xDYXJkfGJjYzAzMjg2LTkyM2EtNDNkNi1hYTBkLTMyODVkNTJjZDk0ZHwxNw==",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:02:59.693Z",
@@ -226,7 +226,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfDJmMjRmNjg4LTEzMmMtNDFjZC04NjkwLWY5MjNlMWJkYTc0MQ==",
+          "cursor": "Q3xDYXJkfDJmMjRmNjg4LTEzMmMtNDFjZC04NjkwLWY5MjNlMWJkYTc0MXwxOA==",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:02:51.052Z",
@@ -238,7 +238,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfGQxNDFiMTRlLTFmOGItNDQwZS05YjUxLTllMTBlN2ZkYmMzZA==",
+          "cursor": "Q3xDYXJkfGQxNDFiMTRlLTFmOGItNDQwZS05YjUxLTllMTBlN2ZkYmMzZHwxOQ==",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:02:46.467Z",
@@ -250,7 +250,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfDQxYjZkM2U4LTk4NjgtNDMyMC04ZDNlLWJlZTAzMDU1Y2ZmOA==",
+          "cursor": "Q3xDYXJkfDQxYjZkM2U4LTk4NjgtNDMyMC04ZDNlLWJlZTAzMDU1Y2ZmOHwyMA==",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T19:02:22.508Z",
@@ -263,10 +263,10 @@ Object {
         },
       ],
       "pageInfo": Object {
-        "endCursor": "Q3xjYXJkfDQxYjZkM2U4LTk4NjgtNDMyMC04ZDNlLWJlZTAzMDU1Y2ZmOA==",
+        "endCursor": "Q3xDYXJkfDQxYjZkM2U4LTk4NjgtNDMyMC04ZDNlLWJlZTAzMDU1Y2ZmOHwyMA==",
         "hasNextPage": true,
         "hasPreviousPage": false,
-        "startCursor": "Q3xjYXJkfGU5MTU3NTE3LTRkNzgtNDNkZC1hMjUxLTBkNDI2OGJkNDY1ZA==",
+        "startCursor": "Q3xDYXJkfGU5MTU3NTE3LTRkNzgtNDNkZC1hMjUxLTBkNDI2OGJkNDY1ZHwx",
         "totalCount": 10000,
       },
     },

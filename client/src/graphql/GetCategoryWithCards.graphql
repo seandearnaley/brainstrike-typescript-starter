@@ -19,7 +19,7 @@ query GetCategoryWithCards(
       before: $before
       orderByColumn: $orderByColumn
       orderByDirection: $orderByDirection
-    ) @connection(key: "CardConnection") {
+    ) @connection(key: "cards") {
       pageInfo {
         hasNextPage
         hasPreviousPage

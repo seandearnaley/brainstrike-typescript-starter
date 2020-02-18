@@ -64,21 +64,21 @@ export const mockCardsTotalResult = [{ totalCount: "10000" }];
 export const mockCardsConnectionResult = {
   edges: [
     {
-      cursor: "Q3xjYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZQ==",
+      cursor: "Q3xDYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZXwx",
       node: {
         ...mockCardsResult[0],
         id: "NzVmNzc0NzMtYjc0Yy00YTIwLWFlMGQtNzNlMDRiNDI3Y2RlOkNhcmQ="
       }
     },
     {
-      cursor: "Q3xjYXJkfDc4NTU1YTkwLWY2OGItNDU0Yy1iZWIyLWU3MDIxZjNkOGM2Mw==",
+      cursor: "Q3xDYXJkfDc4NTU1YTkwLWY2OGItNDU0Yy1iZWIyLWU3MDIxZjNkOGM2M3wy",
       node: {
         ...mockCardsResult[1],
         id: "Nzg1NTVhOTAtZjY4Yi00NTRjLWJlYjItZTcwMjFmM2Q4YzYzOkNhcmQ="
       }
     },
     {
-      cursor: "Q3xjYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyNw==",
+      cursor: "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
       node: {
         ...mockCardsResult[2],
         id: "Y2FmMzhiMzEtZTU1MS00MzNiLWIxYjAtYzY1ODA3ZTk3OTI3OkNhcmQ="
@@ -86,10 +86,10 @@ export const mockCardsConnectionResult = {
     }
   ],
   pageInfo: {
-    endCursor: "Q3xjYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyNw==",
+    endCursor: "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
     hasNextPage: true,
     hasPreviousPage: false,
-    startCursor: "Q3xjYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZQ==",
+    startCursor: "Q3xDYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZXwx",
     totalCount: 10000
   }
 };

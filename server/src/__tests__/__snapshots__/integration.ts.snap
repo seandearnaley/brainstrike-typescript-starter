@@ -87,7 +87,7 @@ Object {
     "cards": Object {
       "edges": Array [
         Object {
-          "cursor": "Q3xjYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZQ==",
+          "cursor": "Q3xDYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZXwx",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-01T20:19:27.909Z",
@@ -99,7 +99,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfDc4NTU1YTkwLWY2OGItNDU0Yy1iZWIyLWU3MDIxZjNkOGM2Mw==",
+          "cursor": "Q3xDYXJkfDc4NTU1YTkwLWY2OGItNDU0Yy1iZWIyLWU3MDIxZjNkOGM2M3wy",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-01T23:03:03.942Z",
@@ -111,7 +111,7 @@ Object {
           },
         },
         Object {
-          "cursor": "Q3xjYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyNw==",
+          "cursor": "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
           "node": Object {
             "__typename": "Card",
             "created": "2020-02-02T04:59:07.272Z",
@@ -124,10 +124,10 @@ Object {
         },
       ],
       "pageInfo": Object {
-        "endCursor": "Q3xjYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyNw==",
+        "endCursor": "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
         "hasNextPage": true,
         "hasPreviousPage": false,
-        "startCursor": "Q3xjYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZQ==",
+        "startCursor": "Q3xDYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZXwx",
         "totalCount": 10000,
       },
     },

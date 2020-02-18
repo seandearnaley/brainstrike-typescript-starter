@@ -331,7 +331,15 @@ export type RemoveCardMutation = { __typename?: 'Mutation' } & {
   removeCard: { __typename?: 'CardsUpdatedResponse' } & Pick<
     CardsUpdatedResponse,
     'success' | 'message'
-  > & { card: Maybe<{ __typename?: 'Card' } & CardPartsFragment> };
+  > & {
+      card: Maybe<
+        { __typename?: 'Card' } & {
+          categories: Maybe<
+            Array<Maybe<{ __typename?: 'Category' } & Pick<Category, 'id'>>>
+          >;
+        } & CardPartsFragment
+      >;
+    };
 };
 
 export type RemoveCategoryMutationVariables = {
@@ -702,7 +710,7 @@ export const GetCategoryWithCardsDocument = gql`
         before: $before
         orderByColumn: $orderByColumn
         orderByDirection: $orderByDirection
-      ) @connection(key: "CardConnection") {
+      ) @connection(key: "cards") {
         pageInfo {
           hasNextPage
           hasPreviousPage
@@ -784,6 +792,9 @@ export const RemoveCardDocument = gql`
       message
       card {
         ...CardParts
+        categories {
+          id
+        }
       }
     }
   }

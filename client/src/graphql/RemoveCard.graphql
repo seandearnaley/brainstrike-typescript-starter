@@ -6,6 +6,9 @@ mutation removeCard($id: ID!) {
     message
     card {
       ...CardParts
+      categories {
+        id
+      }
     }
   }
 }

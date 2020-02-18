@@ -9433,6 +9433,11 @@ onetime@^5.1.0:
   dependencies:
     mimic-fn "^2.1.0"
 
+opaqueid@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/opaqueid/-/opaqueid-1.1.0.tgz#8b1908e13b40ca92a6524791037e8b00831cd023"
+  integrity sha512-4u1YqkMXFYAe6/wOgU9zAA6zko7CPdlLcNv/B/JPeBNI6c/nEcSNzDwFU8QBXB3NQ8pXAs6jsH/zrBO8Eb589g==
+
 open@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/open/-/open-7.0.2.tgz#fb3681f11f157f2361d2392307548ca1792960e8"

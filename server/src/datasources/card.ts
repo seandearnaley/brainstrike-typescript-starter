@@ -115,7 +115,7 @@ export class CardAPI extends DataSource {
     const params = [];
 
     if (after) {
-      params.push(decodeCursor(after, "card").id);
+      params.push(decodeCursor(after, "Card").id);
 
       wheres.push(
         `"rowNumber" > ( SELECT "t2"."rowNumber" FROM (${rowNumQuery}) as t2 WHERE ${cursorColumn} = $1 )`
@@ -123,7 +123,7 @@ export class CardAPI extends DataSource {
     }
 
     if (before) {
-      params.push(decodeCursor(before, "card").id);
+      params.push(decodeCursor(before, "Card").id);
 
       wheres.push(`
           "rowNumber" < (
@@ -175,7 +175,7 @@ export class CardAPI extends DataSource {
     ]);
 
     const edges = this.createEdges(results);
-    const pageInfo = buildPageInfo<Edge<CardObject>>(edges, totalCount);
+    const pageInfo = buildPageInfo<Edge<CardObject>>(edges, totalCount, "Card");
 
     return {
       edges: edges.map(edge => ({
@@ -196,7 +196,7 @@ export class CardAPI extends DataSource {
   protected createEdges(results: CardObject[]): Edge<CardObject>[] {
     return results.map((result: CardObject) => ({
       node: result,
-      cursor: encodeCursor(result.id, "card") // TODO: this cursor column could probably be dynamic
+      cursor: encodeCursor(result.id, "Card", result.rowNumber) // TODO: this cursor column could probably be dynamic
     }));
   }
 

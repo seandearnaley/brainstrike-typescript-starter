@@ -1,6 +1,4 @@
-// encodeCursor and decodeCursor code from https://github.com/kirkbrauer/typeorm-graphql-pagination by Kirk Brauer.
-import { encode, decode } from "opaqueid";
-import { Driver } from "typeorm";
+import { encode, decode } from 'opaqueid';
 
 export interface Edge<T> {
   cursor: string;
@@ -42,8 +40,8 @@ export class InvalidCursorError extends Error {
    */
   constructor() {
     super();
-    this.name = "Invalid Cursor Error";
-    this.message = "Invalid cursor";
+    this.name = 'Invalid Cursor Error';
+    this.message = 'Invalid cursor';
   }
 }
 
@@ -68,7 +66,7 @@ export class InvalidCursorTypeError extends Error {
    */
   constructor(expectedType: string, actualType: string) {
     super();
-    this.name = "Invalid Cursor Type Error";
+    this.name = 'Invalid Cursor Type Error';
     this.expectedType = expectedType;
     this.actualType = actualType;
     this.message = `Invalid cursor, expected type ${expectedType}, but got type ${actualType}`;
@@ -92,23 +90,23 @@ export function encodeCursor(id: string, type: string, index: number): string {
  */
 export function decodeCursor(cursor: string, type: string): Cursor {
   // Split the cursor
-  const split: string[] = decode(cursor).split("|");
+  const split: string[] = decode(cursor).split('|');
   // Verify that it is a valid cursor
-  if (split[0] !== "C") throw new InvalidCursorError();
+  if (split[0] !== 'C') throw new InvalidCursorError();
   // Throw an error if the cursor type is incorrect
   if (split[1] !== type) throw new InvalidCursorTypeError(type, split[1]);
   // Return the cursor data
   return {
     id: split[2],
     type: split[1],
-    index: Number(split[3]) * 1
+    index: Number(split[3]) * 1,
   };
 }
 
 export function buildPageInfo<T extends { cursor: string }>(
   edges: T[],
   totalCount: string,
-  type: string
+  type: string,
 ): PageInfoInterface {
   if (edges.length === 0) {
     return {
@@ -116,17 +114,16 @@ export function buildPageInfo<T extends { cursor: string }>(
       endCursor: null,
       totalCount: Number(totalCount),
       hasNextPage: false,
-      hasPreviousPage: false
+      hasPreviousPage: false,
     };
   }
-
   const firstEdge = edges[0];
   const lastEdge = edges[edges.length - 1];
 
   const startCursor = firstEdge?.cursor ?? null;
   const endCursor = lastEdge?.cursor ?? null;
 
-  if (!startCursor || !endCursor) throw Error("missing cursors");
+  if (!startCursor || !endCursor) throw Error('missing cursors');
 
   const lastRowNumber = Number(decodeCursor(endCursor, type).index);
   const firstRowNumber = Number(decodeCursor(startCursor, type).index);
@@ -139,7 +136,7 @@ export function buildPageInfo<T extends { cursor: string }>(
     endCursor,
     totalCount: Number(totalCount),
     hasNextPage,
-    hasPreviousPage
+    hasPreviousPage,
   };
 }
 
@@ -148,20 +145,13 @@ export function encodeGlobalID(id: string, __typename: string): string {
 }
 
 export function decodeGlobalID(
-  objectId: string
+  objectId: string,
 ): { id: string; __typename: string } {
-  const parts = decode(objectId).split(":");
+  const parts = decode(objectId).split(':');
   return {
     id: parts[0],
-    __typename: parts[1]
+    __typename: parts[1],
   };
-}
-
-export function escapeStringsWithDriver(
-  driver: Driver,
-  ...strs: string[]
-): string[] {
-  return strs.map(str => driver.escape(str));
 }
 
 export const getTypeName = (id: string): string => {

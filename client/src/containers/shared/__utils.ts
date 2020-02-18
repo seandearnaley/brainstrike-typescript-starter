@@ -139,21 +139,3 @@ export function buildPageInfo<T extends { cursor: string }>(
     hasPreviousPage,
   };
 }
-
-export function encodeGlobalID(id: string, __typename: string): string {
-  return encode(`${id}:${__typename}`);
-}
-
-export function decodeGlobalID(
-  objectId: string,
-): { id: string; __typename: string } {
-  const parts = decode(objectId).split(':');
-  return {
-    id: parts[0],
-    __typename: parts[1],
-  };
-}
-
-export const getTypeName = (id: string): string => {
-  return decodeGlobalID(id).__typename;
-};

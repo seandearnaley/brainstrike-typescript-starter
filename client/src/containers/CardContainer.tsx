@@ -15,7 +15,7 @@ export const CardContainer: React.FC<CardContainerProps> = ({
   const [removeCard, removeCardLoading, removeCardError] = useRemoveCard();
 
   const variables = {
-    id: selectedCard ?? '',
+    id: selectedCard,
   };
 
   const [getCard, { data, loading, error }] = useGetCardWithCategoriesLazyQuery(

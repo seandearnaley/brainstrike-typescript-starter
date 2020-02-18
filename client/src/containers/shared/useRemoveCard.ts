@@ -73,7 +73,7 @@ export const useRemoveCard = (): [
               category: {
                 ...data?.category,
                 cards: {
-                  pageInfo, // TODO: need to recalc pageinfo
+                  pageInfo,
                   edges,
                 },
               },

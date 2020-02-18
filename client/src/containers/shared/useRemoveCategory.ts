@@ -40,6 +40,10 @@ export const useRemoveCategory = (): [
             );
           },
         });
+
+        // evict this item from the in memory cache
+        inMemoryCache.evict(`Category:${id}`);
+        inMemoryCache.gc();
       },
     });
 

@@ -49,10 +49,14 @@ export const useRemoveCard = (): [
         // for each of cards categories, remove the cards from the category cache and recalculate pageInfo
         data?.removeCard?.card?.categories?.forEach(category => {
           if (!category) return; // category could be null
-
           removeCardFromCache(category.id, id);
         });
+
+        // evict this item from the in memory cache
+        inMemoryCache.evict(`Card:${id}`);
+        inMemoryCache.gc();
       },
     });
+
   return [removeCard, loading, error];
 };

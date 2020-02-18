@@ -79,6 +79,12 @@ export class CardAPI extends DataSource {
     orderByDirection = DirectionEnum.Desc,
     categoryId
   }: CardDsArgs): Promise<CardConnection> {
+    // NOTE: we're using straight SQL for Postgres here because TypeORM has a bug where it can't resolve the subquery meta data,
+    // it should be possible to rewrite this using the ORM syntax but will have to wait https://github.com/typeorm/typeorm/issues/4015
+
+    // The advantage of this apporach using ROW_NUMBER () OVER is that it can be easily adapted to other engines, can do first and last, is executed in one query and needs no CTE's
+    // if there is a better solution, let me know! seandearnaley@hotmail.com
+
     // escape input values for Postgres
     const [
       cursorColumn,

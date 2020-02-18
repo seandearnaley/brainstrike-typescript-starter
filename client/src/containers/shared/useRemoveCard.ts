@@ -17,7 +17,7 @@ const removeCardFromCache = (categoryId: string, cardId: string) => {
       );
 
       let totalCount = readField<any>('pageInfo', cards).totalCount;
-      const pageInfo = buildPageInfo<any>(edges, String(--totalCount), 'Card');
+      const pageInfo = buildPageInfo<any>(edges, String(--totalCount), 'Card'); // rebuild pageinfo
 
       return {
         edges,
@@ -46,6 +46,7 @@ export const useRemoveCard = (): [
         id,
       },
       update: (_, { data }) => {
+        // these cards can be in many categories, data should include a list of category ids
         // for each of cards categories, remove the cards from the category cache and recalculate pageInfo
         data?.removeCard?.card?.categories?.forEach(category => {
           if (!category) return; // category could be null
@@ -54,7 +55,7 @@ export const useRemoveCard = (): [
 
         // evict this item from the in memory cache
         inMemoryCache.evict(`Card:${id}`);
-        inMemoryCache.gc();
+        inMemoryCache.gc(); // garbage collection
       },
     });
 

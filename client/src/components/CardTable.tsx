@@ -76,17 +76,18 @@ export const CardTable: React.FC<CardTableProps> = (
                 {data.number}
               </td>
               <td>
-                <span>{data.id}</span>
+                <span
+                  className={css`
+                    font-size: 10px;
+                  `}
+                >
+                  {data.id}
+                </span>
               </td>
               <td>{data.label}</td>
+              <td>{format(new Date(data.created), 'MM/dd/yyyy, h:mm:ss a')}</td>
               <td>
-                {format(new Date(data.created), 'MMMM Do yyyy, h:mm:ss a')}
-              </td>
-              <td>
-                {format(
-                  new Date(data.updated ?? ''),
-                  'MMMM Do yyyy, h:mm:ss a',
-                )}
+                {format(new Date(data.updated ?? ''), 'MM/dd/yyyy, h:mm:ss a')}
               </td>
             </tr>
           );

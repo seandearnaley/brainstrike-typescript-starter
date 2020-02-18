@@ -23,30 +23,28 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
         background-color: silver;
         height: 100%;
         overflow: auto;
-        button {
+        li {
           color: black;
           cursor: pointer;
         }
-        button:hover {
+        li:hover {
           color: blue;
         }
       `}
     >
-      <div
+      <ul
         className={css`
           padding: 5px;
         `}
       >
         {data.map(_data => {
           return (
-            <div key={_data.id}>
-              <button onClick={(): void => onSelectCategory(_data.id)}>
-                {_data.name}
-              </button>
-            </div>
+            <li key={_data.id} onClick={(): void => onSelectCategory(_data.id)}>
+              {_data.name}
+            </li>
           );
         })}
-      </div>
+      </ul>
     </div>
   );
 };

@@ -17,7 +17,7 @@ export const MainPanel: React.FC = () => {
         <Route path="/sets">
           <CardsNav></CardsNav>
         </Route>
-        <Route path="/">Root</Route>
+        <Route path="/">Open drawer with icon in top left.</Route>
       </Switch>
     </main>
   );

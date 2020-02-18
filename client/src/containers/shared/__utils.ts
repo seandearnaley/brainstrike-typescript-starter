@@ -109,6 +109,7 @@ export function buildPageInfo<T extends { cursor: string }>(
   type: string,
 ): PageInfoInterface {
   if (edges.length === 0) {
+    // short circuit
     return {
       startCursor: null,
       endCursor: null,

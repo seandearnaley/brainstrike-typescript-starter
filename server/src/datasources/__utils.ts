@@ -28,7 +28,7 @@ export interface Cursor {
    */
   type: string;
   /**
-   * The entity index in the results.
+   * The entity index in the results. (we're using Row Number)
    */
   index: number;
 }
@@ -111,6 +111,7 @@ export function buildPageInfo<T extends { cursor: string }>(
   type: string
 ): PageInfoInterface {
   if (edges.length === 0) {
+    // short circuit
     return {
       startCursor: null,
       endCursor: null,

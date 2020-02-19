@@ -5,8 +5,6 @@ import {
   RemoveCategoryMutation,
 } from '../../generated/graphql';
 
-import { cache as inMemoryCache } from '../../index';
-
 // NOTE: the rationale for using a custom hook is for the cache update,
 // now the removeCategory function can be used elsewhere with shared cache logic
 export const useRemoveCategory = (): [
@@ -32,8 +30,8 @@ export const useRemoveCategory = (): [
       variables: {
         id,
       },
-      update: () => {
-        inMemoryCache.modify('ROOT_QUERY', {
+      update: cache => {
+        cache.modify('ROOT_QUERY', {
           categories(categories: Reference[], { readField }) {
             return categories.filter(
               category => id !== readField('id', category),
@@ -42,8 +40,7 @@ export const useRemoveCategory = (): [
         });
 
         // evict this item from the in memory cache
-        inMemoryCache.evict(`Category:${id}`);
-        inMemoryCache.gc(); // garbage collection
+        cache.evict(`Category:${id}`);
       },
     });
 

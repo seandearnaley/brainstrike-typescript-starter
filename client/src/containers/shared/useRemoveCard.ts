@@ -1,16 +1,23 @@
-import { ApolloError, FetchResult, Reference } from '@apollo/client';
+import {
+  ApolloError,
+  FetchResult,
+  Reference,
+  ApolloCache,
+} from '@apollo/client';
 
 import {
   useRemoveCardMutation,
   RemoveCardMutation,
 } from '../../generated/graphql';
 
-import { cache as inMemoryCache } from '../../index';
-
 import { buildPageInfo } from './__utils';
 
-const removeCardFromCache = (categoryId: string, cardId: string) => {
-  inMemoryCache.modify(`Category:${categoryId}`, {
+const removeCardFromCache = (
+  cache: ApolloCache<RemoveCardMutation>,
+  categoryId: string,
+  cardId: string,
+) => {
+  cache.modify(`Category:${categoryId}`, {
     cards(cards: Reference, { readField }) {
       const edges = readField<any[]>('edges', cards).filter(
         edge => edge?.node?.__ref !== `Card:${cardId}`,
@@ -45,17 +52,16 @@ export const useRemoveCard = (): [
       variables: {
         id,
       },
-      update: (_, { data }) => {
+      update: (cache, { data }) => {
         // these cards can be in many categories, data should include a list of category ids
         // for each of cards categories, remove the cards from the category cache and recalculate pageInfo
         data?.removeCard?.card?.categories?.forEach(category => {
           if (!category) return; // category could be null
-          removeCardFromCache(category.id, id);
+          removeCardFromCache(cache, category.id, id);
         });
 
         // evict this item from the in memory cache
-        inMemoryCache.evict(`Card:${id}`);
-        inMemoryCache.gc(); // garbage collection
+        cache.evict(`Card:${id}`);
       },
     });
 

@@ -3,7 +3,7 @@ name: Node Client Test CI
 on:
   push:
     paths:
-      - 'client/*'
+      - 'client/**'
 jobs:
   build:
 

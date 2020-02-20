@@ -1,12 +1,15 @@
 import React, { useMemo } from 'react';
-import { useGetCategoriesQuery } from '../generated/graphql';
+import {
+  useGetCategoriesQuery,
+  GetCategoriesDocument,
+} from '../generated/graphql';
 import { CategorySelector } from '../components/CategorySelector';
 
 interface CategoriesContainerProps {
   onSelectCategory: (id: string) => void;
 }
 
-export const CategoriesContainer: React.FC<CategoriesContainerProps> = ({
+const CategoriesContainer: React.FC<CategoriesContainerProps> = ({
   onSelectCategory,
 }: CategoriesContainerProps) => {
   const { data, loading, error } = useGetCategoriesQuery();
@@ -32,3 +35,5 @@ export const CategoriesContainer: React.FC<CategoriesContainerProps> = ({
     ></CategorySelector>
   );
 };
+
+export { CategoriesContainer, GetCategoriesDocument };

@@ -3,20 +3,16 @@ import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Connection } from "typeorm";
 
 import { Category as CategoryEntity } from "../entity";
-import {
-  CategoryInput,
-  CategoryUpdatedResponse,
-  DirectionEnum
-} from "../generated/graphql";
+import { CategoryInput, DirectionEnum } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
 import { DataSourceRepos } from "..";
 import { encodeGlobalID, decodeGlobalID } from "./__utils";
 
-export class CategoryDsArgs {
+type GetCategoriesArguments = {
   orderByColumn?: string;
   orderByDirection?: DirectionEnum;
   cardIds?: string;
-}
+};
 
 // NOTE: using Omit here because cards is used on the Category entity to join to the cards table,
 // but we actually want to use a dataloader for a "virtual" inner field using the same name "cards"
@@ -24,8 +20,16 @@ export class CategoryDsArgs {
 // the Category entity.
 interface CategoryObject
   extends Omit<CategoryEntity, "cards" | "parent" | "children"> {
-  rowNumber?: number;
+  cards: null;
+  parent: null;
+  children: null;
 }
+
+type CategoryUpdatedResponseObject = {
+  success: boolean;
+  message: string;
+  category: CategoryObject;
+};
 
 export class CategoryAPI extends DataSource {
   context!: ApolloContext;
@@ -54,7 +58,10 @@ export class CategoryAPI extends DataSource {
       id: encodeGlobalID(id, "Category"), // replace ID with a global ID
       name,
       created,
-      updated
+      updated,
+      cards: null, // will use virtual inner queries for cards
+      parent: null, // will use custom implementation for parent
+      children: null // will use custom implementation for children
     };
   }
 
@@ -87,7 +94,7 @@ export class CategoryAPI extends DataSource {
     cardIds,
     orderByColumn = "category.name",
     orderByDirection = DirectionEnum.Asc
-  }: CategoryDsArgs): Promise<CategoryEntity[]> {
+  }: GetCategoriesArguments): Promise<CategoryEntity[]> {
     let query = this.repos.categories
       .createQueryBuilder("category")
       .leftJoinAndSelect("category.cards", "card");
@@ -112,7 +119,7 @@ export class CategoryAPI extends DataSource {
   /**
    * Get all categories
    */
-  async getCategories(args: CategoryDsArgs): Promise<CategoryObject[]> {
+  async getCategories(args: GetCategoriesArguments): Promise<CategoryObject[]> {
     const data = await this.getCategoryEntities(args);
 
     return data.map(this.encodeCategory); // get all
@@ -143,7 +150,9 @@ export class CategoryAPI extends DataSource {
    * Adds a new category
    * @param input category name
    */
-  async addCategory({ name }: CategoryInput): Promise<CategoryUpdatedResponse> {
+  async addCategory({
+    name
+  }: CategoryInput): Promise<CategoryUpdatedResponseObject> {
     const category = new CategoryEntity();
     category.name = name;
     const savedCategory = await this.repos.categories.save(category);
@@ -162,7 +171,7 @@ export class CategoryAPI extends DataSource {
   async updateCategory(
     id: string,
     { name }: CategoryInput
-  ): Promise<CategoryUpdatedResponse> {
+  ): Promise<CategoryUpdatedResponseObject> {
     const category = await this.getCategoryByGlobalID(id);
     category.name = name;
     const savedCategory = await this.repos.categories.save(category);
@@ -177,7 +186,7 @@ export class CategoryAPI extends DataSource {
    * Removes a category from the deck
    * @param id category uuid
    */
-  async removeCategory(id: string): Promise<CategoryUpdatedResponse> {
+  async removeCategory(id: string): Promise<CategoryUpdatedResponseObject> {
     const category = await this.getCategoryByGlobalID(id);
     const originalCategory = { ...category }; // remove wipes the ip, creating a copy for the category field
 

@@ -15,7 +15,7 @@ export const mockFirstCardResponse = {
   description: "testing",
   created: new Date("2020-02-01T20:19:27.909Z"),
   updated: new Date("2020-02-01T20:19:27.909Z"),
-  categories: null as []
+  categories: null as null
 };
 
 export const mockFirstCardResponseEncoded = {
@@ -32,30 +32,30 @@ export const mockCardsResult = [
     number: 99999,
     label: "sed possimus tempore",
     description: "Amet autem et.",
-    created: "2020-02-01T20:19:27.909Z",
-    updated: "2020-02-01T20:19:27.909Z",
-    categoryName: "Garden 91201",
-    rowNumber: "1"
+    created: new Date("2020-02-01T20:19:27.909Z"),
+    updated: new Date("2020-02-01T20:19:27.909Z"),
+    categories: null as null,
+    rowNumber: 1
   },
   {
     id: "78555a90-f68b-454c-beb2-e7021f3d8c63",
     number: 99995,
     label: "necessitatibus id error",
     description: "Odit officia esse hic qui est perspiciatis.",
-    created: "2020-02-01T23:03:03.942Z",
-    updated: "2020-02-01T23:03:03.942Z",
-    categoryName: "Grocery 76963",
-    rowNumber: "2"
+    created: new Date("2020-02-01T23:03:03.942Z"),
+    updated: new Date("2020-02-01T23:03:03.942Z"),
+    categories: null as null,
+    rowNumber: 2
   },
   {
     id: "caf38b31-e551-433b-b1b0-c65807e97927",
     number: 99974,
     label: "doloribus explicabo explicabo",
     description: "Et in sequi eum enim ratione.",
-    created: "2020-02-02T04:59:07.272Z",
-    updated: "2020-02-02T04:59:07.272Z",
-    categoryName: "Sports 46220",
-    rowNumber: "3"
+    created: new Date("2020-02-02T04:59:07.272Z"),
+    updated: new Date("2020-02-02T04:59:07.272Z"),
+    categories: null as null,
+    rowNumber: 3
   }
 ];
 

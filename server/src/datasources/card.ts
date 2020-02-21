@@ -2,12 +2,7 @@ import DataLoader = require("dataloader");
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Connection } from "typeorm";
 import { Card as CardEntity, Category as CategoryEntity } from "../entity";
-import {
-  CardInput,
-  CardsUpdatedResponse,
-  CardConnection,
-  DirectionEnum
-} from "../generated/graphql";
+import { CardInput, DirectionEnum } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
 import { DataSourceRepos } from "../";
 
@@ -21,7 +16,7 @@ import {
   decodeGlobalID
 } from "./__utils";
 
-export class CardDsArgs {
+export type GetCardsArguments = {
   before?: string;
   after?: string;
   first?: number;
@@ -29,7 +24,7 @@ export class CardDsArgs {
   orderByColumn?: string;
   orderByDirection?: DirectionEnum;
   categoryId?: string;
-}
+};
 
 // NOTE: using Omit here because categories is used on the Card entity to join to the categories table,
 // but we actually want to use a dataloader for a "virtual" inner field using the same name "categories"
@@ -37,12 +32,35 @@ export class CardDsArgs {
 // the Card entity.
 interface CardObject extends Omit<CardEntity, "categories"> {
   rowNumber?: number;
+  categories: null;
 }
 
-interface CategoryLoader {
+type CardNodeObject = {
+  cursor: string;
+  node: CardObject;
+};
+
+type CardConnectionObject = {
+  pageInfo: {
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    startCursor: string;
+    endCursor: string;
+    totalCount: number;
+  };
+  edges: CardNodeObject[];
+};
+
+type CategoryLoader = {
   categoryId?: string;
-  args?: CardDsArgs;
-}
+  args?: GetCardsArguments;
+};
+
+type CardsUpdatedResponseObject = {
+  success: boolean;
+  message: string;
+  card: CardObject;
+};
 
 export class CardAPI extends DataSource {
   context!: ApolloContext;
@@ -78,7 +96,7 @@ export class CardAPI extends DataSource {
     orderByColumn = "created",
     orderByDirection = DirectionEnum.Desc,
     categoryId
-  }: CardDsArgs): Promise<CardConnection> {
+  }: GetCardsArguments): Promise<CardConnectionObject> {
     // NOTE: we're using straight SQL for Postgres here because TypeORM has a bug where it can't resolve the subquery meta data,
     // it should be possible to rewrite this using the ORM syntax but will have to wait https://github.com/typeorm/typeorm/issues/4015
 
@@ -195,7 +213,8 @@ export class CardAPI extends DataSource {
   protected encodeCard(data: CardEntity): CardObject {
     return {
       ...data,
-      id: encodeGlobalID(data.id, "Card") // replace ID with a global ID
+      id: encodeGlobalID(data.id, "Card"), // replace ID with a global ID
+      categories: null // escaping cagegories here to replace them with virtual field
     };
   }
 
@@ -206,8 +225,8 @@ export class CardAPI extends DataSource {
     }));
   }
 
-  private cardLoader = new DataLoader<CategoryLoader, CardConnection>(
-    async (categoryIds: CategoryLoader[]): Promise<CardConnection[]> =>
+  private cardLoader = new DataLoader<CategoryLoader, CardConnectionObject>(
+    async (categoryIds: CategoryLoader[]): Promise<CardConnectionObject[]> =>
       Promise.all(
         categoryIds.map(async ({ categoryId, args }) =>
           // TODO: make cards somehow batch this into one query, this version will result in multiple getCards calls.
@@ -222,8 +241,8 @@ export class CardAPI extends DataSource {
 
   async getCardConnectionFor(
     categoryId: string,
-    args: CardDsArgs
-  ): Promise<CardConnection> {
+    args: GetCardsArguments
+  ): Promise<CardConnectionObject> {
     return this.cardLoader.load({ categoryId, args });
   }
 
@@ -257,7 +276,7 @@ export class CardAPI extends DataSource {
     label,
     description,
     categoryId
-  }: CardInput): Promise<CardsUpdatedResponse> {
+  }: CardInput): Promise<CardsUpdatedResponseObject> {
     const card = new CardEntity();
     card.number = number;
     card.label = label;
@@ -286,7 +305,7 @@ export class CardAPI extends DataSource {
   async updateCard(
     id: string,
     { number, label, description, categoryId }: CardInput
-  ): Promise<CardsUpdatedResponse> {
+  ): Promise<CardsUpdatedResponseObject> {
     const card = await this.getCardByGlobalID(id); // find by id
     card.number = number;
     card.label = label;
@@ -311,7 +330,7 @@ export class CardAPI extends DataSource {
    * Removes a card from the deck
    * @param id card uuid
    */
-  async removeCard(id: string): Promise<CardsUpdatedResponse> {
+  async removeCard(id: string): Promise<CardsUpdatedResponseObject> {
     const card = await this.getCardByGlobalID(id); // find by id
     const originalCard = { ...card }; // remove wipes the ip, creating a copy for the card field
     await this.repos.cards.remove(card);

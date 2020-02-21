@@ -11,7 +11,7 @@ input CategoryInput {
 }
 
 type CategoryUpdatedResponse {
-  success: Boolean
-  message: String
-  category: Category
+  success: Boolean!
+  message: String!
+  category: Category!
 }

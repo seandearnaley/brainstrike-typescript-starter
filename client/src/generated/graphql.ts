@@ -22,19 +22,19 @@ export type Card = Node & {
   description?: Maybe<Scalars['String']>;
   created: Scalars['DateTime'];
   updated?: Maybe<Scalars['DateTime']>;
-  categories?: Maybe<Array<Maybe<Category>>>;
+  categories: Array<Category>;
 };
 
 export type CardConnection = {
   __typename?: 'CardConnection';
-  pageInfo?: Maybe<PageInfo>;
-  edges?: Maybe<Array<Maybe<CardEdge>>>;
+  pageInfo: PageInfo;
+  edges: Array<CardEdge>;
 };
 
 export type CardEdge = {
   __typename?: 'CardEdge';
-  cursor?: Maybe<Scalars['String']>;
-  node?: Maybe<Card>;
+  cursor: Scalars['String'];
+  node: Card;
 };
 
 export type CardInput = {
@@ -75,9 +75,9 @@ export type CategoryInput = {
 
 export type CategoryUpdatedResponse = {
   __typename?: 'CategoryUpdatedResponse';
-  success?: Maybe<Scalars['Boolean']>;
-  message?: Maybe<Scalars['String']>;
-  category?: Maybe<Category>;
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
+  category: Category;
 };
 
 export enum DirectionEnum {
@@ -190,9 +190,7 @@ export type GetCardWithCategoriesQueryVariables = {
 export type GetCardWithCategoriesQuery = { __typename?: 'Query' } & {
   card: Maybe<
     { __typename?: 'Card' } & Pick<Card, 'description'> & {
-        categories: Maybe<
-          Array<Maybe<{ __typename?: 'Category' } & CategoryPartsFragment>>
-        >;
+        categories: Array<{ __typename?: 'Category' } & CategoryPartsFragment>;
       } & CardPartsFragment
   >;
 };
@@ -209,24 +207,18 @@ export type GetCardsQueryVariables = {
 
 export type GetCardsQuery = { __typename?: 'Query' } & {
   cards: { __typename?: 'CardConnection' } & {
-    pageInfo: Maybe<
-      { __typename?: 'PageInfo' } & Pick<
-        PageInfo,
-        | 'hasNextPage'
-        | 'hasPreviousPage'
-        | 'startCursor'
-        | 'endCursor'
-        | 'totalCount'
-      >
+    pageInfo: { __typename?: 'PageInfo' } & Pick<
+      PageInfo,
+      | 'hasNextPage'
+      | 'hasPreviousPage'
+      | 'startCursor'
+      | 'endCursor'
+      | 'totalCount'
     >;
-    edges: Maybe<
-      Array<
-        Maybe<
-          { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-              node: Maybe<{ __typename?: 'Card' } & CardPartsFragment>;
-            }
-        >
-      >
+    edges: Array<
+      { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+          node: { __typename?: 'Card' } & CardPartsFragment;
+        }
     >;
   };
 };
@@ -256,26 +248,18 @@ export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
       > & {
           cards: Maybe<
             { __typename?: 'CardConnection' } & {
-              pageInfo: Maybe<
-                { __typename?: 'PageInfo' } & Pick<
-                  PageInfo,
-                  | 'hasNextPage'
-                  | 'hasPreviousPage'
-                  | 'startCursor'
-                  | 'endCursor'
-                  | 'totalCount'
-                >
+              pageInfo: { __typename?: 'PageInfo' } & Pick<
+                PageInfo,
+                | 'hasNextPage'
+                | 'hasPreviousPage'
+                | 'startCursor'
+                | 'endCursor'
+                | 'totalCount'
               >;
-              edges: Maybe<
-                Array<
-                  Maybe<
-                    { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-                        node: Maybe<
-                          { __typename?: 'Card' } & CardPartsFragment
-                        >;
-                      }
-                  >
-                >
+              edges: Array<
+                { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+                    node: { __typename?: 'Card' } & CardPartsFragment;
+                  }
               >;
             }
           >;
@@ -298,24 +282,18 @@ export type GetCategoryWithCardsQuery = { __typename?: 'Query' } & {
     { __typename?: 'Category' } & {
       cards: Maybe<
         { __typename?: 'CardConnection' } & {
-          pageInfo: Maybe<
-            { __typename?: 'PageInfo' } & Pick<
-              PageInfo,
-              | 'hasNextPage'
-              | 'hasPreviousPage'
-              | 'startCursor'
-              | 'endCursor'
-              | 'totalCount'
-            >
+          pageInfo: { __typename?: 'PageInfo' } & Pick<
+            PageInfo,
+            | 'hasNextPage'
+            | 'hasPreviousPage'
+            | 'startCursor'
+            | 'endCursor'
+            | 'totalCount'
           >;
-          edges: Maybe<
-            Array<
-              Maybe<
-                { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-                    node: Maybe<{ __typename?: 'Card' } & CardPartsFragment>;
-                  }
-              >
-            >
+          edges: Array<
+            { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+                node: { __typename?: 'Card' } & CardPartsFragment;
+              }
           >;
         }
       >;
@@ -333,9 +311,7 @@ export type RemoveCardMutation = { __typename?: 'Mutation' } & {
     'success' | 'message'
   > & {
       card: { __typename?: 'Card' } & {
-        categories: Maybe<
-          Array<Maybe<{ __typename?: 'Category' } & Pick<Category, 'id'>>>
-        >;
+        categories: Array<{ __typename?: 'Category' } & Pick<Category, 'id'>>;
       } & CardPartsFragment;
     };
 };
@@ -348,7 +324,7 @@ export type RemoveCategoryMutation = { __typename?: 'Mutation' } & {
   removeCategory: { __typename?: 'CategoryUpdatedResponse' } & Pick<
     CategoryUpdatedResponse,
     'success' | 'message'
-  > & { category: Maybe<{ __typename?: 'Category' } & CategoryPartsFragment> };
+  > & { category: { __typename?: 'Category' } & CategoryPartsFragment };
 };
 
 export type UpdateCategoryMutationVariables = {
@@ -360,7 +336,7 @@ export type UpdateCategoryMutation = { __typename?: 'Mutation' } & {
   updateCategory: { __typename?: 'CategoryUpdatedResponse' } & Pick<
     CategoryUpdatedResponse,
     'success' | 'message'
-  > & { category: Maybe<{ __typename?: 'Category' } & CategoryPartsFragment> };
+  > & { category: { __typename?: 'Category' } & CategoryPartsFragment };
 };
 
 export const CardPartsFragmentDoc = gql`

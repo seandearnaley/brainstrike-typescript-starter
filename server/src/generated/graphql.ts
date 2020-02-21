@@ -29,19 +29,19 @@ export type Card = Node & {
   description?: Maybe<Scalars["String"]>;
   created: Scalars["DateTime"];
   updated?: Maybe<Scalars["DateTime"]>;
-  categories?: Maybe<Array<Maybe<Category>>>;
+  categories: Array<Category>;
 };
 
 export type CardConnection = {
   __typename?: "CardConnection";
-  pageInfo?: Maybe<PageInfo>;
-  edges?: Maybe<Array<Maybe<CardEdge>>>;
+  pageInfo: PageInfo;
+  edges: Array<CardEdge>;
 };
 
 export type CardEdge = {
   __typename?: "CardEdge";
-  cursor?: Maybe<Scalars["String"]>;
-  node?: Maybe<Card>;
+  cursor: Scalars["String"];
+  node: Card;
 };
 
 export type CardInput = {
@@ -82,9 +82,9 @@ export type CategoryInput = {
 
 export type CategoryUpdatedResponse = {
   __typename?: "CategoryUpdatedResponse";
-  success?: Maybe<Scalars["Boolean"]>;
-  message?: Maybe<Scalars["String"]>;
-  category?: Maybe<Category>;
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+  category: Category;
 };
 
 export enum DirectionEnum {
@@ -354,7 +354,7 @@ export type CardResolvers<
     ContextType
   >;
   categories?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["Category"]>>>,
+    Array<ResolversTypes["Category"]>,
     ParentType,
     ContextType
   >;
@@ -365,16 +365,8 @@ export type CardConnectionResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["CardConnection"] = ResolversParentTypes["CardConnection"]
 > = ResolversObject<{
-  pageInfo?: Resolver<
-    Maybe<ResolversTypes["PageInfo"]>,
-    ParentType,
-    ContextType
-  >;
-  edges?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes["CardEdge"]>>>,
-    ParentType,
-    ContextType
-  >;
+  pageInfo?: Resolver<ResolversTypes["PageInfo"], ParentType, ContextType>;
+  edges?: Resolver<Array<ResolversTypes["CardEdge"]>, ParentType, ContextType>;
   __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
@@ -382,8 +374,8 @@ export type CardEdgeResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["CardEdge"] = ResolversParentTypes["CardEdge"]
 > = ResolversObject<{
-  cursor?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  node?: Resolver<Maybe<ResolversTypes["Card"]>, ParentType, ContextType>;
+  cursor?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
   __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 
@@ -422,13 +414,9 @@ export type CategoryUpdatedResponseResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["CategoryUpdatedResponse"] = ResolversParentTypes["CategoryUpdatedResponse"]
 > = ResolversObject<{
-  success?: Resolver<Maybe<ResolversTypes["Boolean"]>, ParentType, ContextType>;
-  message?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  category?: Resolver<
-    Maybe<ResolversTypes["Category"]>,
-    ParentType,
-    ContextType
-  >;
+  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  category?: Resolver<ResolversTypes["Category"], ParentType, ContextType>;
   __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 

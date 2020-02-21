@@ -36,13 +36,15 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
 
   const cardData = useMemo(() => {
     return (
-      data?.category?.cards?.edges?.map(edge => ({
-        id: edge?.node?.id,
-        number: edge?.node?.number,
-        label: edge?.node?.label,
-        created: edge?.node?.created,
-        updated: edge?.node?.updated,
-      })) ?? []
+      data?.category?.cards.edges.map(
+        ({ node: { id, number, label, created, updated } }) => ({
+          id,
+          number,
+          label,
+          created,
+          updated,
+        }),
+      ) ?? []
     );
   }, [data]);
 

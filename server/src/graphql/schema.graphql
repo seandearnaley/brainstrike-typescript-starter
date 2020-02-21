@@ -21,7 +21,7 @@ type PageInfo {
   hasPreviousPage: Boolean!
   startCursor: String
   endCursor: String
-  totalCount: Int
+  totalCount: Int!
 }
 
 type Query {

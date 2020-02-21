@@ -107,7 +107,7 @@ export function decodeCursor(cursor: string, type: string): Cursor {
 
 export function buildPageInfo<T extends { cursor: string }>(
   edges: T[],
-  totalCount: string,
+  totalCount: number,
   type: string
 ): PageInfoInterface {
   if (edges.length === 0) {
@@ -132,13 +132,13 @@ export function buildPageInfo<T extends { cursor: string }>(
   const lastRowNumber = Number(decodeCursor(endCursor, type).index);
   const firstRowNumber = Number(decodeCursor(startCursor, type).index);
 
-  const hasNextPage = lastEdge ? lastRowNumber < Number(totalCount) : false;
+  const hasNextPage = lastEdge ? lastRowNumber < totalCount : false;
   const hasPreviousPage = firstRowNumber > 1;
 
   return {
     startCursor,
     endCursor,
-    totalCount: Number(totalCount),
+    totalCount,
     hasNextPage,
     hasPreviousPage
   };

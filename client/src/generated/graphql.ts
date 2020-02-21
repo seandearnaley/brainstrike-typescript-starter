@@ -133,7 +133,7 @@ export type PageInfo = {
   hasPreviousPage: Scalars['Boolean'];
   startCursor?: Maybe<Scalars['String']>;
   endCursor?: Maybe<Scalars['String']>;
-  totalCount?: Maybe<Scalars['Int']>;
+  totalCount: Scalars['Int'];
 };
 
 export type Query = {

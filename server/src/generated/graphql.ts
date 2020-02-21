@@ -140,7 +140,7 @@ export type PageInfo = {
   hasPreviousPage: Scalars["Boolean"];
   startCursor?: Maybe<Scalars["String"]>;
   endCursor?: Maybe<Scalars["String"]>;
-  totalCount?: Maybe<Scalars["Int"]>;
+  totalCount: Scalars["Int"];
 };
 
 export type Query = {
@@ -506,7 +506,7 @@ export type PageInfoResolvers<
     ParentType,
     ContextType
   >;
-  totalCount?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
+  totalCount?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 

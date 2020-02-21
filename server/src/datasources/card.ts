@@ -199,12 +199,16 @@ export class CardAPI extends DataSource {
     ]);
 
     const edges = this.createEdges(results);
-    const pageInfo = buildPageInfo<Edge<CardObject>>(edges, totalCount, "Card");
+    const pageInfo = buildPageInfo<Edge<CardObject>>(
+      edges,
+      Number(totalCount),
+      "Card"
+    );
 
     return {
-      edges: edges.map(edge => ({
-        node: this.encodeCard(edge.node),
-        cursor: edge.cursor
+      edges: edges.map(({ node, cursor }) => ({
+        node: this.encodeCard(node),
+        cursor
       })),
       pageInfo
     };

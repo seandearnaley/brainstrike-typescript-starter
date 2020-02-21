@@ -57,7 +57,7 @@ export type Category = Node & {
   name?: Maybe<Scalars['String']>;
   updated?: Maybe<Scalars['DateTime']>;
   created: Scalars['DateTime'];
-  cards?: Maybe<CardConnection>;
+  cards: CardConnection;
 };
 
 export type CategoryCardsArgs = {
@@ -246,23 +246,21 @@ export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
         Category,
         'id' | 'created' | 'updated'
       > & {
-          cards: Maybe<
-            { __typename?: 'CardConnection' } & {
-              pageInfo: { __typename?: 'PageInfo' } & Pick<
-                PageInfo,
-                | 'hasNextPage'
-                | 'hasPreviousPage'
-                | 'startCursor'
-                | 'endCursor'
-                | 'totalCount'
-              >;
-              edges: Array<
-                { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-                    node: { __typename?: 'Card' } & CardPartsFragment;
-                  }
-              >;
-            }
-          >;
+          cards: { __typename?: 'CardConnection' } & {
+            pageInfo: { __typename?: 'PageInfo' } & Pick<
+              PageInfo,
+              | 'hasNextPage'
+              | 'hasPreviousPage'
+              | 'startCursor'
+              | 'endCursor'
+              | 'totalCount'
+            >;
+            edges: Array<
+              { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+                  node: { __typename?: 'Card' } & CardPartsFragment;
+                }
+            >;
+          };
         } & CategoryPartsFragment)
   >;
 };
@@ -280,23 +278,21 @@ export type GetCategoryWithCardsQueryVariables = {
 export type GetCategoryWithCardsQuery = { __typename?: 'Query' } & {
   category: Maybe<
     { __typename?: 'Category' } & {
-      cards: Maybe<
-        { __typename?: 'CardConnection' } & {
-          pageInfo: { __typename?: 'PageInfo' } & Pick<
-            PageInfo,
-            | 'hasNextPage'
-            | 'hasPreviousPage'
-            | 'startCursor'
-            | 'endCursor'
-            | 'totalCount'
-          >;
-          edges: Array<
-            { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-                node: { __typename?: 'Card' } & CardPartsFragment;
-              }
-          >;
-        }
-      >;
+      cards: { __typename?: 'CardConnection' } & {
+        pageInfo: { __typename?: 'PageInfo' } & Pick<
+          PageInfo,
+          | 'hasNextPage'
+          | 'hasPreviousPage'
+          | 'startCursor'
+          | 'endCursor'
+          | 'totalCount'
+        >;
+        edges: Array<
+          { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+              node: { __typename?: 'Card' } & CardPartsFragment;
+            }
+        >;
+      };
     } & CategoryPartsFragment
   >;
 };

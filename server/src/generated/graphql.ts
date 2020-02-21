@@ -64,7 +64,7 @@ export type Category = Node & {
   name?: Maybe<Scalars["String"]>;
   updated?: Maybe<Scalars["DateTime"]>;
   created: Scalars["DateTime"];
-  cards?: Maybe<CardConnection>;
+  cards: CardConnection;
 };
 
 export type CategoryCardsArgs = {
@@ -402,7 +402,7 @@ export type CategoryResolvers<
   >;
   created?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
   cards?: Resolver<
-    Maybe<ResolversTypes["CardConnection"]>,
+    ResolversTypes["CardConnection"],
     ParentType,
     ContextType,
     CategoryCardsArgs

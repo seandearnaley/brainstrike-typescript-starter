@@ -105,7 +105,7 @@ export function decodeCursor(cursor: string, type: string): Cursor {
 
 export function buildPageInfo<T extends { cursor: string }>(
   edges: T[],
-  totalCount: string,
+  totalCount: number,
   type: string,
 ): PageInfoInterface {
   if (edges.length === 0) {
@@ -113,7 +113,7 @@ export function buildPageInfo<T extends { cursor: string }>(
     return {
       startCursor: null,
       endCursor: null,
-      totalCount: Number(totalCount),
+      totalCount,
       hasNextPage: false,
       hasPreviousPage: false,
     };

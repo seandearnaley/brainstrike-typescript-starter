@@ -47,12 +47,12 @@ export const cache = new InMemoryCache({
       fields: {
         cards: {
           keyArgs: [],
-          merge(existing, incoming, { args }) {
-            console.log(incoming, args); // NOTE: args aren't being updated by fetchMore, wait for fix
-            // https://github.com/apollographql/apollo-client/issues/5951
-            // Equivalent to what happens if there is no custom merge function.
-            return incoming;
-          },
+          // merge(existing, incoming, { args }) {
+          // NOTE: args aren't being updated by fetchMore, wait for fix
+          // https://github.com/apollographql/apollo-client/issues/5951
+          // Equivalent to what happens if there is no custom merge function.
+          // return incoming;
+          // },
         },
       },
     },

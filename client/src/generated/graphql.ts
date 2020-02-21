@@ -46,9 +46,9 @@ export type CardInput = {
 
 export type CardsUpdatedResponse = {
   __typename?: 'CardsUpdatedResponse';
-  success?: Maybe<Scalars['Boolean']>;
-  message?: Maybe<Scalars['String']>;
-  card?: Maybe<Card>;
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
+  card: Card;
 };
 
 export type Category = Node & {
@@ -332,13 +332,11 @@ export type RemoveCardMutation = { __typename?: 'Mutation' } & {
     CardsUpdatedResponse,
     'success' | 'message'
   > & {
-      card: Maybe<
-        { __typename?: 'Card' } & {
-          categories: Maybe<
-            Array<Maybe<{ __typename?: 'Category' } & Pick<Category, 'id'>>>
-          >;
-        } & CardPartsFragment
-      >;
+      card: { __typename?: 'Card' } & {
+        categories: Maybe<
+          Array<Maybe<{ __typename?: 'Category' } & Pick<Category, 'id'>>>
+        >;
+      } & CardPartsFragment;
     };
 };
 

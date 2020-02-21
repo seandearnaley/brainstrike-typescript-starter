@@ -53,9 +53,9 @@ export type CardInput = {
 
 export type CardsUpdatedResponse = {
   __typename?: "CardsUpdatedResponse";
-  success?: Maybe<Scalars["Boolean"]>;
-  message?: Maybe<Scalars["String"]>;
-  card?: Maybe<Card>;
+  success: Scalars["Boolean"];
+  message: Scalars["String"];
+  card: Card;
 };
 
 export type Category = Node & {
@@ -391,9 +391,9 @@ export type CardsUpdatedResponseResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["CardsUpdatedResponse"] = ResolversParentTypes["CardsUpdatedResponse"]
 > = ResolversObject<{
-  success?: Resolver<Maybe<ResolversTypes["Boolean"]>, ParentType, ContextType>;
-  message?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-  card?: Resolver<Maybe<ResolversTypes["Card"]>, ParentType, ContextType>;
+  success?: Resolver<ResolversTypes["Boolean"], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  card?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
   __isTypeOf?: isTypeOfResolverFn<ParentType>;
 }>;
 

@@ -26,7 +26,7 @@ input CardInput {
 }
 
 type CardsUpdatedResponse {
-  success: Boolean
-  message: String
-  card: Card
+  success: Boolean!
+  message: String!
+  card: Card!
 }

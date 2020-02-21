@@ -1,10 +1,10 @@
 import React from 'react';
 import { MockedProvider } from '@apollo/client/testing';
-
-// this adds custom jest matchers from jest-dom
-import '@testing-library/jest-dom/extend-expect';
-
-import { act, render, cleanup, getByTestId } from '@testing-library/react';
+import {
+  renderApollo,
+  cleanup,
+  act,
+} from '../../test-utils';
 
 // The component AND the query need to be exported
 import {
@@ -82,29 +82,27 @@ afterEach(cleanup);
 // TODO: mockprovider in beforeEach
 
 it('renders without error', async () => {
-  const { container } = render(
-    <MockedProvider mocks={mocks} addTypename={false}>
-      <CategoriesContainer onSelectCategory={onSelectCategory} />
-    </MockedProvider>,
+  const { container } = renderApollo(
+    <CategoriesContainer onSelectCategory={onSelectCategory} />,
+    { mocks, addTypename: false },
   );
+
   expect(container.textContent).toBeTruthy();
 });
 
 it('should render loading state initially', async () => {
-  const { container } = render(
-    <MockedProvider mocks={mocks} addTypename={false}>
-      <CategoriesContainer onSelectCategory={onSelectCategory} />
-    </MockedProvider>,
+  const { container } = renderApollo(
+    <CategoriesContainer onSelectCategory={onSelectCategory} />,
+    { mocks, addTypename: false },
   );
 
   expect(container.textContent).toBe('Loading...');
 });
 
 it('should render categories', async () => {
-  const { container } = render(
-    <MockedProvider mocks={mocks} addTypename={false}>
-      <CategoriesContainer onSelectCategory={onSelectCategory} />
-    </MockedProvider>,
+  const { container } = renderApollo(
+    <CategoriesContainer onSelectCategory={onSelectCategory} />,
+    { mocks, addTypename: false },
   );
 
   await wait();

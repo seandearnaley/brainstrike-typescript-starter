@@ -45,5 +45,5 @@ export class Category {
     card => card.categories
   )
   @JoinTable()
-  cards?: Card[];
+  cards: Card[];
 }

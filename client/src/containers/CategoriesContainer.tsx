@@ -16,7 +16,7 @@ const CategoriesContainer: React.FC<CategoriesContainerProps> = ({
 
   const categoryData = useMemo(
     () =>
-      data?.categories?.map(({ id, name, created, updated }) => ({
+      data?.categories.map(({ id, name, created, updated }) => ({
         id,
         name,
         created,

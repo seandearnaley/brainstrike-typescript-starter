@@ -36,7 +36,7 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
 
   const cardData = useMemo(() => {
     return (
-      data?.category?.cards.edges.map(
+      data?.category.cards.edges.map(
         ({ node: { id, number, label, created, updated } }) => ({
           id,
           number,
@@ -67,10 +67,10 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) return previousResult;
 
-        const newEdges = fetchMoreResult.category?.cards.edges;
-        const pageInfo = fetchMoreResult.category?.cards.pageInfo;
+        const newEdges = fetchMoreResult.category.cards.edges;
+        const pageInfo = fetchMoreResult.category.cards.pageInfo;
 
-        return newEdges?.length && previousResult?.category && pageInfo
+        return newEdges.length && previousResult.category && pageInfo
           ? {
               // Put the new cards at the end of the list and update `pageInfo`
               // so we have the new `endCursor` and `hasNextPage` values

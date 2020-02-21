@@ -139,10 +139,10 @@ export type PageInfo = {
 export type Query = {
   __typename?: 'Query';
   cards: CardConnection;
-  card?: Maybe<Card>;
-  categories?: Maybe<Array<Category>>;
-  category?: Maybe<Category>;
-  node?: Maybe<Node>;
+  card: Card;
+  categories: Array<Category>;
+  category: Category;
+  node: Node;
 };
 
 export type QueryCardsArgs = {
@@ -188,11 +188,9 @@ export type GetCardWithCategoriesQueryVariables = {
 };
 
 export type GetCardWithCategoriesQuery = { __typename?: 'Query' } & {
-  card: Maybe<
-    { __typename?: 'Card' } & Pick<Card, 'description'> & {
-        categories: Array<{ __typename?: 'Category' } & CategoryPartsFragment>;
-      } & CardPartsFragment
-  >;
+  card: { __typename?: 'Card' } & Pick<Card, 'description'> & {
+      categories: Array<{ __typename?: 'Category' } & CategoryPartsFragment>;
+    } & CardPartsFragment;
 };
 
 export type GetCardsQueryVariables = {
@@ -226,7 +224,7 @@ export type GetCardsQuery = { __typename?: 'Query' } & {
 export type GetCategoriesQueryVariables = {};
 
 export type GetCategoriesQuery = { __typename?: 'Query' } & {
-  categories: Maybe<Array<{ __typename?: 'Category' } & CategoryPartsFragment>>;
+  categories: Array<{ __typename?: 'Category' } & CategoryPartsFragment>;
 };
 
 export type GetCategoryNodeQueryVariables = {
@@ -240,7 +238,7 @@ export type GetCategoryNodeQueryVariables = {
 };
 
 export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
-  category: Maybe<
+  category:
     | ({ __typename: 'Card' } & Pick<Card, 'id' | 'created' | 'updated'>)
     | ({ __typename: 'Category' } & Pick<
         Category,
@@ -261,8 +259,7 @@ export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
                 }
             >;
           };
-        } & CategoryPartsFragment)
-  >;
+        } & CategoryPartsFragment);
 };
 
 export type GetCategoryWithCardsQueryVariables = {
@@ -276,25 +273,23 @@ export type GetCategoryWithCardsQueryVariables = {
 };
 
 export type GetCategoryWithCardsQuery = { __typename?: 'Query' } & {
-  category: Maybe<
-    { __typename?: 'Category' } & {
-      cards: { __typename?: 'CardConnection' } & {
-        pageInfo: { __typename?: 'PageInfo' } & Pick<
-          PageInfo,
-          | 'hasNextPage'
-          | 'hasPreviousPage'
-          | 'startCursor'
-          | 'endCursor'
-          | 'totalCount'
-        >;
-        edges: Array<
-          { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
-              node: { __typename?: 'Card' } & CardPartsFragment;
-            }
-        >;
-      };
-    } & CategoryPartsFragment
-  >;
+  category: { __typename?: 'Category' } & {
+    cards: { __typename?: 'CardConnection' } & {
+      pageInfo: { __typename?: 'PageInfo' } & Pick<
+        PageInfo,
+        | 'hasNextPage'
+        | 'hasPreviousPage'
+        | 'startCursor'
+        | 'endCursor'
+        | 'totalCount'
+      >;
+      edges: Array<
+        { __typename?: 'CardEdge' } & Pick<CardEdge, 'cursor'> & {
+            node: { __typename?: 'Card' } & CardPartsFragment;
+          }
+      >;
+    };
+  } & CategoryPartsFragment;
 };
 
 export type RemoveCardMutationVariables = {

@@ -146,10 +146,10 @@ export type PageInfo = {
 export type Query = {
   __typename?: "Query";
   cards: CardConnection;
-  card?: Maybe<Card>;
-  categories?: Maybe<Array<Category>>;
-  category?: Maybe<Category>;
-  node?: Maybe<Node>;
+  card: Card;
+  categories: Array<Category>;
+  category: Category;
+  node: Node;
 };
 
 export type QueryCardsArgs = {
@@ -521,25 +521,25 @@ export type QueryResolvers<
     QueryCardsArgs
   >;
   card?: Resolver<
-    Maybe<ResolversTypes["Card"]>,
+    ResolversTypes["Card"],
     ParentType,
     ContextType,
     QueryCardArgs
   >;
   categories?: Resolver<
-    Maybe<Array<ResolversTypes["Category"]>>,
+    Array<ResolversTypes["Category"]>,
     ParentType,
     ContextType,
     QueryCategoriesArgs
   >;
   category?: Resolver<
-    Maybe<ResolversTypes["Category"]>,
+    ResolversTypes["Category"],
     ParentType,
     ContextType,
     QueryCategoryArgs
   >;
   node?: Resolver<
-    Maybe<ResolversTypes["Node"]>,
+    ResolversTypes["Node"],
     ParentType,
     ContextType,
     QueryNodeArgs

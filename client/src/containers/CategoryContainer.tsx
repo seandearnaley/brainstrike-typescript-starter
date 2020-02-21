@@ -60,13 +60,13 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
     fetchMore({
       variables: {
         ...variables,
-        after: data?.category?.cards?.pageInfo?.endCursor,
+        after: data?.category?.cards.pageInfo.endCursor,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) return previousResult;
 
-        const newEdges = fetchMoreResult.category?.cards?.edges;
-        const pageInfo = fetchMoreResult.category?.cards?.pageInfo;
+        const newEdges = fetchMoreResult.category?.cards.edges;
+        const pageInfo = fetchMoreResult.category?.cards.pageInfo;
 
         return newEdges?.length && previousResult?.category && pageInfo
           ? {
@@ -76,7 +76,7 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
                 ...previousResult.category,
                 cards: {
                   edges: [
-                    ...(previousResult.category.cards?.edges ?? []),
+                    ...(previousResult.category.cards.edges ?? []),
                     ...newEdges,
                   ],
                   pageInfo,
@@ -97,11 +97,11 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
       <EditCategoryContainer data={data.category}></EditCategoryContainer>
       <div>Selected: {variables.id}</div>
       <CardTable data={cardData} onSelectCard={onSelectCard}></CardTable>
-      {data.category?.cards?.pageInfo?.hasNextPage && (
+      {data.category.cards.pageInfo.hasNextPage && (
         <button onClick={getMoreData}>Load More</button>
       )}
-      Showing {data.category?.cards?.edges?.length} /{' '}
-      {data.category?.cards?.pageInfo?.totalCount}
+      Showing {data.category.cards.edges.length} /{' '}
+      {data.category.cards.pageInfo.totalCount}
       <RemoveCategoryContainer
         id={data.category.id}
         onSelectCategory={onSelectCategory}

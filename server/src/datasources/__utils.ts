@@ -115,7 +115,7 @@ export function buildPageInfo<T extends { cursor: string }>(
     return {
       startCursor: null,
       endCursor: null,
-      totalCount: Number(totalCount),
+      totalCount,
       hasNextPage: false,
       hasPreviousPage: false
     };

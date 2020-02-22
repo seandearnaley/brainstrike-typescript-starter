@@ -90,15 +90,16 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
     });
   };
 
-  if (!selectedCategory || !data?.category) return <p>Select Category</p>;
+  if (!selectedCategory || !data?.category)
+    return <p data-testid="select-category-message">Select Category</p>;
   if (loading) return <p>Loading...</p>;
   if (error) return <p>ERROR</p>;
 
   return (
     <div>
-      <EditCategoryContainer data={data.category}></EditCategoryContainer>
+      <EditCategoryContainer data={data.category} />
       <div>Selected: {variables.id}</div>
-      <CardTable data={cardData} onSelectCard={onSelectCard}></CardTable>
+      <CardTable data={cardData} onSelectCard={onSelectCard} />
       {data.category.cards.pageInfo.hasNextPage && (
         <button onClick={getMoreData}>Load More</button>
       )}
@@ -107,7 +108,7 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
       <RemoveCategoryContainer
         id={data.category.id}
         onSelectCategory={onSelectCategory}
-      ></RemoveCategoryContainer>
+      />
     </div>
   );
 };

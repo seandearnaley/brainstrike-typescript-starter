@@ -1,10 +1,5 @@
 import React from 'react';
-import { MockedProvider } from '@apollo/client/testing';
-import {
-  renderApollo,
-  cleanup,
-  act,
-} from '../../test-utils';
+import { renderApollo, cleanup, wait } from '../../test-utils';
 
 // The component AND the query need to be exported
 import {
@@ -62,24 +57,12 @@ const mocks = [
   },
 ];
 
-async function wait(ms = 0) {
-  await act(
-    (): Promise<any> => {
-      return new Promise(resolve => {
-        setTimeout(resolve, ms);
-      });
-    },
-  );
-}
-
 const onSelectCategory = (id: string | null): void => {
   // eslint-disable-line
   // do nothing;
 };
 
 afterEach(cleanup);
-
-// TODO: mockprovider in beforeEach
 
 it('renders without error', async () => {
   const { container } = renderApollo(

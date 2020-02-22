@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import { useRemoveCategory } from './shared/useRemoveCategory';
+import {
+  useRemoveCategory,
+  RemoveCategoryDocument,
+} from './shared/useRemoveCategory';
 
 interface RemoveCategoryContainerProps {
   id: string | null;
   onSelectCategory: (id: string | null) => void;
 }
 
-export const RemoveCategoryContainer: React.FC<RemoveCategoryContainerProps> = ({
+const RemoveCategoryContainer: React.FC<RemoveCategoryContainerProps> = ({
   id,
   onSelectCategory,
 }: RemoveCategoryContainerProps) => {
   const [showConfirmRemove, setShowConfirmRemove] = useState(false);
-  const [removeCategory, loading, error] = useRemoveCategory();
+  const [removeCategory, data, loading, error] = useRemoveCategory();
 
   const doRemoveCategory = async () => {
     if (!id) return;
@@ -19,14 +22,23 @@ export const RemoveCategoryContainer: React.FC<RemoveCategoryContainerProps> = (
     onSelectCategory(null);
   };
 
-  return (
+  return data && data.removeCategory ? (
+    <p data-testid="message">{data.removeCategory.message}</p>
+  ) : (
     <div>
-      <button onClick={() => setShowConfirmRemove(true)}>
-        Remove Category
-      </button>
-
+      {!showConfirmRemove && (
+        <button
+          onClick={() => setShowConfirmRemove(true)}
+          data-testid="remove-category-button"
+        >
+          Remove Category
+        </button>
+      )}
       {showConfirmRemove && (
-        <button onClick={doRemoveCategory}>
+        <button
+          onClick={doRemoveCategory}
+          data-testid="confirm-remove-category-button"
+        >
           Please Confirm Remove Category
         </button>
       )}
@@ -35,3 +47,5 @@ export const RemoveCategoryContainer: React.FC<RemoveCategoryContainerProps> = (
     </div>
   );
 };
+
+export { RemoveCategoryContainer, RemoveCategoryDocument }; // document used by tests

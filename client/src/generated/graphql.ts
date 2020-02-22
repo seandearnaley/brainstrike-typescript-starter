@@ -318,12 +318,12 @@ export type RemoveCategoryMutation = { __typename?: 'Mutation' } & {
   > & { category: { __typename?: 'Category' } & CategoryPartsFragment };
 };
 
-export type UpdateCategoryMutationVariables = {
+export type UpdateCategoryNameMutationVariables = {
   id: Scalars['ID'];
   input?: Maybe<CategoryInput>;
 };
 
-export type UpdateCategoryMutation = { __typename?: 'Mutation' } & {
+export type UpdateCategoryNameMutation = { __typename?: 'Mutation' } & {
   updateCategory: { __typename?: 'CategoryUpdatedResponse' } & Pick<
     CategoryUpdatedResponse,
     'success' | 'message'
@@ -863,8 +863,8 @@ export type RemoveCategoryMutationOptions = ApolloReactCommon.BaseMutationOption
   RemoveCategoryMutation,
   RemoveCategoryMutationVariables
 >;
-export const UpdateCategoryDocument = gql`
-  mutation updateCategory($id: ID!, $input: CategoryInput) {
+export const UpdateCategoryNameDocument = gql`
+  mutation updateCategoryName($id: ID!, $input: CategoryInput) {
     updateCategory(id: $id, input: $input) {
       success
       message
@@ -875,47 +875,47 @@ export const UpdateCategoryDocument = gql`
   }
   ${CategoryPartsFragmentDoc}
 `;
-export type UpdateCategoryMutationFn = ApolloReactCommon.MutationFunction<
-  UpdateCategoryMutation,
-  UpdateCategoryMutationVariables
+export type UpdateCategoryNameMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateCategoryNameMutation,
+  UpdateCategoryNameMutationVariables
 >;
 
 /**
- * __useUpdateCategoryMutation__
+ * __useUpdateCategoryNameMutation__
  *
- * To run a mutation, you first call `useUpdateCategoryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateCategoryMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useUpdateCategoryNameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCategoryNameMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [updateCategoryMutation, { data, loading, error }] = useUpdateCategoryMutation({
+ * const [updateCategoryNameMutation, { data, loading, error }] = useUpdateCategoryNameMutation({
  *   variables: {
  *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useUpdateCategoryMutation(
+export function useUpdateCategoryNameMutation(
   baseOptions?: ApolloReactHooks.MutationHookOptions<
-    UpdateCategoryMutation,
-    UpdateCategoryMutationVariables
+    UpdateCategoryNameMutation,
+    UpdateCategoryNameMutationVariables
   >,
 ) {
   return ApolloReactHooks.useMutation<
-    UpdateCategoryMutation,
-    UpdateCategoryMutationVariables
-  >(UpdateCategoryDocument, baseOptions);
+    UpdateCategoryNameMutation,
+    UpdateCategoryNameMutationVariables
+  >(UpdateCategoryNameDocument, baseOptions);
 }
-export type UpdateCategoryMutationHookResult = ReturnType<
-  typeof useUpdateCategoryMutation
+export type UpdateCategoryNameMutationHookResult = ReturnType<
+  typeof useUpdateCategoryNameMutation
 >;
-export type UpdateCategoryMutationResult = ApolloReactCommon.MutationResult<
-  UpdateCategoryMutation
+export type UpdateCategoryNameMutationResult = ApolloReactCommon.MutationResult<
+  UpdateCategoryNameMutation
 >;
-export type UpdateCategoryMutationOptions = ApolloReactCommon.BaseMutationOptions<
-  UpdateCategoryMutation,
-  UpdateCategoryMutationVariables
+export type UpdateCategoryNameMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  UpdateCategoryNameMutation,
+  UpdateCategoryNameMutationVariables
 >;

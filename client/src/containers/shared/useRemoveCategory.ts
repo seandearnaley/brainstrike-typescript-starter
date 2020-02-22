@@ -3,11 +3,12 @@ import { ApolloError, FetchResult, Reference } from '@apollo/client';
 import {
   useRemoveCategoryMutation,
   RemoveCategoryMutation,
+  RemoveCategoryDocument,
 } from '../../generated/graphql';
 
 // NOTE: the rationale for using a custom hook is for the cache update,
 // now the removeCategory function can be used elsewhere with shared cache logic
-export const useRemoveCategory = (): [
+const useRemoveCategory = (): [
   (
     id: string,
   ) => Promise<
@@ -17,12 +18,13 @@ export const useRemoveCategory = (): [
       Record<string, any>
     >
   >,
+  RemoveCategoryMutation | undefined,
   boolean,
   ApolloError | undefined,
 ] => {
   const [
     removeCategoryMutation,
-    { loading, error },
+    { data, loading, error },
   ] = useRemoveCategoryMutation();
 
   const removeCategory = (id: string) =>
@@ -44,5 +46,7 @@ export const useRemoveCategory = (): [
       },
     });
 
-  return [removeCategory, loading, error];
+  return [removeCategory, data, loading, error];
 };
+
+export { useRemoveCategory, RemoveCategoryDocument };

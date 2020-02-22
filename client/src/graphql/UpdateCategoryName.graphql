@@ -1,6 +1,6 @@
 # import CategoryParts from "CategoryParts.graphql";
 
-mutation updateCategory($id: ID!, $input: CategoryInput) {
+mutation updateCategoryName($id: ID!, $input: CategoryInput) {
   updateCategory(id: $id, input: $input) {
     success
     message

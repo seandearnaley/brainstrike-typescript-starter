@@ -36,4 +36,4 @@ const CategoriesContainer: React.FC<CategoriesContainerProps> = ({
   );
 };
 
-export { CategoriesContainer, GetCategoriesDocument };
+export { CategoriesContainer, GetCategoriesDocument }; // document used by tests

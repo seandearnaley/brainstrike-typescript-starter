@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
-import { useUpdateCategoryMutation } from '../generated/graphql';
+import { useUpdateCategoryNameMutation } from '../generated/graphql';
 import { cx, css } from 'emotion';
 
 interface EditCategoryContainerProps {
@@ -17,7 +17,7 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   const [
     updateCategoryMutation,
     { loading: mutationLoading, error: mutationError },
-  ] = useUpdateCategoryMutation();
+  ] = useUpdateCategoryNameMutation();
 
   const prevCategoryValue = useRef<string | null | undefined>(undefined);
   const categoryNameDivInput = useRef<HTMLDivElement>(null);

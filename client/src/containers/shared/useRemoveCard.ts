@@ -16,7 +16,7 @@ import {
 import { buildPageInfo, Edge } from './__utils';
 
 // have to add _ref to the Card Edge type
-type CardEdgeReference = (CardEdge & { node: Card & { __ref: string } })[];
+type CardEdgeWithReference = CardEdge & { node: { __ref: string } };
 
 const removeCardFromCache = (
   cache: ApolloCache<RemoveCardMutation>,
@@ -25,8 +25,8 @@ const removeCardFromCache = (
 ) => {
   cache.modify(`Category:${categoryId}`, {
     cards(cards: Reference, { readField }) {
-      const edges = readField<CardEdgeReference>('edges', cards).filter(
-        ({ node }) => node.__ref !== `Card:${cardId}`,
+      const edges = readField<CardEdgeWithReference[]>('edges', cards).filter(
+        edge => edge.node.__ref !== `Card:${cardId}`,
       );
 
       let { totalCount } = readField<PageInfo>('pageInfo', cards);

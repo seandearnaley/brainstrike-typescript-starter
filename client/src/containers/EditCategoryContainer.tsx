@@ -16,7 +16,7 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
 }: EditCategoryContainerProps) => {
   const [
     updateCategoryMutation,
-    { loading: mutationLoading, error: mutationError },
+    { data: mutationData, loading: mutationLoading, error: mutationError },
   ] = useUpdateCategoryNameMutation();
 
   const prevCategoryValue = useRef<string | null | undefined>(undefined);
@@ -63,6 +63,7 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   return (
     <div>
       <ContentEditable
+        data-testid="update-category-content-div"
         innerRef={categoryNameDivInput}
         html={categoryName ?? ''} // innerHTML of the editable div
         disabled={categoryEditDisabled} // use true to disable edition
@@ -86,12 +87,32 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
       />
 
       {categoryEditDisabled && (
-        <button onClick={enableCategoryNameChange}>Edit</button>
+        <button
+          data-testid="update-category-edit-button"
+          onClick={enableCategoryNameChange}
+        >
+          Edit
+        </button>
       )}
       {!categoryEditDisabled && (
         <span>
-          <button onClick={saveCategoryNameChange}>Save Changes</button>
-          <button onClick={cancelCategoryNameChange}>Cancel Changes</button>
+          <button
+            data-testid="update-category-save-button"
+            onClick={saveCategoryNameChange}
+          >
+            Save Changes
+          </button>
+          <button
+            data-testid="update-category-cancel-button"
+            onClick={cancelCategoryNameChange}
+          >
+            Cancel Changes
+          </button>
+        </span>
+      )}
+      {mutationData && mutationData.updateCategory && (
+        <span data-testid="update-category-messsage">
+          {mutationData.updateCategory.message}
         </span>
       )}
       {mutationLoading && <span>Updating...</span>}

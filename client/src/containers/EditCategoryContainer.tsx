@@ -4,19 +4,17 @@ import { useUpdateCategoryNameMutation } from '../generated/graphql';
 import { cx, css } from 'emotion';
 
 interface EditCategoryContainerProps {
-  data: {
-    // narrowed interface to take advantage of structural typing
-    id?: string;
-    name?: string | null;
-  };
+  id?: string;
+  name?: string | null;
 }
 
 export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
-  data,
+  id,
+  name,
 }: EditCategoryContainerProps) => {
   const [
     updateCategoryMutation,
-    { data: mutationData, loading: mutationLoading, error: mutationError },
+    { data, loading, error },
   ] = useUpdateCategoryNameMutation();
 
   const prevCategoryValue = useRef<string | null | undefined>(undefined);
@@ -28,8 +26,8 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   );
 
   useEffect(() => {
-    setCategoryName(data?.name);
-  }, [data]);
+    setCategoryName(name);
+  }, [name, id]);
 
   const enableCategoryNameChange = () => {
     if (categoryNameDivInput.current)
@@ -44,10 +42,10 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
 
   const saveCategoryNameChange = () => {
     setCategoryEditDisabled(true);
-    if (!data.id) return;
+    if (!id) return;
     updateCategoryMutation({
       variables: {
-        id: data.id,
+        id,
         input: {
           name: categoryName,
         },
@@ -110,13 +108,13 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
           </button>
         </span>
       )}
-      {mutationData && mutationData.updateCategory && (
+      {data && data.updateCategory && (
         <span data-testid="update-category-messsage">
-          {mutationData.updateCategory.message}
+          {data.updateCategory.message}
         </span>
       )}
-      {mutationLoading && <span>Updating...</span>}
-      {mutationError && <span>Error...</span>}
+      {loading && <span>Updating...</span>}
+      {error && <span>Error...</span>}
     </div>
   );
 };

@@ -5,12 +5,12 @@ import { cx, css } from 'emotion';
 
 interface EditCategoryContainerProps {
   id?: string;
-  name?: string | null;
+  originalCategoryName?: string | null;
 }
 
 export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   id,
-  name,
+  originalCategoryName,
 }: EditCategoryContainerProps) => {
   const [
     updateCategoryMutation,
@@ -26,8 +26,8 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   );
 
   useEffect(() => {
-    setCategoryName(name);
-  }, [name, id]);
+    setCategoryName(originalCategoryName);
+  }, [originalCategoryName, id]);
 
   const enableCategoryNameChange = () => {
     if (categoryNameDivInput.current)

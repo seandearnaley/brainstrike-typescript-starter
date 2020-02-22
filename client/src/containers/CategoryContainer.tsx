@@ -97,7 +97,10 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
 
   return (
     <div>
-      <EditCategoryContainer id={data.category.id} name={data.category.name} />
+      <EditCategoryContainer
+        id={data.category.id}
+        originalCategoryName={data.category.name}
+      />
       <div>Selected: {variables.id}</div>
       <CardTable data={cardData} onSelectCard={onSelectCard} />
       {data.category.cards.pageInfo.hasNextPage && (

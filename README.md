@@ -35,4 +35,5 @@ This is setup like a mono-repo with seperate folders for clients and server, eac
 Clients under construction
 
 - client = Material UI based React TypeScript (create-react-app non ejected), using [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator) for hooks + TypeScript Types.  Apollo Client 3.0 beta.
+
 - server - Apollo Server using [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator) for resolvers + types. Using TypeORM for database access, working examples of relay style cursor pagination, unit, integration and e2e tests.

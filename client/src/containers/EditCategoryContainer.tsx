@@ -42,10 +42,10 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
     setCategoryName(evt.target.value);
   };
 
-  const saveCategoryNameChange = async () => {
+  const saveCategoryNameChange = () => {
     setCategoryEditDisabled(true);
     if (!data.id) return;
-    await updateCategoryMutation({
+    updateCategoryMutation({
       variables: {
         id: data.id,
         input: {

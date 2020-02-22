@@ -24,6 +24,10 @@ NOTE: VS Code settings for ESLint+Prettier (consequence of mono repo structure)
 
 "eslint.workingDirectories": [ "./client", "./server" ]
 
+## Prerequisites
+
+Tested with Node 10+, Postgres 11+ required for database.  Docker-compose provided for Postgres.  Should be easy to adapt examples to other databases... may update database support in future versions.
+
 ## Folders
 
 This is setup like a mono-repo with seperate folders for clients and server, each with their own package and config. You could set these up in their own repos, switch to each folder to start the respective packages.

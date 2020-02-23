@@ -14,13 +14,6 @@
     "apollo:schema:download": "apollo schema:download --endpoint=http://localhost:4000/graphql graphql.schema.json",
     "dev": "concurrently \"yarn run start\" \"yarn run generate:dev\""
   },
-  "jest": {
-    "watchPathIgnorePatterns": [
-      "/__utils",
-      "/__testData",
-      "/__queries"
-    ]
-  },
   "eslintConfig": {
     "extends": "react-app"
   },

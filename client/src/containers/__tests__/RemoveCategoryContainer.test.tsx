@@ -6,11 +6,7 @@ import {
   waitForElement,
 } from '../../test-utils';
 
-// import { mockCacheData } from './__testData';
-
-import { mockCache } from './__utils';
-
-// import { InMemoryCache } from '@apollo/client';
+import { mockCache } from '../shared/__mockCache';
 
 // The component AND the query need to be exported
 import {

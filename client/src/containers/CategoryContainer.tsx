@@ -3,6 +3,7 @@ import { ApolloQueryResult } from '@apollo/client';
 import {
   useGetCategoryWithCardsLazyQuery,
   GetCategoryWithCardsQuery,
+  GetCategoryWithCardsDocument,
   DirectionEnum,
 } from '../generated/graphql';
 import { CardTable } from '../components/CardTable';
@@ -14,8 +15,7 @@ interface CategoryContainerProps {
   onSelectCard: (id: string | null) => void;
   onSelectCategory: (id: string | null) => void;
 }
-
-export const CategoryContainer: React.FC<CategoryContainerProps> = ({
+const CategoryContainer: React.FC<CategoryContainerProps> = ({
   selectedCategory,
   onSelectCard,
   onSelectCategory,
@@ -115,3 +115,5 @@ export const CategoryContainer: React.FC<CategoryContainerProps> = ({
     </div>
   );
 };
+
+export { CategoryContainer, GetCategoryWithCardsDocument };

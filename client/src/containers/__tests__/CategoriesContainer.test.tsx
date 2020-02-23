@@ -57,39 +57,38 @@ const mocks = [
   },
 ];
 
-const onSelectCategory = (id: string | null): void => {
-  // eslint-disable-line
-  // do nothing;
-};
+describe("CategoryContainer", () => {
 
-afterEach(cleanup);
+  afterEach(cleanup);
 
-it('renders without error', async () => {
-  const { container } = renderApollo(
-    <CategoriesContainer onSelectCategory={onSelectCategory} />,
-    { mocks, addTypename: false },
-  );
+  it('renders without error', async () => {
+    const { container } = renderApollo(
+      <CategoriesContainer onSelectCategory={()=>{}} />,
+      { mocks, addTypename: false },
+    );
 
-  expect(container.textContent).toBeTruthy();
-});
+    expect(container.textContent).toBeTruthy();
+  });
 
-it('should render loading state initially', async () => {
-  const { container } = renderApollo(
-    <CategoriesContainer onSelectCategory={onSelectCategory} />,
-    { mocks, addTypename: false },
-  );
+  it('should render loading state initially', async () => {
+    const { container } = renderApollo(
+      <CategoriesContainer onSelectCategory={()=>{}} />,
+      { mocks, addTypename: false },
+    );
 
-  expect(container.textContent).toBe('Loading...');
-});
+    expect(container.textContent).toBe('Loading...');
+  });
 
-it('should render categories', async () => {
-  const { container } = renderApollo(
-    <CategoriesContainer onSelectCategory={onSelectCategory} />,
-    { mocks, addTypename: false },
-  );
+  it('should render categories', async () => {
+    const { container } = renderApollo(
+      <CategoriesContainer onSelectCategory={()=>{}} />,
+      { mocks, addTypename: false },
+    );
 
-  await wait();
-  expect(container.getElementsByTagName('li')[0]['textContent']).toBe(
-    'Automotive 81880',
-  );
+    await wait();
+    expect(container.getElementsByTagName('li')[0]['textContent']).toBe(
+      'Automotive 81880',
+    );
+  });
+
 });

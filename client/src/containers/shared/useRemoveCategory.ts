@@ -4,6 +4,7 @@ import {
   useRemoveCategoryMutation,
   RemoveCategoryMutation,
   RemoveCategoryDocument,
+  GetCategoriesDocument,
 } from '../../generated/graphql';
 
 // NOTE: the rationale for using a custom hook is for the cache update,
@@ -40,7 +41,6 @@ const useRemoveCategory = (): [
             );
           },
         });
-
         // evict this item from the in memory cache
         cache.evict(`Category:${id}`);
       },
@@ -49,4 +49,4 @@ const useRemoveCategory = (): [
   return [removeCategory, data, loading, error];
 };
 
-export { useRemoveCategory, RemoveCategoryDocument };
+export { useRemoveCategory, RemoveCategoryDocument, GetCategoriesDocument };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   useRemoveCategory,
   RemoveCategoryDocument,
+  GetCategoriesDocument,
 } from './shared/useRemoveCategory';
 
 interface RemoveCategoryContainerProps {
@@ -48,4 +49,8 @@ const RemoveCategoryContainer: React.FC<RemoveCategoryContainerProps> = ({
   );
 };
 
-export { RemoveCategoryContainer, RemoveCategoryDocument }; // document used by tests
+export {
+  RemoveCategoryContainer,
+  RemoveCategoryDocument,
+  GetCategoriesDocument,
+}; // document used by tests

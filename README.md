@@ -10,10 +10,10 @@ Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 ## Features
 
 - Typescript Node + React
-- Material UI
-- Apollo GraphQL
-- GraphQL Code Generator
+- Apollo GraphQL (apollo-client 3.0)
 - TypeORM w/ testing connections (Docker-Compose Postgres + GitHub Actions)
+- GraphQL Code Generator
+- Material UI
 - Unit/Integration/E2E tests
 - React client with Hooks
 - Prettier + ESLint configuration

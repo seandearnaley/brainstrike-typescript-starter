@@ -5,14 +5,6 @@ export interface Edge<T> {
   node: T;
 }
 
-export interface PageInfoInterface {
-  startCursor: string | null;
-  endCursor: string | null;
-  totalCount: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-}
-
 /**
  * A cursor object.
  */
@@ -101,6 +93,14 @@ export function decodeCursor(cursor: string, type: string): Cursor {
     type: split[1],
     index: Number(split[3]) * 1,
   };
+}
+
+export interface PageInfoInterface {
+  startCursor: string | null;
+  endCursor: string | null;
+  totalCount: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
 }
 
 export function buildPageInfo<T extends { cursor: string }>(

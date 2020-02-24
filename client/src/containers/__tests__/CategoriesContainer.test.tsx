@@ -57,7 +57,7 @@ const mocks = [
   },
 ];
 
-describe("CategoryContainer", () => {
+describe("Category Container", () => {
 
   afterEach(cleanup);
 

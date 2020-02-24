@@ -47,7 +47,7 @@ const mocks = [
   },
 ];
 
-describe("RemoveCategoryContainer", () => {
+describe("Remove Category Container", () => {
 
   afterEach(cleanup);
 

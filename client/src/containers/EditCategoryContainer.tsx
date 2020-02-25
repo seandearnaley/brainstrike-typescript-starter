@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
-import { useUpdateCategoryNameMutation } from '../generated/graphql';
+import {
+  useUpdateCategoryNameMutation,
+  UpdateCategoryNameDocument,
+} from '../generated/graphql';
 import { cx, css } from 'emotion';
 
 interface EditCategoryContainerProps {
@@ -8,7 +11,7 @@ interface EditCategoryContainerProps {
   originalCategoryName?: string | null;
 }
 
-export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
+const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   id,
   originalCategoryName,
 }: EditCategoryContainerProps) => {
@@ -37,6 +40,7 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   };
 
   const handleChange = (evt: ContentEditableEvent) => {
+    console.log('I Changed');
     setCategoryName(evt.target.value);
   };
 
@@ -118,3 +122,5 @@ export const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
     </div>
   );
 };
+
+export { EditCategoryContainer, UpdateCategoryNameDocument };

@@ -40,7 +40,6 @@ const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   };
 
   const handleChange = (evt: ContentEditableEvent) => {
-    console.log('I Changed');
     setCategoryName(evt.target.value);
   };
 

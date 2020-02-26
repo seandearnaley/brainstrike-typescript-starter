@@ -90,10 +90,11 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
     });
   };
 
-  if (!selectedCategory || !data?.category)
-    return <p data-testid="select-category-message">Select Category</p>;
   if (loading) return <p>Loading...</p>;
   if (error) return <p>ERROR</p>;
+
+  if (!selectedCategory || !data?.category)
+    return <p data-testid="select-category-message">Select Category</p>;
 
   return (
     <div>
@@ -101,7 +102,7 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
         id={data.category.id}
         originalCategoryName={data.category.name}
       />
-      <div>Selected: {variables.id}</div>
+      <div data-testid="selected-id">Selected: {variables.id}</div>
       <CardTable data={cardData} onSelectCard={onSelectCard} />
       {data.category.cards.pageInfo.hasNextPage && (
         <button onClick={getMoreData}>Load More</button>

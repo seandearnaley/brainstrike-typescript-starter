@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderApollo, cleanup, wait } from '../../test-utils';
+import { renderApollo, cleanup, wait, waitForElement, fireEvent } from '../../test-utils';
 import { DirectionEnum } from '../../generated/graphql';
 // The component AND the query need to be exported
 import {
@@ -119,6 +119,109 @@ const mocks = [
       },
     },
   },
+  {
+    request: {
+      query: GetCategoryWithCardsDocument,
+      variables: {
+        first: 5,
+        orderByColumn: 'number',
+        orderByDirection: DirectionEnum.Asc,
+        id: selectedCategory,
+        after: 'Q3xDYXJkfGM5YmYzYzg3LTQ1OTAtNGNiMi05NjdhLTdkZmY3MDhjMTkxYnw1',
+      },
+    },
+    result: {
+      data: {
+        category: {
+          id: 'NjM5NTlhOTktYjU2Mi00OTkxLTkxMTAtY2M3MGQzN2E5YTk2OkNhdGVnb3J5',
+          name: 'Automotive 81880',
+          created: '2020-02-02T04:46:40.205Z',
+          updated: '2020-02-02T04:46:40.205Z',
+          cards: {
+            pageInfo: {
+              hasNextPage: true,
+              hasPreviousPage: true,
+              startCursor:
+                'Q3xDYXJkfGE5ZWM4NTcwLWE3NGQtNGMyZC04NGQ1LTI1MTc2ZTYwMjlmMnw2',
+              endCursor:
+                'Q3xDYXJkfGE0YWJhNDE5LTg4NjAtNDNkYS05MGI5LTBmZjg5ZDBlODIxZXwxMA==',
+              totalCount: 11,
+            },
+            edges: [
+              {
+                cursor:
+                  'Q3xDYXJkfGE5ZWM4NTcwLWE3NGQtNGMyZC04NGQ1LTI1MTc2ZTYwMjlmMnw2',
+                node: {
+                  id:
+                    'YTllYzg1NzAtYTc0ZC00YzJkLTg0ZDUtMjUxNzZlNjAyOWYyOkNhcmQ=',
+                  created: '2020-02-01T22:24:24.555Z',
+                  updated: '2020-02-01T22:24:24.555Z',
+                  label: 'voluptas quo in',
+                  number: 56059,
+                },
+              },
+              // {
+              //   __typename: 'CardEdge',
+              //   cursor:
+              //     'Q3xDYXJkfDkwZDQ0ODhjLWE2YmMtNDRmOC04N2Q3LTBlMmI2ZmZlYmZiYnw3',
+              //   node: {
+              //     __typename: 'Card',
+              //     id:
+              //       'OTBkNDQ4OGMtYTZiYy00NGY4LTg3ZDctMGUyYjZmZmViZmJiOkNhcmQ=',
+              //     created: '2020-02-02T02:39:50.659Z',
+              //     updated: '2020-02-02T02:39:50.659Z',
+              //     label: 'laboriosam reiciendis et',
+              //     number: 63070,
+              //   },
+              // },
+              // {
+              //   __typename: 'CardEdge',
+              //   cursor:
+              //     'Q3xDYXJkfGJmZTE3N2JmLTU3NjAtNDFmMi1hMWZlLWVhYmYyMjE5MzlmNXw4',
+              //   node: {
+              //     __typename: 'Card',
+              //     id:
+              //       'YmZlMTc3YmYtNTc2MC00MWYyLWExZmUtZWFiZjIyMTkzOWY1OkNhcmQ=',
+              //     created: '2020-02-02T04:42:04.839Z',
+              //     updated: '2020-02-02T04:42:04.839Z',
+              //     label: 'eos maxime occaecati',
+              //     number: 67425,
+              //   },
+              // },
+              // {
+              //   __typename: 'CardEdge',
+              //   cursor:
+              //     'Q3xDYXJkfGU0N2ZkODhlLWE0NGUtNGY0ZC1hNWMzLWM4MzE4YTI5ZTgxYnw5',
+              //   node: {
+              //     __typename: 'Card',
+              //     id:
+              //       'ZTQ3ZmQ4OGUtYTQ0ZS00ZjRkLWE1YzMtYzgzMThhMjllODFiOkNhcmQ=',
+              //     created: '2020-02-02T15:15:41.941Z',
+              //     updated: '2020-02-02T15:15:41.941Z',
+              //     label: 'odio nihil est',
+              //     number: 71243,
+              //   },
+              // },
+              // {
+              //   __typename: 'CardEdge',
+              //   cursor:
+              //     'Q3xDYXJkfGE0YWJhNDE5LTg4NjAtNDNkYS05MGI5LTBmZjg5ZDBlODIxZXwxMA==',
+              //   node: {
+              //     __typename: 'Card',
+              //     id:
+              //       'YTRhYmE0MTktODg2MC00M2RhLTkwYjktMGZmODlkMGU4MjFlOkNhcmQ=',
+              //     created: '2020-02-02T05:26:00.951Z',
+              //     updated: '2020-02-02T05:26:00.951Z',
+              //     label: 'sint quisquam pariatur',
+              //     number: 91463,
+              //   },
+              // },
+            ],
+          },
+        },
+      },
+    },
+  },
 ];
 
 describe('Category Container', () => {
@@ -164,6 +267,29 @@ describe('Category Container', () => {
     expect(getByTestId('selected-id').textContent).toBe(
       `Selected: ${selectedCategory}`,
     );
+  });
+
+  it('should render category and fetchmore', async () => {
+    const { getByTestId } = renderApollo(
+      <CategoryContainer
+        selectedCategory={selectedCategory}
+        onSelectCard={() => {}}
+        onSelectCategory={() => {}}
+      />,
+      { mocks, addTypename: false },
+    );
+
+    await wait();
+
+    await waitForElement(() => getByTestId('load-more-button'));
+
+    fireEvent.click(getByTestId('load-more-button'));
+
+    await wait();
+    
+    // await waitForElement(() => getByTestId('showing-message'));
+    // console.log(getByTestId('showing-message').textContent);
+
   });
 
   //TODO: fetch more test

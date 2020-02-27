@@ -70,6 +70,8 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
         const newEdges = fetchMoreResult.category.cards.edges;
         const pageInfo = fetchMoreResult.category.cards.pageInfo;
 
+        console.log('newEdges=', JSON.stringify(newEdges));
+
         return newEdges.length && previousResult.category && pageInfo
           ? {
               // Put the new cards at the end of the list and update `pageInfo`
@@ -95,7 +97,6 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
 
   if (!selectedCategory || !data?.category)
     return <p data-testid="select-category-message">Select Category</p>;
-
   return (
     <div>
       <EditCategoryContainer
@@ -105,10 +106,14 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
       <div data-testid="selected-id">Selected: {variables.id}</div>
       <CardTable data={cardData} onSelectCard={onSelectCard} />
       {data.category.cards.pageInfo.hasNextPage && (
-        <button onClick={getMoreData}>Load More</button>
+        <button data-testid="load-more-button" onClick={getMoreData}>
+          Load More
+        </button>
       )}
-      Showing {data.category.cards.edges.length} /{' '}
-      {data.category.cards.pageInfo.totalCount}
+      <div data-testid="showing-message">
+        Showing {data.category.cards.edges.length} /{' '}
+        {data.category.cards.pageInfo.totalCount}
+      </div>
       <RemoveCategoryContainer
         id={data.category.id}
         onSelectCategory={onSelectCategory}

@@ -17,7 +17,8 @@
     "generate:dev": "graphql-codegen --config codegen.yml --watch",
     "dev": "concurrently \"yarn run start:dev\" \"yarn run generate:dev\"",
     "migrate:up": "yarn run build && NODE_ENV=migration node build/migrate.js up",
-    "migrate:down": "yarn run build && NODE_ENV=migration node build/migrate.js down"
+    "migrate:down": "yarn run build && NODE_ENV=migration node build/migrate.js down",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "repository": {
     "type": "git",

@@ -10,7 +10,11 @@ describe('Flex Layout', () => {
 
   it('renders without error', () => {
     render(
-            <FlexLayout left={<div>Left</div>} middle={<div>Middle</div>} right={<div>Right</div>}/>
+      <FlexLayout
+        left={<div>Left</div>}
+        middle={<div>Middle</div>}
+        right={<div>Right</div>}
+      />,
     );
   });
 });

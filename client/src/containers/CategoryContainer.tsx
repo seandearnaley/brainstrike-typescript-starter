@@ -70,8 +70,6 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
         const newEdges = fetchMoreResult.category.cards.edges;
         const pageInfo = fetchMoreResult.category.cards.pageInfo;
 
-        console.log('newEdges=', JSON.stringify(newEdges));
-
         return newEdges.length && previousResult.category && pageInfo
           ? {
               // Put the new cards at the end of the list and update `pageInfo`

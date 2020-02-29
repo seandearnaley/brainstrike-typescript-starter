@@ -1,5 +1,8 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { useGetCardWithCategoriesLazyQuery } from '../generated/graphql';
+import {
+  useGetCardWithCategoriesLazyQuery,
+  GetCardWithCategoriesDocument,
+} from '../generated/graphql';
 import { useRemoveCard } from './shared/useRemoveCard';
 
 interface CardContainerProps {
@@ -7,7 +10,7 @@ interface CardContainerProps {
   onSelectCard: (id: string | null) => void;
 }
 
-export const CardContainer: React.FC<CardContainerProps> = ({
+const CardContainer: React.FC<CardContainerProps> = ({
   selectedCard,
   onSelectCard,
 }: CardContainerProps): React.ReactElement => {
@@ -38,9 +41,9 @@ export const CardContainer: React.FC<CardContainerProps> = ({
     onSelectCard(null);
   };
 
-  if (!selectedCard || !data?.card) return <p>Pick Card</p>;
   if (loading) return <p>Loading...</p>;
   if (error) return <p>ERROR {error.message}</p>;
+  if (!selectedCard || !data?.card) return <p>Pick Card</p>;
 
   return (
     <div>
@@ -60,3 +63,5 @@ export const CardContainer: React.FC<CardContainerProps> = ({
     </div>
   );
 };
+
+export { CardContainer, GetCardWithCategoriesDocument };

@@ -2,14 +2,14 @@ import {
   GraphQLRequest,
   Observable,
   FetchResult,
-  toPromise
+  toPromise,
 } from "apollo-link";
 
 import {
   startTestServer,
   constructTestServer,
   createTestingConnection,
-  Connection
+  Connection,
 } from "./__utils";
 
 import * as TDATA from "./__testData";
@@ -43,7 +43,7 @@ describe("Server - e2e", () => {
     const res = await toPromise(
       graphql({
         query: GQL.GET_CARD_DATA,
-        variables: { first: 20 }
+        variables: { first: 20 },
       })
     );
 
@@ -54,7 +54,7 @@ describe("Server - e2e", () => {
     const res = await toPromise(
       graphql({
         query: GQL.GET_CARD,
-        variables: { id: TDATA.mockE2EFirstId }
+        variables: { id: TDATA.mockE2EFirstId },
       })
     );
     expect(res).toMatchSnapshot();

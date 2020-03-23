@@ -5,7 +5,7 @@ export const mockCardInput = {
   number: 1,
   label: "Test Card 1",
   description: "testing",
-  categoryId: null as string
+  categoryId: null as string,
 };
 
 export const mockFirstCardResponse = {
@@ -15,12 +15,12 @@ export const mockFirstCardResponse = {
   description: "testing",
   created: new Date("2020-02-01T20:19:27.909Z"),
   updated: new Date("2020-02-01T20:19:27.909Z"),
-  categories: null as null
+  categories: null as null,
 };
 
 export const mockFirstCardResponseEncoded = {
   ...mockFirstCardResponse,
-  id: "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ="
+  id: "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
 };
 
 export const mockE2EFirstId =
@@ -35,7 +35,7 @@ export const mockCardsResult = [
     created: new Date("2020-02-01T20:19:27.909Z"),
     updated: new Date("2020-02-01T20:19:27.909Z"),
     categories: null as null,
-    rowNumber: 1
+    rowNumber: 1,
   },
   {
     id: "78555a90-f68b-454c-beb2-e7021f3d8c63",
@@ -45,7 +45,7 @@ export const mockCardsResult = [
     created: new Date("2020-02-01T23:03:03.942Z"),
     updated: new Date("2020-02-01T23:03:03.942Z"),
     categories: null as null,
-    rowNumber: 2
+    rowNumber: 2,
   },
   {
     id: "caf38b31-e551-433b-b1b0-c65807e97927",
@@ -55,8 +55,8 @@ export const mockCardsResult = [
     created: new Date("2020-02-02T04:59:07.272Z"),
     updated: new Date("2020-02-02T04:59:07.272Z"),
     categories: null as null,
-    rowNumber: 3
-  }
+    rowNumber: 3,
+  },
 ];
 
 export const mockCardsTotalResult = [{ totalCount: "10000" }];
@@ -67,58 +67,58 @@ export const mockCardsConnectionResult = {
       cursor: "Q3xDYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZXwx",
       node: {
         ...mockCardsResult[0],
-        id: "NzVmNzc0NzMtYjc0Yy00YTIwLWFlMGQtNzNlMDRiNDI3Y2RlOkNhcmQ="
-      }
+        id: "NzVmNzc0NzMtYjc0Yy00YTIwLWFlMGQtNzNlMDRiNDI3Y2RlOkNhcmQ=",
+      },
     },
     {
       cursor: "Q3xDYXJkfDc4NTU1YTkwLWY2OGItNDU0Yy1iZWIyLWU3MDIxZjNkOGM2M3wy",
       node: {
         ...mockCardsResult[1],
-        id: "Nzg1NTVhOTAtZjY4Yi00NTRjLWJlYjItZTcwMjFmM2Q4YzYzOkNhcmQ="
-      }
+        id: "Nzg1NTVhOTAtZjY4Yi00NTRjLWJlYjItZTcwMjFmM2Q4YzYzOkNhcmQ=",
+      },
     },
     {
       cursor: "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
       node: {
         ...mockCardsResult[2],
-        id: "Y2FmMzhiMzEtZTU1MS00MzNiLWIxYjAtYzY1ODA3ZTk3OTI3OkNhcmQ="
-      }
-    }
+        id: "Y2FmMzhiMzEtZTU1MS00MzNiLWIxYjAtYzY1ODA3ZTk3OTI3OkNhcmQ=",
+      },
+    },
   ],
   pageInfo: {
     endCursor: "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
     hasNextPage: true,
     hasPreviousPage: false,
     startCursor: "Q3xDYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZXwx",
-    totalCount: 10000
-  }
+    totalCount: 10000,
+  },
 };
 
 export const mockReturnCard = {
   ...mockFirstCardResponse,
   created: new Date("2020-02-01T20:19:27.909Z"),
-  updated: null as Date
+  updated: null as Date,
 };
 
 export const defaultReturn = {
   success: true,
   card: {
     ...mockReturnCard,
-    id: "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ="
-  }
+    id: "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
+  },
 };
 
 export const mockSuccessfulAddResponse = {
   ...defaultReturn,
-  message: "Card Added"
+  message: "Card Added",
 };
 
 export const mockSuccessfulRemoveResponse = {
   ...defaultReturn,
-  message: "Card Removed"
+  message: "Card Removed",
 };
 
 export const mockSuccessfulUpdateResponse = {
   ...defaultReturn,
-  message: "Card Updated"
+  message: "Card Updated",
 };

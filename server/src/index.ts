@@ -5,7 +5,7 @@ import {
   createConnection,
   Connection,
   Repository,
-  ConnectionOptions
+  ConnectionOptions,
 } from "typeorm";
 import { Card, Category } from "./entity";
 import { typeDefs, resolvers } from "./graphql";
@@ -21,7 +21,7 @@ setupDotEnv(); // adds .env environment file support
 const {
   NODE_PORT = 4000,
   NODE_HOST = "localhost",
-  NODE_ENV = "development"
+  NODE_ENV = "development",
 } = process.env; // environment variables
 
 // NOTE: using partial here to make it easier to mock repos in unit tests,
@@ -56,7 +56,7 @@ const createTestingConnection = (): Promise<Connection> =>
     synchronize: false,
     ...postgresCreds,
     ...schemaConfig,
-    logging: ["error"]
+    logging: ["error"],
   });
 
 interface ServerConfig {
@@ -76,13 +76,13 @@ const createServer = async (
   const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
-    resolverValidationOptions: { requireResolversForResolveType: false }
+    resolverValidationOptions: { requireResolversForResolveType: false },
   });
 
   const apolloServer = new ApolloServer({
     schema,
     context,
-    dataSources: (): DataSources<ApolloContext> => ({ cardAPI, categoryAPI })
+    dataSources: (): DataSources<ApolloContext> => ({ cardAPI, categoryAPI }),
   });
 
   return { apolloServer, cardAPI, categoryAPI };
@@ -117,5 +117,5 @@ export {
   createDbConnection,
   createTestingConnection,
   Connection,
-  ServerConfig
+  ServerConfig,
 };

@@ -6,7 +6,7 @@ import {
   TreeChildren,
   TreeParent,
   ManyToMany,
-  JoinTable
+  JoinTable,
 } from "typeorm";
 
 import { Card } from "./Card";
@@ -29,21 +29,18 @@ export class Category {
   @Column({
     type: "timestamp",
     nullable: false,
-    default: () => "LOCALTIMESTAMP"
+    default: () => "LOCALTIMESTAMP",
   })
   created: Date;
 
   @Column({
     type: "timestamp",
     nullable: false,
-    default: () => "LOCALTIMESTAMP"
+    default: () => "LOCALTIMESTAMP",
   })
   updated: Date;
 
-  @ManyToMany(
-    () => Card,
-    card => card.categories
-  )
+  @ManyToMany(() => Card, (card) => card.categories)
   @JoinTable()
   cards: Card[];
 }

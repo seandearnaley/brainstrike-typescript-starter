@@ -40,7 +40,7 @@ export class CategoryAPI extends DataSource {
     super();
     this.connection = connection;
     this.repos = {
-      categories: connection.getRepository(CategoryEntity)
+      categories: connection.getRepository(CategoryEntity),
     };
   }
 
@@ -61,7 +61,7 @@ export class CategoryAPI extends DataSource {
       updated,
       cards: null, // will use virtual inner queries for cards
       parent: null, // will use custom implementation for parent
-      children: null // will use custom implementation for children
+      children: null, // will use custom implementation for children
     };
   }
 
@@ -69,13 +69,13 @@ export class CategoryAPI extends DataSource {
     async (cardIds: string[]): Promise<Array<CategoryObject[]>> => {
       // batches cardIds into a single call per request
       const categories = await this.getCategoryEntities({
-        cardIds: cardIds.join(",")
+        cardIds: cardIds.join(","),
       });
 
-      return cardIds.map(id =>
+      return cardIds.map((id) =>
         categories
-          .filter(category =>
-            category.cards.find(card => card.id === decodeGlobalID(id).id)
+          .filter((category) =>
+            category.cards.find((card) => card.id === decodeGlobalID(id).id)
           )
           .map(this.encodeCategory)
       );
@@ -93,7 +93,7 @@ export class CategoryAPI extends DataSource {
   async getCategoryEntities({
     cardIds,
     orderByColumn = "category.name",
-    orderByDirection = DirectionEnum.Asc
+    orderByDirection = DirectionEnum.Asc,
   }: GetCategoriesArguments): Promise<CategoryEntity[]> {
     let query = this.repos.categories
       .createQueryBuilder("category")
@@ -104,7 +104,7 @@ export class CategoryAPI extends DataSource {
 
       const decodedIds = cardIds
         .split(",")
-        .map(encodedId => decodeGlobalID(encodedId).id);
+        .map((encodedId) => decodeGlobalID(encodedId).id);
 
       query = query.where("card.id IN (:...cardIds)", { cardIds: decodedIds });
     }
@@ -151,7 +151,7 @@ export class CategoryAPI extends DataSource {
    * @param input category name
    */
   async addCategory({
-    name
+    name,
   }: CategoryInput): Promise<CategoryUpdatedResponseObject> {
     const category = new CategoryEntity();
     category.name = name;
@@ -159,7 +159,7 @@ export class CategoryAPI extends DataSource {
     return {
       success: true,
       message: "Category Added",
-      category: this.encodeCategory(savedCategory)
+      category: this.encodeCategory(savedCategory),
     };
   }
 
@@ -178,7 +178,7 @@ export class CategoryAPI extends DataSource {
     return {
       success: true,
       message: "Category Updated",
-      category: this.encodeCategory(savedCategory)
+      category: this.encodeCategory(savedCategory),
     };
   }
 
@@ -204,7 +204,7 @@ export class CategoryAPI extends DataSource {
     return {
       success: true,
       message: "Category Removed",
-      category: this.encodeCategory(originalCategory)
+      category: this.encodeCategory(originalCategory),
     };
   }
 }

@@ -2,7 +2,7 @@ import { CardAPI } from "../card";
 import {
   mockContext,
   createTestingConnection,
-  Connection
+  Connection,
 } from "../../__tests__/__utils";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -18,7 +18,7 @@ import {
   mockSuccessfulUpdateResponse,
   mockSuccessfulRemoveResponse,
   mockCardsConnectionResult,
-  mockCardsTotalResult
+  mockCardsTotalResult,
 } from "../../__tests__/__testData";
 
 describe("Queries", () => {
@@ -40,14 +40,14 @@ describe("Queries", () => {
     mockCardRemove = jest.fn();
     mockCardQuery = jest.fn();
 
-    connection.getRepository = jest.fn().mockImplementation(target => {
+    connection.getRepository = jest.fn().mockImplementation((target) => {
       switch (target.name) {
         case "Card": {
           return {
             find: mockCardFind,
             findOne: mockCardFindOne,
             save: mockCardSave,
-            remove: mockCardRemove
+            remove: mockCardRemove,
           };
         }
         default: {
@@ -62,7 +62,7 @@ describe("Queries", () => {
 
     ds.initialize({
       context: mockContext,
-      cache: null
+      cache: null,
     });
   });
 

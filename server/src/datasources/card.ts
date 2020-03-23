@@ -13,7 +13,7 @@ import {
   Edge,
   escapeStringsWithDriver,
   encodeGlobalID,
-  decodeGlobalID
+  decodeGlobalID,
 } from "./__utils";
 
 export type GetCardsArguments = {
@@ -72,7 +72,7 @@ export class CardAPI extends DataSource {
     this.connection = connection;
     this.repos = {
       cards: connection.getRepository(CardEntity),
-      categories: connection.getRepository(CategoryEntity)
+      categories: connection.getRepository(CategoryEntity),
     };
   }
 
@@ -95,7 +95,7 @@ export class CardAPI extends DataSource {
     after = null,
     orderByColumn = "created",
     orderByDirection = DirectionEnum.Desc,
-    categoryId
+    categoryId,
   }: GetCardsArguments): Promise<CardConnectionObject> {
     // NOTE: we're using straight SQL for Postgres here because TypeORM has a bug where it can't resolve the subquery meta data,
     // it should be possible to rewrite this using the ORM syntax but will have to wait https://github.com/typeorm/typeorm/issues/4015
@@ -109,7 +109,7 @@ export class CardAPI extends DataSource {
       cardTableName,
       categoryTableName,
       categoryCardsTableName,
-      _orderByColumn
+      _orderByColumn,
     ] = escapeStringsWithDriver(
       this.connection.driver,
       "id",
@@ -195,7 +195,7 @@ export class CardAPI extends DataSource {
       this.connection.query(queryStr, [...params]),
       this.connection.query(
         `SELECT COUNT(*) as "totalCount" FROM (${rowNumQuery}) as countTable `
-      )
+      ),
     ]);
 
     const edges = this.createEdges(results);
@@ -208,9 +208,9 @@ export class CardAPI extends DataSource {
     return {
       edges: edges.map(({ node, cursor }) => ({
         node: this.encodeCard(node),
-        cursor
+        cursor,
       })),
-      pageInfo
+      pageInfo,
     };
   }
 
@@ -218,14 +218,14 @@ export class CardAPI extends DataSource {
     return {
       ...data,
       id: encodeGlobalID(data.id, "Card"), // replace ID with a global ID
-      categories: null // escaping cagegories here to replace them with virtual field
+      categories: null, // escaping cagegories here to replace them with virtual field
     };
   }
 
   protected createEdges(results: CardObject[]): Edge<CardObject>[] {
     return results.map((result: CardObject) => ({
       node: result,
-      cursor: encodeCursor(result.id, "Card", result.rowNumber) // TODO: this cursor column could probably be dynamic
+      cursor: encodeCursor(result.id, "Card", result.rowNumber), // TODO: this cursor column could probably be dynamic
     }));
   }
 
@@ -237,7 +237,7 @@ export class CardAPI extends DataSource {
           // it's tricky to resolve because of how we're exploiting row number
           this.getCards({
             ...args,
-            categoryId
+            categoryId,
           })
         )
       )
@@ -279,7 +279,7 @@ export class CardAPI extends DataSource {
     number,
     label,
     description,
-    categoryId
+    categoryId,
   }: CardInput): Promise<CardsUpdatedResponseObject> {
     const card = new CardEntity();
     card.number = number;
@@ -297,7 +297,7 @@ export class CardAPI extends DataSource {
     return {
       success: true,
       message: "Card Added",
-      card: this.encodeCard(savedCard)
+      card: this.encodeCard(savedCard),
     };
   }
 
@@ -326,7 +326,7 @@ export class CardAPI extends DataSource {
     return {
       success: true,
       message: "Card Updated",
-      card: this.encodeCard(savedCard)
+      card: this.encodeCard(savedCard),
     };
   }
 
@@ -341,7 +341,7 @@ export class CardAPI extends DataSource {
     return {
       success: true,
       message: "Card Removed",
-      card: this.encodeCard(originalCard)
+      card: this.encodeCard(originalCard),
     };
   }
 }

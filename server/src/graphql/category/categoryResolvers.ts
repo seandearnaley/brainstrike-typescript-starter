@@ -2,7 +2,7 @@ import {
   Resolvers,
   Category,
   CategoryUpdatedResponse,
-  CardConnection
+  CardConnection,
 } from "../../generated/graphql";
 
 export const resolvers: Resolvers = {
@@ -10,7 +10,7 @@ export const resolvers: Resolvers = {
     categories: (_, args, { dataSources }): Promise<Category[]> =>
       dataSources.categoryAPI.getCategories(args),
     category: async (_, { id }, { dataSources }): Promise<Category> =>
-      dataSources.categoryAPI.getCategory(id)
+      dataSources.categoryAPI.getCategory(id),
   },
   Mutation: {
     addCategory: (
@@ -30,11 +30,11 @@ export const resolvers: Resolvers = {
       { id },
       { dataSources }
     ): Promise<CategoryUpdatedResponse> =>
-      dataSources.categoryAPI.removeCategory(id)
+      dataSources.categoryAPI.removeCategory(id),
   },
   Category: {
     cards(root, args, { dataSources }): Promise<CardConnection> {
       return dataSources.cardAPI.getCardConnectionFor(root.id, args);
-    }
-  }
+    },
+  },
 };

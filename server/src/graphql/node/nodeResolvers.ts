@@ -17,16 +17,16 @@ export const resolvers: Resolvers = {
         default:
           throw new Error("Invalid ID");
       }
-    }
+    },
   },
   Card: {
     __isTypeOf: (obj): boolean => {
       return getTypeName(obj.id) === "Card";
-    }
+    },
   },
   Category: {
     __isTypeOf: (obj): boolean => {
       return getTypeName(obj.id) === "Category";
-    }
-  }
+    },
+  },
 };

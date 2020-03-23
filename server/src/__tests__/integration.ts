@@ -3,7 +3,7 @@ import { createTestClient } from "apollo-server-testing";
 import {
   constructTestServer,
   createTestingConnection,
-  Connection
+  Connection,
 } from "./__utils";
 
 import * as TDATA from "./__testData";
@@ -23,7 +23,7 @@ describe("Queries", () => {
     // create an instance of ApolloServer that mocks out context, while reusing
     // existing dataSources, resolvers, and typeDefs.
     const { apolloServer, cardAPI } = await constructTestServer(connection, {
-      context: () => ({})
+      context: () => ({}),
     });
 
     // mock the datasources' underlying fetch methods
@@ -38,15 +38,15 @@ describe("Queries", () => {
     const res = await query({
       query: GQL.GET_CARD_DATA,
       variables: {
-        first: 3
-      }
+        first: 3,
+      },
     });
     expect(res).toMatchSnapshot();
   });
 
   it("fetches single card", async () => {
     const { apolloServer, cardAPI } = await constructTestServer(connection, {
-      context: () => ({})
+      context: () => ({}),
     });
 
     cardAPI.getCard = jest.fn(async () =>
@@ -56,7 +56,7 @@ describe("Queries", () => {
     const { query } = createTestClient(apolloServer);
     const res = await query({
       query: GQL.GET_CARD,
-      variables: { id: TDATA.mockFirstCardQueryId }
+      variables: { id: TDATA.mockFirstCardQueryId },
     });
 
     expect(res).toMatchSnapshot();
@@ -75,7 +75,7 @@ describe("Mutations", () => {
 
   it("create card", async () => {
     const { apolloServer, cardAPI } = await constructTestServer(connection, {
-      context: () => ({})
+      context: () => ({}),
     });
 
     cardAPI.addCard = jest.fn(async () =>
@@ -85,14 +85,14 @@ describe("Mutations", () => {
     const { mutate } = createTestClient(apolloServer);
     const res = await mutate({
       mutation: GQL.ADD_CARD,
-      variables: { input: TDATA.mockCardInput }
+      variables: { input: TDATA.mockCardInput },
     });
     expect(res).toMatchSnapshot();
   });
 
   it("update card", async () => {
     const { apolloServer, cardAPI } = await constructTestServer(connection, {
-      context: () => ({})
+      context: () => ({}),
     });
 
     cardAPI.updateCard = jest.fn(async () =>
@@ -104,15 +104,15 @@ describe("Mutations", () => {
       mutation: GQL.UPDATE_CARD,
       variables: {
         id: TDATA.mockFirstCardQueryId,
-        input: TDATA.mockCardInput
-      }
+        input: TDATA.mockCardInput,
+      },
     });
     expect(res).toMatchSnapshot();
   });
 
   it("remove card", async () => {
     const { apolloServer, cardAPI } = await constructTestServer(connection, {
-      context: () => ({})
+      context: () => ({}),
     });
 
     cardAPI.removeCard = jest.fn(async () =>
@@ -122,7 +122,7 @@ describe("Mutations", () => {
     const { mutate } = createTestClient(apolloServer);
     const res = await mutate({
       mutation: GQL.REMOVE_CARD,
-      variables: { id: TDATA.mockFirstCardQueryId }
+      variables: { id: TDATA.mockFirstCardQueryId },
     });
     expect(res).toMatchSnapshot();
   });

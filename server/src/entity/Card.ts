@@ -18,20 +18,17 @@ export class Card {
   @Column({
     type: "timestamp",
     nullable: false,
-    default: () => "LOCALTIMESTAMP"
+    default: () => "LOCALTIMESTAMP",
   })
   created: Date;
 
   @Column({
     type: "timestamp",
     nullable: false,
-    default: () => "LOCALTIMESTAMP"
+    default: () => "LOCALTIMESTAMP",
   })
   updated: Date;
 
-  @ManyToMany(
-    () => Category,
-    category => category.cards
-  )
+  @ManyToMany(() => Category, (category) => category.cards)
   categories: Category[];
 }

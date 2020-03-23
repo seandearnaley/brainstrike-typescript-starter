@@ -7,7 +7,7 @@ import {
   GraphQLRequest,
   ApolloLink,
   Observable,
-  FetchResult
+  FetchResult,
 } from "apollo-link";
 import { ApolloContext } from "../../src/types/context";
 
@@ -16,7 +16,7 @@ import {
   ApolloServer,
   ServerConfig,
   Connection,
-  createTestingConnection
+  createTestingConnection,
 } from "../../src";
 
 const defaultContext = {};
@@ -27,7 +27,7 @@ export type Mockify<T> = {
 
 export const mockContext: Mockify<ApolloContext> = {
   dataSources: null,
-  connection: null
+  connection: null,
 };
 
 /**
@@ -71,7 +71,7 @@ export const startTestServer = async (
 
   const executeOperation = ({
     query,
-    variables = {}
+    variables = {},
   }: GraphQLRequest): Observable<FetchResult> =>
     execute(link, { query, variables });
 
@@ -80,7 +80,7 @@ export const startTestServer = async (
     stop: (): void => {
       httpServer.close();
     },
-    graphql: executeOperation
+    graphql: executeOperation,
   };
 };
 

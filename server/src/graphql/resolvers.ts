@@ -8,7 +8,7 @@ import { resolvers as nodeResolvers } from "./node/nodeResolvers";
 const defaultResolvers = {
   Date: GraphQLDate,
   Time: GraphQLTime,
-  DateTime: GraphQLDateTime
+  DateTime: GraphQLDateTime,
 };
 
 export default merge(

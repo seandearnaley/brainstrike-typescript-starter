@@ -101,7 +101,7 @@ export function decodeCursor(cursor: string, type: string): Cursor {
   return {
     id: split[2],
     type: split[1],
-    index: Number(split[3]) * 1
+    index: Number(split[3]) * 1,
   };
 }
 
@@ -117,7 +117,7 @@ export function buildPageInfo<T extends { cursor: string }>(
       endCursor: null,
       totalCount,
       hasNextPage: false,
-      hasPreviousPage: false
+      hasPreviousPage: false,
     };
   }
 
@@ -140,7 +140,7 @@ export function buildPageInfo<T extends { cursor: string }>(
     endCursor,
     totalCount,
     hasNextPage,
-    hasPreviousPage
+    hasPreviousPage,
   };
 }
 
@@ -154,7 +154,7 @@ export function decodeGlobalID(
   const parts = decode(objectId).split(":");
   return {
     id: parts[0],
-    __typename: parts[1]
+    __typename: parts[1],
   };
 }
 
@@ -162,7 +162,7 @@ export function escapeStringsWithDriver(
   driver: Driver,
   ...strs: string[]
 ): string[] {
-  return strs.map(str => driver.escape(str));
+  return strs.map((str) => driver.escape(str));
 }
 
 export const getTypeName = (id: string): string => {

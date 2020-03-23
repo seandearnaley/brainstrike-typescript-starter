@@ -16,7 +16,7 @@ for (let i = 0; i < numberOfCategories; i++) {
     id: faker.random.uuid(),
     name: `${faker.commerce.department()} ${faker.random.number()}`,
     created: createdUpdated,
-    updated: createdUpdated
+    updated: createdUpdated,
   });
 }
 
@@ -35,14 +35,14 @@ for (let i = 0; i < numberOfCards; i++) {
         ? null
         : fakeCategories[
             Math.floor(Math.random() * Math.floor(numberOfCategories - 1)) // associate with a random category ID
-          ]
+          ],
   });
 }
 
 fs.writeFile(
   "seed-data/fakeCategories.json",
   JSON.stringify(fakeCategories),
-  err => {
+  (err) => {
     if (err) {
       return console.log(err);
     }
@@ -50,7 +50,7 @@ fs.writeFile(
   }
 );
 
-fs.writeFile("seed-data/fakeCards.json", JSON.stringify(fakeCards), err => {
+fs.writeFile("seed-data/fakeCards.json", JSON.stringify(fakeCards), (err) => {
   if (err) {
     return console.log(err);
   }

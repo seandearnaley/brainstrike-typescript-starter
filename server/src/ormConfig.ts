@@ -6,14 +6,14 @@ const {
   POSTGRES_USER,
   POSTGRES_PASSWORD,
   POSTGRES_HOST = "localhost",
-  POSTGRES_PORT = 5432
+  POSTGRES_PORT = 5432,
 } = process.env; // environment variables
 
 export const postgresCreds = {
   host: POSTGRES_HOST,
   port: Number(POSTGRES_PORT),
   username: POSTGRES_USER,
-  password: POSTGRES_PASSWORD
+  password: POSTGRES_PASSWORD,
 };
 
 export const schemaConfig = {
@@ -23,8 +23,8 @@ export const schemaConfig = {
   cli: {
     entitiesDir: "src/entity",
     migrationsDir: "src/migration",
-    subscribersDir: "src/subscriber"
-  }
+    subscribersDir: "src/subscriber",
+  },
 };
 
 export default {
@@ -34,5 +34,5 @@ export default {
   synchronize: false, // don't use in production
   ...postgresCreds,
   ...schemaConfig,
-  logging: ["query", "error"]
+  logging: ["query", "error"],
 };

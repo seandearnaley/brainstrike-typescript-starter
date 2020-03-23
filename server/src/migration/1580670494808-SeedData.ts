@@ -28,7 +28,7 @@ export class SeedData1580670494808 implements MigrationInterface {
       card.updated = new Date(value.updated);
 
       const category = value.category
-        ? CategorySeed.find(category => category.id === value.category.id)
+        ? CategorySeed.find((category) => category.id === value.category.id)
         : null;
 
       card.categories = !category ? null : [category];

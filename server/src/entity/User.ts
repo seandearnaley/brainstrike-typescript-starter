@@ -20,14 +20,14 @@ export class User {
   @Column({
     type: "timestamp",
     nullable: false,
-    default: () => "LOCALTIMESTAMP"
+    default: () => "LOCALTIMESTAMP",
   })
   created: Date;
 
   @Column({
     type: "timestamp",
     nullable: false,
-    default: () => "LOCALTIMESTAMP"
+    default: () => "LOCALTIMESTAMP",
   })
   updated: Date;
 

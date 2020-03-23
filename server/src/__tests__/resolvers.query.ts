@@ -3,14 +3,14 @@ import resolvers from "../graphql/resolvers";
 import {
   mockCardsConnectionResult,
   mockFirstCardResponse,
-  mockFirstCardQueryId
+  mockFirstCardQueryId,
 } from "./__testData";
 
 describe("[Query.cards]", () => {
   const mockContext = {
     dataSources: {
-      cardAPI: { getCards: jest.fn() }
-    }
+      cardAPI: { getCards: jest.fn() },
+    },
   };
 
   const { getCards } = mockContext.dataSources.cardAPI;
@@ -27,8 +27,8 @@ describe("[Query.cards]", () => {
 describe("[Query.node card]", () => {
   const mockContext = {
     dataSources: {
-      cardAPI: { getCard: jest.fn() }
-    }
+      cardAPI: { getCard: jest.fn() },
+    },
   };
 
   const { getCard } = mockContext.dataSources.cardAPI;
@@ -40,7 +40,7 @@ describe("[Query.node card]", () => {
     const res = await resolvers.Query.node(
       null,
       {
-        id: mockFirstCardQueryId
+        id: mockFirstCardQueryId,
       },
       mockContext,
       null

@@ -33,11 +33,11 @@ const useRemoveCategory = (): [
       variables: {
         id,
       },
-      update: cache => {
+      update: (cache) => {
         cache.modify('ROOT_QUERY', {
           categories(categories: Reference[], { readField }) {
             return categories.filter(
-              category => id !== readField('id', category),
+              (category) => id !== readField('id', category),
             );
           },
         });

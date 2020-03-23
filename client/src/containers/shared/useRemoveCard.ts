@@ -26,7 +26,7 @@ const removeCardFromCache = (
   cache.modify(`Category:${categoryId}`, {
     cards(cards: Reference, { readField }) {
       const edges = readField<CardEdgeWithReference[]>('edges', cards).filter(
-        edge => edge.node.__ref !== `Card:${cardId}`,
+        (edge) => edge.node.__ref !== `Card:${cardId}`,
       );
 
       let { totalCount } = readField<PageInfo>('pageInfo', cards);
@@ -64,7 +64,7 @@ export const useRemoveCard = (): [
 
         // these cards can be in many categories, data should include a list of category ids
         // for each of cards categories, remove the cards from the category cache and recalculate pageInfo
-        data.removeCard.card.categories.forEach(category =>
+        data.removeCard.card.categories.forEach((category) =>
           removeCardFromCache(cache, category.id, id),
         );
 

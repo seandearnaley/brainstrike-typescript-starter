@@ -56,13 +56,13 @@ export const CardTable: React.FC<CardTableProps> = (
     >
       <thead>
         <tr>
-          {tableColumns.map(col => (
+          {tableColumns.map((col) => (
             <th key={col.field}>{col.label}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {props.data.map(data => {
+        {props.data.map((data) => {
           return (
             <tr
               key={data.id}

@@ -39,7 +39,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
           padding: 5px;
         `}
       >
-        {data.map(_data => {
+        {data.map((_data) => {
           return (
             <li key={_data.id} onClick={(): void => onSelectCategory(_data.id)}>
               {_data.name}

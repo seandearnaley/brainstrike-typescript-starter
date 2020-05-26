@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import { mergeResolvers } from "@graphql-tools/merge";
 import { GraphQLDate, GraphQLTime, GraphQLDateTime } from "graphql-iso-date";
 
 import { resolvers as cardResolvers } from "./card/cardResolvers";
@@ -11,9 +11,9 @@ const defaultResolvers = {
   DateTime: GraphQLDateTime,
 };
 
-export default merge(
+export default mergeResolvers([
   defaultResolvers,
   cardResolvers,
   categoryResolvers,
-  nodeResolvers
-);
+  nodeResolvers,
+]);

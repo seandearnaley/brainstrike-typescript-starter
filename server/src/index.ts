@@ -7,9 +7,10 @@ import {
   Repository,
   ConnectionOptions,
 } from "typeorm";
+import { addResolversToSchema } from "@graphql-tools/schema";
+import { ApolloServer } from "apollo-server-express";
 import { Card, Category } from "./entity";
-import { typeDefs, resolvers } from "./graphql";
-import { ApolloServer, makeExecutableSchema } from "apollo-server-express";
+import { schema, resolvers } from "./graphql";
 import { CardAPI, CategoryAPI } from "./datasources";
 import { DataSources } from "apollo-server-core/dist/graphqlOptions";
 import { ApolloContext } from "./types/context";
@@ -72,15 +73,15 @@ const createServer = async (
   const cardAPI = new CardAPI({ connection });
   const categoryAPI = new CategoryAPI({ connection });
 
-  // have to use this to get resolverValidationOptions into Apollo
-  const schema = makeExecutableSchema({
-    typeDefs,
+  // Add resolvers to the schema
+  const schemaWithResolvers = addResolversToSchema({
+    schema,
     resolvers,
-    resolverValidationOptions: { requireResolversForResolveType: false },
+    resolverValidationOptions: { requireResolversForResolveType: false }, // have to use this to get resolverValidationOptions into Apollo
   });
 
   const apolloServer = new ApolloServer({
-    schema,
+    schema: schemaWithResolvers,
     context,
     dataSources: (): DataSources<ApolloContext> => ({ cardAPI, categoryAPI }),
   });
@@ -109,7 +110,7 @@ const start = async (): Promise<void> => {
 if (NODE_ENV !== "test" && NODE_ENV !== "migration") start();
 
 export {
-  typeDefs,
+  schema,
   resolvers,
   ApolloServer,
   createServer,

@@ -50,6 +50,7 @@
     "@types/node-fetch": "^2.5.7",
     "@typescript-eslint/eslint-plugin": "^3.8.0",
     "@typescript-eslint/parser": "^3.8.0",
+    "@types/express-serve-static-core": "^4.17.9",
     "apollo-link": "^1.2.14",
     "apollo-link-http": "^1.5.17",
     "eslint": "^7.6.0",
@@ -68,8 +69,8 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "apollo-server-express": "^2.14.4",
-    "apollo-server-testing": "^2.14.4",
+    "apollo-server-express": "^2.16.1",
+    "apollo-server-testing": "^2.16.1",
     "concurrently": "^5.2.0",
     "dataloader": "^2.0.0",
     "dotenv": "^8.2.0",
@@ -86,7 +87,6 @@
     "pg": "^8.2.1",
     "postinstall-postinstall": "^2.1.0",
     "reflect-metadata": "^0.1.13",
-    "sqlite3": "^4.2.0",
     "typeorm": "0.2.22"
   }
 }

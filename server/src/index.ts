@@ -42,7 +42,9 @@ const createDbConnection = async (
     console.log(`TypeORM Connected to ${options.database}`);
     return connection;
   } catch (err) {
-    console.log("Problem with TypeORM connection, check Postgres docker-up");
+    console.log(
+      "Problem with TypeORM connection, check Postgres docker-up or your pg_hba.conf/postgresql.conf files/ also firewall settings"
+    );
     throw err.message;
     process.exit(1);
   }

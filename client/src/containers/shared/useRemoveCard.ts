@@ -23,19 +23,27 @@ const removeCardFromCache = (
   categoryId: string,
   cardId: string,
 ) => {
-  cache.modify(`Category:${categoryId}`, {
-    cards(cards: Reference, { readField }) {
-      const edges = readField<CardEdgeWithReference[]>('edges', cards).filter(
-        (edge) => edge.node.__ref !== `Card:${cardId}`,
-      );
+  cache.modify({
+    id: `Category:${categoryId}`,
+    fields: {
+      cards(cards: Reference, { readField }) {
+        const edgesField = readField<CardEdgeWithReference[]>('edges', cards);
 
-      let { totalCount } = readField<PageInfo>('pageInfo', cards);
-      const pageInfo = buildPageInfo<Edge<Card>>(edges, --totalCount, 'Card'); // rebuild pageinfo
+        const pageInfoField = readField<PageInfo>('pageInfo', cards);
+        if (!edgesField || !pageInfoField) return;
 
-      return {
-        edges,
-        pageInfo,
-      };
+        const edges = edgesField.filter(
+          (edge) => edge.node.__ref !== `Card:${cardId}`,
+        );
+
+        let { totalCount } = pageInfoField;
+        const pageInfo = buildPageInfo<Edge<Card>>(edges, --totalCount, 'Card'); // rebuild pageinfo
+
+        return {
+          edges,
+          pageInfo,
+        };
+      },
     },
   });
 };
@@ -69,7 +77,7 @@ export const useRemoveCard = (): [
         );
 
         // evict this item from the in memory cache
-        cache.evict(`Card:${id}`);
+        cache.evict({ id: `Card:${id}` });
       },
     });
 

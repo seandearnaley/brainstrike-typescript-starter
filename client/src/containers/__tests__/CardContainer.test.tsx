@@ -2,9 +2,8 @@ import React from 'react';
 import {
   renderApollo,
   cleanup,
-  wait,
-  waitForElement,
-  fireEvent,
+  waitFor,
+  getByTestId,
 } from '../../test-utils';
 
 // The component AND the query need to be exported
@@ -57,7 +56,7 @@ describe('Card Container', () => {
       { mocks, addTypename: false },
     );
 
-    expect(container.textContent).toBeTruthy();
+    await waitFor(() => expect(container.textContent).toBeTruthy());
   });
 
   it('should render loading state initially', async () => {
@@ -69,7 +68,8 @@ describe('Card Container', () => {
       { mocks, addTypename: false },
     );
 
-    expect(container.textContent).toBe('Loading...');
+    await waitFor(() => expect(container.textContent).toBe('Loading...'));
+    
   });
 
   // TODO: remove card test

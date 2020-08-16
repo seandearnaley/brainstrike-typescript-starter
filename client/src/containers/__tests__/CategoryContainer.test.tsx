@@ -2,9 +2,9 @@ import React from 'react';
 import {
   renderApollo,
   cleanup,
-  wait,
-  waitForElement,
+  waitFor,
   fireEvent,
+  getByTestId,
 } from '../../test-utils';
 import { DirectionEnum } from '../../generated/graphql';
 // The component AND the query need to be exported
@@ -248,7 +248,8 @@ describe('Category Container', () => {
       { mocks, addTypename: false },
     );
 
-    expect(container.textContent).toBeTruthy();
+    
+    await waitFor(() => expect(container.textContent).toBeTruthy());
   });
 
   it('should render loading state initially', async () => {
@@ -260,8 +261,8 @@ describe('Category Container', () => {
       />,
       { mocks, addTypename: false },
     );
-
-    expect(container.textContent).toBe('Loading...');
+    
+    await waitFor(() => expect(container.textContent).toBe('Loading...'));
   });
 
   it('should render category with cards', async () => {
@@ -274,10 +275,10 @@ describe('Category Container', () => {
       { mocks, addTypename: false },
     );
 
-    await wait();
-    expect(getByTestId('selected-id').textContent).toBe(
+    await waitFor(() => expect(getByTestId('selected-id').textContent).toBe(
       `Selected: ${selectedCategory}`,
-    );
+    ));
+
   });
 
   it('should render category and fetchmore', async () => {
@@ -290,16 +291,16 @@ describe('Category Container', () => {
       { mocks, addTypename: true },
     );
 
-    await wait();
-
-    await waitForElement(() => getByTestId('load-more-button'));
+    await waitFor(() => getByTestId('load-more-button'));
 
     fireEvent.click(getByTestId('load-more-button'));
 
-    await wait();
+    await waitFor(() => getByTestId('showing-message'));
 
-    await waitForElement(() => getByTestId('showing-message'));
-
-    expect(getByTestId('showing-message').textContent).toBe(`Showing 10 / 11`);
+    await waitFor(() =>
+      expect(getByTestId('showing-message').textContent).toBe(
+        `Showing 10 / 11`,
+      ),
+    );
   });
 });

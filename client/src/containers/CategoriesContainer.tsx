@@ -32,6 +32,7 @@ const CategoriesContainer: React.FC<CategoriesContainerProps> = ({
     <CategorySelector
       data={categoryData}
       onSelectCategory={onSelectCategory}
+      data-testid="category-selector"
     ></CategorySelector>
   );
 };

@@ -41,7 +41,7 @@ const CardContainer: React.FC<CardContainerProps> = ({
     onSelectCard(null);
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p data-testid="card-container-loading">Loading...</p>;
   if (error) return <p>ERROR {error.message}</p>;
   if (!selectedCard || !data?.card) return <p>Pick Card</p>;
 

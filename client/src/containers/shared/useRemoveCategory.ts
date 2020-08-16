@@ -19,7 +19,7 @@ const useRemoveCategory = (): [
       Record<string, any>
     >
   >,
-  RemoveCategoryMutation | undefined,
+  RemoveCategoryMutation | null | undefined,
   boolean,
   ApolloError | undefined,
 ] => {
@@ -34,15 +34,18 @@ const useRemoveCategory = (): [
         id,
       },
       update: (cache) => {
-        cache.modify('ROOT_QUERY', {
-          categories(categories: Reference[], { readField }) {
-            return categories.filter(
-              (category) => id !== readField('id', category),
-            );
+        cache.modify({
+          id: 'ROOT_QUERY',
+          fields: {
+            categories(categories: Reference[], { readField }) {
+              return categories.filter(
+                (category) => id !== readField('id', category),
+              );
+            },
           },
         });
         // evict this item from the in memory cache
-        cache.evict(`Category:${id}`);
+        cache.evict({ id: `Category:${id}` });
       },
     });
 

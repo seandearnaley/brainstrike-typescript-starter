@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderApollo, cleanup, wait } from '../../test-utils';
+import { renderApollo, cleanup, waitFor, getByTestId } from '../../test-utils';
 
 // The component AND the query need to be exported
 import {
@@ -66,8 +66,8 @@ describe("Category Container", () => {
       <CategoriesContainer onSelectCategory={()=>{}} />,
       { mocks, addTypename: false },
     );
-
-    expect(container.textContent).toBeTruthy();
+    
+    await waitFor(() => expect(container.textContent).toBeTruthy());
   });
 
   it('should render loading state initially', async () => {
@@ -75,8 +75,8 @@ describe("Category Container", () => {
       <CategoriesContainer onSelectCategory={()=>{}} />,
       { mocks, addTypename: false },
     );
-
-    expect(container.textContent).toBe('Loading...');
+    
+    await waitFor(() => expect(container.textContent).toBe('Loading...'));
   });
 
   it('should render categories', async () => {
@@ -85,10 +85,10 @@ describe("Category Container", () => {
       { mocks, addTypename: false },
     );
 
-    await wait();
-    expect(container.getElementsByTagName('li')[0]['textContent']).toBe(
+
+    await waitFor(() => expect(container.getElementsByTagName('li')[0]['textContent']).toBe(
       'Automotive 81880',
-    );
+    ));    
   });
 
 });

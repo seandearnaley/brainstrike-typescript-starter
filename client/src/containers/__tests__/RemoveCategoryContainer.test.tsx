@@ -3,7 +3,7 @@ import {
   renderApollo,
   cleanup,
   fireEvent,
-  waitForElement,
+  waitFor,
 } from '../../test-utils';
 
 import { mockCache } from '../shared/__mockCache';
@@ -79,11 +79,11 @@ describe("Remove Category Container", () => {
     // the component re-renders.
     // getByTestId throws an error if it cannot find an element with the given ID
     // and waitForElement will wait until the callback doesn't throw an error
-    await waitForElement(() => getByTestId('confirm-remove-category-button'));
+    await waitFor(() => getByTestId('confirm-remove-category-button'));
 
     fireEvent.click(getByTestId('confirm-remove-category-button'));
 
-    await waitForElement(() => getByTestId('message'));
+    await waitFor(() => getByTestId('message'));
 
     // check to make sure the cache's contents have been updated
     const { categories }: any = mockCache.readQuery({

@@ -16,7 +16,7 @@ export function ListItemLink(props: ListItemLinkProps): React.ReactElement {
     () =>
       React.forwardRef<HTMLAnchorElement, Omit<LinkProps, 'innerRef'>>(
         function forwardLink(linkProps, ref) {
-          return <Link to={to} {...linkProps} innerRef={ref} />;
+          return <Link {...linkProps} to={to} innerRef={ref} />;
         },
       ),
     [to],

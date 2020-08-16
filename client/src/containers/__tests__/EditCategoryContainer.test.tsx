@@ -3,7 +3,7 @@ import {
   renderApollo,
   cleanup,
   fireEvent,
-  waitForElement,
+  waitFor
 } from '../../test-utils';
 
 // The component AND the query need to be exported
@@ -69,14 +69,14 @@ describe('Edit Category Container', () => {
       { mocks, addTypename: false },
     );
 
-    await waitForElement(() => [
+    await waitFor(() => [
       getByTestId('update-category-content-div'),
       getByTestId('update-category-edit-button'),
     ]);
 
     fireEvent.click(getByTestId('update-category-edit-button'));
 
-    await waitForElement(() => getByTestId('update-category-save-button'));
+    await waitFor(() => getByTestId('update-category-save-button'));
 
     // contenteditable doesn't accept fireEvent.change, but you can focus and blur to trigger onChange
     fireEvent.focus(getByTestId('update-category-content-div'));
@@ -87,6 +87,6 @@ describe('Edit Category Container', () => {
 
     fireEvent.click(getByTestId('update-category-save-button'));
 
-    await waitForElement(() => getByTestId('update-category-messsage'));
+    await waitFor(() => getByTestId('update-category-messsage'));
   });
 });

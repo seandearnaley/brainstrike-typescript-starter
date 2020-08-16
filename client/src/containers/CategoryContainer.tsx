@@ -90,7 +90,7 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
     });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p data-testid="category-loading">Loading...</p>;
   if (error) return <p>ERROR</p>;
 
   if (!selectedCategory || !data?.category)

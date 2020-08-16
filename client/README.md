@@ -1,5 +1,7 @@
 # BrainStrike Client
 
+8/16/2020: updated to latest react testing tools + apollo client 3
+
 ![Node Client Test CI](https://github.com/seandearnaley/brainstrike-typescript-starter/workflows/Node%20Client%20Test%20CI/badge.svg?event=push)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

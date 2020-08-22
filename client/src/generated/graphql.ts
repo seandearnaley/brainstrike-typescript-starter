@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
-import * as ApolloReactCommon from '@apollo/client';
-import * as ApolloReactHooks from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -384,23 +383,23 @@ export const GetCardWithCategoriesDocument = gql`
  * });
  */
 export function useGetCardWithCategoriesQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     GetCardWithCategoriesQuery,
     GetCardWithCategoriesQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useQuery<
+  return Apollo.useQuery<
     GetCardWithCategoriesQuery,
     GetCardWithCategoriesQueryVariables
   >(GetCardWithCategoriesDocument, baseOptions);
 }
 export function useGetCardWithCategoriesLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+  baseOptions?: Apollo.LazyQueryHookOptions<
     GetCardWithCategoriesQuery,
     GetCardWithCategoriesQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useLazyQuery<
+  return Apollo.useLazyQuery<
     GetCardWithCategoriesQuery,
     GetCardWithCategoriesQueryVariables
   >(GetCardWithCategoriesDocument, baseOptions);
@@ -411,7 +410,7 @@ export type GetCardWithCategoriesQueryHookResult = ReturnType<
 export type GetCardWithCategoriesLazyQueryHookResult = ReturnType<
   typeof useGetCardWithCategoriesLazyQuery
 >;
-export type GetCardWithCategoriesQueryResult = ApolloReactCommon.QueryResult<
+export type GetCardWithCategoriesQueryResult = Apollo.QueryResult<
   GetCardWithCategoriesQuery,
   GetCardWithCategoriesQueryVariables
 >;
@@ -475,23 +474,20 @@ export const GetCardsDocument = gql`
  * });
  */
 export function useGetCardsQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
-    GetCardsQuery,
-    GetCardsQueryVariables
-  >,
+  baseOptions?: Apollo.QueryHookOptions<GetCardsQuery, GetCardsQueryVariables>,
 ) {
-  return ApolloReactHooks.useQuery<GetCardsQuery, GetCardsQueryVariables>(
+  return Apollo.useQuery<GetCardsQuery, GetCardsQueryVariables>(
     GetCardsDocument,
     baseOptions,
   );
 }
 export function useGetCardsLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+  baseOptions?: Apollo.LazyQueryHookOptions<
     GetCardsQuery,
     GetCardsQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useLazyQuery<GetCardsQuery, GetCardsQueryVariables>(
+  return Apollo.useLazyQuery<GetCardsQuery, GetCardsQueryVariables>(
     GetCardsDocument,
     baseOptions,
   );
@@ -500,7 +496,7 @@ export type GetCardsQueryHookResult = ReturnType<typeof useGetCardsQuery>;
 export type GetCardsLazyQueryHookResult = ReturnType<
   typeof useGetCardsLazyQuery
 >;
-export type GetCardsQueryResult = ApolloReactCommon.QueryResult<
+export type GetCardsQueryResult = Apollo.QueryResult<
   GetCardsQuery,
   GetCardsQueryVariables
 >;
@@ -529,26 +525,26 @@ export const GetCategoriesDocument = gql`
  * });
  */
 export function useGetCategoriesQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     GetCategoriesQuery,
     GetCategoriesQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useQuery<
-    GetCategoriesQuery,
-    GetCategoriesQueryVariables
-  >(GetCategoriesDocument, baseOptions);
+  return Apollo.useQuery<GetCategoriesQuery, GetCategoriesQueryVariables>(
+    GetCategoriesDocument,
+    baseOptions,
+  );
 }
 export function useGetCategoriesLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+  baseOptions?: Apollo.LazyQueryHookOptions<
     GetCategoriesQuery,
     GetCategoriesQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useLazyQuery<
-    GetCategoriesQuery,
-    GetCategoriesQueryVariables
-  >(GetCategoriesDocument, baseOptions);
+  return Apollo.useLazyQuery<GetCategoriesQuery, GetCategoriesQueryVariables>(
+    GetCategoriesDocument,
+    baseOptions,
+  );
 }
 export type GetCategoriesQueryHookResult = ReturnType<
   typeof useGetCategoriesQuery
@@ -556,7 +552,7 @@ export type GetCategoriesQueryHookResult = ReturnType<
 export type GetCategoriesLazyQueryHookResult = ReturnType<
   typeof useGetCategoriesLazyQuery
 >;
-export type GetCategoriesQueryResult = ApolloReactCommon.QueryResult<
+export type GetCategoriesQueryResult = Apollo.QueryResult<
   GetCategoriesQuery,
   GetCategoriesQueryVariables
 >;
@@ -631,23 +627,23 @@ export const GetCategoryNodeDocument = gql`
  * });
  */
 export function useGetCategoryNodeQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     GetCategoryNodeQuery,
     GetCategoryNodeQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useQuery<
-    GetCategoryNodeQuery,
-    GetCategoryNodeQueryVariables
-  >(GetCategoryNodeDocument, baseOptions);
+  return Apollo.useQuery<GetCategoryNodeQuery, GetCategoryNodeQueryVariables>(
+    GetCategoryNodeDocument,
+    baseOptions,
+  );
 }
 export function useGetCategoryNodeLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+  baseOptions?: Apollo.LazyQueryHookOptions<
     GetCategoryNodeQuery,
     GetCategoryNodeQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useLazyQuery<
+  return Apollo.useLazyQuery<
     GetCategoryNodeQuery,
     GetCategoryNodeQueryVariables
   >(GetCategoryNodeDocument, baseOptions);
@@ -658,7 +654,7 @@ export type GetCategoryNodeQueryHookResult = ReturnType<
 export type GetCategoryNodeLazyQueryHookResult = ReturnType<
   typeof useGetCategoryNodeLazyQuery
 >;
-export type GetCategoryNodeQueryResult = ApolloReactCommon.QueryResult<
+export type GetCategoryNodeQueryResult = Apollo.QueryResult<
   GetCategoryNodeQuery,
   GetCategoryNodeQueryVariables
 >;
@@ -725,23 +721,23 @@ export const GetCategoryWithCardsDocument = gql`
  * });
  */
 export function useGetCategoryWithCardsQuery(
-  baseOptions?: ApolloReactHooks.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     GetCategoryWithCardsQuery,
     GetCategoryWithCardsQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useQuery<
+  return Apollo.useQuery<
     GetCategoryWithCardsQuery,
     GetCategoryWithCardsQueryVariables
   >(GetCategoryWithCardsDocument, baseOptions);
 }
 export function useGetCategoryWithCardsLazyQuery(
-  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+  baseOptions?: Apollo.LazyQueryHookOptions<
     GetCategoryWithCardsQuery,
     GetCategoryWithCardsQueryVariables
   >,
 ) {
-  return ApolloReactHooks.useLazyQuery<
+  return Apollo.useLazyQuery<
     GetCategoryWithCardsQuery,
     GetCategoryWithCardsQueryVariables
   >(GetCategoryWithCardsDocument, baseOptions);
@@ -752,7 +748,7 @@ export type GetCategoryWithCardsQueryHookResult = ReturnType<
 export type GetCategoryWithCardsLazyQueryHookResult = ReturnType<
   typeof useGetCategoryWithCardsLazyQuery
 >;
-export type GetCategoryWithCardsQueryResult = ApolloReactCommon.QueryResult<
+export type GetCategoryWithCardsQueryResult = Apollo.QueryResult<
   GetCategoryWithCardsQuery,
   GetCategoryWithCardsQueryVariables
 >;
@@ -771,7 +767,7 @@ export const RemoveCardDocument = gql`
   }
   ${CardPartsFragmentDoc}
 `;
-export type RemoveCardMutationFn = ApolloReactCommon.MutationFunction<
+export type RemoveCardMutationFn = Apollo.MutationFunction<
   RemoveCardMutation,
   RemoveCardMutationVariables
 >;
@@ -794,23 +790,23 @@ export type RemoveCardMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useRemoveCardMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     RemoveCardMutation,
     RemoveCardMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<
-    RemoveCardMutation,
-    RemoveCardMutationVariables
-  >(RemoveCardDocument, baseOptions);
+  return Apollo.useMutation<RemoveCardMutation, RemoveCardMutationVariables>(
+    RemoveCardDocument,
+    baseOptions,
+  );
 }
 export type RemoveCardMutationHookResult = ReturnType<
   typeof useRemoveCardMutation
 >;
-export type RemoveCardMutationResult = ApolloReactCommon.MutationResult<
+export type RemoveCardMutationResult = Apollo.MutationResult<
   RemoveCardMutation
 >;
-export type RemoveCardMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type RemoveCardMutationOptions = Apollo.BaseMutationOptions<
   RemoveCardMutation,
   RemoveCardMutationVariables
 >;
@@ -826,7 +822,7 @@ export const RemoveCategoryDocument = gql`
   }
   ${CategoryPartsFragmentDoc}
 `;
-export type RemoveCategoryMutationFn = ApolloReactCommon.MutationFunction<
+export type RemoveCategoryMutationFn = Apollo.MutationFunction<
   RemoveCategoryMutation,
   RemoveCategoryMutationVariables
 >;
@@ -849,12 +845,12 @@ export type RemoveCategoryMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useRemoveCategoryMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     RemoveCategoryMutation,
     RemoveCategoryMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<
+  return Apollo.useMutation<
     RemoveCategoryMutation,
     RemoveCategoryMutationVariables
   >(RemoveCategoryDocument, baseOptions);
@@ -862,10 +858,10 @@ export function useRemoveCategoryMutation(
 export type RemoveCategoryMutationHookResult = ReturnType<
   typeof useRemoveCategoryMutation
 >;
-export type RemoveCategoryMutationResult = ApolloReactCommon.MutationResult<
+export type RemoveCategoryMutationResult = Apollo.MutationResult<
   RemoveCategoryMutation
 >;
-export type RemoveCategoryMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type RemoveCategoryMutationOptions = Apollo.BaseMutationOptions<
   RemoveCategoryMutation,
   RemoveCategoryMutationVariables
 >;
@@ -881,7 +877,7 @@ export const UpdateCategoryNameDocument = gql`
   }
   ${CategoryPartsFragmentDoc}
 `;
-export type UpdateCategoryNameMutationFn = ApolloReactCommon.MutationFunction<
+export type UpdateCategoryNameMutationFn = Apollo.MutationFunction<
   UpdateCategoryNameMutation,
   UpdateCategoryNameMutationVariables
 >;
@@ -905,12 +901,12 @@ export type UpdateCategoryNameMutationFn = ApolloReactCommon.MutationFunction<
  * });
  */
 export function useUpdateCategoryNameMutation(
-  baseOptions?: ApolloReactHooks.MutationHookOptions<
+  baseOptions?: Apollo.MutationHookOptions<
     UpdateCategoryNameMutation,
     UpdateCategoryNameMutationVariables
   >,
 ) {
-  return ApolloReactHooks.useMutation<
+  return Apollo.useMutation<
     UpdateCategoryNameMutation,
     UpdateCategoryNameMutationVariables
   >(UpdateCategoryNameDocument, baseOptions);
@@ -918,10 +914,10 @@ export function useUpdateCategoryNameMutation(
 export type UpdateCategoryNameMutationHookResult = ReturnType<
   typeof useUpdateCategoryNameMutation
 >;
-export type UpdateCategoryNameMutationResult = ApolloReactCommon.MutationResult<
+export type UpdateCategoryNameMutationResult = Apollo.MutationResult<
   UpdateCategoryNameMutation
 >;
-export type UpdateCategoryNameMutationOptions = ApolloReactCommon.BaseMutationOptions<
+export type UpdateCategoryNameMutationOptions = Apollo.BaseMutationOptions<
   UpdateCategoryNameMutation,
   UpdateCategoryNameMutationVariables
 >;

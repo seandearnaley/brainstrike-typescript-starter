@@ -299,7 +299,7 @@ describe('Category Container', () => {
 
     await waitFor(() =>
       expect(getByTestId('showing-message').textContent).toBe(
-        `Showing 10 / 11`,
+        `Showing 5 / 11`,
       ),
     );
   });

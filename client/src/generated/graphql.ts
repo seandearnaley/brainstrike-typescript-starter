@@ -2,6 +2,9 @@ import { gql } from '@apollo/client';
 import * as ApolloReactCommon from '@apollo/client';
 import * as ApolloReactHooks from '@apollo/client';
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -9,117 +12,18 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  DateTime: any;
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: any;
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  DateTime: any;
+  /** A time string at UTC, such as 10:15:30Z, compliant with the `full-time` format outlined in section 5.6 of the RFC 3339profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Time: any;
-};
-
-export type Card = Node & {
-  __typename?: 'Card';
-  id: Scalars['ID'];
-  number?: Maybe<Scalars['Int']>;
-  label?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  created: Scalars['DateTime'];
-  updated?: Maybe<Scalars['DateTime']>;
-  categories: Array<Category>;
-};
-
-export type CardConnection = {
-  __typename?: 'CardConnection';
-  pageInfo: PageInfo;
-  edges: Array<CardEdge>;
-};
-
-export type CardEdge = {
-  __typename?: 'CardEdge';
-  cursor: Scalars['String'];
-  node: Card;
-};
-
-export type CardInput = {
-  number?: Maybe<Scalars['Int']>;
-  label?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  categoryId?: Maybe<Scalars['ID']>;
-};
-
-export type CardsUpdatedResponse = {
-  __typename?: 'CardsUpdatedResponse';
-  success: Scalars['Boolean'];
-  message: Scalars['String'];
-  card: Card;
-};
-
-export type Category = Node & {
-  __typename?: 'Category';
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  updated?: Maybe<Scalars['DateTime']>;
-  created: Scalars['DateTime'];
-  cards: CardConnection;
-};
-
-export type CategoryCardsArgs = {
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-  after?: Maybe<Scalars['String']>;
-  before?: Maybe<Scalars['String']>;
-  orderByColumn?: Maybe<Scalars['String']>;
-  orderByDirection?: Maybe<DirectionEnum>;
-};
-
-export type CategoryInput = {
-  name?: Maybe<Scalars['String']>;
-};
-
-export type CategoryUpdatedResponse = {
-  __typename?: 'CategoryUpdatedResponse';
-  success: Scalars['Boolean'];
-  message: Scalars['String'];
-  category: Category;
 };
 
 export enum DirectionEnum {
   Asc = 'ASC',
   Desc = 'DESC',
 }
-
-export type Mutation = {
-  __typename?: 'Mutation';
-  addCard: CardsUpdatedResponse;
-  updateCard: CardsUpdatedResponse;
-  removeCard: CardsUpdatedResponse;
-  addCategory: CategoryUpdatedResponse;
-  updateCategory: CategoryUpdatedResponse;
-  removeCategory: CategoryUpdatedResponse;
-};
-
-export type MutationAddCardArgs = {
-  input?: Maybe<CardInput>;
-};
-
-export type MutationUpdateCardArgs = {
-  id: Scalars['ID'];
-  input?: Maybe<CardInput>;
-};
-
-export type MutationRemoveCardArgs = {
-  id: Scalars['ID'];
-};
-
-export type MutationAddCategoryArgs = {
-  input?: Maybe<CategoryInput>;
-};
-
-export type MutationUpdateCategoryArgs = {
-  id: Scalars['ID'];
-  input?: Maybe<CategoryInput>;
-};
-
-export type MutationRemoveCategoryArgs = {
-  id: Scalars['ID'];
-};
 
 export type Node = {
   id: Scalars['ID'];
@@ -173,6 +77,108 @@ export type QueryNodeArgs = {
   id?: Maybe<Scalars['ID']>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  addCard: CardsUpdatedResponse;
+  updateCard: CardsUpdatedResponse;
+  removeCard: CardsUpdatedResponse;
+  addCategory: CategoryUpdatedResponse;
+  updateCategory: CategoryUpdatedResponse;
+  removeCategory: CategoryUpdatedResponse;
+};
+
+export type MutationAddCardArgs = {
+  input?: Maybe<CardInput>;
+};
+
+export type MutationUpdateCardArgs = {
+  id: Scalars['ID'];
+  input?: Maybe<CardInput>;
+};
+
+export type MutationRemoveCardArgs = {
+  id: Scalars['ID'];
+};
+
+export type MutationAddCategoryArgs = {
+  input?: Maybe<CategoryInput>;
+};
+
+export type MutationUpdateCategoryArgs = {
+  id: Scalars['ID'];
+  input?: Maybe<CategoryInput>;
+};
+
+export type MutationRemoveCategoryArgs = {
+  id: Scalars['ID'];
+};
+
+export type Card = Node & {
+  __typename?: 'Card';
+  id: Scalars['ID'];
+  number?: Maybe<Scalars['Int']>;
+  label?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  created: Scalars['DateTime'];
+  updated?: Maybe<Scalars['DateTime']>;
+  categories: Array<Category>;
+};
+
+export type Category = Node & {
+  __typename?: 'Category';
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  updated?: Maybe<Scalars['DateTime']>;
+  created: Scalars['DateTime'];
+  cards: CardConnection;
+};
+
+export type CategoryCardsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  orderByColumn?: Maybe<Scalars['String']>;
+  orderByDirection?: Maybe<DirectionEnum>;
+};
+
+export type CardConnection = {
+  __typename?: 'CardConnection';
+  pageInfo: PageInfo;
+  edges: Array<CardEdge>;
+};
+
+export type CardsUpdatedResponse = {
+  __typename?: 'CardsUpdatedResponse';
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
+  card: Card;
+};
+
+export type CardInput = {
+  number?: Maybe<Scalars['Int']>;
+  label?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  categoryId?: Maybe<Scalars['ID']>;
+};
+
+export type CategoryUpdatedResponse = {
+  __typename?: 'CategoryUpdatedResponse';
+  success: Scalars['Boolean'];
+  message: Scalars['String'];
+  category: Category;
+};
+
+export type CategoryInput = {
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CardEdge = {
+  __typename?: 'CardEdge';
+  cursor: Scalars['String'];
+  node: Card;
+};
+
 export type CardPartsFragment = { __typename?: 'Card' } & Pick<
   Card,
   'id' | 'created' | 'updated' | 'label' | 'number'
@@ -183,9 +189,9 @@ export type CategoryPartsFragment = { __typename?: 'Category' } & Pick<
   'id' | 'name' | 'created' | 'updated'
 >;
 
-export type GetCardWithCategoriesQueryVariables = {
+export type GetCardWithCategoriesQueryVariables = Exact<{
   id?: Maybe<Scalars['ID']>;
-};
+}>;
 
 export type GetCardWithCategoriesQuery = { __typename?: 'Query' } & {
   card: { __typename?: 'Card' } & Pick<Card, 'description'> & {
@@ -193,7 +199,7 @@ export type GetCardWithCategoriesQuery = { __typename?: 'Query' } & {
     } & CardPartsFragment;
 };
 
-export type GetCardsQueryVariables = {
+export type GetCardsQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
   after?: Maybe<Scalars['String']>;
@@ -201,7 +207,7 @@ export type GetCardsQueryVariables = {
   orderByColumn?: Maybe<Scalars['String']>;
   orderByDirection?: Maybe<DirectionEnum>;
   categoryId?: Maybe<Scalars['ID']>;
-};
+}>;
 
 export type GetCardsQuery = { __typename?: 'Query' } & {
   cards: { __typename?: 'CardConnection' } & {
@@ -221,13 +227,13 @@ export type GetCardsQuery = { __typename?: 'Query' } & {
   };
 };
 
-export type GetCategoriesQueryVariables = {};
+export type GetCategoriesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetCategoriesQuery = { __typename?: 'Query' } & {
   categories: Array<{ __typename?: 'Category' } & CategoryPartsFragment>;
 };
 
-export type GetCategoryNodeQueryVariables = {
+export type GetCategoryNodeQueryVariables = Exact<{
   id: Scalars['ID'];
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -235,7 +241,7 @@ export type GetCategoryNodeQueryVariables = {
   before?: Maybe<Scalars['String']>;
   orderByColumn?: Maybe<Scalars['String']>;
   orderByDirection?: Maybe<DirectionEnum>;
-};
+}>;
 
 export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
   category:
@@ -262,7 +268,7 @@ export type GetCategoryNodeQuery = { __typename?: 'Query' } & {
         } & CategoryPartsFragment);
 };
 
-export type GetCategoryWithCardsQueryVariables = {
+export type GetCategoryWithCardsQueryVariables = Exact<{
   id?: Maybe<Scalars['ID']>;
   first?: Maybe<Scalars['Int']>;
   last?: Maybe<Scalars['Int']>;
@@ -270,7 +276,7 @@ export type GetCategoryWithCardsQueryVariables = {
   before?: Maybe<Scalars['String']>;
   orderByColumn?: Maybe<Scalars['String']>;
   orderByDirection?: Maybe<DirectionEnum>;
-};
+}>;
 
 export type GetCategoryWithCardsQuery = { __typename?: 'Query' } & {
   category: { __typename?: 'Category' } & {
@@ -292,9 +298,9 @@ export type GetCategoryWithCardsQuery = { __typename?: 'Query' } & {
   } & CategoryPartsFragment;
 };
 
-export type RemoveCardMutationVariables = {
+export type RemoveCardMutationVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 export type RemoveCardMutation = { __typename?: 'Mutation' } & {
   removeCard: { __typename?: 'CardsUpdatedResponse' } & Pick<
@@ -307,9 +313,9 @@ export type RemoveCardMutation = { __typename?: 'Mutation' } & {
     };
 };
 
-export type RemoveCategoryMutationVariables = {
+export type RemoveCategoryMutationVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 export type RemoveCategoryMutation = { __typename?: 'Mutation' } & {
   removeCategory: { __typename?: 'CategoryUpdatedResponse' } & Pick<
@@ -318,10 +324,10 @@ export type RemoveCategoryMutation = { __typename?: 'Mutation' } & {
   > & { category: { __typename?: 'Category' } & CategoryPartsFragment };
 };
 
-export type UpdateCategoryNameMutationVariables = {
+export type UpdateCategoryNameMutationVariables = Exact<{
   id: Scalars['ID'];
   input?: Maybe<CategoryInput>;
-};
+}>;
 
 export type UpdateCategoryNameMutation = { __typename?: 'Mutation' } & {
   updateCategory: { __typename?: 'CategoryUpdatedResponse' } & Pick<

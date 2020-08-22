@@ -1,5 +1,6 @@
 {
   "__schema": {
+    "description": null,
     "queryType": {
       "name": "Query"
     },
@@ -9,243 +10,9 @@
     "subscriptionType": null,
     "types": [
       {
-        "kind": "OBJECT",
-        "name": "Query",
-        "description": "",
-        "fields": [
-          {
-            "name": "cards",
-            "description": "",
-            "args": [
-              {
-                "name": "first",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "last",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "after",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "before",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "orderByColumn",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "orderByDirection",
-                "description": "",
-                "type": {
-                  "kind": "ENUM",
-                  "name": "DirectionEnum",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "categoryId",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "CardConnection",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "card",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Card",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "categories",
-            "description": "",
-            "args": [
-              {
-                "name": "cardIds",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "orderByColumn",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "orderByDirection",
-                "description": "",
-                "type": {
-                  "kind": "ENUM",
-                  "name": "DirectionEnum",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Category",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "category",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Category",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "node",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INTERFACE",
-                "name": "Node",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "SCALAR",
-        "name": "Int",
-        "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+        "name": "Date",
+        "description": "A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -254,8 +21,18 @@
       },
       {
         "kind": "SCALAR",
-        "name": "String",
-        "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
+        "name": "DateTime",
+        "description": "A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Time",
+        "description": "A time string at UTC, such as 10:15:30Z, compliant with the `full-time` format outlined in section 5.6 of the RFC 3339profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -265,25 +42,91 @@
       {
         "kind": "ENUM",
         "name": "DirectionEnum",
-        "description": "",
+        "description": null,
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
           {
             "name": "ASC",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "DESC",
-            "description": "",
+            "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           }
         ],
         "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Node",
+        "description": null,
+        "fields": [
+          {
+            "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "created",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updated",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "DateTime",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": [
+          {
+            "kind": "OBJECT",
+            "name": "Card",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Category",
+            "ofType": null
+          }
+        ]
       },
       {
         "kind": "SCALAR",
@@ -297,63 +140,12 @@
       },
       {
         "kind": "OBJECT",
-        "name": "CardConnection",
-        "description": "",
-        "fields": [
-          {
-            "name": "pageInfo",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "PageInfo",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "edges",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "CardEdge",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
         "name": "PageInfo",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "hasNextPage",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -369,7 +161,7 @@
           },
           {
             "name": "hasPreviousPage",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -385,7 +177,7 @@
           },
           {
             "name": "startCursor",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -397,7 +189,7 @@
           },
           {
             "name": "endCursor",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -409,7 +201,7 @@
           },
           {
             "name": "totalCount",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -440,20 +232,220 @@
         "possibleTypes": null
       },
       {
+        "kind": "SCALAR",
+        "name": "String",
+        "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Int",
+        "description": "The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
-        "name": "CardEdge",
-        "description": "",
+        "name": "Query",
+        "description": null,
         "fields": [
           {
-            "name": "cursor",
-            "description": "",
-            "args": [],
+            "name": "cards",
+            "description": null,
+            "args": [
+              {
+                "name": "first",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "last",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "after",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "before",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "orderByColumn",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "orderByDirection",
+                "description": null,
+                "type": {
+                  "kind": "ENUM",
+                  "name": "DirectionEnum",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "categoryId",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "OBJECT",
+                "name": "CardConnection",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "card",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Card",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "categories",
+            "description": null,
+            "args": [
+              {
+                "name": "cardIds",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "orderByColumn",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "orderByDirection",
+                "description": null,
+                "type": {
+                  "kind": "ENUM",
+                  "name": "DirectionEnum",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Category",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "category",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Category",
                 "ofType": null
               }
             },
@@ -462,14 +454,234 @@
           },
           {
             "name": "node",
-            "description": "",
-            "args": [],
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INTERFACE",
+                "name": "Node",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Mutation",
+        "description": null,
+        "fields": [
+          {
+            "name": "addCard",
+            "description": null,
+            "args": [
+              {
+                "name": "input",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CardInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Card",
+                "name": "CardsUpdatedResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updateCard",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "input",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CardInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CardsUpdatedResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "removeCard",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CardsUpdatedResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "addCategory",
+            "description": null,
+            "args": [
+              {
+                "name": "input",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CategoryInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CategoryUpdatedResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updateCategory",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "input",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "CategoryInput",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CategoryUpdatedResponse",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "removeCategory",
+            "description": null,
+            "args": [
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CategoryUpdatedResponse",
                 "ofType": null
               }
             },
@@ -485,11 +697,11 @@
       {
         "kind": "OBJECT",
         "name": "Card",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "id",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -505,7 +717,7 @@
           },
           {
             "name": "number",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -517,7 +729,7 @@
           },
           {
             "name": "label",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -529,7 +741,7 @@
           },
           {
             "name": "description",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -541,7 +753,7 @@
           },
           {
             "name": "created",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -557,7 +769,7 @@
           },
           {
             "name": "updated",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -569,7 +781,7 @@
           },
           {
             "name": "categories",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -604,89 +816,13 @@
         "possibleTypes": null
       },
       {
-        "kind": "INTERFACE",
-        "name": "Node",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "created",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "updated",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": [
-          {
-            "kind": "OBJECT",
-            "name": "Card",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
-            "name": "Category",
-            "ofType": null
-          }
-        ]
-      },
-      {
-        "kind": "SCALAR",
-        "name": "DateTime",
-        "description": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "OBJECT",
         "name": "Category",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "id",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -702,7 +838,7 @@
           },
           {
             "name": "name",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -714,7 +850,7 @@
           },
           {
             "name": "updated",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -726,7 +862,7 @@
           },
           {
             "name": "created",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -742,11 +878,11 @@
           },
           {
             "name": "cards",
-            "description": "",
+            "description": null,
             "args": [
               {
                 "name": "first",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -756,7 +892,7 @@
               },
               {
                 "name": "last",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
@@ -766,7 +902,7 @@
               },
               {
                 "name": "after",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -776,7 +912,7 @@
               },
               {
                 "name": "before",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -786,7 +922,7 @@
               },
               {
                 "name": "orderByColumn",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "SCALAR",
                   "name": "String",
@@ -796,7 +932,7 @@
               },
               {
                 "name": "orderByDirection",
-                "description": "",
+                "description": null,
                 "type": {
                   "kind": "ENUM",
                   "name": "DirectionEnum",
@@ -831,30 +967,19 @@
       },
       {
         "kind": "OBJECT",
-        "name": "Mutation",
-        "description": "",
+        "name": "CardConnection",
+        "description": null,
         "fields": [
           {
-            "name": "addCard",
-            "description": "",
-            "args": [
-              {
-                "name": "input",
-                "description": "",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CardInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
+            "name": "pageInfo",
+            "description": null,
+            "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "CardsUpdatedResponse",
+                "name": "PageInfo",
                 "ofType": null
               }
             },
@@ -862,171 +987,24 @@
             "deprecationReason": null
           },
           {
-            "name": "updateCard",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
+            "name": "edges",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
+                    "kind": "OBJECT",
+                    "name": "CardEdge",
                     "ofType": null
                   }
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "input",
-                "description": "",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CardInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "CardsUpdatedResponse",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "removeCard",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "CardsUpdatedResponse",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "addCategory",
-            "description": "",
-            "args": [
-              {
-                "name": "input",
-                "description": "",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CategoryInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "CategoryUpdatedResponse",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "updateCategory",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              },
-              {
-                "name": "input",
-                "description": "",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CategoryInput",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "CategoryUpdatedResponse",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "removeCategory",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "CategoryUpdatedResponse",
-                "ofType": null
+                }
               }
             },
             "isDeprecated": false,
@@ -1039,64 +1017,13 @@
         "possibleTypes": null
       },
       {
-        "kind": "INPUT_OBJECT",
-        "name": "CardInput",
-        "description": "",
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "number",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "label",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "description",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "categoryId",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
         "kind": "OBJECT",
         "name": "CardsUpdatedResponse",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "success",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1112,7 +1039,7 @@
           },
           {
             "name": "message",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1128,7 +1055,7 @@
           },
           {
             "name": "card",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1150,16 +1077,46 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "CategoryInput",
-        "description": "",
+        "name": "CardInput",
+        "description": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "name",
-            "description": "",
+            "name": "number",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "label",
+            "description": null,
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "description",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "categoryId",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "ID",
               "ofType": null
             },
             "defaultValue": null
@@ -1172,11 +1129,11 @@
       {
         "kind": "OBJECT",
         "name": "CategoryUpdatedResponse",
-        "description": "",
+        "description": null,
         "fields": [
           {
             "name": "success",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1192,7 +1149,7 @@
           },
           {
             "name": "message",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1208,7 +1165,7 @@
           },
           {
             "name": "category",
-            "description": "",
+            "description": null,
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1229,10 +1186,86 @@
         "possibleTypes": null
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "CategoryInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CardEdge",
+        "description": null,
+        "fields": [
+          {
+            "name": "cursor",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "node",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Card",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "__Schema",
         "description": "A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.",
         "fields": [
+          {
+            "name": "description",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "types",
             "description": "A list of all types supported by this server.",
@@ -1330,7 +1363,7 @@
       {
         "kind": "OBJECT",
         "name": "__Type",
-        "description": "The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.\n\nDepending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name and description, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.",
+        "description": "The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.\n\nDepending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.",
         "fields": [
           {
             "name": "kind",
@@ -1362,6 +1395,18 @@
           },
           {
             "name": "description",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "specifiedByUrl",
             "description": null,
             "args": [],
             "type": {
@@ -1534,7 +1579,7 @@
           },
           {
             "name": "INTERFACE",
-            "description": "Indicates this type is an interface. `fields` and `possibleTypes` are valid fields.",
+            "description": "Indicates this type is an interface. `fields`, `interfaces`, and `possibleTypes` are valid fields.",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -1846,6 +1891,22 @@
             "deprecationReason": null
           },
           {
+            "name": "isRepeatable",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "locations",
             "description": null,
             "args": [],
@@ -2023,32 +2084,13 @@
           }
         ],
         "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Date",
-        "description": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Time",
-        "description": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
       }
     ],
     "directives": [
       {
         "name": "skip",
         "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
+        "isRepeatable": false,
         "locations": [
           "FIELD",
           "FRAGMENT_SPREAD",
@@ -2074,6 +2116,7 @@
       {
         "name": "include",
         "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
+        "isRepeatable": false,
         "locations": [
           "FIELD",
           "FRAGMENT_SPREAD",
@@ -2099,6 +2142,7 @@
       {
         "name": "deprecated",
         "description": "Marks an element of a GraphQL schema as no longer supported.",
+        "isRepeatable": false,
         "locations": [
           "FIELD_DEFINITION",
           "ENUM_VALUE"
@@ -2106,13 +2150,37 @@
         "args": [
           {
             "name": "reason",
-            "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax (as specified by [CommonMark](https://commonmark.org/).",
+            "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https://commonmark.org/).",
             "type": {
               "kind": "SCALAR",
               "name": "String",
               "ofType": null
             },
             "defaultValue": "\"No longer supported\""
+          }
+        ]
+      },
+      {
+        "name": "specifiedBy",
+        "description": "Exposes a URL that specifies the behaviour of this scalar.",
+        "isRepeatable": false,
+        "locations": [
+          "SCALAR"
+        ],
+        "args": [
+          {
+            "name": "url",
+            "description": "The URL that specifies the behaviour of this scalar.",
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
           }
         ]
       }

@@ -64,29 +64,6 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
         ...variables,
         after: data?.category?.cards.pageInfo.endCursor,
       },
-      updateQuery: (previousResult, { fetchMoreResult }) => {
-        if (!fetchMoreResult) return previousResult;
-
-        const newEdges = fetchMoreResult.category.cards.edges;
-        const pageInfo = fetchMoreResult.category.cards.pageInfo;
-
-        return newEdges.length && previousResult.category && pageInfo
-          ? {
-              // Put the new cards at the end of the list and update `pageInfo`
-              // so we have the new `endCursor` and `hasNextPage` values
-              category: {
-                ...previousResult.category,
-                cards: {
-                  edges: [
-                    ...(previousResult.category.cards.edges ?? []),
-                    ...newEdges,
-                  ],
-                  pageInfo,
-                },
-              },
-            }
-          : previousResult;
-      },
     });
   };
 

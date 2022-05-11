@@ -41,7 +41,7 @@ describe("Queries", () => {
     mockCardQuery = jest.fn();
 
     connection.getRepository = jest.fn().mockImplementation((target) => {
-      switch (target.name) {
+      switch (target) {
         case "Card": {
           return {
             find: mockCardFind,

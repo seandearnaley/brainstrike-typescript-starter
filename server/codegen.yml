@@ -14,4 +14,3 @@ generates:
       noSchemaStitching: true
       contextType: ../types/context#ApolloContext
       optionalResolveType: true
-      makeResolverTypeCallable: true

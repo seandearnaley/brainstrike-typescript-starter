@@ -10,9 +10,9 @@ describe('List Item Link', () => {
 
   it('renders without error', () => {
     render(
-        <Router>
-            <ListItemLink primary="Cards" to="/cards"/>
-        </Router>
+      <Router>
+        <ListItemLink primary="Cards" to="/cards" />
+      </Router>,
     );
   });
 });

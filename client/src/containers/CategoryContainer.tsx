@@ -27,12 +27,10 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
     id: selectedCategory,
   };
 
-  const [
-    getCat,
-    { data, loading, error, fetchMore },
-  ] = useGetCategoryWithCardsLazyQuery({
-    variables,
-  });
+  const [getCat, { data, loading, error, fetchMore }] =
+    useGetCategoryWithCardsLazyQuery({
+      variables,
+    });
 
   const cardData = useMemo(() => {
     return (

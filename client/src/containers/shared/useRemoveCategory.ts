@@ -23,10 +23,8 @@ const useRemoveCategory = (): [
   boolean,
   ApolloError | undefined,
 ] => {
-  const [
-    removeCategoryMutation,
-    { data, loading, error },
-  ] = useRemoveCategoryMutation();
+  const [removeCategoryMutation, { data, loading, error }] =
+    useRemoveCategoryMutation();
 
   const removeCategory = (id: string) =>
     removeCategoryMutation({

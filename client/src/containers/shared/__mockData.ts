@@ -47,10 +47,11 @@ export const mockCacheData = {
           'Category:NjM5NTlhOTktYjU2Mi00OTkxLTkxMTAtY2M3MGQzN2E5YTk2OkNhdGVnb3J5',
       },
     ],
-    'category({"id":"NjM5NTlhOTktYjU2Mi00OTkxLTkxMTAtY2M3MGQzN2E5YTk2OkNhdGVnb3J5"})': {
-      __ref:
-        'Category:NjM5NTlhOTktYjU2Mi00OTkxLTkxMTAtY2M3MGQzN2E5YTk2OkNhdGVnb3J5',
-    },
+    'category({"id":"NjM5NTlhOTktYjU2Mi00OTkxLTkxMTAtY2M3MGQzN2E5YTk2OkNhdGVnb3J5"})':
+      {
+        __ref:
+          'Category:NjM5NTlhOTktYjU2Mi00OTkxLTkxMTAtY2M3MGQzN2E5YTk2OkNhdGVnb3J5',
+      },
   },
   'Card:M2Y1NWI1N2YtNGRmNS00MmI1LThjY2ItY2Y2OWViODBmNWViOkNhcmQ=': {
     __typename: 'Card',

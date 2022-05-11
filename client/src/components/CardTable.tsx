@@ -1,6 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 
 interface CardTableData {
   id: string | undefined;
@@ -8,11 +8,6 @@ interface CardTableData {
   label: string | null | undefined;
   created: string; //ISOString
   updated: string | null; //ISOString
-}
-
-interface CardTableColumnConfig {
-  field: string;
-  label: string;
 }
 
 interface CardTableProps {

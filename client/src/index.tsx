@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 
 import {
@@ -29,11 +29,14 @@ const client = new ApolloClient({
   }),
 });
 
-ReactDOM.render(
+const container = document.getElementById('root');
+
+/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
   <ApolloProvider client={client}>
     <Dashboard></Dashboard>
   </ApolloProvider>,
-  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

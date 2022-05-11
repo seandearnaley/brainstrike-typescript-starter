@@ -4,7 +4,7 @@ import {
   useUpdateCategoryNameMutation,
   UpdateCategoryNameDocument,
 } from '../generated/graphql';
-import { cx, css } from 'emotion';
+import { cx, css } from '@emotion/css';
 
 interface EditCategoryContainerProps {
   id?: string;
@@ -15,10 +15,8 @@ const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   id,
   originalCategoryName,
 }: EditCategoryContainerProps) => {
-  const [
-    updateCategoryMutation,
-    { data, loading, error },
-  ] = useUpdateCategoryNameMutation();
+  const [updateCategoryMutation, { data, loading, error }] =
+    useUpdateCategoryNameMutation();
 
   const prevCategoryValue = useRef<string | null | undefined>(undefined);
   const categoryNameDivInput = useRef<HTMLDivElement>(null);

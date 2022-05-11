@@ -5,10 +5,12 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -907,9 +909,8 @@ export function useRemoveCardMutation(
 export type RemoveCardMutationHookResult = ReturnType<
   typeof useRemoveCardMutation
 >;
-export type RemoveCardMutationResult = Apollo.MutationResult<
-  RemoveCardMutation
->;
+export type RemoveCardMutationResult =
+  Apollo.MutationResult<RemoveCardMutation>;
 export type RemoveCardMutationOptions = Apollo.BaseMutationOptions<
   RemoveCardMutation,
   RemoveCardMutationVariables
@@ -963,9 +964,8 @@ export function useRemoveCategoryMutation(
 export type RemoveCategoryMutationHookResult = ReturnType<
   typeof useRemoveCategoryMutation
 >;
-export type RemoveCategoryMutationResult = Apollo.MutationResult<
-  RemoveCategoryMutation
->;
+export type RemoveCategoryMutationResult =
+  Apollo.MutationResult<RemoveCategoryMutation>;
 export type RemoveCategoryMutationOptions = Apollo.BaseMutationOptions<
   RemoveCategoryMutation,
   RemoveCategoryMutationVariables
@@ -1020,9 +1020,8 @@ export function useUpdateCategoryNameMutation(
 export type UpdateCategoryNameMutationHookResult = ReturnType<
   typeof useUpdateCategoryNameMutation
 >;
-export type UpdateCategoryNameMutationResult = Apollo.MutationResult<
-  UpdateCategoryNameMutation
->;
+export type UpdateCategoryNameMutationResult =
+  Apollo.MutationResult<UpdateCategoryNameMutation>;
 export type UpdateCategoryNameMutationOptions = Apollo.BaseMutationOptions<
   UpdateCategoryNameMutation,
   UpdateCategoryNameMutationVariables

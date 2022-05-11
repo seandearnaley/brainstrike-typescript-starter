@@ -41,19 +41,12 @@ describe("Queries", () => {
     mockCardQuery = jest.fn();
 
     connection.getRepository = jest.fn().mockImplementation((target) => {
-      switch (target.name) {
-        case "Card": {
-          return {
-            find: mockCardFind,
-            findOne: mockCardFindOne,
-            save: mockCardSave,
-            remove: mockCardRemove,
-          };
-        }
-        default: {
-          return {};
-        }
-      }
+      return {
+        find: mockCardFind,
+        findOne: mockCardFindOne,
+        save: mockCardSave,
+        remove: mockCardRemove,
+      };
     });
 
     connection.query = mockCardQuery;

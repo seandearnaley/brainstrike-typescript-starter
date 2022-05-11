@@ -1,4 +1,5 @@
 import { config as setupDotEnv } from "dotenv";
+import { Card, Category, User } from "./entity";
 
 setupDotEnv(); // adds .env environment file support
 
@@ -17,7 +18,7 @@ export const postgresCreds = {
 };
 
 export const schemaConfig = {
-  entities: ["build/entity/**/*.{js,ts}"],
+  entities: [Card, Category, User],
   migrations: ["build/migration/**/*.{js,ts}"],
   subscribers: ["build/subscriber/**/*.{js,ts}"],
   cli: {

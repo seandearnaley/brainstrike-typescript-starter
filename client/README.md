@@ -1,6 +1,6 @@
 # BrainStrike Client
 
-8/16/2020: updated to latest react testing tools + apollo client 3
+5/11/2022: updated all client dependencies + tests
 
 ![Node Client Test CI](https://github.com/seandearnaley/brainstrike-typescript-starter/workflows/Node%20Client%20Test%20CI/badge.svg?event=push)
 
@@ -58,4 +58,3 @@ Dumb/presentational components are those which are responsible for presenting vi
 Good article with example here
 
 https://www.cronj.com/blog/difference-container-component-react-js/
-

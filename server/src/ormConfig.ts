@@ -1,5 +1,4 @@
 import { config as setupDotEnv } from "dotenv";
-import { Card, Category, User } from "./entity";
 
 setupDotEnv(); // adds .env environment file support
 

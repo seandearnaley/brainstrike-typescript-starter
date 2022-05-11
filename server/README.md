@@ -1,6 +1,5 @@
 # brainstrike-server
 
-x
 Update 8/16/2020: Special note about TypeORM, there is an issue preventing upgrading ^0.2.22, causes unit tests to fail, stick to that version for now: [https://github.com/typeorm/typeorm/issues/5676](https://github.com/typeorm/typeorm/issues/5676)
 
 ![Node Server Test CI](https://github.com/seandearnaley/brainstrike-typescript-starter/workflows/Node%20Server%20Test%20CI/badge.svg?event=push)
@@ -47,6 +46,10 @@ Runs migration up
 ### `yarn migrate:down`
 
 Runs migration down
+
+
+
+
 
 ## Troubleshooting
 

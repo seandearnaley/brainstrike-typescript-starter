@@ -44,7 +44,6 @@
     "@graphql-codegen/typescript": "1.17.8",
     "@graphql-codegen/typescript-resolvers": "1.17.8",
     "@types/express-serve-static-core": "^4.17.9",
-    "@types/faker": "^4.1.12",
     "@types/graphql-iso-date": "^3.4.0",
     "@types/jest": "^26.0.10",
     "@types/lodash": "^4.14.159",

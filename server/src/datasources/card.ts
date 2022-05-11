@@ -1,7 +1,7 @@
 import DataLoader = require("dataloader");
 import { DataSource, DataSourceConfig } from "apollo-datasource";
 import { Connection } from "typeorm";
-import { Card, Category } from "../entity";
+import { Card as CardEntity, Category as CategoryEntity } from "../entity";
 import { CardInput, DirectionEnum } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
 import { DataSourceRepos } from "../";
@@ -30,7 +30,7 @@ export type GetCardsArguments = {
 // but we actually want to use a dataloader for a "virtual" inner field using the same name "categories"
 // we may want an even narrower type definition to give back to the resolver that does not overlap with
 // the Card entity.
-interface CardObject extends Omit<Card, "categories"> {
+interface CardObject extends Omit<CardEntity, "categories"> {
   rowNumber?: number;
   categories: null;
 }
@@ -71,8 +71,8 @@ export class CardAPI extends DataSource {
     super();
     this.connection = connection;
     this.repos = {
-      cards: connection.getRepository<Card>("Card"),
-      categories: connection.getRepository<Category>("Category"),
+      cards: connection.getRepository(CardEntity),
+      categories: connection.getRepository(CategoryEntity),
     };
   }
 
@@ -214,7 +214,7 @@ export class CardAPI extends DataSource {
     };
   }
 
-  protected encodeCard(data: Card): CardObject {
+  protected encodeCard(data: CardEntity): CardObject {
     return {
       ...data,
       id: encodeGlobalID(data.id, "Card"), // replace ID with a global ID
@@ -254,7 +254,7 @@ export class CardAPI extends DataSource {
    * Get a particular card from the deck using global id
    * @param id global id
    */
-  async getCardByGlobalID(id: string): Promise<Card> {
+  async getCardByGlobalID(id: string): Promise<CardEntity> {
     id = decodeGlobalID(id).id;
     const card = await this.repos.cards.findOne(id); // find by id
 
@@ -281,7 +281,7 @@ export class CardAPI extends DataSource {
     description,
     categoryId,
   }: CardInput): Promise<CardsUpdatedResponseObject> {
-    const card = new Card();
+    const card = new CardEntity();
     card.number = number;
     card.label = label;
     card.description = description;

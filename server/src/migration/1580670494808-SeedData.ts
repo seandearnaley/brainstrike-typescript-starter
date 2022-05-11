@@ -6,10 +6,8 @@ import * as fakeCards from "../seed-data/fakeCards.json";
 
 export class SeedData1580670494808 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    const categoryRepo = queryRunner.manager.getRepository<Category>(
-      "Category"
-    );
-    const cardRepo = queryRunner.manager.getRepository<Card>("Card");
+    const categoryRepo = queryRunner.manager.getRepository(Category);
+    const cardRepo = queryRunner.manager.getRepository(Card);
 
     const CategorySeed = fakeCategories.reduce((acc, value) => {
       const category = new Category();

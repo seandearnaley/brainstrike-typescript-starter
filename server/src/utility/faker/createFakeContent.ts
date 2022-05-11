@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import faker = require("faker");
 import fs = require("fs");
 
 faker.seed(12345); // ensures reproducible results

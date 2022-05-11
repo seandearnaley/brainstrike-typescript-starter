@@ -46,3 +46,23 @@ Runs migration up
 ### `yarn migrate:down`
 
 Runs migration down
+
+
+
+
+
+## Troubleshooting
+
+if attempting to run postgres via `docker-compose`, don't forget to copy `.env.example` to `.env`
+
+if you encounter:
+
+`/usr/local/bin/docker-entrypoint.sh: /docker-entrypoint-initdb.d/create-multiple-postgresql-databases.sh: /bin/bash: bad interpreter: Permission denied`
+
+while running `docker-compose up`, it may be because Docker is copying permissions, therefore you need to make the script executable.
+
+change to the pg-init-scripts folder and run
+
+`chmod +x create-multiple-postgresql-databases.sh`
+
+then run docker-compose up again

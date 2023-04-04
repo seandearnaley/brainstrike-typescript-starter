@@ -3,8 +3,6 @@
 ![Node Server Test CI](https://github.com/seandearnaley/brainstrike-typescript-starter/workflows/Node%20Server%20Test%20CI/badge.svg?event=push)
 ![Node Client Test CI](https://github.com/seandearnaley/brainstrike-typescript-starter/workflows/Node%20Client%20Test%20CI/badge.svg?event=push)
 
-<img src="./hyperdeta-noshadow-cropped-to-square-small.png" width="200" align="right">
-
 Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 
 ## Features
@@ -17,8 +15,6 @@ Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 - Unit/Integration/E2E tests
 - React client with Hooks
 - Prettier + ESLint configuration
-
-Detailed Installation + Instructions to come.
 
 NOTE: VS Code settings for ESLint+Prettier (consequence of mono repo structure)
 

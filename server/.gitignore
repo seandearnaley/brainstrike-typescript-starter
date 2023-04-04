@@ -9,3 +9,9 @@ temp/
 .env
 coverage
 ormconfig.json
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

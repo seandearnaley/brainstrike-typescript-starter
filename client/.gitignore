@@ -112,3 +112,10 @@ yarn-error.log*
 
 
 /src/old
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

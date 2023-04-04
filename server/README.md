@@ -66,3 +66,4 @@ change to the pg-init-scripts folder and run
 `chmod +x create-multiple-postgresql-databases.sh`
 
 then run docker-compose up again
+

@@ -3806,7 +3806,7 @@ __metadata:
     rimraf: ^3.0.2
     ts-jest: ^26.2.0
     ts-node: ^8.10.2
-    typeorm: 0.2.22
+    typeorm: 0.2.25
     typescript: ^3.9.10
   languageName: unknown
   linkType: soft
@@ -6211,7 +6211,7 @@ __metadata:
 
 "fsevents@patch:fsevents@^2.1.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.2
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=18f3a7"
   dependencies:
     node-gyp: latest
   conditions: os=darwin
@@ -9315,17 +9315,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:^0.5.1":
-  version: 0.5.6
-  resolution: "mkdirp@npm:0.5.6"
-  dependencies:
-    minimist: ^1.2.6
-  bin:
-    mkdirp: bin/cmd.js
-  checksum: 0c91b721bb12c3f9af4b77ebf73604baf350e64d80df91754dc509491ae93bf238581e59c7188360cec7cb62fc4100959245a42cfe01834efedc5e9d068376c2
-  languageName: node
-  linkType: hard
-
 "ms@npm:2.0.0":
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
@@ -11068,7 +11057,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.18.1#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.0#~builtin<compat/resolve>":
   version: 1.22.0
-  resolution: "resolve@patch:resolve@npm%3A1.22.0#~builtin<compat/resolve>::version=1.22.0&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.0#~builtin<compat/resolve>::version=1.22.0&hash=07638b"
   dependencies:
     is-core-module: ^2.8.1
     path-parse: ^1.0.7
@@ -11081,7 +11070,7 @@ __metadata:
 
 "resolve@patch:resolve@^1.22.1#~builtin<compat/resolve>":
   version: 1.22.1
-  resolution: "resolve@patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=07638b"
   dependencies:
     is-core-module: ^2.9.0
     path-parse: ^1.0.7
@@ -12648,9 +12637,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typeorm@npm:0.2.22":
-  version: 0.2.22
-  resolution: "typeorm@npm:0.2.22"
+"typeorm@npm:0.2.25":
+  version: 0.2.25
+  resolution: "typeorm@npm:0.2.25"
   dependencies:
     app-root-path: ^3.0.0
     buffer: ^5.1.0
@@ -12660,15 +12649,16 @@ __metadata:
     dotenv: ^6.2.0
     glob: ^7.1.2
     js-yaml: ^3.13.1
-    mkdirp: ^0.5.1
+    mkdirp: ^1.0.3
     reflect-metadata: ^0.1.13
+    sha.js: ^2.4.11
     tslib: ^1.9.0
     xml2js: ^0.4.17
     yargonaut: ^1.1.2
     yargs: ^13.2.1
   bin:
-    typeorm: ./cli.js
-  checksum: 731f500d11af7e44d4e6b43a709f7cd1b6c4804ba3984391d21216fdeef5e125191db9f61fb74feb2824bf124b05ea0a18c4e0444518d42de1bca43c16004899
+    typeorm: cli.js
+  checksum: 29e9945cc158803b514670c73c3e1d4d1e2a1e058196985cbad2236c7053806535dc4097d75e970952f404f5619fcdf48bbb121a33940befc837a8bfa8fa80b1
   languageName: node
   linkType: hard
 
@@ -12684,7 +12674,7 @@ __metadata:
 
 "typescript@patch:typescript@^3.9.10#~builtin<compat/typescript>":
   version: 3.9.10
-  resolution: "typescript@patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"
+  resolution: "typescript@patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=a1c5e5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver

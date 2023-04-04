@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -21,6 +21,7 @@ jobs:
       - name: yarn install, build, and test
         working-directory: client
         run: |
+          yarn set version 3.x
           yarn install --frozen-lockfile
           yarn build
           yarn test

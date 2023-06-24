@@ -1,7 +1,7 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  useGetCardWithCategoriesLazyQuery,
   GetCardWithCategoriesDocument,
+  useGetCardWithCategoriesLazyQuery,
 } from '../generated/graphql';
 import { useRemoveCard } from './shared/useRemoveCard';
 

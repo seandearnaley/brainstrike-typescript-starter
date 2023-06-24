@@ -1,0 +1,22 @@
+{
+  "name": "brainstrike-monorepo",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "client",
+      "server"
+    ]
+  },
+  "resolutions": {
+    "@graphql-codegen/**/mem": "^6.0.1"
+  },
+  "scripts": {
+    "start": "concurrently \"yarn workspace brainstrike-client start\" \"yarn workspace brainstrike-server start\"",
+    "build": "concurrently \"yarn workspace brainstrike-client build\" \"yarn workspace brainstrike-server build\"",
+    "test": "concurrently \"yarn workspace brainstrike-client test\" \"yarn workspace brainstrike-server test\"",
+    "lint": "concurrently \"yarn workspace brainstrike-client lint\" \"yarn workspace brainstrike-server lint\"",
+    "lint:fix": "concurrently \"yarn workspace brainstrike-client lint:fix\" \"yarn workspace brainstrike-server lint:fix\"",
+    "generate": "concurrently \"yarn workspace brainstrike-client generate\" \"yarn workspace brainstrike-server generate\"",
+    "dev": "concurrently \"yarn workspace brainstrike-client dev\" \"yarn workspace brainstrike-server dev\""
+  }
+}

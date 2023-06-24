@@ -63,4 +63,4 @@ change to the pg-init-scripts folder and run
 
 then run docker-compose up again
 
-See main readme.md for known issues.
+Updated: June 24th 2023

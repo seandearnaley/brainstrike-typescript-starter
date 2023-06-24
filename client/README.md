@@ -59,4 +59,4 @@ Good article with example here
 
 https://www.cronj.com/blog/difference-container-component-react-js/
 
-See main readme.md for known issues.
+Updated: June 24th 2023

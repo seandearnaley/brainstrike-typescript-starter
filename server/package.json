@@ -89,5 +89,6 @@
     "postinstall-postinstall": "2.1.0",
     "reflect-metadata": "0.1.13",
     "typeorm": "0.2.22"
-  }
+  },
+  "packageManager": "yarn@3.6.0"
 }

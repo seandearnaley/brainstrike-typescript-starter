@@ -41,3 +41,7 @@ This is setup like a mono-repo with seperate folders for clients and server, eac
 - graphql tools older version using older @types/ws with breaking changes, had to add a resolution to address for "@types/ws": "8.5.4" in package.json.
 
 - typeorm has to be stuck to 0.2.22, higher versions break tests and have not been addressed by typeorm. Issue still open after years: https://github.com/typeorm/typeorm/issues/5676
+
+- updated github actions to use specific Yarn version with corresponding .yarnrc.yml set to 3.6.0, included the releases in the repo to stay fixed
+
+- may make some more changes to streamline the repo into yarn workspaces, tbd

@@ -47,10 +47,6 @@ Runs migration up
 
 Runs migration down
 
-
-
-
-
 ## Troubleshooting
 
 if attempting to run postgres via `docker-compose`, don't forget to copy `.env.example` to `.env`
@@ -67,3 +63,4 @@ change to the pg-init-scripts folder and run
 
 then run docker-compose up again
 
+Updated: June 24th 2023

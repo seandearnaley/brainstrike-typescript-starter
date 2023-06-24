@@ -38,4 +38,6 @@ This is setup like a mono-repo with seperate folders for clients and server, eac
 
 - had to update typescript to avoid issues with types for @types/express-serve-static-core and @types/lodash, however, version 5.1 appears to have regression so we are sticking with 5.0.4 for now. https://github.com/microsoft/TypeScript/issues/54542
 
+- graphql tools older version using older @types/ws with breaking changes, had to add a resolution to address for "@types/ws": "8.5.4" in package.json
+
 - typeorm has to be stuck to 0.2.22, higher versions break tests and have not been addressed by typeorm. Issue still open after years: https://github.com/typeorm/typeorm/issues/5676

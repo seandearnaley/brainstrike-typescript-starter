@@ -15,3 +15,4 @@ ormconfig.json
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+.DS_Store

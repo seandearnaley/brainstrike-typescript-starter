@@ -30,7 +30,7 @@ jobs:
         working-directory: server
         run: |
           yarn set version stable
-          yarn install --frozen-lockfile
+          yarn install --immutable
           yarn test
         env:
           CI: true

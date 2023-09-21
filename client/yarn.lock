@@ -6426,7 +6426,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.6.0
     formik: ^2.2.10
     formik-material-ui: ^3.0.1
-    graphql: ^16.6.0
+    graphql: ^16.8.1
     graphql-tag: ^2.12.6
     jest-environment-jsdom: ^28.1.3
     opaqueid: ^1.2.0
@@ -9972,10 +9972,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:^16.6.0":
-  version: 16.7.1
-  resolution: "graphql@npm:16.7.1"
-  checksum: c924d8428daf0e96a5ea43e9bc3cd1b6802899907d284478ac8f705c8fd233a0a51eef915f7569fb5de8acb2e85b802ccc6c85c2b157ad805c1e9adba5a299bd
+"graphql@npm:^16.8.1":
+  version: 16.8.1
+  resolution: "graphql@npm:16.8.1"
+  checksum: 8d304b7b6f708c8c5cc164b06e92467dfe36aff6d4f2cf31dd19c4c2905a0e7b89edac4b7e225871131fd24e21460836b369de0c06532644d15b461d55b1ccc0
   languageName: node
   linkType: hard
 

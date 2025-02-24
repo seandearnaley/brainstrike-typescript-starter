@@ -3,14 +3,25 @@ import { createTestClient } from "apollo-server-testing";
 import {
   constructTestServer,
   createTestingConnection,
-  Connection,
+  DataSource,
+  convertStringDatesToDateObjects,
 } from "./__utils";
 
 import * as TDATA from "./__testData";
 import * as GQL from "./__queries";
+import { CardAPI } from "../datasources/card";
+
+// Create type aliases for the non-exported types from CardAPI
+type CardObject = Parameters<CardAPI["getCard"]>[0] extends string
+  ? Awaited<ReturnType<CardAPI["getCard"]>>
+  : never;
+
+type CardConnectionObject = Awaited<ReturnType<CardAPI["getCards"]>>;
+
+type CardsUpdatedResponseObject = Awaited<ReturnType<CardAPI["addCard"]>>;
 
 describe("Queries", () => {
-  let connection: Connection;
+  let connection: DataSource;
 
   beforeAll(async () => {
     console.log("creating test connection");
@@ -28,18 +39,21 @@ describe("Queries", () => {
 
     // mock the datasources' underlying fetch methods
     cardAPI.getCards = jest.fn(async () =>
-      Promise.resolve(TDATA.mockCardsConnectionResult)
+      Promise.resolve(
+        (convertStringDatesToDateObjects(
+          TDATA.mockCardsConnectionResult
+        ) as unknown) as CardConnectionObject
+      )
     );
 
     // use our test server as input to the createTestClient fn
     // This will give us an interface, similar to apolloClient.query
-    // to run queries against our instance of ApolloServer
     const { query } = createTestClient(apolloServer);
+
+    // run query against the server and snapshot the output
     const res = await query({
       query: GQL.GET_CARD_DATA,
-      variables: {
-        first: 3,
-      },
+      variables: { first: 20 },
     });
     expect(res).toMatchSnapshot();
   });
@@ -50,7 +64,11 @@ describe("Queries", () => {
     });
 
     cardAPI.getCard = jest.fn(async () =>
-      Promise.resolve(TDATA.mockFirstCardResponseEncoded)
+      Promise.resolve(
+        (convertStringDatesToDateObjects(
+          TDATA.mockFirstCardResponseEncoded
+        ) as unknown) as CardObject
+      )
     );
 
     const { query } = createTestClient(apolloServer);
@@ -64,7 +82,7 @@ describe("Queries", () => {
 });
 
 describe("Mutations", () => {
-  let connection: Connection;
+  let connection: DataSource;
 
   beforeAll(async () => {
     console.log("creating test connection");
@@ -78,8 +96,12 @@ describe("Mutations", () => {
       context: () => ({}),
     });
 
+    const convertedData = convertStringDatesToDateObjects(
+      TDATA.mockSuccessfulAddResponse
+    );
+
     cardAPI.addCard = jest.fn(async () =>
-      Promise.resolve(TDATA.mockSuccessfulAddResponse)
+      Promise.resolve((convertedData as unknown) as CardsUpdatedResponseObject)
     );
 
     const { mutate } = createTestClient(apolloServer);
@@ -95,8 +117,12 @@ describe("Mutations", () => {
       context: () => ({}),
     });
 
+    const convertedData = convertStringDatesToDateObjects(
+      TDATA.mockSuccessfulUpdateResponse
+    );
+
     cardAPI.updateCard = jest.fn(async () =>
-      Promise.resolve(TDATA.mockSuccessfulUpdateResponse)
+      Promise.resolve((convertedData as unknown) as CardsUpdatedResponseObject)
     );
 
     const { mutate } = createTestClient(apolloServer);
@@ -115,8 +141,12 @@ describe("Mutations", () => {
       context: () => ({}),
     });
 
+    const convertedData = convertStringDatesToDateObjects(
+      TDATA.mockSuccessfulRemoveResponse
+    );
+
     cardAPI.removeCard = jest.fn(async () =>
-      Promise.resolve(TDATA.mockSuccessfulRemoveResponse)
+      Promise.resolve((convertedData as unknown) as CardsUpdatedResponseObject)
     );
 
     const { mutate } = createTestClient(apolloServer);

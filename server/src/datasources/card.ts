@@ -1,10 +1,14 @@
 import DataLoader = require("dataloader");
-import { DataSource, DataSourceConfig } from "apollo-datasource";
-import { Connection } from "typeorm";
+import {
+  DataSource as ApolloDataSource,
+  DataSourceConfig,
+} from "apollo-datasource";
+import { DataSource } from "typeorm";
 import { Card as CardEntity, Category as CategoryEntity } from "../entity";
 import { CardInput, DirectionEnum } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
 import { DataSourceRepos } from "../";
+import { Category } from "../entity/Category";
 
 import {
   encodeCursor,
@@ -32,7 +36,7 @@ export type GetCardsArguments = {
 // the Card entity.
 interface CardObject extends Omit<CardEntity, "categories"> {
   rowNumber?: number;
-  categories: null;
+  categories: Category[];
 }
 
 type CardNodeObject = {
@@ -62,12 +66,12 @@ type CardsUpdatedResponseObject = {
   card: CardObject;
 };
 
-export class CardAPI extends DataSource {
+export class CardAPI extends ApolloDataSource {
   context!: ApolloContext;
-  connection: Partial<Connection>;
+  connection: DataSource;
   repos: DataSourceRepos;
 
-  constructor({ connection }: { connection: Partial<Connection> }) {
+  constructor({ connection }: { connection: DataSource }) {
     super();
     this.connection = connection;
     this.repos = {
@@ -91,8 +95,8 @@ export class CardAPI extends DataSource {
   async getCards({
     first = 100,
     last = 0,
-    before = null,
-    after = null,
+    before = undefined,
+    after = undefined,
     orderByColumn = "created",
     orderByDirection = DirectionEnum.Desc,
     categoryId,
@@ -139,16 +143,26 @@ export class CardAPI extends DataSource {
     const params = [];
 
     if (after) {
-      params.push(decodeCursor(after, "Card").id);
-
+      const decodedAfter = decodeCursor(after, "Card") as
+        | { id: string }
+        | undefined;
+      if (!decodedAfter) {
+        throw new Error("Invalid 'after' cursor");
+      }
+      params.push(decodedAfter.id);
       wheres.push(
         `"rowNumber" > ( SELECT "t2"."rowNumber" FROM (${rowNumQuery}) as t2 WHERE ${cursorColumn} = $1 )`
       );
     }
 
     if (before) {
-      params.push(decodeCursor(before, "Card").id);
-
+      const decodedBefore = decodeCursor(before, "Card") as
+        | { id: string }
+        | undefined;
+      if (!decodedBefore) {
+        throw new Error("Invalid 'before' cursor");
+      }
+      params.push(decodedBefore.id);
       wheres.push(`
           "rowNumber" < (
             SELECT "t3"."rowNumber" FROM (${rowNumQuery}) as t3
@@ -191,26 +205,36 @@ export class CardAPI extends DataSource {
 
     if (wheres.length) queryStr += `WHERE ${wheres.join(" AND ")}`;
 
-    const [results, [{ totalCount }]] = await Promise.all([
+    const [results, countResult] = await Promise.all([
       this.connection.query(queryStr, [...params]),
       this.connection.query(
         `SELECT COUNT(*) as "totalCount" FROM (${rowNumQuery}) as countTable `
       ),
     ]);
 
+    // Extract totalCount and default to 0 if undefined
+    const totalCountRaw = countResult[0]?.totalCount;
+    const total = Number(totalCountRaw ?? 0);
+
     const edges = this.createEdges(results);
-    const pageInfo = buildPageInfo<Edge<CardObject>>(
-      edges,
-      Number(totalCount),
-      "Card"
-    );
+
+    const computedPageInfo =
+      buildPageInfo<Edge<CardObject>>(edges, total, "Card") || {};
+
+    const cleanPageInfo = {
+      hasNextPage: computedPageInfo.hasNextPage ?? false,
+      hasPreviousPage: computedPageInfo.hasPreviousPage ?? false,
+      startCursor: computedPageInfo.startCursor ?? "",
+      endCursor: computedPageInfo.endCursor ?? "",
+      totalCount: computedPageInfo.totalCount ?? 0,
+    };
 
     return {
       edges: edges.map(({ node, cursor }) => ({
         node: this.encodeCard(node),
         cursor,
       })),
-      pageInfo,
+      pageInfo: cleanPageInfo,
     };
   }
 
@@ -218,25 +242,25 @@ export class CardAPI extends DataSource {
     return {
       ...data,
       id: encodeGlobalID(data.id, "Card"), // replace ID with a global ID
-      categories: null, // escaping cagegories here to replace them with virtual field
+      categories: data.categories || [],
     };
   }
 
   protected createEdges(results: CardObject[]): Edge<CardObject>[] {
     return results.map((result: CardObject) => ({
       node: result,
-      cursor: encodeCursor(result.id, "Card", result.rowNumber), // TODO: this cursor column could probably be dynamic
+      cursor: encodeCursor(result.id, "Card", result.rowNumber ?? 0), // using default if rowNumber is undefined or null
     }));
   }
 
   private cardLoader = new DataLoader<CategoryLoader, CardConnectionObject>(
-    async (categoryIds: CategoryLoader[]): Promise<CardConnectionObject[]> =>
+    async (
+      categoryIds: readonly CategoryLoader[]
+    ): Promise<CardConnectionObject[]> =>
       Promise.all(
         categoryIds.map(async ({ categoryId, args }) =>
-          // TODO: make cards somehow batch this into one query, this version will result in multiple getCards calls.
-          // it's tricky to resolve because of how we're exploiting row number
           this.getCards({
-            ...args,
+            ...(args || {}),
             categoryId,
           })
         )
@@ -255,11 +279,22 @@ export class CardAPI extends DataSource {
    * @param id global id
    */
   async getCardByGlobalID(id: string): Promise<CardEntity> {
-    id = decodeGlobalID(id).id;
-    const card = await this.repos.cards.findOne(id); // find by id
+    const decoded = decodeGlobalID(id);
+    if (!decoded) {
+      throw new Error("Invalid global id");
+    }
+    const realId = decoded.id;
+    const cardsRepo = this.repos.cards;
+    if (!cardsRepo) {
+      throw new Error("cards repository is undefined");
+    }
+    if (!cardsRepo.findOneBy) {
+      throw new Error("cards repository findOneBy method is undefined");
+    }
+    const card = await cardsRepo.findOneBy({ id: realId });
 
     if (!card) throw new Error("Card Not Found");
-    return card; // NOTE: returning as a CardEntity rather a CardObject because it hasn't been encoded yet
+    return card; // returning as a CardEntity because it hasn't been encoded yet
   }
 
   /**
@@ -282,18 +317,35 @@ export class CardAPI extends DataSource {
     categoryId,
   }: CardInput): Promise<CardsUpdatedResponseObject> {
     const card = new CardEntity();
-    card.number = number;
-    card.label = label;
-    card.description = description;
+    card.number = number ?? 0;
+    card.label = label ?? "";
+    card.description = description ?? "";
 
     if (categoryId) {
-      const category = await this.repos.categories.findOne(categoryId);
+      const categoriesRepo = this.repos.categories;
+      if (!categoriesRepo) {
+        throw new Error("categories repository is undefined");
+      }
+      if (!categoriesRepo.findOneBy) {
+        throw new Error("categories repository findOneBy method is undefined");
+      }
+      const category = await categoriesRepo.findOneBy({ id: categoryId });
+      if (!category) {
+        throw new Error("Category not found");
+      }
       card.categories = [category];
     } else {
-      card.categories = null;
+      card.categories = [];
     }
 
-    const savedCard = await this.repos.cards.save(card);
+    const cardsRepo = this.repos.cards;
+    if (!cardsRepo) {
+      throw new Error("cards repository is undefined");
+    }
+    if (!cardsRepo.save) {
+      throw new Error("cards repository save method is undefined");
+    }
+    const savedCard = await cardsRepo.save(card);
     return {
       success: true,
       message: "Card Added",
@@ -311,18 +363,44 @@ export class CardAPI extends DataSource {
     { number, label, description, categoryId }: CardInput
   ): Promise<CardsUpdatedResponseObject> {
     const card = await this.getCardByGlobalID(id); // find by id
-    card.number = number;
-    card.label = label;
-    card.description = description;
+    card.number =
+      number != null
+        ? number
+        : ((card.number != null ? card.number : 0) as number);
+    card.label =
+      label != null
+        ? label
+        : ((card.label != null ? card.label : "") as string);
+    card.description =
+      description != null
+        ? description
+        : ((card.description != null ? card.description : "") as string);
 
     if (categoryId) {
-      const category = await this.repos.categories.findOne(categoryId);
+      const categoriesRepo = this.repos.categories;
+      if (!categoriesRepo) {
+        throw new Error("categories repository is undefined");
+      }
+      if (!categoriesRepo.findOneBy) {
+        throw new Error("categories repository findOneBy method is undefined");
+      }
+      const category = await categoriesRepo.findOneBy({ id: categoryId });
+      if (!category) {
+        throw new Error("Category not found");
+      }
       card.categories = [category];
     } else {
-      card.categories = null;
+      card.categories = [];
     }
 
-    const savedCard = await this.repos.cards.save(card);
+    const cardsRepo = this.repos.cards;
+    if (!cardsRepo) {
+      throw new Error("cards repository is undefined");
+    }
+    if (!cardsRepo.save) {
+      throw new Error("cards repository save method is undefined");
+    }
+    const savedCard = await cardsRepo.save(card);
     return {
       success: true,
       message: "Card Updated",
@@ -337,7 +415,14 @@ export class CardAPI extends DataSource {
   async removeCard(id: string): Promise<CardsUpdatedResponseObject> {
     const card = await this.getCardByGlobalID(id); // find by id
     const originalCard = { ...card }; // remove wipes the ip, creating a copy for the card field
-    await this.repos.cards.remove(card);
+    const cardsRepo = this.repos.cards;
+    if (!cardsRepo) {
+      throw new Error("cards repository is undefined");
+    }
+    if (!cardsRepo.remove) {
+      throw new Error("cards repository remove method is undefined");
+    }
+    await cardsRepo.remove(card);
     return {
       success: true,
       message: "Card Removed",

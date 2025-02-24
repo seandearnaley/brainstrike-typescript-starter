@@ -3,33 +3,33 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id!: string;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column()
-  email: string;
+  email!: string;
 
   @Column()
-  username: string;
+  username!: string;
 
   @Column()
-  password: string;
+  password!: string;
 
   @Column({
     type: "timestamp",
     nullable: false,
     default: () => "LOCALTIMESTAMP",
   })
-  created: Date;
+  created!: Date;
 
   @Column({
     type: "timestamp",
     nullable: false,
     default: () => "LOCALTIMESTAMP",
   })
-  updated: Date;
+  updated!: Date;
 
   // @BeforeInsert()
   // async hashPasswordBeforeInsert() {

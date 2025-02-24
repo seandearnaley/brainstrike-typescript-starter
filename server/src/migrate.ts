@@ -1,10 +1,10 @@
-import { ConnectionOptions } from "typeorm";
+import { DataSourceOptions } from "typeorm";
 import ormConfig from "./ormConfig";
 import { createDbConnection } from "./index";
 
 const start = async (): Promise<void> => {
   try {
-    const connection = await createDbConnection(ormConfig as ConnectionOptions);
+    const connection = await createDbConnection(ormConfig as DataSourceOptions);
 
     if (process.argv.length !== 3) return;
 
@@ -20,7 +20,11 @@ const start = async (): Promise<void> => {
 
     await connection.close();
   } catch (err) {
-    throw Error(err.message);
+    if (err instanceof Error) {
+      console.error("Migration error:", err.message);
+    } else {
+      console.error("Migration error:", err);
+    }
     process.exit(1);
   }
   process.exit(0);

@@ -5,17 +5,18 @@ export const mockCardInput = {
   number: 1,
   label: "Test Card 1",
   description: "testing",
-  categoryId: null as string,
+  categoryId: "",
 };
 
 export const mockFirstCardResponse = {
+  __typename: "Card",
   id: "e303f7e5-15ce-4a5f-9179-a75ffb4f8191",
   number: 1,
   label: "Test Card 1",
   description: "testing",
-  created: new Date("2020-02-01T20:19:27.909Z"),
-  updated: new Date("2020-02-01T20:19:27.909Z"),
-  categories: null as null,
+  created: "2020-02-01T20:19:27.909Z",
+  updated: "2020-02-01T20:19:27.909Z",
+  categories: [],
 };
 
 export const mockFirstCardResponseEncoded = {
@@ -32,9 +33,9 @@ export const mockCardsResult = [
     number: 99999,
     label: "sed possimus tempore",
     description: "Amet autem et.",
-    created: new Date("2020-02-01T20:19:27.909Z"),
-    updated: new Date("2020-02-01T20:19:27.909Z"),
-    categories: null as null,
+    created: "2020-02-01T20:19:27.909Z",
+    updated: "2020-02-01T20:19:27.909Z",
+    categories: [],
     rowNumber: 1,
   },
   {
@@ -42,9 +43,9 @@ export const mockCardsResult = [
     number: 99995,
     label: "necessitatibus id error",
     description: "Odit officia esse hic qui est perspiciatis.",
-    created: new Date("2020-02-01T23:03:03.942Z"),
-    updated: new Date("2020-02-01T23:03:03.942Z"),
-    categories: null as null,
+    created: "2020-02-01T23:03:03.942Z",
+    updated: "2020-02-01T23:03:03.942Z",
+    categories: [],
     rowNumber: 2,
   },
   {
@@ -52,9 +53,9 @@ export const mockCardsResult = [
     number: 99974,
     label: "doloribus explicabo explicabo",
     description: "Et in sequi eum enim ratione.",
-    created: new Date("2020-02-02T04:59:07.272Z"),
-    updated: new Date("2020-02-02T04:59:07.272Z"),
-    categories: null as null,
+    created: "2020-02-02T04:59:07.272Z",
+    updated: "2020-02-02T04:59:07.272Z",
+    categories: [],
     rowNumber: 3,
   },
 ];
@@ -96,8 +97,6 @@ export const mockCardsConnectionResult = {
 
 export const mockReturnCard = {
   ...mockFirstCardResponse,
-  created: new Date("2020-02-01T20:19:27.909Z"),
-  updated: null as Date,
 };
 
 export const defaultReturn = {
@@ -122,3 +121,17 @@ export const mockSuccessfulUpdateResponse = {
   ...defaultReturn,
   message: "Card Updated",
 };
+
+export const testCard = {
+  id: "card1",
+  number: 1,
+  label: "Card Label",
+  description: "Card Description",
+  created: new Date(0),
+  updated: new Date(0),
+  categories: [],
+};
+
+export const dummyString = "";
+
+export const dummyDate: Date = new Date(0);

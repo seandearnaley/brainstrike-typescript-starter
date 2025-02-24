@@ -1,5 +1,9 @@
 # brainstrike-server
 
+Updated: February 24th 2025
+
+TypeORM updated to 0.3.17, typescript now strict.
+
 Update 8/16/2020: Special note about TypeORM, there is an issue preventing upgrading ^0.2.22, causes unit tests to fail, stick to that version for now: [https://github.com/typeorm/typeorm/issues/5676](https://github.com/typeorm/typeorm/issues/5676)
 
 ![Node Server Test CI](https://github.com/seandearnaley/brainstrike-typescript-starter/workflows/Node%20Server%20Test%20CI/badge.svg?event=push)
@@ -63,4 +67,4 @@ change to the pg-init-scripts folder and run
 
 then run docker-compose up again
 
-Updated: June 24th 2023
+Updated: February 24th 2025

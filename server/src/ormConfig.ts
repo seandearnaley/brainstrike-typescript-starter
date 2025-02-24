@@ -1,4 +1,6 @@
 import { config as setupDotEnv } from "dotenv";
+import { DataSourceOptions } from "typeorm";
+import { Card, Category, User } from "./entity";
 
 setupDotEnv(); // adds .env environment file support
 
@@ -17,17 +19,13 @@ export const postgresCreds = {
 };
 
 export const schemaConfig = {
-  entities: ["build/entity/**/*.{js,ts}"],
+  entities: [Card, Category, User],
   migrations: ["build/migration/**/*.{js,ts}"],
   subscribers: ["build/subscriber/**/*.{js,ts}"],
-  cli: {
-    entitiesDir: "src/entity",
-    migrationsDir: "src/migration",
-    subscribersDir: "src/subscriber",
-  },
+  migrationsRun: false,
 };
 
-export default {
+const config: DataSourceOptions = {
   name: "dbConnection",
   type: "postgres",
   database: "brainstrike",
@@ -36,3 +34,5 @@ export default {
   ...schemaConfig,
   logging: ["query", "error"],
 };
+
+export default config;

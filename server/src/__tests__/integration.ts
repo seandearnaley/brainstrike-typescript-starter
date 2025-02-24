@@ -4,6 +4,7 @@ import {
   constructTestServer,
   createTestingConnection,
   Connection,
+  convertStringDatesToDateObjects,
 } from "./__utils";
 
 import * as TDATA from "./__testData";
@@ -28,7 +29,9 @@ describe("Queries", () => {
 
     // mock the datasources' underlying fetch methods
     cardAPI.getCards = jest.fn(async () =>
-      Promise.resolve(TDATA.mockCardsConnectionResult)
+      Promise.resolve(
+        convertStringDatesToDateObjects(TDATA.mockCardsConnectionResult) as any
+      )
     );
 
     // use our test server as input to the createTestClient fn
@@ -50,7 +53,11 @@ describe("Queries", () => {
     });
 
     cardAPI.getCard = jest.fn(async () =>
-      Promise.resolve(TDATA.mockFirstCardResponseEncoded)
+      Promise.resolve(
+        convertStringDatesToDateObjects(
+          TDATA.mockFirstCardResponseEncoded
+        ) as any
+      )
     );
 
     const { query } = createTestClient(apolloServer);
@@ -78,8 +85,12 @@ describe("Mutations", () => {
       context: () => ({}),
     });
 
+    const convertedData = convertStringDatesToDateObjects(
+      TDATA.mockSuccessfulAddResponse
+    );
+
     cardAPI.addCard = jest.fn(async () =>
-      Promise.resolve(TDATA.mockSuccessfulAddResponse)
+      Promise.resolve(convertedData as any)
     );
 
     const { mutate } = createTestClient(apolloServer);
@@ -95,8 +106,12 @@ describe("Mutations", () => {
       context: () => ({}),
     });
 
+    const convertedData = convertStringDatesToDateObjects(
+      TDATA.mockSuccessfulUpdateResponse
+    );
+
     cardAPI.updateCard = jest.fn(async () =>
-      Promise.resolve(TDATA.mockSuccessfulUpdateResponse)
+      Promise.resolve(convertedData as any)
     );
 
     const { mutate } = createTestClient(apolloServer);
@@ -115,8 +130,12 @@ describe("Mutations", () => {
       context: () => ({}),
     });
 
+    const convertedData = convertStringDatesToDateObjects(
+      TDATA.mockSuccessfulRemoveResponse
+    );
+
     cardAPI.removeCard = jest.fn(async () =>
-      Promise.resolve(TDATA.mockSuccessfulRemoveResponse)
+      Promise.resolve(convertedData as any)
     );
 
     const { mutate } = createTestClient(apolloServer);

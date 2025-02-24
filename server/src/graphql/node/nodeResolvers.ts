@@ -1,10 +1,20 @@
-import { Resolvers, Card, Category } from "../../generated/graphql";
+import {
+  Resolvers,
+  Card,
+  Category,
+  QueryNodeArgs,
+} from "../../generated/graphql";
 import { getTypeName } from "../../datasources/__utils";
 import { transformCard, transformCategory } from "../../utils/transformers";
+import { ApolloContext } from "../../types/context";
 
 export const resolvers: Resolvers = {
   Query: {
-    node: async (parent, { id }, { dataSources }): Promise<Card | Category> => {
+    node: async (
+      parent: unknown,
+      { id }: QueryNodeArgs,
+      { dataSources }: ApolloContext
+    ): Promise<Card | Category> => {
       if (!id || id === "") throw new Error("ID is required");
       const typeName = getTypeName(id);
       if (typeName === "Card") {
@@ -19,13 +29,13 @@ export const resolvers: Resolvers = {
     },
   },
   Card: {
-    __isTypeOf: (obj): boolean => {
-      return getTypeName(obj.id) === "Card";
+    __isTypeOf: (obj: unknown): boolean => {
+      return getTypeName((obj as Card).id) === "Card";
     },
   },
   Category: {
-    __isTypeOf: (obj): boolean => {
-      return getTypeName(obj.id) === "Category";
+    __isTypeOf: (obj: unknown): boolean => {
+      return getTypeName((obj as Category).id) === "Category";
     },
   },
 };

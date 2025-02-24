@@ -4,10 +4,33 @@ import {
   CardConnection,
   Card,
   Category,
+  QueryCardsArgs,
+  QueryCardArgs,
+  MutationAddCardArgs,
+  MutationUpdateCardArgs,
+  MutationRemoveCardArgs,
+  ResolversParentTypes,
 } from "../../generated/graphql";
+import { ApolloContext } from "../../types/context";
+
+// Import the CardObject and CategoryObject types
+import { CardAPI } from "../../datasources/card";
+import { CategoryAPI } from "../../datasources/category";
+
+// Type aliases for the non-exported types
+type CardObject = ReturnType<CardAPI["getCard"]> extends Promise<infer T>
+  ? T
+  : never;
+type CategoryObject = ReturnType<
+  CategoryAPI["getCategoriesFor"]
+> extends Promise<Array<infer T>>
+  ? T
+  : never;
 
 /* Begin transformation helpers */
-function transformCategory(category: any): any {
+function transformCategory(
+  category: CategoryObject | Record<string, unknown>
+): Record<string, unknown> {
   const result = {
     id: category.id,
     name: category.name,
@@ -30,13 +53,15 @@ function transformCategory(category: any): any {
       edges: [],
     },
   };
-  if ((result as any).hasOwnProperty("__typename")) {
-    delete (result as any)["__typename"];
+  if ((result as Record<string, unknown>).hasOwnProperty("__typename")) {
+    delete (result as Record<string, unknown>)["__typename"];
   }
   return result;
 }
 
-function transformCard(card: any): any {
+function transformCard(
+  card: CardObject | Record<string, unknown>
+): Record<string, unknown> {
   let updated;
   if (card.updated) {
     const iso =
@@ -48,46 +73,54 @@ function transformCard(card: any): any {
   const created =
     card.created instanceof Date ? card.created.toISOString() : card.created;
 
-  const transformed: any = {
+  const transformed: Record<string, unknown> = {
     id: card.id,
     number: card.number,
     label: card.label,
     description: card.description,
     created: created,
     updated,
-    categories: (card.categories || []).map(transformCategory),
+    categories: (
+      (card.categories as Array<CategoryObject | Record<string, unknown>>) || []
+    ).map(transformCategory),
   };
   if (card.rowNumber !== undefined) {
     transformed.rowNumber = card.rowNumber;
   }
-  if ((transformed as any).hasOwnProperty("__typename")) {
-    delete (transformed as any)["__typename"];
+  if ((transformed as Record<string, unknown>).hasOwnProperty("__typename")) {
+    delete (transformed as Record<string, unknown>)["__typename"];
   }
   return transformed;
 }
 
-function transformCardConnection(connection: any): any {
+function transformCardConnection(
+  connection: Record<string, unknown>
+): Record<string, unknown> {
   return {
     ...connection,
-    edges: connection.edges.map((edge: any) => ({
-      ...edge,
-      node: transformCard(edge.node),
-    })),
+    edges: (connection.edges as Array<Record<string, unknown>>).map(
+      (edge: Record<string, unknown>) => ({
+        ...edge,
+        node: transformCard(edge.node as CardObject | Record<string, unknown>),
+      })
+    ),
   };
 }
 
 /* Updated helper to deep remove __typename from objects using Reflect.ownKeys to capture non-enumerable properties */
-function removeTypename(obj: any): any {
+function removeTypename(obj: unknown): unknown {
   if (obj instanceof Date) {
     return obj.toISOString();
   }
   if (Array.isArray(obj)) {
     return obj.map(removeTypename);
   } else if (obj && typeof obj === "object") {
-    const newObj: any = {};
+    const newObj: Record<string | symbol, unknown> = {};
     for (const key of Reflect.ownKeys(obj)) {
       if (key !== "__typename") {
-        newObj[key] = removeTypename(obj[key]);
+        newObj[key] = removeTypename(
+          (obj as Record<string | symbol, unknown>)[key]
+        );
       }
     }
     return newObj;
@@ -97,7 +130,7 @@ function removeTypename(obj: any): any {
 /* End transformation helpers */
 
 /* Begin: Update helper function for cleaning GetCards arguments */
-function cleanGetCardsArgs(args: any): any {
+function cleanGetCardsArgs(args: QueryCardsArgs): Record<string, unknown> {
   return {
     ...args,
     before: args.before == null ? undefined : String(args.before),
@@ -107,7 +140,7 @@ function cleanGetCardsArgs(args: any): any {
 /* End: Update helper function */
 
 /* Add new helper to remove __typename using JSON replacer with explicit top-level deletion */
-function jsonStringifyClean(obj: any): any {
+function jsonStringifyClean(obj: unknown): unknown {
   const result = JSON.parse(
     JSON.stringify(obj, (key, value) =>
       key === "__typename" ? undefined : value
@@ -125,23 +158,33 @@ function jsonStringifyClean(obj: any): any {
 
 export const resolvers: Resolvers = {
   Query: {
-    cards: async (_, args, { dataSources }): Promise<CardConnection> => {
+    cards: async (
+      _: unknown,
+      args: QueryCardsArgs,
+      { dataSources }: ApolloContext
+    ): Promise<CardConnection> => {
       const cleanedArgs = cleanGetCardsArgs(args);
       const result = await dataSources.cardAPI.getCards(cleanedArgs);
       return jsonStringifyClean(
         removeTypename(transformCardConnection(result))
-      );
+      ) as CardConnection;
     },
-    card: async (_, { id }, { dataSources }): Promise<Card> =>
+    card: async (
+      _: unknown,
+      args: QueryCardArgs,
+      { dataSources }: ApolloContext
+    ): Promise<Card> =>
       jsonStringifyClean(
-        removeTypename(transformCard(await dataSources.cardAPI.getCard(id!)))
-      ),
+        removeTypename(
+          transformCard(await dataSources.cardAPI.getCard(args.id || ""))
+        )
+      ) as Card,
   },
   Mutation: {
     addCard: async (
-      _,
-      { input },
-      { dataSources }
+      _: unknown,
+      { input }: MutationAddCardArgs,
+      { dataSources }: ApolloContext
     ): Promise<CardsUpdatedResponse> => {
       if (!input) throw new Error("Missing Card input");
       const response = await dataSources.cardAPI.addCard(input);
@@ -150,12 +193,12 @@ export const resolvers: Resolvers = {
           ...response,
           card: transformCard(response.card),
         })
-      );
+      ) as CardsUpdatedResponse;
     },
     updateCard: async (
-      _,
-      { id, input },
-      { dataSources }
+      _: unknown,
+      { id, input }: MutationUpdateCardArgs,
+      { dataSources }: ApolloContext
     ): Promise<CardsUpdatedResponse> => {
       if (!input) throw new Error("Missing Card input");
       const response = await dataSources.cardAPI.updateCard(id, input);
@@ -164,12 +207,12 @@ export const resolvers: Resolvers = {
           ...response,
           card: transformCard(response.card),
         })
-      );
+      ) as CardsUpdatedResponse;
     },
     removeCard: async (
-      _,
-      { id },
-      { dataSources }
+      _: unknown,
+      { id }: MutationRemoveCardArgs,
+      { dataSources }: ApolloContext
     ): Promise<CardsUpdatedResponse> => {
       const response = await dataSources.cardAPI.removeCard(id);
       return jsonStringifyClean(
@@ -177,16 +220,22 @@ export const resolvers: Resolvers = {
           ...response,
           card: transformCard(response.card),
         })
-      );
+      ) as CardsUpdatedResponse;
     },
   },
   Card: {
     // Override __typename resolver to return undefined (so the property is omitted in JSON)
-    __typename: () => undefined,
-    categories(root, args, { dataSources }): Promise<Category[]> {
+    __typename: (): undefined => undefined,
+    categories(
+      root: ResolversParentTypes["Card"],
+      _args: unknown,
+      { dataSources }: ApolloContext
+    ): Promise<Category[]> {
       return dataSources.categoryAPI
         .getCategoriesFor(root.id)
-        .then((cats: any) => cats.map(transformCategory));
+        .then((cats: CategoryObject[]) =>
+          cats.map(transformCategory)
+        ) as Promise<Category[]>;
     },
   },
 };

@@ -6,29 +6,40 @@ module.exports = {
     "plugin:prettier/recommended", // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
   ],
   plugins: ["@typescript-eslint", "prettier", "import"],
   parserOptions: {
     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
-    sourceType: "module" // Allows for the use of imports
+    sourceType: "module", // Allows for the use of imports
+    ecmaFeatures: {
+      decorators: true, // Enable decorator support
+    },
   },
   rules: {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
     // turn on errors for missing imports
-    "import/no-unresolved": "error"
+    "import/no-unresolved": "error",
+    // Disable no-unused-vars for TypeORM decorators and entity classes
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        varsIgnorePattern:
+          "Entity|PrimaryGeneratedColumn|Column|ManyToMany|Tree|TreeChildren|TreeParent|JoinTable|Card|Category|User",
+      },
+    ],
   },
   settings: {
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
+      "@typescript-eslint/parser": [".ts", ".tsx"],
     },
     "import/resolver": {
       typescript: {
         alwaysTryTypes: true, // always try to resolve types under `<roo/>@types` directory even it doesn't contain any source code, like `@types/unist`
-        directory: "./tsconfig.json"
-      }
+        project: "./tsconfig.json",
+      },
     },
-    "import/ignore": ["node_modules"]
-  }
+    "import/ignore": ["node_modules"],
+  },
 };

@@ -1,6 +1,6 @@
 import DataLoader = require("dataloader");
 import { DataSource, DataSourceConfig } from "apollo-datasource";
-import { Connection } from "typeorm";
+import { Connection, Repository } from "typeorm";
 
 import { Category as CategoryEntity } from "../entity";
 import { CategoryInput, DirectionEnum } from "../generated/graphql";
@@ -75,9 +75,10 @@ export class CategoryAPI extends DataSource {
       return cardIds.map((id) =>
         categories
           .filter((category) =>
-            (category.cards || []).find(
-              (card) => card.id === decodeGlobalID(id)!.id
-            )
+            (category.cards || []).find((card) => {
+              const decoded = decodeGlobalID(id);
+              return decoded && card.id === decoded.id;
+            })
           )
           .map(this.encodeCategory)
       );
@@ -97,16 +98,21 @@ export class CategoryAPI extends DataSource {
     orderByColumn = "category.name",
     orderByDirection = DirectionEnum.Asc,
   }: GetCategoriesArguments): Promise<CategoryEntity[]> {
-    let query = (this.repos.categories! as any)
+    const categoryRepo = this.repos.categories as Repository<CategoryEntity>;
+
+    let query = categoryRepo
       .createQueryBuilder("category")
       .leftJoinAndSelect("category.cards", "card");
 
     if (cardIds?.length) {
       // filter by CardID
-
       const decodedIds = cardIds
         .split(",")
-        .map((encodedId) => decodeGlobalID(encodedId).id);
+        .map((encodedId) => {
+          const decoded = decodeGlobalID(encodedId);
+          return decoded ? decoded.id : "";
+        })
+        .filter((id) => id !== "");
 
       query = query.where("card.id IN (:...cardIds)", { cardIds: decodedIds });
     }
@@ -132,8 +138,13 @@ export class CategoryAPI extends DataSource {
    * @param id global id
    */
   async getCategoryByGlobalID(id: string): Promise<CategoryEntity> {
-    id = decodeGlobalID(id).id;
-    const category = await this.repos.categories!.findOne!(id); // find by id
+    const decoded = decodeGlobalID(id);
+    if (!decoded) {
+      throw new Error("Invalid Global ID");
+    }
+
+    const categoryRepo = this.repos.categories as Repository<CategoryEntity>;
+    const category = await categoryRepo.findOne(decoded.id); // find by id
 
     if (!category) throw new Error("Category Not Found");
     return category;
@@ -157,7 +168,10 @@ export class CategoryAPI extends DataSource {
   }: CategoryInput): Promise<CategoryUpdatedResponseObject> {
     const category = new CategoryEntity();
     category.name = name ?? "";
-    const savedCategory = await this.repos.categories!.save!(category);
+
+    const categoryRepo = this.repos.categories as Repository<CategoryEntity>;
+    const savedCategory = await categoryRepo.save(category);
+
     return {
       success: true,
       message: "Category Added",
@@ -176,7 +190,10 @@ export class CategoryAPI extends DataSource {
   ): Promise<CategoryUpdatedResponseObject> {
     const category = await this.getCategoryByGlobalID(id);
     category.name = name ?? "";
-    const savedCategory = await this.repos.categories!.save!(category);
+
+    const categoryRepo = this.repos.categories as Repository<CategoryEntity>;
+    const savedCategory = await categoryRepo.save(category);
+
     return {
       success: true,
       message: "Category Updated",
@@ -192,16 +209,21 @@ export class CategoryAPI extends DataSource {
     const category = await this.getCategoryByGlobalID(id);
     const originalCategory = { ...category }; // remove wipes the ip, creating a copy for the category field
 
-    id = decodeGlobalID(id).id;
+    const decoded = decodeGlobalID(id);
+    if (!decoded) {
+      throw new Error("Invalid Global ID");
+    }
+
     // remove dependant tree relations, unfortunately hasn't been implemented in TypeORM yet
-    await (this.repos.categories! as any)
+    const categoryRepo = this.repos.categories as Repository<CategoryEntity>;
+    await categoryRepo
       .createQueryBuilder()
       .delete()
       .from("category_closure") // check your db or migrations for the actual table name
-      .where('"id_ancestor" = :id', { id })
+      .where('"id_ancestor" = :id', { id: decoded.id })
       .execute();
 
-    await this.repos.categories!.remove!(category);
+    await categoryRepo.remove(category);
 
     return {
       success: true,

@@ -281,11 +281,14 @@ export class CardAPI extends DataSource {
       throw new Error("Invalid global id");
     }
     const realId = decoded.id;
-    const cardsRepo = this.repos.cards!;
+    const cardsRepo = this.repos.cards;
+    if (!cardsRepo) {
+      throw new Error("cards repository is undefined");
+    }
     if (!cardsRepo.findOne) {
       throw new Error("cards repository findOne method is undefined");
     }
-    const card = await cardsRepo.findOne!(realId);
+    const card = await cardsRepo.findOne(realId);
 
     if (!card) throw new Error("Card Not Found");
     return card; // returning as a CardEntity because it hasn't been encoded yet
@@ -316,11 +319,14 @@ export class CardAPI extends DataSource {
     card.description = description ?? "";
 
     if (categoryId) {
-      const categoriesRepo = this.repos.categories!;
+      const categoriesRepo = this.repos.categories;
+      if (!categoriesRepo) {
+        throw new Error("categories repository is undefined");
+      }
       if (!categoriesRepo.findOne) {
         throw new Error("categories repository findOne method is undefined");
       }
-      const category = await categoriesRepo.findOne!(categoryId);
+      const category = await categoriesRepo.findOne(categoryId);
       if (!category) {
         throw new Error("Category not found");
       }
@@ -329,11 +335,14 @@ export class CardAPI extends DataSource {
       card.categories = [];
     }
 
-    const cardsRepo = this.repos.cards!;
+    const cardsRepo = this.repos.cards;
+    if (!cardsRepo) {
+      throw new Error("cards repository is undefined");
+    }
     if (!cardsRepo.save) {
       throw new Error("cards repository save method is undefined");
     }
-    const savedCard = await cardsRepo.save!(card);
+    const savedCard = await cardsRepo.save(card);
     return {
       success: true,
       message: "Card Added",
@@ -365,11 +374,14 @@ export class CardAPI extends DataSource {
         : ((card.description != null ? card.description : "") as string);
 
     if (categoryId) {
-      const categoriesRepo = this.repos.categories!;
+      const categoriesRepo = this.repos.categories;
+      if (!categoriesRepo) {
+        throw new Error("categories repository is undefined");
+      }
       if (!categoriesRepo.findOne) {
         throw new Error("categories repository findOne method is undefined");
       }
-      const category = await categoriesRepo.findOne!(categoryId);
+      const category = await categoriesRepo.findOne(categoryId);
       if (!category) {
         throw new Error("Category not found");
       }
@@ -378,11 +390,14 @@ export class CardAPI extends DataSource {
       card.categories = [];
     }
 
-    const cardsRepo = this.repos.cards!;
+    const cardsRepo = this.repos.cards;
+    if (!cardsRepo) {
+      throw new Error("cards repository is undefined");
+    }
     if (!cardsRepo.save) {
       throw new Error("cards repository save method is undefined");
     }
-    const savedCard = await cardsRepo.save!(card);
+    const savedCard = await cardsRepo.save(card);
     return {
       success: true,
       message: "Card Updated",
@@ -397,7 +412,10 @@ export class CardAPI extends DataSource {
   async removeCard(id: string): Promise<CardsUpdatedResponseObject> {
     const card = await this.getCardByGlobalID(id); // find by id
     const originalCard = { ...card }; // remove wipes the ip, creating a copy for the card field
-    const cardsRepo = this.repos.cards!;
+    const cardsRepo = this.repos.cards;
+    if (!cardsRepo) {
+      throw new Error("cards repository is undefined");
+    }
     if (!cardsRepo.remove) {
       throw new Error("cards repository remove method is undefined");
     }

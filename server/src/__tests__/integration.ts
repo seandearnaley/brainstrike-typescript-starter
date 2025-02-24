@@ -9,6 +9,16 @@ import {
 
 import * as TDATA from "./__testData";
 import * as GQL from "./__queries";
+import { CardAPI } from "../datasources/card";
+
+// Create type aliases for the non-exported types from CardAPI
+type CardObject = Parameters<CardAPI["getCard"]>[0] extends string
+  ? Awaited<ReturnType<CardAPI["getCard"]>>
+  : never;
+
+type CardConnectionObject = Awaited<ReturnType<CardAPI["getCards"]>>;
+
+type CardsUpdatedResponseObject = Awaited<ReturnType<CardAPI["addCard"]>>;
 
 describe("Queries", () => {
   let connection: Connection;
@@ -30,7 +40,9 @@ describe("Queries", () => {
     // mock the datasources' underlying fetch methods
     cardAPI.getCards = jest.fn(async () =>
       Promise.resolve(
-        convertStringDatesToDateObjects(TDATA.mockCardsConnectionResult) as any
+        (convertStringDatesToDateObjects(
+          TDATA.mockCardsConnectionResult
+        ) as unknown) as CardConnectionObject
       )
     );
 
@@ -54,9 +66,9 @@ describe("Queries", () => {
 
     cardAPI.getCard = jest.fn(async () =>
       Promise.resolve(
-        convertStringDatesToDateObjects(
+        (convertStringDatesToDateObjects(
           TDATA.mockFirstCardResponseEncoded
-        ) as any
+        ) as unknown) as CardObject
       )
     );
 
@@ -90,7 +102,7 @@ describe("Mutations", () => {
     );
 
     cardAPI.addCard = jest.fn(async () =>
-      Promise.resolve(convertedData as any)
+      Promise.resolve((convertedData as unknown) as CardsUpdatedResponseObject)
     );
 
     const { mutate } = createTestClient(apolloServer);
@@ -111,7 +123,7 @@ describe("Mutations", () => {
     );
 
     cardAPI.updateCard = jest.fn(async () =>
-      Promise.resolve(convertedData as any)
+      Promise.resolve((convertedData as unknown) as CardsUpdatedResponseObject)
     );
 
     const { mutate } = createTestClient(apolloServer);
@@ -135,7 +147,7 @@ describe("Mutations", () => {
     );
 
     cardAPI.removeCard = jest.fn(async () =>
-      Promise.resolve(convertedData as any)
+      Promise.resolve((convertedData as unknown) as CardsUpdatedResponseObject)
     );
 
     const { mutate } = createTestClient(apolloServer);

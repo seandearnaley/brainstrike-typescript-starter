@@ -9,7 +9,7 @@ import {
   Observable,
   FetchResult,
 } from "apollo-link";
-import { ApolloContext, APIInterface } from "../../src/types/context";
+import { ApolloContext } from "../../src/types/context";
 import { CardAPI, CategoryAPI } from "../../src/datasources";
 
 import {
@@ -69,10 +69,10 @@ export const startTestServer = async (
     );
   });
 
-  // NOTE: apparently fetch isn't properly typed to spec, so have to work around with an "any" here
+  // NOTE: apparently fetch isn't properly typed to spec, so have to work around with a type cast here
   const link = new HttpLink({
     uri: `http://localhost:${port}/graphql`,
-    fetch: fetch as any, // eslint-disable-line
+    fetch: (fetch as unknown) as WindowOrWorkerGlobalScope["fetch"],
   });
 
   const executeOperation = ({
@@ -112,17 +112,19 @@ export function convertStringDatesToDateObjects<T>(obj: T): T {
         (key === "created" || key === "updated") &&
         typeof value === "string"
       ) {
-        (result as any)[key] = new Date(value);
+        (result as Record<string, unknown>)[key] = new Date(value);
       }
       // If property is an array, recursively process each item
       else if (Array.isArray(value)) {
-        (result as any)[key] = value.map((item) =>
+        (result as Record<string, unknown>)[key] = value.map((item) =>
           convertStringDatesToDateObjects(item)
         );
       }
       // If property is an object (except for Date objects), recursively process
       else if (value && typeof value === "object" && !(value instanceof Date)) {
-        (result as any)[key] = convertStringDatesToDateObjects(value);
+        (result as Record<string, unknown>)[
+          key
+        ] = convertStringDatesToDateObjects(value);
       }
     }
   }

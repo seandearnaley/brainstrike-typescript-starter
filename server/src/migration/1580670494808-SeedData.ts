@@ -16,7 +16,7 @@ export class SeedData1580670494808 implements MigrationInterface {
       category.created = new Date(value.created);
       category.updated = new Date(value.updated);
       return [...acc, category];
-    }, []);
+    }, [] as Category[]);
 
     const CardSeed = fakeCards.reduce((acc, value) => {
       const card = new Card();
@@ -28,13 +28,15 @@ export class SeedData1580670494808 implements MigrationInterface {
       card.updated = new Date(value.updated);
 
       const category = value.category
-        ? CategorySeed.find((category) => category.id === value.category.id)
+        ? CategorySeed.find(
+            (category: Category) => category.id === value.category.id
+          )
         : null;
 
-      card.categories = !category ? null : [category];
+      card.categories = category ? [category] : [];
 
       return [...acc, card];
-    }, []);
+    }, [] as Card[]);
 
     await categoryRepo.save(CategorySeed);
     await cardRepo.save(CardSeed);

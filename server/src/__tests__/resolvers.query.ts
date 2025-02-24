@@ -1,3 +1,4 @@
+import { ApolloContext } from "../../src/types/context";
 import resolvers from "../graphql/resolvers";
 
 import {
@@ -7,43 +8,50 @@ import {
 } from "./__testData";
 
 describe("[Query.cards]", () => {
-  const mockContext = {
+  const mockContext: ApolloContext = {
     dataSources: {
-      cardAPI: { getCards: jest.fn() },
+      cardAPI: { getCards: jest.fn() } as any,
+      categoryAPI: {} as any,
     },
+    connection: undefined,
   };
 
-  const { getCards } = mockContext.dataSources.cardAPI;
+  const getCards = mockContext.dataSources.cardAPI.getCards as jest.Mock;
 
   it("calls getCards from card api", async () => {
     getCards.mockReturnValueOnce(Promise.resolve(mockCardsConnectionResult));
 
     // check the resolver response
-    const res = await resolvers.Query.cards(null, {}, mockContext, null);
+    const res = await resolvers.Query!.cards!(
+      {} as any,
+      {},
+      mockContext,
+      {} as any
+    );
     expect(res).toStrictEqual(mockCardsConnectionResult);
   });
 });
 
 describe("[Query.node card]", () => {
-  const mockContext = {
+  const mockContext: ApolloContext = {
     dataSources: {
-      cardAPI: { getCard: jest.fn() },
+      cardAPI: { getCard: jest.fn() } as any,
+      categoryAPI: {} as any,
     },
+    connection: undefined,
   };
 
-  const { getCard } = mockContext.dataSources.cardAPI;
+  const getCard = mockContext.dataSources.cardAPI.getCard as jest.Mock;
 
   it("calls getCard from card api", async () => {
     getCard.mockReturnValueOnce(Promise.resolve(mockFirstCardResponse));
 
     // check the resolver response
-    const res = await resolvers.Query.node(
-      null,
-      {
-        id: mockFirstCardQueryId,
-      },
+    const res = await resolvers.Query!.node!(
+      {} as any,
+      { id: mockFirstCardQueryId },
       mockContext,
-      null
+      {} as any
     );
 
     // make sure the dataSources were called properly

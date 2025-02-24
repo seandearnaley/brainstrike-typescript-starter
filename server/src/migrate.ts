@@ -20,7 +20,11 @@ const start = async (): Promise<void> => {
 
     await connection.close();
   } catch (err) {
-    throw Error(err.message);
+    if (err instanceof Error) {
+      console.error("Migration error:", err.message);
+    } else {
+      console.error("Migration error:", err);
+    }
     process.exit(1);
   }
   process.exit(0);

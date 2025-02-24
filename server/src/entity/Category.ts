@@ -15,32 +15,32 @@ import { Card } from "./Card";
 @Tree("closure-table")
 export class Category {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id!: string;
 
   @Column()
-  name: string;
+  name!: string;
 
   @TreeChildren()
   children?: Category[];
 
   @TreeParent()
-  parent: Category;
+  parent?: Category;
 
   @Column({
     type: "timestamp",
     nullable: false,
     default: () => "LOCALTIMESTAMP",
   })
-  created: Date;
+  created!: Date;
 
   @Column({
     type: "timestamp",
     nullable: false,
     default: () => "LOCALTIMESTAMP",
   })
-  updated: Date;
+  updated!: Date;
 
   @ManyToMany(() => Card, (card) => card.categories)
   @JoinTable()
-  cards: Card[];
+  cards!: Card[];
 }

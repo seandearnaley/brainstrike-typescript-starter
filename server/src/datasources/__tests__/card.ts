@@ -4,6 +4,7 @@ import {
   createTestingConnection,
   Connection,
 } from "../../__tests__/__utils";
+import { KeyValueCache } from "apollo-server-caching";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -22,7 +23,7 @@ import {
 } from "../../__tests__/__testData";
 
 describe("Queries", () => {
-  let connection: Partial<Connection>;
+  let connection: Connection;
   let ds: CardAPI;
   let mockCardFind: any;
   let mockCardFindOne: any;
@@ -32,7 +33,13 @@ describe("Queries", () => {
 
   beforeAll(async () => {
     console.log("creating test connection");
-    connection = await createTestingConnection();
+    connection = ((await createTestingConnection()) as unknown) as Connection;
+    if (!connection.name) {
+      (connection as any).name = "test-connection";
+    }
+    (connection as any).findMetadata = jest.fn();
+    (connection as any).buildMetadatas = jest.fn();
+    (connection as any).getDatabaseName = jest.fn();
 
     mockCardFind = jest.fn();
     mockCardFindOne = jest.fn();
@@ -62,7 +69,7 @@ describe("Queries", () => {
 
     ds.initialize({
       context: mockContext,
-      cache: null,
+      cache: {} as KeyValueCache<string>,
     });
   });
 

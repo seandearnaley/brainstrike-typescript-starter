@@ -66,7 +66,7 @@ export class CategoryAPI extends DataSource {
   }
 
   private categoryLoader = new DataLoader<string, CategoryObject[]>(
-    async (cardIds: string[]): Promise<Array<CategoryObject[]>> => {
+    async (cardIds: readonly string[]): Promise<CategoryObject[][]> => {
       // batches cardIds into a single call per request
       const categories = await this.getCategoryEntities({
         cardIds: cardIds.join(","),
@@ -75,7 +75,9 @@ export class CategoryAPI extends DataSource {
       return cardIds.map((id) =>
         categories
           .filter((category) =>
-            category.cards.find((card) => card.id === decodeGlobalID(id).id)
+            (category.cards || []).find(
+              (card) => card.id === decodeGlobalID(id)!.id
+            )
           )
           .map(this.encodeCategory)
       );
@@ -95,7 +97,7 @@ export class CategoryAPI extends DataSource {
     orderByColumn = "category.name",
     orderByDirection = DirectionEnum.Asc,
   }: GetCategoriesArguments): Promise<CategoryEntity[]> {
-    let query = this.repos.categories
+    let query = (this.repos.categories! as any)
       .createQueryBuilder("category")
       .leftJoinAndSelect("category.cards", "card");
 
@@ -131,7 +133,7 @@ export class CategoryAPI extends DataSource {
    */
   async getCategoryByGlobalID(id: string): Promise<CategoryEntity> {
     id = decodeGlobalID(id).id;
-    const category = await this.repos.categories.findOne(id); // find by id
+    const category = await this.repos.categories!.findOne!(id); // find by id
 
     if (!category) throw new Error("Category Not Found");
     return category;
@@ -154,8 +156,8 @@ export class CategoryAPI extends DataSource {
     name,
   }: CategoryInput): Promise<CategoryUpdatedResponseObject> {
     const category = new CategoryEntity();
-    category.name = name;
-    const savedCategory = await this.repos.categories.save(category);
+    category.name = name ?? "";
+    const savedCategory = await this.repos.categories!.save!(category);
     return {
       success: true,
       message: "Category Added",
@@ -173,8 +175,8 @@ export class CategoryAPI extends DataSource {
     { name }: CategoryInput
   ): Promise<CategoryUpdatedResponseObject> {
     const category = await this.getCategoryByGlobalID(id);
-    category.name = name;
-    const savedCategory = await this.repos.categories.save(category);
+    category.name = name ?? "";
+    const savedCategory = await this.repos.categories!.save!(category);
     return {
       success: true,
       message: "Category Updated",
@@ -192,14 +194,14 @@ export class CategoryAPI extends DataSource {
 
     id = decodeGlobalID(id).id;
     // remove dependant tree relations, unfortunately hasn't been implemented in TypeORM yet
-    await this.repos.categories
+    await (this.repos.categories! as any)
       .createQueryBuilder()
       .delete()
       .from("category_closure") // check your db or migrations for the actual table name
       .where('"id_ancestor" = :id', { id })
       .execute();
 
-    await this.repos.categories.remove(category);
+    await this.repos.categories!.remove!(category);
 
     return {
       success: true,

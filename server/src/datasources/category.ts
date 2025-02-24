@@ -1,6 +1,9 @@
 import DataLoader = require("dataloader");
-import { DataSource, DataSourceConfig } from "apollo-datasource";
-import { Connection, Repository } from "typeorm";
+import {
+  DataSource as ApolloDataSource,
+  DataSourceConfig,
+} from "apollo-datasource";
+import { DataSource, Repository } from "typeorm";
 
 import { Category as CategoryEntity } from "../entity";
 import { CategoryInput, DirectionEnum } from "../generated/graphql";
@@ -31,12 +34,12 @@ type CategoryUpdatedResponseObject = {
   category: CategoryObject;
 };
 
-export class CategoryAPI extends DataSource {
+export class CategoryAPI extends ApolloDataSource {
   context!: ApolloContext;
-  connection: Connection;
+  connection: DataSource;
   repos: DataSourceRepos;
 
-  constructor({ connection }: { connection: Connection }) {
+  constructor({ connection }: { connection: DataSource }) {
     super();
     this.connection = connection;
     this.repos = {
@@ -144,7 +147,7 @@ export class CategoryAPI extends DataSource {
     }
 
     const categoryRepo = this.repos.categories as Repository<CategoryEntity>;
-    const category = await categoryRepo.findOne(decoded.id); // find by id
+    const category = await categoryRepo.findOneBy({ id: decoded.id }); // find by id
 
     if (!category) throw new Error("Category Not Found");
     return category;

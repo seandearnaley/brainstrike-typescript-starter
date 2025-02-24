@@ -2,7 +2,7 @@ import { CardAPI } from "../card";
 import {
   mockContext,
   createTestingConnection,
-  Connection,
+  DataSource,
 } from "../../__tests__/__utils";
 import { KeyValueCache } from "apollo-server-caching";
 
@@ -23,17 +23,17 @@ import {
 } from "../../__tests__/__testData";
 
 describe("Queries", () => {
-  let connection: Connection;
+  let connection: DataSource;
   let ds: CardAPI;
   let mockCardFind: any;
-  let mockCardFindOne: any;
+  let mockCardFindOneBy: any;
   let mockCardSave: any;
   let mockCardRemove: any;
   let mockCardQuery: any;
 
   beforeAll(async () => {
     console.log("creating test connection");
-    connection = ((await createTestingConnection()) as unknown) as Connection;
+    connection = ((await createTestingConnection()) as unknown) as DataSource;
     if (!connection.name) {
       (connection as any).name = "test-connection";
     }
@@ -42,7 +42,7 @@ describe("Queries", () => {
     (connection as any).getDatabaseName = jest.fn();
 
     mockCardFind = jest.fn();
-    mockCardFindOne = jest.fn();
+    mockCardFindOneBy = jest.fn();
     mockCardSave = jest.fn();
     mockCardRemove = jest.fn();
     mockCardQuery = jest.fn();
@@ -52,7 +52,7 @@ describe("Queries", () => {
         case "Card": {
           return {
             find: mockCardFind,
-            findOne: mockCardFindOne,
+            findOneBy: mockCardFindOneBy,
             save: mockCardSave,
             remove: mockCardRemove,
           };
@@ -87,7 +87,7 @@ describe("Queries", () => {
 
   describe("[CardAPI.getCard]", () => {
     it("gets a single card in card repo", async () => {
-      mockCardFindOne.mockReturnValue(mockFirstCardResponse);
+      mockCardFindOneBy.mockReturnValue(mockFirstCardResponse);
       const res = await ds.getCard(mockFirstCardQueryId);
       expect(res).toEqual(mockFirstCardResponseEncoded);
     });
@@ -103,7 +103,7 @@ describe("Queries", () => {
 
   describe("[CardAPI.updateCard]", () => {
     it("updates a card in the card repo", async () => {
-      mockCardFindOne.mockReturnValue(mockReturnCard);
+      mockCardFindOneBy.mockReturnValue(mockReturnCard);
       mockCardSave.mockReturnValue(mockReturnCard);
       const res = await ds.updateCard(mockFirstCardQueryId, mockCardInput);
       expect(res).toEqual(mockSuccessfulUpdateResponse);

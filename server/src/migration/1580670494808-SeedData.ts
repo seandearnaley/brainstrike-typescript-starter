@@ -1,45 +1,62 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-import { Card, Category } from "../entity";
+import { Card } from "../entity/Card";
+import { Category } from "../entity/Category";
 import * as fakeCategories from "../seed-data/fakeCategories.json";
 import * as fakeCards from "../seed-data/fakeCards.json";
 
 export class SeedData1580670494808 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    const categoryRepo = queryRunner.manager.getRepository(Category);
-    const cardRepo = queryRunner.manager.getRepository(Card);
+    try {
+      // Use direct SQL for inserting categories
+      for (const value of fakeCategories) {
+        await queryRunner.query(
+          `
+          INSERT INTO category (id, name, created, updated)
+          VALUES ($1, $2, $3, $4)
+        `,
+          [
+            value.id,
+            value.name,
+            new Date(value.created),
+            new Date(value.updated),
+          ]
+        );
+      }
 
-    const CategorySeed = fakeCategories.reduce((acc, value) => {
-      const category = new Category();
-      category.id = value.id;
-      category.name = value.name;
-      category.created = new Date(value.created);
-      category.updated = new Date(value.updated);
-      return [...acc, category];
-    }, [] as Category[]);
+      // Use direct SQL for inserting cards
+      for (const value of fakeCards) {
+        await queryRunner.query(
+          `
+          INSERT INTO card (id, number, label, description, created, updated)
+          VALUES ($1, $2, $3, $4, $5, $6)
+        `,
+          [
+            value.id,
+            value.number,
+            value.label,
+            value.description,
+            new Date(value.created),
+            new Date(value.updated),
+          ]
+        );
 
-    const CardSeed = fakeCards.reduce((acc, value) => {
-      const card = new Card();
-      card.id = value.id;
-      card.number = value.number;
-      card.label = value.label;
-      card.description = value.description;
-      card.created = new Date(value.created);
-      card.updated = new Date(value.updated);
+        // If card has a category, insert the relationship
+        if (value.category) {
+          await queryRunner.query(
+            `
+            INSERT INTO category_cards_card ("categoryId", "cardId")
+            VALUES ($1, $2)
+          `,
+            [value.category.id, value.id]
+          );
+        }
+      }
 
-      const category = value.category
-        ? CategorySeed.find(
-            (category: Category) => category.id === value.category.id
-          )
-        : null;
-
-      card.categories = category ? [category] : [];
-
-      return [...acc, card];
-    }, [] as Card[]);
-
-    await categoryRepo.save(CategorySeed);
-    await cardRepo.save(CardSeed);
+      console.log("Seed data inserted successfully");
+    } catch (error) {
+      console.error("Error in migration:", error);
+    }
   }
 
   public async down(): Promise<void> {

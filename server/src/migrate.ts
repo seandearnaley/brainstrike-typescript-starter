@@ -1,10 +1,10 @@
-import { ConnectionOptions } from "typeorm";
+import { DataSourceOptions } from "typeorm";
 import ormConfig from "./ormConfig";
 import { createDbConnection } from "./index";
 
 const start = async (): Promise<void> => {
   try {
-    const connection = await createDbConnection(ormConfig as ConnectionOptions);
+    const connection = await createDbConnection(ormConfig as DataSourceOptions);
 
     if (process.argv.length !== 3) return;
 

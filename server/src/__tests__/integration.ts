@@ -3,7 +3,7 @@ import { createTestClient } from "apollo-server-testing";
 import {
   constructTestServer,
   createTestingConnection,
-  Connection,
+  DataSource,
   convertStringDatesToDateObjects,
 } from "./__utils";
 
@@ -21,7 +21,7 @@ type CardConnectionObject = Awaited<ReturnType<CardAPI["getCards"]>>;
 type CardsUpdatedResponseObject = Awaited<ReturnType<CardAPI["addCard"]>>;
 
 describe("Queries", () => {
-  let connection: Connection;
+  let connection: DataSource;
 
   beforeAll(async () => {
     console.log("creating test connection");
@@ -48,13 +48,12 @@ describe("Queries", () => {
 
     // use our test server as input to the createTestClient fn
     // This will give us an interface, similar to apolloClient.query
-    // to run queries against our instance of ApolloServer
     const { query } = createTestClient(apolloServer);
+
+    // run query against the server and snapshot the output
     const res = await query({
       query: GQL.GET_CARD_DATA,
-      variables: {
-        first: 3,
-      },
+      variables: { first: 20 },
     });
     expect(res).toMatchSnapshot();
   });
@@ -83,7 +82,7 @@ describe("Queries", () => {
 });
 
 describe("Mutations", () => {
-  let connection: Connection;
+  let connection: DataSource;
 
   beforeAll(async () => {
     console.log("creating test connection");

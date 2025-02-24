@@ -1,6 +1,9 @@
 import DataLoader = require("dataloader");
-import { DataSource, DataSourceConfig } from "apollo-datasource";
-import { Connection } from "typeorm";
+import {
+  DataSource as ApolloDataSource,
+  DataSourceConfig,
+} from "apollo-datasource";
+import { DataSource } from "typeorm";
 import { Card as CardEntity, Category as CategoryEntity } from "../entity";
 import { CardInput, DirectionEnum } from "../generated/graphql";
 import { ApolloContext } from "../types/context";
@@ -63,12 +66,12 @@ type CardsUpdatedResponseObject = {
   card: CardObject;
 };
 
-export class CardAPI extends DataSource {
+export class CardAPI extends ApolloDataSource {
   context!: ApolloContext;
-  connection: Connection;
+  connection: DataSource;
   repos: DataSourceRepos;
 
-  constructor({ connection }: { connection: Connection }) {
+  constructor({ connection }: { connection: DataSource }) {
     super();
     this.connection = connection;
     this.repos = {
@@ -285,10 +288,10 @@ export class CardAPI extends DataSource {
     if (!cardsRepo) {
       throw new Error("cards repository is undefined");
     }
-    if (!cardsRepo.findOne) {
-      throw new Error("cards repository findOne method is undefined");
+    if (!cardsRepo.findOneBy) {
+      throw new Error("cards repository findOneBy method is undefined");
     }
-    const card = await cardsRepo.findOne(realId);
+    const card = await cardsRepo.findOneBy({ id: realId });
 
     if (!card) throw new Error("Card Not Found");
     return card; // returning as a CardEntity because it hasn't been encoded yet
@@ -323,10 +326,10 @@ export class CardAPI extends DataSource {
       if (!categoriesRepo) {
         throw new Error("categories repository is undefined");
       }
-      if (!categoriesRepo.findOne) {
-        throw new Error("categories repository findOne method is undefined");
+      if (!categoriesRepo.findOneBy) {
+        throw new Error("categories repository findOneBy method is undefined");
       }
-      const category = await categoriesRepo.findOne(categoryId);
+      const category = await categoriesRepo.findOneBy({ id: categoryId });
       if (!category) {
         throw new Error("Category not found");
       }
@@ -378,10 +381,10 @@ export class CardAPI extends DataSource {
       if (!categoriesRepo) {
         throw new Error("categories repository is undefined");
       }
-      if (!categoriesRepo.findOne) {
-        throw new Error("categories repository findOne method is undefined");
+      if (!categoriesRepo.findOneBy) {
+        throw new Error("categories repository findOneBy method is undefined");
       }
-      const category = await categoriesRepo.findOne(categoryId);
+      const category = await categoriesRepo.findOneBy({ id: categoryId });
       if (!category) {
         throw new Error("Category not found");
       }

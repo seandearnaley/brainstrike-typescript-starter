@@ -16,7 +16,7 @@ import {
   createServer,
   ApolloServer,
   ServerConfig,
-  Connection,
+  DataSource,
   createTestingConnection,
 } from "../../src";
 
@@ -40,7 +40,7 @@ export const mockContext: ApolloContext = {
  * Integration testing utils
  */
 export const constructTestServer = async (
-  connection: Connection,
+  connection: DataSource,
   { context = defaultContext } = {}
 ): Promise<ServerConfig> => {
   return createServer(connection, context);
@@ -90,7 +90,7 @@ export const startTestServer = async (
   };
 };
 
-export { createTestingConnection, Connection };
+export { createTestingConnection, DataSource };
 
 /**
  * Helper function to convert date strings to Date objects in test data

@@ -1,13 +1,8 @@
 import "reflect-metadata";
 import express = require("express");
 import { config as setupDotEnv } from "dotenv";
-import {
-  createConnection,
-  Connection,
-  Repository,
-  ConnectionOptions,
-} from "typeorm";
-import { Card, Category } from "./entity";
+import { DataSource, Repository, DataSourceOptions } from "typeorm";
+import { Card, Category, User } from "./entity";
 import { typeDefs, resolvers } from "./graphql";
 import { ApolloServer, makeExecutableSchema } from "apollo-server-express";
 import { CardAPI, CategoryAPI } from "./datasources";
@@ -35,10 +30,11 @@ const defaultContext = {};
 const app = express();
 
 const createDbConnection = async (
-  options: ConnectionOptions
-): Promise<Connection> => {
+  options: DataSourceOptions
+): Promise<DataSource> => {
   try {
-    const connection: Connection = await createConnection(options);
+    const dataSource = new DataSource(options);
+    const connection = await dataSource.initialize();
     console.log(`TypeORM Connected to ${options.database}`);
     return connection;
   } catch (err) {
@@ -50,7 +46,7 @@ const createDbConnection = async (
   }
 };
 
-const createTestingConnection = (): Promise<Connection> =>
+const createTestingConnection = (): Promise<DataSource> =>
   createDbConnection({
     name: "testConnection",
     type: "postgres",
@@ -59,6 +55,7 @@ const createTestingConnection = (): Promise<Connection> =>
     ...postgresCreds,
     ...schemaConfig,
     logging: ["error"],
+    entities: [Card, Category, User],
   });
 
 interface ServerConfig {
@@ -68,7 +65,7 @@ interface ServerConfig {
 }
 
 const createServer = async (
-  connection: Connection,
+  connection: DataSource,
   context = defaultContext
 ): Promise<ServerConfig> => {
   const cardAPI = new CardAPI({ connection });
@@ -91,7 +88,7 @@ const createServer = async (
 };
 
 const start = async (): Promise<void> => {
-  const connection = await createDbConnection(ormConfig as ConnectionOptions);
+  const connection = await createDbConnection(ormConfig as DataSourceOptions);
   await connection.runMigrations();
   console.log("TypeORM runMigrations() COMPLETE.");
 
@@ -118,6 +115,6 @@ export {
   DataSourceRepos,
   createDbConnection,
   createTestingConnection,
-  Connection,
+  DataSource,
   ServerConfig,
 };

@@ -9,14 +9,15 @@ import {
   startTestServer,
   constructTestServer,
   createTestingConnection,
-  Connection,
+  DataSource,
 } from "./__utils";
 
 import * as TDATA from "./__testData";
 import * as GQL from "./__queries";
+import { Card, Category } from "../entity";
 
 describe("Server - e2e", () => {
-  let connection: Connection;
+  let connection: DataSource;
 
   let stop: () => void,
     graphql: ({}: GraphQLRequest) => Observable<FetchResult>;
@@ -24,6 +25,10 @@ describe("Server - e2e", () => {
   beforeAll(async () => {
     console.log("creating test connection");
     connection = await createTestingConnection();
+
+    // Log entity metadata status
+    console.log("Card metadata exists:", connection.hasMetadata(Card));
+    console.log("Category metadata exists:", connection.hasMetadata(Category));
   });
 
   afterAll(() => connection.close());

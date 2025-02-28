@@ -2,7 +2,6 @@ import {
   Resolvers,
   Category,
   CategoryUpdatedResponse,
-  CardConnection,
   QueryCategoriesArgs,
   QueryCategoryArgs,
   MutationAddCategoryArgs,
@@ -104,7 +103,11 @@ export const resolvers: Resolvers = {
       };
       return dataSources.cardAPI
         .getCardConnectionFor(root.id, cleanedArgs)
-        .then(transformCardConnection);
+        .then(transformCardConnection)
+        .then((result) => {
+          // Ensure we always return Card[]
+          return Array.isArray(result) ? result : [];
+        });
     },
   },
 };

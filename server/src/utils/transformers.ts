@@ -54,7 +54,11 @@ export const transformCategory = (
     updated: category.updated,
     parent: category.parent ? transformCategory(category.parent) : null,
     children: category.children ? category.children.map(transformCategory) : [],
-    cards: category.cards ? transformCardConnection(category.cards) : [],
+    cards: category.cards
+      ? Array.isArray(transformCardConnection(category.cards))
+        ? (transformCardConnection(category.cards) as Card[])
+        : []
+      : [],
   };
 };
 
@@ -68,7 +72,7 @@ export const transformCard = (card: CardLike | CardEntity): Card => {
 
 export const transformCardConnection = (
   connection: CardConnectionLike
-): Array<Card> => {
+): Array<Card> | CardConnection => {
   if (!connection) {
     return [];
   }
@@ -78,6 +82,24 @@ export const transformCardConnection = (
   }
 
   if (connection.edges) {
+    // If we need a CardConnection (for the cards query)
+    if (connection.pageInfo) {
+      return {
+        edges: connection.edges.map((edge) => ({
+          cursor: edge.cursor || "",
+          node: transformCard(edge.node),
+        })),
+        pageInfo: {
+          hasNextPage: connection.pageInfo.hasNextPage || false,
+          hasPreviousPage: connection.pageInfo.hasPreviousPage || false,
+          totalCount: connection.pageInfo.totalCount || 0,
+          startCursor: "",
+          endCursor: "",
+        },
+      };
+    }
+
+    // If we need an array of Cards (for the Category.cards field)
     return connection.edges.map((edge) => transformCard(edge.node));
   }
 

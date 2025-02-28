@@ -70,12 +70,6 @@
     "ts-node": "8.10.2",
     "typescript": "5.8.2"
   },
-  "optionalDependencies": {
-    "@parcel/watcher": "^2.1.0"
-  },
-  "optionalDependencies": {
-    "@parcel/watcher": "^2.1.0"
-  },
   "dependencies": {
     "apollo-server-express": "2.16.1",
     "apollo-server-testing": "2.16.1",

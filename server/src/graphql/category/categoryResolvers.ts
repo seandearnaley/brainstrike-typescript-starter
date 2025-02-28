@@ -10,6 +10,7 @@ import {
   ResolversParentTypes,
   DirectionEnum,
   Card,
+  CardConnection,
 } from "../../generated/graphql";
 import {
   transformCategory,
@@ -89,7 +90,7 @@ export const resolvers: Resolvers = {
       root: ResolversParentTypes["Category"],
       args: CategoryCardsArgs,
       { dataSources }: ApolloContext
-    ): Promise<Array<Card>> {
+    ): Promise<CardConnection> {
       const cleanedArgs = {
         ...args,
         before: args.before === null ? undefined : args.before,
@@ -103,10 +104,31 @@ export const resolvers: Resolvers = {
       };
       return dataSources.cardAPI
         .getCardConnectionFor(root.id, cleanedArgs)
-        .then(transformCardConnection)
         .then((result) => {
-          // Ensure we always return Card[]
-          return Array.isArray(result) ? result : [];
+          const transformed = transformCardConnection(result);
+
+          // Ensure we always return a CardConnection
+          if (!Array.isArray(transformed)) {
+            return transformed as CardConnection;
+          }
+
+          // If we got an array of Cards, convert it to a CardConnection
+          return {
+            edges: transformed.map((card) => ({
+              cursor: card.id,
+              node: card,
+            })),
+            pageInfo: {
+              hasNextPage: false,
+              hasPreviousPage: false,
+              startCursor: transformed.length > 0 ? transformed[0].id : "",
+              endCursor:
+                transformed.length > 0
+                  ? transformed[transformed.length - 1].id
+                  : "",
+              totalCount: transformed.length,
+            },
+          };
         });
     },
   },

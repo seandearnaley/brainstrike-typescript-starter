@@ -59,7 +59,14 @@ type Category implements Node {
   name: String!
   updated: DateTime
   created: DateTime!
-  cards: [Card!]!
+  cards(
+    first: Int
+    last: Int
+    after: String
+    before: String
+    orderByColumn: String
+    orderByDirection: DirectionEnum
+  ): CardConnection!
   parent: Category
   children: [Category!]!
 }

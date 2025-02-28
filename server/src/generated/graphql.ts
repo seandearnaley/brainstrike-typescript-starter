@@ -75,13 +75,22 @@ export type CardsUpdatedResponse = {
 
 export type Category = Node & {
   __typename?: "Category";
-  cards: Array<Card>;
+  cards: CardConnection;
   children: Array<Category>;
   created: Scalars["DateTime"]["output"];
   id: Scalars["ID"]["output"];
   name: Scalars["String"]["output"];
   parent?: Maybe<Category>;
   updated?: Maybe<Scalars["DateTime"]["output"]>;
+};
+
+export type CategoryCardsArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  orderByColumn?: InputMaybe<Scalars["String"]["input"]>;
+  orderByDirection?: InputMaybe<DirectionEnum>;
 };
 
 export type CategoryInput = {
@@ -409,7 +418,12 @@ export type CategoryResolvers<
   ContextType = ApolloContext,
   ParentType extends ResolversParentTypes["Category"] = ResolversParentTypes["Category"]
 > = ResolversObject<{
-  cards?: Resolver<Array<ResolversTypes["Card"]>, ParentType, ContextType>;
+  cards?: Resolver<
+    ResolversTypes["CardConnection"],
+    ParentType,
+    ContextType,
+    Partial<CategoryCardsArgs>
+  >;
   children?: Resolver<
     Array<ResolversTypes["Category"]>,
     ParentType,

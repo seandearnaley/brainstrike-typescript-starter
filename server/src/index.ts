@@ -9,6 +9,7 @@ import { CardAPI, CategoryAPI } from "./datasources";
 import { DataSources } from "apollo-server-core/dist/graphqlOptions";
 import { ApolloContext } from "./types/context";
 
+// this is the config for the production db
 import ormConfig, { postgresCreds, schemaConfig } from "./ormConfig";
 
 setupDotEnv(); // adds .env environment file support

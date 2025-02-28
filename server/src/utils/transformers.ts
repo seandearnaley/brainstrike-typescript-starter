@@ -48,17 +48,13 @@ export const transformCategory = (
 ): Category => {
   return {
     __typename: "Category",
-    ...category,
-    cards: category.cards
-      ? transformCardConnection(category.cards)
-      : {
-          edges: [],
-          pageInfo: {
-            hasNextPage: false,
-            hasPreviousPage: false,
-            totalCount: 0,
-          },
-        },
+    id: category.id,
+    name: category.name || "",
+    created: category.created,
+    updated: category.updated,
+    parent: category.parent ? transformCategory(category.parent) : null,
+    children: category.children ? category.children.map(transformCategory) : [],
+    cards: category.cards ? transformCardConnection(category.cards) : [],
   };
 };
 
@@ -72,50 +68,18 @@ export const transformCard = (card: CardLike | CardEntity): Card => {
 
 export const transformCardConnection = (
   connection: CardConnectionLike
-): CardConnection => {
+): Array<Card> => {
   if (!connection) {
-    return {
-      edges: [],
-      pageInfo: { hasNextPage: false, hasPreviousPage: false, totalCount: 0 },
-    };
+    return [];
   }
 
-  // If connection already has edges and pageInfo, optionally map nodes
-  if (
-    typeof connection === "object" &&
-    !Array.isArray(connection) &&
-    "edges" in connection &&
-    Array.isArray(connection.edges)
-  ) {
-    const edges = connection.edges.map((edge: EdgeLike) => ({
-      ...edge,
-      cursor: edge.cursor || edge.node.id,
-      node: transformCard(edge.node),
-    }));
-
-    // Ensure pageInfo has all required properties
-    const pageInfo = connection.pageInfo || {};
-    return {
-      edges,
-      pageInfo: {
-        hasNextPage: pageInfo.hasNextPage || false,
-        hasPreviousPage: pageInfo.hasPreviousPage || false,
-        totalCount: pageInfo.totalCount || edges.length,
-      },
-    };
+  if (Array.isArray(connection)) {
+    return connection.map(transformCard);
   }
 
-  // If connection is an array of cards, transform it to a CardConnection
-  const cards = Array.isArray(connection) ? connection : [];
-  return {
-    edges: cards.map((card: CardLike) => ({
-      cursor: card.id,
-      node: transformCard(card),
-    })),
-    pageInfo: {
-      hasNextPage: false,
-      hasPreviousPage: false,
-      totalCount: cards.length,
-    },
-  };
+  if (connection.edges) {
+    return connection.edges.map((edge) => transformCard(edge.node));
+  }
+
+  return [];
 };

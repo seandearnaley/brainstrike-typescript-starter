@@ -8,14 +8,25 @@ import {
   MutationAddCategoryArgs,
   MutationUpdateCategoryArgs,
   MutationRemoveCategoryArgs,
-  CategoryCardsArgs,
   ResolversParentTypes,
+  DirectionEnum,
+  Card,
 } from "../../generated/graphql";
 import {
   transformCategory,
   transformCardConnection,
 } from "../../utils/transformers";
 import { ApolloContext } from "../../types/context";
+
+// Define CategoryCardsArgs locally since it's no longer exported from generated types
+interface CategoryCardsArgs {
+  first?: number | null;
+  last?: number | null;
+  after?: string | null;
+  before?: string | null;
+  orderByColumn?: string | null;
+  orderByDirection?: DirectionEnum | null;
+}
 
 export const resolvers: Resolvers = {
   Query: {
@@ -79,7 +90,7 @@ export const resolvers: Resolvers = {
       root: ResolversParentTypes["Category"],
       args: CategoryCardsArgs,
       { dataSources }: ApolloContext
-    ): Promise<CardConnection> {
+    ): Promise<Array<Card>> {
       const cleanedArgs = {
         ...args,
         before: args.before === null ? undefined : args.before,

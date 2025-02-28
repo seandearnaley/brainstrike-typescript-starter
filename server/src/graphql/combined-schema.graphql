@@ -1,0 +1,107 @@
+scalar Date
+scalar DateTime
+scalar Time
+
+enum DirectionEnum {
+  ASC
+  DESC
+}
+
+interface Node {
+  id: ID!
+  created: DateTime!
+  updated: DateTime
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+  totalCount: Int!
+}
+
+type Card implements Node {
+  id: ID!
+  number: Int
+  label: String
+  description: String
+  created: DateTime!
+  updated: DateTime
+  categories: [Category!]!
+}
+
+type CardConnection {
+  pageInfo: PageInfo!
+  edges: [CardEdge!]!
+}
+
+type CardEdge {
+  cursor: String!
+  node: Card!
+}
+
+input CardInput {
+  number: Int
+  label: String
+  description: String
+  categoryId: ID
+}
+
+type CardsUpdatedResponse {
+  success: Boolean!
+  message: String!
+  card: Card!
+}
+
+type Category implements Node {
+  id: ID!
+  name: String!
+  updated: DateTime
+  created: DateTime!
+  cards: [Card!]!
+  parent: Category
+  children: [Category!]!
+}
+
+input CategoryInput {
+  name: String!
+  parentId: ID
+}
+
+type CategoryUpdatedResponse {
+  success: Boolean!
+  message: String!
+  category: Category!
+}
+
+type Query {
+  cards(
+    first: Int
+    last: Int
+    after: String
+    before: String
+    orderByColumn: String
+    orderByDirection: DirectionEnum
+    categoryId: ID
+  ): CardConnection!
+  card(id: ID): Card!
+  categories(
+    cardIds: String
+    orderByColumn: String
+    orderByDirection: DirectionEnum
+  ): [Category!]!
+  category(id: ID): Category!
+  node(id: ID): Node!
+}
+
+type Mutation {
+  # card mutations
+  addCard(input: CardInput): CardsUpdatedResponse!
+  updateCard(id: ID!, input: CardInput): CardsUpdatedResponse!
+  removeCard(id: ID!): CardsUpdatedResponse!
+  # category mutations
+  addCategory(input: CategoryInput): CategoryUpdatedResponse!
+  updateCategory(id: ID!, input: CategoryInput): CategoryUpdatedResponse!
+  removeCategory(id: ID!): CategoryUpdatedResponse!
+}

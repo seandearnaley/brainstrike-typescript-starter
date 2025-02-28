@@ -22,7 +22,7 @@ jobs:
         working-directory: client
         run: |
           yarn set version 3.6.0
-          yarn install --immutable
+          yarn install --frozen-lockfile
           yarn build
           yarn test
         env:

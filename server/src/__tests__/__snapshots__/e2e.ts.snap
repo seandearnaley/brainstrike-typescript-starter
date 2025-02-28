@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Server - e2e gets a single card 1`] = `
-Object {
-  "data": Object {
-    "card": Object {
+{
+  "data": {
+    "card": {
       "__typename": "Card",
       "created": "2020-02-01T20:19:27.909Z",
       "description": "Amet autem et.",
@@ -17,13 +17,13 @@ Object {
 `;
 
 exports[`Server - e2e gets list of cards 1`] = `
-Object {
-  "data": Object {
-    "cards": Object {
-      "edges": Array [
-        Object {
+{
+  "data": {
+    "cards": {
+      "edges": [
+        {
           "cursor": "Q3xDYXJkfGU5MTU3NTE3LTRkNzgtNDNkZC1hMjUxLTBkNDI2OGJkNDY1ZHwx",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:05:43.666Z",
             "description": "Ipsum recusandae sit ut ut non officiis magnam aliquam nesciunt.",
@@ -33,9 +33,9 @@ Object {
             "updated": "2020-02-02T19:05:43.666Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfGNjMTg4YzZhLTU1YTUtNDY0ZS04M2U2LWVlY2E3OGQzNGQ3NHwy",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:05:38.390Z",
             "description": "Corporis tempore eligendi est natus facilis dicta molestiae ipsa.",
@@ -45,9 +45,9 @@ Object {
             "updated": "2020-02-02T19:05:38.390Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfDBhYmM1ODIxLTY5ZGMtNDE5Mi04MjRjLTVhM2M5MTRkZmFhZXwz",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:05:33.031Z",
             "description": "Aut adipisci est ipsa rerum sit dignissimos ullam.",
@@ -57,9 +57,9 @@ Object {
             "updated": "2020-02-02T19:05:33.031Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfGRlM2I5OGViLTQ5ODktNGRmYS04MjNjLTA3MDY5ZWZiYmE3Znw0",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:05:18.265Z",
             "description": "Molestiae occaecati neque repellendus veniam.",
@@ -69,9 +69,9 @@ Object {
             "updated": "2020-02-02T19:05:18.265Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfGE3ZGIxY2VhLWU3ZGMtNDVkYy05NzRiLTM0OTE5MjEyY2VkMXw1",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:04:38.922Z",
             "description": "Aut maxime quia doloribus eligendi sit enim impedit qui ab.",
@@ -81,9 +81,9 @@ Object {
             "updated": "2020-02-02T19:04:38.922Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfGRhMGU5MzA2LTk1ODctNGNmNC05YzRjLWRhZjE3MWFlOWJiNnw2",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:04:12.131Z",
             "description": "Sit est quidem officia.",
@@ -93,9 +93,9 @@ Object {
             "updated": "2020-02-02T19:04:12.131Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfDA1NTM3Zjc1LWRjMmUtNDc4Yy1iNzJlLWYyNmM2NzhlYTM5N3w3",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:04:05.010Z",
             "description": "Eos velit at est rerum ut.",
@@ -105,9 +105,9 @@ Object {
             "updated": "2020-02-02T19:04:05.010Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfGZhOGZmOTM2LTI5MzItNDU3ZS04ZjMzLTg4YjY5Mzg0YTc1MHw4",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:03:57.878Z",
             "description": "Commodi eius voluptas dolores iste ratione voluptas quis.",
@@ -117,9 +117,9 @@ Object {
             "updated": "2020-02-02T19:03:57.878Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfDE2NmZjNmE1LWEwMTQtNDk1MC1hNGY3LWUyMWQ4ZjlmMWEyMnw5",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:03:54.906Z",
             "description": "Voluptas vitae corporis ab quas tempora.",
@@ -129,9 +129,9 @@ Object {
             "updated": "2020-02-02T19:03:54.906Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfDJjZTRhOGExLTdlNjAtNGYyZS05NDBiLWMzZTM3Y2M4ZjQzMnwxMA==",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:03:53.654Z",
             "description": "Unde incidunt quia maxime et.",
@@ -141,9 +141,9 @@ Object {
             "updated": "2020-02-02T19:03:53.654Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfDE3MjBjZjc0LTdkOTItNGJmYS05MTBiLTc1MGMyZWNmYzdlN3wxMQ==",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:03:38.174Z",
             "description": "Rerum consequatur dolorem qui eum sit.",
@@ -153,9 +153,9 @@ Object {
             "updated": "2020-02-02T19:03:38.174Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfDcyYTRiN2MzLWYxNjEtNDg1OS1iMzI4LTUzYjM3OTE5MzliMHwxMg==",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:03:33.566Z",
             "description": "Rerum distinctio fuga asperiores et.",
@@ -165,9 +165,9 @@ Object {
             "updated": "2020-02-02T19:03:33.566Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfGIzOTE3MTk5LTAyODEtNGYxMC1iMWJlLTFjYmMwZmIyYWMxN3wxMw==",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:03:24.499Z",
             "description": "Voluptatem quo sunt.",
@@ -177,9 +177,9 @@ Object {
             "updated": "2020-02-02T19:03:24.499Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfGM5ZGE2MzRmLTk4NjktNGI0MS1hY2FiLThhM2IzZTRmZjQxMnwxNA==",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:03:22.659Z",
             "description": "Ab nostrum incidunt.",
@@ -189,9 +189,9 @@ Object {
             "updated": "2020-02-02T19:03:22.659Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfGEzYzdhYTU1LWM4ZWYtNDczMS05NDNlLTlhNTdjMjA2NTcxYXwxNQ==",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:03:16.177Z",
             "description": "Deleniti voluptatem nesciunt atque dolores.",
@@ -201,9 +201,9 @@ Object {
             "updated": "2020-02-02T19:03:16.177Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfDVkMWUyOTIzLTM3MDMtNDcxZi1iZTNlLWY1ZWJhNmZiNTlmY3wxNg==",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:03:11.265Z",
             "description": "Dolorum at quia quasi id rem consectetur non dolorum.",
@@ -213,9 +213,9 @@ Object {
             "updated": "2020-02-02T19:03:11.265Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfGJjYzAzMjg2LTkyM2EtNDNkNi1hYTBkLTMyODVkNTJjZDk0ZHwxNw==",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:02:59.693Z",
             "description": "Qui rerum nemo suscipit rerum voluptatem.",
@@ -225,9 +225,9 @@ Object {
             "updated": "2020-02-02T19:02:59.693Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfDJmMjRmNjg4LTEzMmMtNDFjZC04NjkwLWY5MjNlMWJkYTc0MXwxOA==",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:02:51.052Z",
             "description": "Non debitis eos inventore dolorum quae dolor est aspernatur praesentium.",
@@ -237,9 +237,9 @@ Object {
             "updated": "2020-02-02T19:02:51.052Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfGQxNDFiMTRlLTFmOGItNDQwZS05YjUxLTllMTBlN2ZkYmMzZHwxOQ==",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:02:46.467Z",
             "description": "Veritatis deserunt corrupti maxime est.",
@@ -249,9 +249,9 @@ Object {
             "updated": "2020-02-02T19:02:46.467Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfDQxYjZkM2U4LTk4NjgtNDMyMC04ZDNlLWJlZTAzMDU1Y2ZmOHwyMA==",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T19:02:22.508Z",
             "description": "Expedita est rem maxime sunt unde adipisci.",
@@ -262,7 +262,7 @@ Object {
           },
         },
       ],
-      "pageInfo": Object {
+      "pageInfo": {
         "endCursor": "Q3xDYXJkfDQxYjZkM2U4LTk4NjgtNDMyMC04ZDNlLWJlZTAzMDU1Y2ZmOHwyMA==",
         "hasNextPage": true,
         "hasPreviousPage": false,

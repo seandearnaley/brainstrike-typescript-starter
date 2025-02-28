@@ -1,7 +1,7 @@
 import { createTestingConnection } from "./index";
 import { Card, Category, User } from "./entity";
 
-module.exports = async (): Promise<void> => {
+export default async (): Promise<void> => {
   try {
     const connection = await createTestingConnection();
 

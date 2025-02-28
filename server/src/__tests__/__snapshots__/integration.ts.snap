@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Mutations create card 1`] = `
-Object {
-  "data": Object {
-    "addCard": Object {
-      "card": Object {
+{
+  "data": {
+    "addCard": {
+      "card": {
         "__typename": "Card",
         "created": "2020-02-01T20:19:27.909Z",
         "description": "testing",
@@ -19,19 +19,19 @@ Object {
   },
   "errors": undefined,
   "extensions": undefined,
-  "http": Object {
+  "http": {
     "headers": Headers {
-      Symbol(map): Object {},
+      Symbol(map): {},
     },
   },
 }
 `;
 
 exports[`Mutations remove card 1`] = `
-Object {
-  "data": Object {
-    "removeCard": Object {
-      "card": Object {
+{
+  "data": {
+    "removeCard": {
+      "card": {
         "__typename": "Card",
         "created": "2020-02-01T20:19:27.909Z",
         "description": "testing",
@@ -46,19 +46,19 @@ Object {
   },
   "errors": undefined,
   "extensions": undefined,
-  "http": Object {
+  "http": {
     "headers": Headers {
-      Symbol(map): Object {},
+      Symbol(map): {},
     },
   },
 }
 `;
 
 exports[`Mutations update card 1`] = `
-Object {
-  "data": Object {
-    "updateCard": Object {
-      "card": Object {
+{
+  "data": {
+    "updateCard": {
+      "card": {
         "__typename": "Card",
         "created": "2020-02-01T20:19:27.909Z",
         "description": "testing",
@@ -73,22 +73,22 @@ Object {
   },
   "errors": undefined,
   "extensions": undefined,
-  "http": Object {
+  "http": {
     "headers": Headers {
-      Symbol(map): Object {},
+      Symbol(map): {},
     },
   },
 }
 `;
 
 exports[`Queries fetches list of cards 1`] = `
-Object {
-  "data": Object {
-    "cards": Object {
-      "edges": Array [
-        Object {
+{
+  "data": {
+    "cards": {
+      "edges": [
+        {
           "cursor": "Q3xDYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZXwx",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-01T20:19:27.909Z",
             "description": "Amet autem et.",
@@ -98,9 +98,9 @@ Object {
             "updated": "2020-02-01T20:19:27.909Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfDc4NTU1YTkwLWY2OGItNDU0Yy1iZWIyLWU3MDIxZjNkOGM2M3wy",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-01T23:03:03.942Z",
             "description": "Odit officia esse hic qui est perspiciatis.",
@@ -110,9 +110,9 @@ Object {
             "updated": "2020-02-01T23:03:03.942Z",
           },
         },
-        Object {
+        {
           "cursor": "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
-          "node": Object {
+          "node": {
             "__typename": "Card",
             "created": "2020-02-02T04:59:07.272Z",
             "description": "Et in sequi eum enim ratione.",
@@ -123,7 +123,7 @@ Object {
           },
         },
       ],
-      "pageInfo": Object {
+      "pageInfo": {
         "endCursor": "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
         "hasNextPage": true,
         "hasPreviousPage": false,
@@ -134,18 +134,18 @@ Object {
   },
   "errors": undefined,
   "extensions": undefined,
-  "http": Object {
+  "http": {
     "headers": Headers {
-      Symbol(map): Object {},
+      Symbol(map): {},
     },
   },
 }
 `;
 
 exports[`Queries fetches single card 1`] = `
-Object {
-  "data": Object {
-    "card": Object {
+{
+  "data": {
+    "card": {
       "__typename": "Card",
       "created": "2020-02-01T20:19:27.909Z",
       "description": "testing",
@@ -157,9 +157,9 @@ Object {
   },
   "errors": undefined,
   "extensions": undefined,
-  "http": Object {
+  "http": {
     "headers": Headers {
-      Symbol(map): Object {},
+      Symbol(map): {},
     },
   },
 }

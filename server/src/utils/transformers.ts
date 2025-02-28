@@ -31,6 +31,8 @@ type CardConnectionLike =
       pageInfo?: {
         hasNextPage?: boolean;
         hasPreviousPage?: boolean;
+        startCursor?: string;
+        endCursor?: string;
         totalCount?: number;
       };
     }
@@ -46,21 +48,47 @@ type EdgeLike = {
 export const transformCategory = (
   category: CategoryLike | CategoryEntity
 ): Category => {
+  // Create a dummy CardConnection for the cards field
+  // This is a placeholder that will be replaced by the actual resolver
+  const dummyCardConnection: CardConnection = {
+    edges: [],
+    pageInfo: {
+      hasNextPage: false,
+      hasPreviousPage: false,
+      startCursor: "",
+      endCursor: "",
+      totalCount: 0,
+    },
+  };
+
   return {
     __typename: "Category",
-    ...category,
-    cards: category.cards
-      ? transformCardConnection(category.cards)
-      : {
-          edges: [],
-          pageInfo: {
-            hasNextPage: false,
-            hasPreviousPage: false,
-            totalCount: 0,
-          },
-        },
+    id: category.id,
+    name: category.name || "",
+    created: category.created,
+    updated: category.updated,
+    parent: category.parent ? transformCategory(category.parent) : null,
+    children: category.children ? category.children.map(transformCategory) : [],
+    cards: dummyCardConnection,
   };
 };
+
+// Helper function to extract Card[] from CardConnectionLike
+function extractCardsFromConnection(connection: CardConnectionLike): Card[] {
+  if (!connection) {
+    return [];
+  }
+
+  if (Array.isArray(connection)) {
+    return connection.map(transformCard);
+  }
+
+  if (connection.edges) {
+    return connection.edges.map((edge) => transformCard(edge.node));
+  }
+
+  return [];
+}
 
 export const transformCard = (card: CardLike | CardEntity): Card => {
   return {
@@ -74,48 +102,66 @@ export const transformCardConnection = (
   connection: CardConnectionLike
 ): CardConnection => {
   if (!connection) {
+    // Return an empty CardConnection
     return {
       edges: [],
-      pageInfo: { hasNextPage: false, hasPreviousPage: false, totalCount: 0 },
-    };
-  }
-
-  // If connection already has edges and pageInfo, optionally map nodes
-  if (
-    typeof connection === "object" &&
-    !Array.isArray(connection) &&
-    "edges" in connection &&
-    Array.isArray(connection.edges)
-  ) {
-    const edges = connection.edges.map((edge: EdgeLike) => ({
-      ...edge,
-      cursor: edge.cursor || edge.node.id,
-      node: transformCard(edge.node),
-    }));
-
-    // Ensure pageInfo has all required properties
-    const pageInfo = connection.pageInfo || {};
-    return {
-      edges,
       pageInfo: {
-        hasNextPage: pageInfo.hasNextPage || false,
-        hasPreviousPage: pageInfo.hasPreviousPage || false,
-        totalCount: pageInfo.totalCount || edges.length,
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: "",
+        endCursor: "",
+        totalCount: 0,
       },
     };
   }
 
-  // If connection is an array of cards, transform it to a CardConnection
-  const cards = Array.isArray(connection) ? connection : [];
+  if (Array.isArray(connection)) {
+    // Convert array of cards to CardConnection
+    const transformedCards = connection.map(transformCard);
+    return {
+      edges: transformedCards.map((card) => ({
+        cursor: card.id,
+        node: card,
+      })),
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: transformedCards.length > 0 ? transformedCards[0].id : "",
+        endCursor:
+          transformedCards.length > 0
+            ? transformedCards[transformedCards.length - 1].id
+            : "",
+        totalCount: transformedCards.length,
+      },
+    };
+  }
+
+  if (connection.edges) {
+    // If we already have a CardConnection-like object
+    return {
+      edges: connection.edges.map((edge) => ({
+        cursor: edge.cursor || "",
+        node: transformCard(edge.node),
+      })),
+      pageInfo: {
+        hasNextPage: connection.pageInfo?.hasNextPage || false,
+        hasPreviousPage: connection.pageInfo?.hasPreviousPage || false,
+        startCursor: connection.pageInfo?.startCursor || "",
+        endCursor: connection.pageInfo?.endCursor || "",
+        totalCount: connection.pageInfo?.totalCount || 0,
+      },
+    };
+  }
+
+  // Return an empty CardConnection as fallback
   return {
-    edges: cards.map((card: CardLike) => ({
-      cursor: card.id,
-      node: transformCard(card),
-    })),
+    edges: [],
     pageInfo: {
       hasNextPage: false,
       hasPreviousPage: false,
-      totalCount: cards.length,
+      startCursor: "",
+      endCursor: "",
+      totalCount: 0,
     },
   };
 };

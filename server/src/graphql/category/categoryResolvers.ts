@@ -2,20 +2,31 @@ import {
   Resolvers,
   Category,
   CategoryUpdatedResponse,
-  CardConnection,
   QueryCategoriesArgs,
   QueryCategoryArgs,
   MutationAddCategoryArgs,
   MutationUpdateCategoryArgs,
   MutationRemoveCategoryArgs,
-  CategoryCardsArgs,
   ResolversParentTypes,
+  DirectionEnum,
+  Card,
+  CardConnection,
 } from "../../generated/graphql";
 import {
   transformCategory,
   transformCardConnection,
 } from "../../utils/transformers";
 import { ApolloContext } from "../../types/context";
+
+// Define CategoryCardsArgs locally since it's no longer exported from generated types
+interface CategoryCardsArgs {
+  first?: number | null;
+  last?: number | null;
+  after?: string | null;
+  before?: string | null;
+  orderByColumn?: string | null;
+  orderByDirection?: DirectionEnum | null;
+}
 
 export const resolvers: Resolvers = {
   Query: {
@@ -93,7 +104,32 @@ export const resolvers: Resolvers = {
       };
       return dataSources.cardAPI
         .getCardConnectionFor(root.id, cleanedArgs)
-        .then(transformCardConnection);
+        .then((result) => {
+          const transformed = transformCardConnection(result);
+
+          // Ensure we always return a CardConnection
+          if (!Array.isArray(transformed)) {
+            return transformed as CardConnection;
+          }
+
+          // If we got an array of Cards, convert it to a CardConnection
+          return {
+            edges: transformed.map((card) => ({
+              cursor: card.id,
+              node: card,
+            })),
+            pageInfo: {
+              hasNextPage: false,
+              hasPreviousPage: false,
+              startCursor: transformed.length > 0 ? transformed[0].id : "",
+              endCursor:
+                transformed.length > 0
+                  ? transformed[transformed.length - 1].id
+                  : "",
+              totalCount: transformed.length,
+            },
+          };
+        });
     },
   },
 };

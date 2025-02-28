@@ -15,6 +15,7 @@
     "coverage": "jest --coverage",
     "generate": "graphql-codegen --config codegen.yml",
     "generate:dev": "graphql-codegen --config codegen.yml --watch",
+    "generate:auto": "node generate-code.mjs",
     "dev": "concurrently \"yarn run start:dev\" \"yarn run generate:dev\"",
     "migrate:up": "yarn run build && NODE_ENV=migration node build/migrate.js up",
     "migrate:down": "yarn run build && NODE_ENV=migration node build/migrate.js down"

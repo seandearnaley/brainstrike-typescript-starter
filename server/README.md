@@ -43,6 +43,10 @@ Creates fake cards and categories for use with seed migration.
 
 Generates TypeScript resolvers, fragment matchers and other types with [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator).
 
+### `yarn generate:auto`
+
+Automates the process of starting the server, running code generation, and stopping the server. This is useful when you need to update generated GraphQL types without manually starting and stopping the server.
+
 ### `yarn migrate:up`
 
 Runs migration up

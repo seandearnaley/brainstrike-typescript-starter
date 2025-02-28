@@ -308,7 +308,7 @@ export type DirectiveResolverFn<
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<
-  RefType extends Record<string, unknown>
+  _RefType extends Record<string, unknown>
 > = ResolversObject<{
   Node: Card | Category;
 }>;

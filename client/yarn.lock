@@ -9360,13 +9360,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:14.0.2 - 14.2.0 || ^14.3.1 || ^15.0.0":
-  version: 15.8.0
-  resolution: "graphql@npm:15.8.0"
-  checksum: 423325271db8858428641b9aca01699283d1fe5b40ef6d4ac622569ecca927019fce8196208b91dd1d8eb8114f00263fe661d241d0eb40c10e5bfd650f86ec5e
-  languageName: node
-  linkType: hard
-
 "graphql@npm:^16.10.0":
   version: 16.10.0
   resolution: "graphql@npm:16.10.0"

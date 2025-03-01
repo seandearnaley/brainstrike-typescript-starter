@@ -283,131 +283,73 @@ Please change the parent <Route path="${O}"> to <Route path="${O==="/"?"*":`${O}
           flex: 2;
           padding: 5px;
         `,children:e.right})]}),Ho={};var bT=(e=>(e.Asc="ASC",e.Desc="DESC",e))(bT||{});const Wl=rn`
-  fragment CardParts on Card {
-    id
-    created
-    updated
-    label
-    number
-  }
-`,Go=rn`
-  fragment CategoryParts on Category {
-    id
-    name
-    created
-    updated
-  }
-`,qP=rn`
-  query GetCardWithCategories($id: ID) {
-    card(id: $id) {
-      ...CardParts
-      description
-      categories @connection(key: "Categories") {
-        ...CategoryParts
-      }
-    }
-  }
-  ${Wl}
-  ${Go}
-`;function FP(e){const t={...Ho,...e};return rC(qP,t)}rn`
-  query GetCards(
-    $first: Int
-    $last: Int
-    $after: String
-    $before: String
-    $orderByColumn: String
-    $orderByDirection: DirectionEnum
-    $categoryId: ID
-  ) {
-    cards(
-      first: $first
-      last: $last
-      after: $after
-      before: $before
-      orderByColumn: $orderByColumn
-      orderByDirection: $orderByDirection
-      categoryId: $categoryId
-    ) @connection(key: "CardConnection") {
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-        totalCount
-      }
-      edges {
-        cursor
-        node {
-          ...CardParts
-        }
-      }
-    }
-  }
-  ${Wl}
-`;const $P=rn`
-  query GetCategories {
-    categories {
+    fragment CardParts on Card {
+  id
+  created
+  updated
+  label
+  number
+}
+    `,Go=rn`
+    fragment CategoryParts on Category {
+  id
+  name
+  created
+  updated
+}
+    `,qP=rn`
+    query GetCardWithCategories($id: ID) {
+  card(id: $id) {
+    ...CardParts
+    description
+    categories @connection(key: "Categories") {
       ...CategoryParts
     }
   }
-  ${Go}
-`;function VP(e){const t={...Ho,...e};return KA($P,t)}rn`
-  query GetCategoryNode(
-    $id: ID!
-    $first: Int
-    $last: Int
-    $after: String
-    $before: String
-    $orderByColumn: String
-    $orderByDirection: DirectionEnum
-  ) {
-    category: node(id: $id) {
-      __typename
-      ... on Node {
-        id
-        created
-        updated
-      }
-      ... on Category {
-        ...CategoryParts
-        cards(
-          first: $first
-          last: $last
-          after: $after
-          before: $before
-          orderByColumn: $orderByColumn
-          orderByDirection: $orderByDirection
-        ) {
-          pageInfo {
-            hasNextPage
-            hasPreviousPage
-            startCursor
-            endCursor
-            totalCount
-          }
-          edges {
-            cursor
-            node {
-              ...CardParts
-            }
-          }
-        }
+}
+    ${Wl}
+${Go}`;function FP(e){const t={...Ho,...e};return rC(qP,t)}rn`
+    query GetCards($first: Int, $last: Int, $after: String, $before: String, $orderByColumn: String, $orderByDirection: DirectionEnum, $categoryId: ID) {
+  cards(
+    first: $first
+    last: $last
+    after: $after
+    before: $before
+    orderByColumn: $orderByColumn
+    orderByDirection: $orderByDirection
+    categoryId: $categoryId
+  ) @connection(key: "CardConnection") {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+      totalCount
+    }
+    edges {
+      cursor
+      node {
+        ...CardParts
       }
     }
   }
-  ${Go}
-  ${Wl}
-`;const QP=rn`
-  query GetCategoryWithCards(
-    $id: ID
-    $first: Int
-    $last: Int
-    $after: String
-    $before: String
-    $orderByColumn: String
-    $orderByDirection: DirectionEnum
-  ) {
-    category(id: $id) {
+}
+    ${Wl}`;const $P=rn`
+    query GetCategories {
+  categories {
+    ...CategoryParts
+  }
+}
+    ${Go}`;function VP(e){const t={...Ho,...e};return KA($P,t)}rn`
+    query GetCategoryNode($id: ID!, $first: Int, $last: Int, $after: String, $before: String, $orderByColumn: String, $orderByDirection: DirectionEnum) {
+  category: node(id: $id) {
+    __typename
+    ... on Node {
+      id
+      created
+      updated
+    }
+    ... on Category {
       ...CategoryParts
       cards(
         first: $first
@@ -416,7 +358,7 @@ Please change the parent <Route path="${O}"> to <Route path="${O==="/"?"*":`${O}
         before: $before
         orderByColumn: $orderByColumn
         orderByDirection: $orderByDirection
-      ) @connection(key: "cards") {
+      ) {
         pageInfo {
           hasNextPage
           hasPreviousPage
@@ -433,45 +375,71 @@ Please change the parent <Route path="${O}"> to <Route path="${O==="/"?"*":`${O}
       }
     }
   }
-  ${Go}
-  ${Wl}
-`;function HP(e){const t={...Ho,...e};return rC(QP,t)}const GP=rn`
-  mutation removeCard($id: ID!) {
-    removeCard(id: $id) {
-      success
-      message
-      card {
-        ...CardParts
-        categories {
-          id
+}
+    ${Go}
+${Wl}`;const QP=rn`
+    query GetCategoryWithCards($id: ID, $first: Int, $last: Int, $after: String, $before: String, $orderByColumn: String, $orderByDirection: DirectionEnum) {
+  category(id: $id) {
+    ...CategoryParts
+    cards(
+      first: $first
+      last: $last
+      after: $after
+      before: $before
+      orderByColumn: $orderByColumn
+      orderByDirection: $orderByDirection
+    ) @connection(key: "cards") {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+        totalCount
+      }
+      edges {
+        cursor
+        node {
+          ...CardParts
         }
       }
     }
   }
-  ${Wl}
-`;function YP(e){const t={...Ho,...e};return yy(GP,t)}const WP=rn`
-  mutation removeCategory($id: ID!) {
-    removeCategory(id: $id) {
-      success
-      message
-      category {
-        ...CategoryParts
+}
+    ${Go}
+${Wl}`;function HP(e){const t={...Ho,...e};return rC(QP,t)}const GP=rn`
+    mutation removeCard($id: ID!) {
+  removeCard(id: $id) {
+    success
+    message
+    card {
+      ...CardParts
+      categories {
+        id
       }
     }
   }
-  ${Go}
-`;function XP(e){const t={...Ho,...e};return yy(WP,t)}const KP=rn`
-  mutation updateCategoryName($id: ID!, $input: CategoryInput) {
-    updateCategory(id: $id, input: $input) {
-      success
-      message
-      category {
-        ...CategoryParts
-      }
+}
+    ${Wl}`;function YP(e){const t={...Ho,...e};return yy(GP,t)}const WP=rn`
+    mutation removeCategory($id: ID!) {
+  removeCategory(id: $id) {
+    success
+    message
+    category {
+      ...CategoryParts
     }
   }
-  ${Go}
-`;function ZP(e){const t={...Ho,...e};return yy(KP,t)}const ST=6048e5,JP=864e5,ZE=Symbol.for("constructDateFrom");function Mi(e,t){return typeof e=="function"?e(t):e&&typeof e=="object"&&ZE in e?e[ZE](t):e instanceof Date?new e.constructor(t):new Date(t)}function Wn(e,t){return Mi(t||e,e)}let ez={};function Af(){return ez}function Nl(e,t){var f,p,h,y;const n=Af(),r=(t==null?void 0:t.weekStartsOn)??((p=(f=t==null?void 0:t.locale)==null?void 0:f.options)==null?void 0:p.weekStartsOn)??n.weekStartsOn??((y=(h=n.locale)==null?void 0:h.options)==null?void 0:y.weekStartsOn)??0,o=Wn(e,t==null?void 0:t.in),s=o.getDay(),u=(s<r?7:0)+s-r;return o.setDate(o.getDate()-u),o.setHours(0,0,0,0),o}function Zc(e,t){return Nl(e,{...t,weekStartsOn:1})}function ET(e,t){const n=Wn(e,t==null?void 0:t.in),r=n.getFullYear(),o=Mi(n,0);o.setFullYear(r+1,0,4),o.setHours(0,0,0,0);const s=Zc(o),u=Mi(n,0);u.setFullYear(r,0,4),u.setHours(0,0,0,0);const f=Zc(u);return n.getTime()>=s.getTime()?r+1:n.getTime()>=f.getTime()?r:r-1}function JE(e){const t=Wn(e),n=new Date(Date.UTC(t.getFullYear(),t.getMonth(),t.getDate(),t.getHours(),t.getMinutes(),t.getSeconds(),t.getMilliseconds()));return n.setUTCFullYear(t.getFullYear()),+e-+n}function tz(e,...t){const n=Mi.bind(null,t.find(r=>typeof r=="object"));return t.map(n)}function e1(e,t){const n=Wn(e,t==null?void 0:t.in);return n.setHours(0,0,0,0),n}function nz(e,t,n){const[r,o]=tz(n==null?void 0:n.in,e,t),s=e1(r),u=e1(o),f=+s-JE(s),p=+u-JE(u);return Math.round((f-p)/JP)}function rz(e,t){const n=ET(e,t),r=Mi(e,0);return r.setFullYear(n,0,4),r.setHours(0,0,0,0),Zc(r)}function iz(e){return e instanceof Date||typeof e=="object"&&Object.prototype.toString.call(e)==="[object Date]"}function az(e){return!(!iz(e)&&typeof e!="number"||isNaN(+Wn(e)))}function oz(e,t){const n=Wn(e,t==null?void 0:t.in);return n.setFullYear(n.getFullYear(),0,1),n.setHours(0,0,0,0),n}const sz={lessThanXSeconds:{one:"less than a second",other:"less than {{count}} seconds"},xSeconds:{one:"1 second",other:"{{count}} seconds"},halfAMinute:"half a minute",lessThanXMinutes:{one:"less than a minute",other:"less than {{count}} minutes"},xMinutes:{one:"1 minute",other:"{{count}} minutes"},aboutXHours:{one:"about 1 hour",other:"about {{count}} hours"},xHours:{one:"1 hour",other:"{{count}} hours"},xDays:{one:"1 day",other:"{{count}} days"},aboutXWeeks:{one:"about 1 week",other:"about {{count}} weeks"},xWeeks:{one:"1 week",other:"{{count}} weeks"},aboutXMonths:{one:"about 1 month",other:"about {{count}} months"},xMonths:{one:"1 month",other:"{{count}} months"},aboutXYears:{one:"about 1 year",other:"about {{count}} years"},xYears:{one:"1 year",other:"{{count}} years"},overXYears:{one:"over 1 year",other:"over {{count}} years"},almostXYears:{one:"almost 1 year",other:"almost {{count}} years"}},lz=(e,t,n)=>{let r;const o=sz[e];return typeof o=="string"?r=o:t===1?r=o.one:r=o.other.replace("{{count}}",t.toString()),n!=null&&n.addSuffix?n.comparison&&n.comparison>0?"in "+r:r+" ago":r};function Cp(e){return(t={})=>{const n=t.width?String(t.width):e.defaultWidth;return e.formats[n]||e.formats[e.defaultWidth]}}const uz={full:"EEEE, MMMM do, y",long:"MMMM do, y",medium:"MMM d, y",short:"MM/dd/yyyy"},cz={full:"h:mm:ss a zzzz",long:"h:mm:ss a z",medium:"h:mm:ss a",short:"h:mm a"},fz={full:"{{date}} 'at' {{time}}",long:"{{date}} 'at' {{time}}",medium:"{{date}}, {{time}}",short:"{{date}}, {{time}}"},dz={date:Cp({formats:uz,defaultWidth:"full"}),time:Cp({formats:cz,defaultWidth:"full"}),dateTime:Cp({formats:fz,defaultWidth:"full"})},hz={lastWeek:"'last' eeee 'at' p",yesterday:"'yesterday at' p",today:"'today at' p",tomorrow:"'tomorrow at' p",nextWeek:"eeee 'at' p",other:"P"},pz=(e,t,n,r)=>hz[e];function rl(e){return(t,n)=>{const r=n!=null&&n.context?String(n.context):"standalone";let o;if(r==="formatting"&&e.formattingValues){const u=e.defaultFormattingWidth||e.defaultWidth,f=n!=null&&n.width?String(n.width):u;o=e.formattingValues[f]||e.formattingValues[u]}else{const u=e.defaultWidth,f=n!=null&&n.width?String(n.width):e.defaultWidth;o=e.values[f]||e.values[u]}const s=e.argumentCallback?e.argumentCallback(t):t;return o[s]}}const mz={narrow:["B","A"],abbreviated:["BC","AD"],wide:["Before Christ","Anno Domini"]},yz={narrow:["1","2","3","4"],abbreviated:["Q1","Q2","Q3","Q4"],wide:["1st quarter","2nd quarter","3rd quarter","4th quarter"]},vz={narrow:["J","F","M","A","M","J","J","A","S","O","N","D"],abbreviated:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],wide:["January","February","March","April","May","June","July","August","September","October","November","December"]},gz={narrow:["S","M","T","W","T","F","S"],short:["Su","Mo","Tu","We","Th","Fr","Sa"],abbreviated:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],wide:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]},bz={narrow:{am:"a",pm:"p",midnight:"mi",noon:"n",morning:"morning",afternoon:"afternoon",evening:"evening",night:"night"},abbreviated:{am:"AM",pm:"PM",midnight:"midnight",noon:"noon",morning:"morning",afternoon:"afternoon",evening:"evening",night:"night"},wide:{am:"a.m.",pm:"p.m.",midnight:"midnight",noon:"noon",morning:"morning",afternoon:"afternoon",evening:"evening",night:"night"}},Sz={narrow:{am:"a",pm:"p",midnight:"mi",noon:"n",morning:"in the morning",afternoon:"in the afternoon",evening:"in the evening",night:"at night"},abbreviated:{am:"AM",pm:"PM",midnight:"midnight",noon:"noon",morning:"in the morning",afternoon:"in the afternoon",evening:"in the evening",night:"at night"},wide:{am:"a.m.",pm:"p.m.",midnight:"midnight",noon:"noon",morning:"in the morning",afternoon:"in the afternoon",evening:"in the evening",night:"at night"}},Ez=(e,t)=>{const n=Number(e),r=n%100;if(r>20||r<10)switch(r%10){case 1:return n+"st";case 2:return n+"nd";case 3:return n+"rd"}return n+"th"},xz={ordinalNumber:Ez,era:rl({values:mz,defaultWidth:"wide"}),quarter:rl({values:yz,defaultWidth:"wide",argumentCallback:e=>e-1}),month:rl({values:vz,defaultWidth:"wide"}),day:rl({values:gz,defaultWidth:"wide"}),dayPeriod:rl({values:bz,defaultWidth:"wide",formattingValues:Sz,defaultFormattingWidth:"wide"})};function il(e){return(t,n={})=>{const r=n.width,o=r&&e.matchPatterns[r]||e.matchPatterns[e.defaultMatchWidth],s=t.match(o);if(!s)return null;const u=s[0],f=r&&e.parsePatterns[r]||e.parsePatterns[e.defaultParseWidth],p=Array.isArray(f)?Tz(f,v=>v.test(u)):Cz(f,v=>v.test(u));let h;h=e.valueCallback?e.valueCallback(p):p,h=n.valueCallback?n.valueCallback(h):h;const y=t.slice(u.length);return{value:h,rest:y}}}function Cz(e,t){for(const n in e)if(Object.prototype.hasOwnProperty.call(e,n)&&t(e[n]))return n}function Tz(e,t){for(let n=0;n<e.length;n++)if(t(e[n]))return n}function wz(e){return(t,n={})=>{const r=t.match(e.matchPattern);if(!r)return null;const o=r[0],s=t.match(e.parsePattern);if(!s)return null;let u=e.valueCallback?e.valueCallback(s[0]):s[0];u=n.valueCallback?n.valueCallback(u):u;const f=t.slice(o.length);return{value:u,rest:f}}}const Oz=/^(\d+)(th|st|nd|rd)?/i,Rz=/\d+/i,_z={narrow:/^(b|a)/i,abbreviated:/^(b\.?\s?c\.?|b\.?\s?c\.?\s?e\.?|a\.?\s?d\.?|c\.?\s?e\.?)/i,wide:/^(before christ|before common era|anno domini|common era)/i},Dz={any:[/^b/i,/^(a|c)/i]},Az={narrow:/^[1234]/i,abbreviated:/^q[1234]/i,wide:/^[1234](th|st|nd|rd)? quarter/i},kz={any:[/1/i,/2/i,/3/i,/4/i]},Mz={narrow:/^[jfmasond]/i,abbreviated:/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i,wide:/^(january|february|march|april|may|june|july|august|september|october|november|december)/i},Nz={narrow:[/^j/i,/^f/i,/^m/i,/^a/i,/^m/i,/^j/i,/^j/i,/^a/i,/^s/i,/^o/i,/^n/i,/^d/i],any:[/^ja/i,/^f/i,/^mar/i,/^ap/i,/^may/i,/^jun/i,/^jul/i,/^au/i,/^s/i,/^o/i,/^n/i,/^d/i]},jz={narrow:/^[smtwf]/i,short:/^(su|mo|tu|we|th|fr|sa)/i,abbreviated:/^(sun|mon|tue|wed|thu|fri|sat)/i,wide:/^(sunday|monday|tuesday|wednesday|thursday|friday|saturday)/i},Lz={narrow:[/^s/i,/^m/i,/^t/i,/^w/i,/^t/i,/^f/i,/^s/i],any:[/^su/i,/^m/i,/^tu/i,/^w/i,/^th/i,/^f/i,/^sa/i]},Pz={narrow:/^(a|p|mi|n|(in the|at) (morning|afternoon|evening|night))/i,any:/^([ap]\.?\s?m\.?|midnight|noon|(in the|at) (morning|afternoon|evening|night))/i},zz={any:{am:/^a/i,pm:/^p/i,midnight:/^mi/i,noon:/^no/i,morning:/morning/i,afternoon:/afternoon/i,evening:/evening/i,night:/night/i}},Bz={ordinalNumber:wz({matchPattern:Oz,parsePattern:Rz,valueCallback:e=>parseInt(e,10)}),era:il({matchPatterns:_z,defaultMatchWidth:"wide",parsePatterns:Dz,defaultParseWidth:"any"}),quarter:il({matchPatterns:Az,defaultMatchWidth:"wide",parsePatterns:kz,defaultParseWidth:"any",valueCallback:e=>e+1}),month:il({matchPatterns:Mz,defaultMatchWidth:"wide",parsePatterns:Nz,defaultParseWidth:"any"}),day:il({matchPatterns:jz,defaultMatchWidth:"wide",parsePatterns:Lz,defaultParseWidth:"any"}),dayPeriod:il({matchPatterns:Pz,defaultMatchWidth:"any",parsePatterns:zz,defaultParseWidth:"any"})},Iz={code:"en-US",formatDistance:lz,formatLong:dz,formatRelative:pz,localize:xz,match:Bz,options:{weekStartsOn:0,firstWeekContainsDate:1}};function Uz(e,t){const n=Wn(e,t==null?void 0:t.in);return nz(n,oz(n))+1}function qz(e,t){const n=Wn(e,t==null?void 0:t.in),r=+Zc(n)-+rz(n);return Math.round(r/ST)+1}function xT(e,t){var y,v,g,b;const n=Wn(e,t==null?void 0:t.in),r=n.getFullYear(),o=Af(),s=(t==null?void 0:t.firstWeekContainsDate)??((v=(y=t==null?void 0:t.locale)==null?void 0:y.options)==null?void 0:v.firstWeekContainsDate)??o.firstWeekContainsDate??((b=(g=o.locale)==null?void 0:g.options)==null?void 0:b.firstWeekContainsDate)??1,u=Mi((t==null?void 0:t.in)||e,0);u.setFullYear(r+1,0,s),u.setHours(0,0,0,0);const f=Nl(u,t),p=Mi((t==null?void 0:t.in)||e,0);p.setFullYear(r,0,s),p.setHours(0,0,0,0);const h=Nl(p,t);return+n>=+f?r+1:+n>=+h?r:r-1}function Fz(e,t){var f,p,h,y;const n=Af(),r=(t==null?void 0:t.firstWeekContainsDate)??((p=(f=t==null?void 0:t.locale)==null?void 0:f.options)==null?void 0:p.firstWeekContainsDate)??n.firstWeekContainsDate??((y=(h=n.locale)==null?void 0:h.options)==null?void 0:y.firstWeekContainsDate)??1,o=xT(e,t),s=Mi((t==null?void 0:t.in)||e,0);return s.setFullYear(o,0,r),s.setHours(0,0,0,0),Nl(s,t)}function $z(e,t){const n=Wn(e,t==null?void 0:t.in),r=+Nl(n,t)-+Fz(n,t);return Math.round(r/ST)+1}function $e(e,t){const n=e<0?"-":"",r=Math.abs(e).toString().padStart(t,"0");return n+r}const vi={y(e,t){const n=e.getFullYear(),r=n>0?n:1-n;return $e(t==="yy"?r%100:r,t.length)},M(e,t){const n=e.getMonth();return t==="M"?String(n+1):$e(n+1,2)},d(e,t){return $e(e.getDate(),t.length)},a(e,t){const n=e.getHours()/12>=1?"pm":"am";switch(t){case"a":case"aa":return n.toUpperCase();case"aaa":return n;case"aaaaa":return n[0];case"aaaa":default:return n==="am"?"a.m.":"p.m."}},h(e,t){return $e(e.getHours()%12||12,t.length)},H(e,t){return $e(e.getHours(),t.length)},m(e,t){return $e(e.getMinutes(),t.length)},s(e,t){return $e(e.getSeconds(),t.length)},S(e,t){const n=t.length,r=e.getMilliseconds(),o=Math.trunc(r*Math.pow(10,n-3));return $e(o,t.length)}},uo={midnight:"midnight",noon:"noon",morning:"morning",afternoon:"afternoon",evening:"evening",night:"night"},t1={G:function(e,t,n){const r=e.getFullYear()>0?1:0;switch(t){case"G":case"GG":case"GGG":return n.era(r,{width:"abbreviated"});case"GGGGG":return n.era(r,{width:"narrow"});case"GGGG":default:return n.era(r,{width:"wide"})}},y:function(e,t,n){if(t==="yo"){const r=e.getFullYear(),o=r>0?r:1-r;return n.ordinalNumber(o,{unit:"year"})}return vi.y(e,t)},Y:function(e,t,n,r){const o=xT(e,r),s=o>0?o:1-o;if(t==="YY"){const u=s%100;return $e(u,2)}return t==="Yo"?n.ordinalNumber(s,{unit:"year"}):$e(s,t.length)},R:function(e,t){const n=ET(e);return $e(n,t.length)},u:function(e,t){const n=e.getFullYear();return $e(n,t.length)},Q:function(e,t,n){const r=Math.ceil((e.getMonth()+1)/3);switch(t){case"Q":return String(r);case"QQ":return $e(r,2);case"Qo":return n.ordinalNumber(r,{unit:"quarter"});case"QQQ":return n.quarter(r,{width:"abbreviated",context:"formatting"});case"QQQQQ":return n.quarter(r,{width:"narrow",context:"formatting"});case"QQQQ":default:return n.quarter(r,{width:"wide",context:"formatting"})}},q:function(e,t,n){const r=Math.ceil((e.getMonth()+1)/3);switch(t){case"q":return String(r);case"qq":return $e(r,2);case"qo":return n.ordinalNumber(r,{unit:"quarter"});case"qqq":return n.quarter(r,{width:"abbreviated",context:"standalone"});case"qqqqq":return n.quarter(r,{width:"narrow",context:"standalone"});case"qqqq":default:return n.quarter(r,{width:"wide",context:"standalone"})}},M:function(e,t,n){const r=e.getMonth();switch(t){case"M":case"MM":return vi.M(e,t);case"Mo":return n.ordinalNumber(r+1,{unit:"month"});case"MMM":return n.month(r,{width:"abbreviated",context:"formatting"});case"MMMMM":return n.month(r,{width:"narrow",context:"formatting"});case"MMMM":default:return n.month(r,{width:"wide",context:"formatting"})}},L:function(e,t,n){const r=e.getMonth();switch(t){case"L":return String(r+1);case"LL":return $e(r+1,2);case"Lo":return n.ordinalNumber(r+1,{unit:"month"});case"LLL":return n.month(r,{width:"abbreviated",context:"standalone"});case"LLLLL":return n.month(r,{width:"narrow",context:"standalone"});case"LLLL":default:return n.month(r,{width:"wide",context:"standalone"})}},w:function(e,t,n,r){const o=$z(e,r);return t==="wo"?n.ordinalNumber(o,{unit:"week"}):$e(o,t.length)},I:function(e,t,n){const r=qz(e);return t==="Io"?n.ordinalNumber(r,{unit:"week"}):$e(r,t.length)},d:function(e,t,n){return t==="do"?n.ordinalNumber(e.getDate(),{unit:"date"}):vi.d(e,t)},D:function(e,t,n){const r=Uz(e);return t==="Do"?n.ordinalNumber(r,{unit:"dayOfYear"}):$e(r,t.length)},E:function(e,t,n){const r=e.getDay();switch(t){case"E":case"EE":case"EEE":return n.day(r,{width:"abbreviated",context:"formatting"});case"EEEEE":return n.day(r,{width:"narrow",context:"formatting"});case"EEEEEE":return n.day(r,{width:"short",context:"formatting"});case"EEEE":default:return n.day(r,{width:"wide",context:"formatting"})}},e:function(e,t,n,r){const o=e.getDay(),s=(o-r.weekStartsOn+8)%7||7;switch(t){case"e":return String(s);case"ee":return $e(s,2);case"eo":return n.ordinalNumber(s,{unit:"day"});case"eee":return n.day(o,{width:"abbreviated",context:"formatting"});case"eeeee":return n.day(o,{width:"narrow",context:"formatting"});case"eeeeee":return n.day(o,{width:"short",context:"formatting"});case"eeee":default:return n.day(o,{width:"wide",context:"formatting"})}},c:function(e,t,n,r){const o=e.getDay(),s=(o-r.weekStartsOn+8)%7||7;switch(t){case"c":return String(s);case"cc":return $e(s,t.length);case"co":return n.ordinalNumber(s,{unit:"day"});case"ccc":return n.day(o,{width:"abbreviated",context:"standalone"});case"ccccc":return n.day(o,{width:"narrow",context:"standalone"});case"cccccc":return n.day(o,{width:"short",context:"standalone"});case"cccc":default:return n.day(o,{width:"wide",context:"standalone"})}},i:function(e,t,n){const r=e.getDay(),o=r===0?7:r;switch(t){case"i":return String(o);case"ii":return $e(o,t.length);case"io":return n.ordinalNumber(o,{unit:"day"});case"iii":return n.day(r,{width:"abbreviated",context:"formatting"});case"iiiii":return n.day(r,{width:"narrow",context:"formatting"});case"iiiiii":return n.day(r,{width:"short",context:"formatting"});case"iiii":default:return n.day(r,{width:"wide",context:"formatting"})}},a:function(e,t,n){const o=e.getHours()/12>=1?"pm":"am";switch(t){case"a":case"aa":return n.dayPeriod(o,{width:"abbreviated",context:"formatting"});case"aaa":return n.dayPeriod(o,{width:"abbreviated",context:"formatting"}).toLowerCase();case"aaaaa":return n.dayPeriod(o,{width:"narrow",context:"formatting"});case"aaaa":default:return n.dayPeriod(o,{width:"wide",context:"formatting"})}},b:function(e,t,n){const r=e.getHours();let o;switch(r===12?o=uo.noon:r===0?o=uo.midnight:o=r/12>=1?"pm":"am",t){case"b":case"bb":return n.dayPeriod(o,{width:"abbreviated",context:"formatting"});case"bbb":return n.dayPeriod(o,{width:"abbreviated",context:"formatting"}).toLowerCase();case"bbbbb":return n.dayPeriod(o,{width:"narrow",context:"formatting"});case"bbbb":default:return n.dayPeriod(o,{width:"wide",context:"formatting"})}},B:function(e,t,n){const r=e.getHours();let o;switch(r>=17?o=uo.evening:r>=12?o=uo.afternoon:r>=4?o=uo.morning:o=uo.night,t){case"B":case"BB":case"BBB":return n.dayPeriod(o,{width:"abbreviated",context:"formatting"});case"BBBBB":return n.dayPeriod(o,{width:"narrow",context:"formatting"});case"BBBB":default:return n.dayPeriod(o,{width:"wide",context:"formatting"})}},h:function(e,t,n){if(t==="ho"){let r=e.getHours()%12;return r===0&&(r=12),n.ordinalNumber(r,{unit:"hour"})}return vi.h(e,t)},H:function(e,t,n){return t==="Ho"?n.ordinalNumber(e.getHours(),{unit:"hour"}):vi.H(e,t)},K:function(e,t,n){const r=e.getHours()%12;return t==="Ko"?n.ordinalNumber(r,{unit:"hour"}):$e(r,t.length)},k:function(e,t,n){let r=e.getHours();return r===0&&(r=24),t==="ko"?n.ordinalNumber(r,{unit:"hour"}):$e(r,t.length)},m:function(e,t,n){return t==="mo"?n.ordinalNumber(e.getMinutes(),{unit:"minute"}):vi.m(e,t)},s:function(e,t,n){return t==="so"?n.ordinalNumber(e.getSeconds(),{unit:"second"}):vi.s(e,t)},S:function(e,t){return vi.S(e,t)},X:function(e,t,n){const r=e.getTimezoneOffset();if(r===0)return"Z";switch(t){case"X":return r1(r);case"XXXX":case"XX":return oa(r);case"XXXXX":case"XXX":default:return oa(r,":")}},x:function(e,t,n){const r=e.getTimezoneOffset();switch(t){case"x":return r1(r);case"xxxx":case"xx":return oa(r);case"xxxxx":case"xxx":default:return oa(r,":")}},O:function(e,t,n){const r=e.getTimezoneOffset();switch(t){case"O":case"OO":case"OOO":return"GMT"+n1(r,":");case"OOOO":default:return"GMT"+oa(r,":")}},z:function(e,t,n){const r=e.getTimezoneOffset();switch(t){case"z":case"zz":case"zzz":return"GMT"+n1(r,":");case"zzzz":default:return"GMT"+oa(r,":")}},t:function(e,t,n){const r=Math.trunc(+e/1e3);return $e(r,t.length)},T:function(e,t,n){return $e(+e,t.length)}};function n1(e,t=""){const n=e>0?"-":"+",r=Math.abs(e),o=Math.trunc(r/60),s=r%60;return s===0?n+String(o):n+String(o)+t+$e(s,2)}function r1(e,t){return e%60===0?(e>0?"-":"+")+$e(Math.abs(e)/60,2):oa(e,t)}function oa(e,t=""){const n=e>0?"-":"+",r=Math.abs(e),o=$e(Math.trunc(r/60),2),s=$e(r%60,2);return n+o+t+s}const i1=(e,t)=>{switch(e){case"P":return t.date({width:"short"});case"PP":return t.date({width:"medium"});case"PPP":return t.date({width:"long"});case"PPPP":default:return t.date({width:"full"})}},CT=(e,t)=>{switch(e){case"p":return t.time({width:"short"});case"pp":return t.time({width:"medium"});case"ppp":return t.time({width:"long"});case"pppp":default:return t.time({width:"full"})}},Vz=(e,t)=>{const n=e.match(/(P+)(p+)?/)||[],r=n[1],o=n[2];if(!o)return i1(e,t);let s;switch(r){case"P":s=t.dateTime({width:"short"});break;case"PP":s=t.dateTime({width:"medium"});break;case"PPP":s=t.dateTime({width:"long"});break;case"PPPP":default:s=t.dateTime({width:"full"});break}return s.replace("{{date}}",i1(r,t)).replace("{{time}}",CT(o,t))},Qz={p:CT,P:Vz},Hz=/^D+$/,Gz=/^Y+$/,Yz=["D","DD","YY","YYYY"];function Wz(e){return Hz.test(e)}function Xz(e){return Gz.test(e)}function Kz(e,t,n){const r=Zz(e,t,n);if(console.warn(r),Yz.includes(e))throw new RangeError(r)}function Zz(e,t,n){const r=e[0]==="Y"?"years":"days of the month";return`Use \`${e.toLowerCase()}\` instead of \`${e}\` (in \`${t}\`) for formatting ${r} to the input \`${n}\`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md`}const Jz=/[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g,e3=/P+p+|P+|p+|''|'(''|[^'])+('|$)|./g,t3=/^'([^]*?)'?$/,n3=/''/g,r3=/[a-zA-Z]/;function a1(e,t,n){var y,v,g,b;const r=Af(),o=r.locale??Iz,s=r.firstWeekContainsDate??((v=(y=r.locale)==null?void 0:y.options)==null?void 0:v.firstWeekContainsDate)??1,u=r.weekStartsOn??((b=(g=r.locale)==null?void 0:g.options)==null?void 0:b.weekStartsOn)??0,f=Wn(e,n==null?void 0:n.in);if(!az(f))throw new RangeError("Invalid time value");let p=t.match(e3).map(E=>{const S=E[0];if(S==="p"||S==="P"){const T=Qz[S];return T(E,o.formatLong)}return E}).join("").match(Jz).map(E=>{if(E==="''")return{isToken:!1,value:"'"};const S=E[0];if(S==="'")return{isToken:!1,value:i3(E)};if(t1[S])return{isToken:!0,value:E};if(S.match(r3))throw new RangeError("Format string contains an unescaped latin alphabet character `"+S+"`");return{isToken:!1,value:E}});o.localize.preprocessor&&(p=o.localize.preprocessor(f,p));const h={firstWeekContainsDate:s,weekStartsOn:u,locale:o};return p.map(E=>{if(!E.isToken)return E.value;const S=E.value;(Xz(S)||Wz(S))&&Kz(S,t,String(e));const T=t1[S[0]];return T(f,S,o.localize,h)}).join("")}function i3(e){const t=e.match(t3);return t?t[1].replace(n3,"'"):e}const a3=[{field:"number",label:"Number"},{field:"id",label:"ID"},{field:"label",label:"Label"},{field:"created",label:"Created"},{field:"updated",label:"Updated"}],o3=e=>B.jsxs("table",{className:zn`
+}
+    ${Go}`;function XP(e){const t={...Ho,...e};return yy(WP,t)}const KP=rn`
+    mutation updateCategoryName($id: ID!, $input: CategoryInput) {
+  updateCategory(id: $id, input: $input) {
+    success
+    message
+    category {
+      ...CategoryParts
+    }
+  }
+}
+    ${Go}`;function ZP(e){const t={...Ho,...e};return yy(KP,t)}const ST=6048e5,JP=864e5,ZE=Symbol.for("constructDateFrom");function Mi(e,t){return typeof e=="function"?e(t):e&&typeof e=="object"&&ZE in e?e[ZE](t):e instanceof Date?new e.constructor(t):new Date(t)}function Wn(e,t){return Mi(t||e,e)}let ez={};function Af(){return ez}function Nl(e,t){var f,p,h,y;const n=Af(),r=(t==null?void 0:t.weekStartsOn)??((p=(f=t==null?void 0:t.locale)==null?void 0:f.options)==null?void 0:p.weekStartsOn)??n.weekStartsOn??((y=(h=n.locale)==null?void 0:h.options)==null?void 0:y.weekStartsOn)??0,o=Wn(e,t==null?void 0:t.in),s=o.getDay(),u=(s<r?7:0)+s-r;return o.setDate(o.getDate()-u),o.setHours(0,0,0,0),o}function Zc(e,t){return Nl(e,{...t,weekStartsOn:1})}function ET(e,t){const n=Wn(e,t==null?void 0:t.in),r=n.getFullYear(),o=Mi(n,0);o.setFullYear(r+1,0,4),o.setHours(0,0,0,0);const s=Zc(o),u=Mi(n,0);u.setFullYear(r,0,4),u.setHours(0,0,0,0);const f=Zc(u);return n.getTime()>=s.getTime()?r+1:n.getTime()>=f.getTime()?r:r-1}function JE(e){const t=Wn(e),n=new Date(Date.UTC(t.getFullYear(),t.getMonth(),t.getDate(),t.getHours(),t.getMinutes(),t.getSeconds(),t.getMilliseconds()));return n.setUTCFullYear(t.getFullYear()),+e-+n}function tz(e,...t){const n=Mi.bind(null,t.find(r=>typeof r=="object"));return t.map(n)}function e1(e,t){const n=Wn(e,t==null?void 0:t.in);return n.setHours(0,0,0,0),n}function nz(e,t,n){const[r,o]=tz(n==null?void 0:n.in,e,t),s=e1(r),u=e1(o),f=+s-JE(s),p=+u-JE(u);return Math.round((f-p)/JP)}function rz(e,t){const n=ET(e,t),r=Mi(e,0);return r.setFullYear(n,0,4),r.setHours(0,0,0,0),Zc(r)}function iz(e){return e instanceof Date||typeof e=="object"&&Object.prototype.toString.call(e)==="[object Date]"}function az(e){return!(!iz(e)&&typeof e!="number"||isNaN(+Wn(e)))}function oz(e,t){const n=Wn(e,t==null?void 0:t.in);return n.setFullYear(n.getFullYear(),0,1),n.setHours(0,0,0,0),n}const sz={lessThanXSeconds:{one:"less than a second",other:"less than {{count}} seconds"},xSeconds:{one:"1 second",other:"{{count}} seconds"},halfAMinute:"half a minute",lessThanXMinutes:{one:"less than a minute",other:"less than {{count}} minutes"},xMinutes:{one:"1 minute",other:"{{count}} minutes"},aboutXHours:{one:"about 1 hour",other:"about {{count}} hours"},xHours:{one:"1 hour",other:"{{count}} hours"},xDays:{one:"1 day",other:"{{count}} days"},aboutXWeeks:{one:"about 1 week",other:"about {{count}} weeks"},xWeeks:{one:"1 week",other:"{{count}} weeks"},aboutXMonths:{one:"about 1 month",other:"about {{count}} months"},xMonths:{one:"1 month",other:"{{count}} months"},aboutXYears:{one:"about 1 year",other:"about {{count}} years"},xYears:{one:"1 year",other:"{{count}} years"},overXYears:{one:"over 1 year",other:"over {{count}} years"},almostXYears:{one:"almost 1 year",other:"almost {{count}} years"}},lz=(e,t,n)=>{let r;const o=sz[e];return typeof o=="string"?r=o:t===1?r=o.one:r=o.other.replace("{{count}}",t.toString()),n!=null&&n.addSuffix?n.comparison&&n.comparison>0?"in "+r:r+" ago":r};function Cp(e){return(t={})=>{const n=t.width?String(t.width):e.defaultWidth;return e.formats[n]||e.formats[e.defaultWidth]}}const uz={full:"EEEE, MMMM do, y",long:"MMMM do, y",medium:"MMM d, y",short:"MM/dd/yyyy"},cz={full:"h:mm:ss a zzzz",long:"h:mm:ss a z",medium:"h:mm:ss a",short:"h:mm a"},fz={full:"{{date}} 'at' {{time}}",long:"{{date}} 'at' {{time}}",medium:"{{date}}, {{time}}",short:"{{date}}, {{time}}"},dz={date:Cp({formats:uz,defaultWidth:"full"}),time:Cp({formats:cz,defaultWidth:"full"}),dateTime:Cp({formats:fz,defaultWidth:"full"})},hz={lastWeek:"'last' eeee 'at' p",yesterday:"'yesterday at' p",today:"'today at' p",tomorrow:"'tomorrow at' p",nextWeek:"eeee 'at' p",other:"P"},pz=(e,t,n,r)=>hz[e];function rl(e){return(t,n)=>{const r=n!=null&&n.context?String(n.context):"standalone";let o;if(r==="formatting"&&e.formattingValues){const u=e.defaultFormattingWidth||e.defaultWidth,f=n!=null&&n.width?String(n.width):u;o=e.formattingValues[f]||e.formattingValues[u]}else{const u=e.defaultWidth,f=n!=null&&n.width?String(n.width):e.defaultWidth;o=e.values[f]||e.values[u]}const s=e.argumentCallback?e.argumentCallback(t):t;return o[s]}}const mz={narrow:["B","A"],abbreviated:["BC","AD"],wide:["Before Christ","Anno Domini"]},yz={narrow:["1","2","3","4"],abbreviated:["Q1","Q2","Q3","Q4"],wide:["1st quarter","2nd quarter","3rd quarter","4th quarter"]},vz={narrow:["J","F","M","A","M","J","J","A","S","O","N","D"],abbreviated:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],wide:["January","February","March","April","May","June","July","August","September","October","November","December"]},gz={narrow:["S","M","T","W","T","F","S"],short:["Su","Mo","Tu","We","Th","Fr","Sa"],abbreviated:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],wide:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]},bz={narrow:{am:"a",pm:"p",midnight:"mi",noon:"n",morning:"morning",afternoon:"afternoon",evening:"evening",night:"night"},abbreviated:{am:"AM",pm:"PM",midnight:"midnight",noon:"noon",morning:"morning",afternoon:"afternoon",evening:"evening",night:"night"},wide:{am:"a.m.",pm:"p.m.",midnight:"midnight",noon:"noon",morning:"morning",afternoon:"afternoon",evening:"evening",night:"night"}},Sz={narrow:{am:"a",pm:"p",midnight:"mi",noon:"n",morning:"in the morning",afternoon:"in the afternoon",evening:"in the evening",night:"at night"},abbreviated:{am:"AM",pm:"PM",midnight:"midnight",noon:"noon",morning:"in the morning",afternoon:"in the afternoon",evening:"in the evening",night:"at night"},wide:{am:"a.m.",pm:"p.m.",midnight:"midnight",noon:"noon",morning:"in the morning",afternoon:"in the afternoon",evening:"in the evening",night:"at night"}},Ez=(e,t)=>{const n=Number(e),r=n%100;if(r>20||r<10)switch(r%10){case 1:return n+"st";case 2:return n+"nd";case 3:return n+"rd"}return n+"th"},xz={ordinalNumber:Ez,era:rl({values:mz,defaultWidth:"wide"}),quarter:rl({values:yz,defaultWidth:"wide",argumentCallback:e=>e-1}),month:rl({values:vz,defaultWidth:"wide"}),day:rl({values:gz,defaultWidth:"wide"}),dayPeriod:rl({values:bz,defaultWidth:"wide",formattingValues:Sz,defaultFormattingWidth:"wide"})};function il(e){return(t,n={})=>{const r=n.width,o=r&&e.matchPatterns[r]||e.matchPatterns[e.defaultMatchWidth],s=t.match(o);if(!s)return null;const u=s[0],f=r&&e.parsePatterns[r]||e.parsePatterns[e.defaultParseWidth],p=Array.isArray(f)?Tz(f,v=>v.test(u)):Cz(f,v=>v.test(u));let h;h=e.valueCallback?e.valueCallback(p):p,h=n.valueCallback?n.valueCallback(h):h;const y=t.slice(u.length);return{value:h,rest:y}}}function Cz(e,t){for(const n in e)if(Object.prototype.hasOwnProperty.call(e,n)&&t(e[n]))return n}function Tz(e,t){for(let n=0;n<e.length;n++)if(t(e[n]))return n}function wz(e){return(t,n={})=>{const r=t.match(e.matchPattern);if(!r)return null;const o=r[0],s=t.match(e.parsePattern);if(!s)return null;let u=e.valueCallback?e.valueCallback(s[0]):s[0];u=n.valueCallback?n.valueCallback(u):u;const f=t.slice(o.length);return{value:u,rest:f}}}const Oz=/^(\d+)(th|st|nd|rd)?/i,Rz=/\d+/i,_z={narrow:/^(b|a)/i,abbreviated:/^(b\.?\s?c\.?|b\.?\s?c\.?\s?e\.?|a\.?\s?d\.?|c\.?\s?e\.?)/i,wide:/^(before christ|before common era|anno domini|common era)/i},Dz={any:[/^b/i,/^(a|c)/i]},Az={narrow:/^[1234]/i,abbreviated:/^q[1234]/i,wide:/^[1234](th|st|nd|rd)? quarter/i},kz={any:[/1/i,/2/i,/3/i,/4/i]},Mz={narrow:/^[jfmasond]/i,abbreviated:/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i,wide:/^(january|february|march|april|may|june|july|august|september|october|november|december)/i},Nz={narrow:[/^j/i,/^f/i,/^m/i,/^a/i,/^m/i,/^j/i,/^j/i,/^a/i,/^s/i,/^o/i,/^n/i,/^d/i],any:[/^ja/i,/^f/i,/^mar/i,/^ap/i,/^may/i,/^jun/i,/^jul/i,/^au/i,/^s/i,/^o/i,/^n/i,/^d/i]},jz={narrow:/^[smtwf]/i,short:/^(su|mo|tu|we|th|fr|sa)/i,abbreviated:/^(sun|mon|tue|wed|thu|fri|sat)/i,wide:/^(sunday|monday|tuesday|wednesday|thursday|friday|saturday)/i},Lz={narrow:[/^s/i,/^m/i,/^t/i,/^w/i,/^t/i,/^f/i,/^s/i],any:[/^su/i,/^m/i,/^tu/i,/^w/i,/^th/i,/^f/i,/^sa/i]},Pz={narrow:/^(a|p|mi|n|(in the|at) (morning|afternoon|evening|night))/i,any:/^([ap]\.?\s?m\.?|midnight|noon|(in the|at) (morning|afternoon|evening|night))/i},zz={any:{am:/^a/i,pm:/^p/i,midnight:/^mi/i,noon:/^no/i,morning:/morning/i,afternoon:/afternoon/i,evening:/evening/i,night:/night/i}},Bz={ordinalNumber:wz({matchPattern:Oz,parsePattern:Rz,valueCallback:e=>parseInt(e,10)}),era:il({matchPatterns:_z,defaultMatchWidth:"wide",parsePatterns:Dz,defaultParseWidth:"any"}),quarter:il({matchPatterns:Az,defaultMatchWidth:"wide",parsePatterns:kz,defaultParseWidth:"any",valueCallback:e=>e+1}),month:il({matchPatterns:Mz,defaultMatchWidth:"wide",parsePatterns:Nz,defaultParseWidth:"any"}),day:il({matchPatterns:jz,defaultMatchWidth:"wide",parsePatterns:Lz,defaultParseWidth:"any"}),dayPeriod:il({matchPatterns:Pz,defaultMatchWidth:"any",parsePatterns:zz,defaultParseWidth:"any"})},Iz={code:"en-US",formatDistance:lz,formatLong:dz,formatRelative:pz,localize:xz,match:Bz,options:{weekStartsOn:0,firstWeekContainsDate:1}};function Uz(e,t){const n=Wn(e,t==null?void 0:t.in);return nz(n,oz(n))+1}function qz(e,t){const n=Wn(e,t==null?void 0:t.in),r=+Zc(n)-+rz(n);return Math.round(r/ST)+1}function xT(e,t){var y,v,g,b;const n=Wn(e,t==null?void 0:t.in),r=n.getFullYear(),o=Af(),s=(t==null?void 0:t.firstWeekContainsDate)??((v=(y=t==null?void 0:t.locale)==null?void 0:y.options)==null?void 0:v.firstWeekContainsDate)??o.firstWeekContainsDate??((b=(g=o.locale)==null?void 0:g.options)==null?void 0:b.firstWeekContainsDate)??1,u=Mi((t==null?void 0:t.in)||e,0);u.setFullYear(r+1,0,s),u.setHours(0,0,0,0);const f=Nl(u,t),p=Mi((t==null?void 0:t.in)||e,0);p.setFullYear(r,0,s),p.setHours(0,0,0,0);const h=Nl(p,t);return+n>=+f?r+1:+n>=+h?r:r-1}function Fz(e,t){var f,p,h,y;const n=Af(),r=(t==null?void 0:t.firstWeekContainsDate)??((p=(f=t==null?void 0:t.locale)==null?void 0:f.options)==null?void 0:p.firstWeekContainsDate)??n.firstWeekContainsDate??((y=(h=n.locale)==null?void 0:h.options)==null?void 0:y.firstWeekContainsDate)??1,o=xT(e,t),s=Mi((t==null?void 0:t.in)||e,0);return s.setFullYear(o,0,r),s.setHours(0,0,0,0),Nl(s,t)}function $z(e,t){const n=Wn(e,t==null?void 0:t.in),r=+Nl(n,t)-+Fz(n,t);return Math.round(r/ST)+1}function $e(e,t){const n=e<0?"-":"",r=Math.abs(e).toString().padStart(t,"0");return n+r}const vi={y(e,t){const n=e.getFullYear(),r=n>0?n:1-n;return $e(t==="yy"?r%100:r,t.length)},M(e,t){const n=e.getMonth();return t==="M"?String(n+1):$e(n+1,2)},d(e,t){return $e(e.getDate(),t.length)},a(e,t){const n=e.getHours()/12>=1?"pm":"am";switch(t){case"a":case"aa":return n.toUpperCase();case"aaa":return n;case"aaaaa":return n[0];case"aaaa":default:return n==="am"?"a.m.":"p.m."}},h(e,t){return $e(e.getHours()%12||12,t.length)},H(e,t){return $e(e.getHours(),t.length)},m(e,t){return $e(e.getMinutes(),t.length)},s(e,t){return $e(e.getSeconds(),t.length)},S(e,t){const n=t.length,r=e.getMilliseconds(),o=Math.trunc(r*Math.pow(10,n-3));return $e(o,t.length)}},uo={midnight:"midnight",noon:"noon",morning:"morning",afternoon:"afternoon",evening:"evening",night:"night"},t1={G:function(e,t,n){const r=e.getFullYear()>0?1:0;switch(t){case"G":case"GG":case"GGG":return n.era(r,{width:"abbreviated"});case"GGGGG":return n.era(r,{width:"narrow"});case"GGGG":default:return n.era(r,{width:"wide"})}},y:function(e,t,n){if(t==="yo"){const r=e.getFullYear(),o=r>0?r:1-r;return n.ordinalNumber(o,{unit:"year"})}return vi.y(e,t)},Y:function(e,t,n,r){const o=xT(e,r),s=o>0?o:1-o;if(t==="YY"){const u=s%100;return $e(u,2)}return t==="Yo"?n.ordinalNumber(s,{unit:"year"}):$e(s,t.length)},R:function(e,t){const n=ET(e);return $e(n,t.length)},u:function(e,t){const n=e.getFullYear();return $e(n,t.length)},Q:function(e,t,n){const r=Math.ceil((e.getMonth()+1)/3);switch(t){case"Q":return String(r);case"QQ":return $e(r,2);case"Qo":return n.ordinalNumber(r,{unit:"quarter"});case"QQQ":return n.quarter(r,{width:"abbreviated",context:"formatting"});case"QQQQQ":return n.quarter(r,{width:"narrow",context:"formatting"});case"QQQQ":default:return n.quarter(r,{width:"wide",context:"formatting"})}},q:function(e,t,n){const r=Math.ceil((e.getMonth()+1)/3);switch(t){case"q":return String(r);case"qq":return $e(r,2);case"qo":return n.ordinalNumber(r,{unit:"quarter"});case"qqq":return n.quarter(r,{width:"abbreviated",context:"standalone"});case"qqqqq":return n.quarter(r,{width:"narrow",context:"standalone"});case"qqqq":default:return n.quarter(r,{width:"wide",context:"standalone"})}},M:function(e,t,n){const r=e.getMonth();switch(t){case"M":case"MM":return vi.M(e,t);case"Mo":return n.ordinalNumber(r+1,{unit:"month"});case"MMM":return n.month(r,{width:"abbreviated",context:"formatting"});case"MMMMM":return n.month(r,{width:"narrow",context:"formatting"});case"MMMM":default:return n.month(r,{width:"wide",context:"formatting"})}},L:function(e,t,n){const r=e.getMonth();switch(t){case"L":return String(r+1);case"LL":return $e(r+1,2);case"Lo":return n.ordinalNumber(r+1,{unit:"month"});case"LLL":return n.month(r,{width:"abbreviated",context:"standalone"});case"LLLLL":return n.month(r,{width:"narrow",context:"standalone"});case"LLLL":default:return n.month(r,{width:"wide",context:"standalone"})}},w:function(e,t,n,r){const o=$z(e,r);return t==="wo"?n.ordinalNumber(o,{unit:"week"}):$e(o,t.length)},I:function(e,t,n){const r=qz(e);return t==="Io"?n.ordinalNumber(r,{unit:"week"}):$e(r,t.length)},d:function(e,t,n){return t==="do"?n.ordinalNumber(e.getDate(),{unit:"date"}):vi.d(e,t)},D:function(e,t,n){const r=Uz(e);return t==="Do"?n.ordinalNumber(r,{unit:"dayOfYear"}):$e(r,t.length)},E:function(e,t,n){const r=e.getDay();switch(t){case"E":case"EE":case"EEE":return n.day(r,{width:"abbreviated",context:"formatting"});case"EEEEE":return n.day(r,{width:"narrow",context:"formatting"});case"EEEEEE":return n.day(r,{width:"short",context:"formatting"});case"EEEE":default:return n.day(r,{width:"wide",context:"formatting"})}},e:function(e,t,n,r){const o=e.getDay(),s=(o-r.weekStartsOn+8)%7||7;switch(t){case"e":return String(s);case"ee":return $e(s,2);case"eo":return n.ordinalNumber(s,{unit:"day"});case"eee":return n.day(o,{width:"abbreviated",context:"formatting"});case"eeeee":return n.day(o,{width:"narrow",context:"formatting"});case"eeeeee":return n.day(o,{width:"short",context:"formatting"});case"eeee":default:return n.day(o,{width:"wide",context:"formatting"})}},c:function(e,t,n,r){const o=e.getDay(),s=(o-r.weekStartsOn+8)%7||7;switch(t){case"c":return String(s);case"cc":return $e(s,t.length);case"co":return n.ordinalNumber(s,{unit:"day"});case"ccc":return n.day(o,{width:"abbreviated",context:"standalone"});case"ccccc":return n.day(o,{width:"narrow",context:"standalone"});case"cccccc":return n.day(o,{width:"short",context:"standalone"});case"cccc":default:return n.day(o,{width:"wide",context:"standalone"})}},i:function(e,t,n){const r=e.getDay(),o=r===0?7:r;switch(t){case"i":return String(o);case"ii":return $e(o,t.length);case"io":return n.ordinalNumber(o,{unit:"day"});case"iii":return n.day(r,{width:"abbreviated",context:"formatting"});case"iiiii":return n.day(r,{width:"narrow",context:"formatting"});case"iiiiii":return n.day(r,{width:"short",context:"formatting"});case"iiii":default:return n.day(r,{width:"wide",context:"formatting"})}},a:function(e,t,n){const o=e.getHours()/12>=1?"pm":"am";switch(t){case"a":case"aa":return n.dayPeriod(o,{width:"abbreviated",context:"formatting"});case"aaa":return n.dayPeriod(o,{width:"abbreviated",context:"formatting"}).toLowerCase();case"aaaaa":return n.dayPeriod(o,{width:"narrow",context:"formatting"});case"aaaa":default:return n.dayPeriod(o,{width:"wide",context:"formatting"})}},b:function(e,t,n){const r=e.getHours();let o;switch(r===12?o=uo.noon:r===0?o=uo.midnight:o=r/12>=1?"pm":"am",t){case"b":case"bb":return n.dayPeriod(o,{width:"abbreviated",context:"formatting"});case"bbb":return n.dayPeriod(o,{width:"abbreviated",context:"formatting"}).toLowerCase();case"bbbbb":return n.dayPeriod(o,{width:"narrow",context:"formatting"});case"bbbb":default:return n.dayPeriod(o,{width:"wide",context:"formatting"})}},B:function(e,t,n){const r=e.getHours();let o;switch(r>=17?o=uo.evening:r>=12?o=uo.afternoon:r>=4?o=uo.morning:o=uo.night,t){case"B":case"BB":case"BBB":return n.dayPeriod(o,{width:"abbreviated",context:"formatting"});case"BBBBB":return n.dayPeriod(o,{width:"narrow",context:"formatting"});case"BBBB":default:return n.dayPeriod(o,{width:"wide",context:"formatting"})}},h:function(e,t,n){if(t==="ho"){let r=e.getHours()%12;return r===0&&(r=12),n.ordinalNumber(r,{unit:"hour"})}return vi.h(e,t)},H:function(e,t,n){return t==="Ho"?n.ordinalNumber(e.getHours(),{unit:"hour"}):vi.H(e,t)},K:function(e,t,n){const r=e.getHours()%12;return t==="Ko"?n.ordinalNumber(r,{unit:"hour"}):$e(r,t.length)},k:function(e,t,n){let r=e.getHours();return r===0&&(r=24),t==="ko"?n.ordinalNumber(r,{unit:"hour"}):$e(r,t.length)},m:function(e,t,n){return t==="mo"?n.ordinalNumber(e.getMinutes(),{unit:"minute"}):vi.m(e,t)},s:function(e,t,n){return t==="so"?n.ordinalNumber(e.getSeconds(),{unit:"second"}):vi.s(e,t)},S:function(e,t){return vi.S(e,t)},X:function(e,t,n){const r=e.getTimezoneOffset();if(r===0)return"Z";switch(t){case"X":return r1(r);case"XXXX":case"XX":return oa(r);case"XXXXX":case"XXX":default:return oa(r,":")}},x:function(e,t,n){const r=e.getTimezoneOffset();switch(t){case"x":return r1(r);case"xxxx":case"xx":return oa(r);case"xxxxx":case"xxx":default:return oa(r,":")}},O:function(e,t,n){const r=e.getTimezoneOffset();switch(t){case"O":case"OO":case"OOO":return"GMT"+n1(r,":");case"OOOO":default:return"GMT"+oa(r,":")}},z:function(e,t,n){const r=e.getTimezoneOffset();switch(t){case"z":case"zz":case"zzz":return"GMT"+n1(r,":");case"zzzz":default:return"GMT"+oa(r,":")}},t:function(e,t,n){const r=Math.trunc(+e/1e3);return $e(r,t.length)},T:function(e,t,n){return $e(+e,t.length)}};function n1(e,t=""){const n=e>0?"-":"+",r=Math.abs(e),o=Math.trunc(r/60),s=r%60;return s===0?n+String(o):n+String(o)+t+$e(s,2)}function r1(e,t){return e%60===0?(e>0?"-":"+")+$e(Math.abs(e)/60,2):oa(e,t)}function oa(e,t=""){const n=e>0?"-":"+",r=Math.abs(e),o=$e(Math.trunc(r/60),2),s=$e(r%60,2);return n+o+t+s}const i1=(e,t)=>{switch(e){case"P":return t.date({width:"short"});case"PP":return t.date({width:"medium"});case"PPP":return t.date({width:"long"});case"PPPP":default:return t.date({width:"full"})}},CT=(e,t)=>{switch(e){case"p":return t.time({width:"short"});case"pp":return t.time({width:"medium"});case"ppp":return t.time({width:"long"});case"pppp":default:return t.time({width:"full"})}},Vz=(e,t)=>{const n=e.match(/(P+)(p+)?/)||[],r=n[1],o=n[2];if(!o)return i1(e,t);let s;switch(r){case"P":s=t.dateTime({width:"short"});break;case"PP":s=t.dateTime({width:"medium"});break;case"PPP":s=t.dateTime({width:"long"});break;case"PPPP":default:s=t.dateTime({width:"full"});break}return s.replace("{{date}}",i1(r,t)).replace("{{time}}",CT(o,t))},Qz={p:CT,P:Vz},Hz=/^D+$/,Gz=/^Y+$/,Yz=["D","DD","YY","YYYY"];function Wz(e){return Hz.test(e)}function Xz(e){return Gz.test(e)}function Kz(e,t,n){const r=Zz(e,t,n);if(console.warn(r),Yz.includes(e))throw new RangeError(r)}function Zz(e,t,n){const r=e[0]==="Y"?"years":"days of the month";return`Use \`${e.toLowerCase()}\` instead of \`${e}\` (in \`${t}\`) for formatting ${r} to the input \`${n}\`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md`}const Jz=/[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g,e3=/P+p+|P+|p+|''|'(''|[^'])+('|$)|./g,t3=/^'([^]*?)'?$/,n3=/''/g,r3=/[a-zA-Z]/;function a1(e,t,n){var y,v,g,b;const r=Af(),o=r.locale??Iz,s=r.firstWeekContainsDate??((v=(y=r.locale)==null?void 0:y.options)==null?void 0:v.firstWeekContainsDate)??1,u=r.weekStartsOn??((b=(g=r.locale)==null?void 0:g.options)==null?void 0:b.weekStartsOn)??0,f=Wn(e,n==null?void 0:n.in);if(!az(f))throw new RangeError("Invalid time value");let p=t.match(e3).map(E=>{const S=E[0];if(S==="p"||S==="P"){const T=Qz[S];return T(E,o.formatLong)}return E}).join("").match(Jz).map(E=>{if(E==="''")return{isToken:!1,value:"'"};const S=E[0];if(S==="'")return{isToken:!1,value:i3(E)};if(t1[S])return{isToken:!0,value:E};if(S.match(r3))throw new RangeError("Format string contains an unescaped latin alphabet character `"+S+"`");return{isToken:!1,value:E}});o.localize.preprocessor&&(p=o.localize.preprocessor(f,p));const h={firstWeekContainsDate:s,weekStartsOn:u,locale:o};return p.map(E=>{if(!E.isToken)return E.value;const S=E.value;(Xz(S)||Wz(S))&&Kz(S,t,String(e));const T=t1[S[0]];return T(f,S,o.localize,h)}).join("")}function i3(e){const t=e.match(t3);return t?t[1].replace(n3,"'"):e}const a3=[{field:"number",label:"Number"},{field:"id",label:"ID"},{field:"label",label:"Label"},{field:"created",label:"Created"},{field:"updated",label:"Updated"}],o3=e=>B.jsxs("table",{className:zn`
         border-collapse: collapse;
         th {
           text-align: left;

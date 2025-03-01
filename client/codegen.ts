@@ -4,13 +4,12 @@ const config: CodegenConfig = {
   schema: './graphql.schema.json',
   documents: ['src/**/*.graphql'],
   generates: {
-    './src/generated/': {
-      preset: 'client',
-      plugins: [],
-      presetConfig: {
-        gqlTagName: 'gql',
-        fragmentMasking: false,
-      },
+    './src/generated/graphql.ts': {
+      plugins: [
+        'typescript',
+        'typescript-operations',
+        'typescript-react-apollo',
+      ],
       config: {
         apolloClientVersion: 3,
         withHooks: true,
@@ -21,14 +20,9 @@ const config: CodegenConfig = {
         withMutationOptionsType: true,
         withMutationFn: true,
         addDocBlocks: true,
+        gqlImport: '@apollo/client#gql',
       },
     },
-    './graphql.schema.json': {
-      plugins: ['introspection'],
-    },
-  },
-  hooks: {
-    afterOneFileWrite: ['prettier --write'],
   },
 };
 

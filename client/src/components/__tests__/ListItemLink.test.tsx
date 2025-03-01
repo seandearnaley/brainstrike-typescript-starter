@@ -3,8 +3,20 @@ import { render, cleanup, screen } from '../../test-utils';
 import { ListItemLink } from '../ListItemLink';
 import { vi } from 'vitest';
 
-// Automatically use the mock from __mocks__ directory
-vi.mock('react-router-dom');
+// Mock the useLocation hook directly in the test
+vi.mock('react-router-dom', () => {
+  const actual = vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useLocation: vi.fn().mockReturnValue({ 
+      pathname: '/cards', 
+      search: '', 
+      hash: '', 
+      state: null,
+      key: 'default'
+    })
+  };
+});
 
 // Mock the MUI components used in ListItemLink
 vi.mock('@mui/material/ListItem', () => ({
@@ -16,7 +28,7 @@ vi.mock('@mui/material/ListItem', () => ({
 }));
 
 vi.mock('@mui/material/ListItemText', () => ({
-  default: ({ primary, ...props }: { primary?: React.ReactNode; [key: string]: any }) => (
+  default: ({ primary, disableTypography, ...props }: { primary?: React.ReactNode; disableTypography?: boolean; [key: string]: any }) => (
     <div data-testid="list-item-text" {...props}>
       {primary}
     </div>

@@ -1,5 +1,6 @@
 import React, { useMemo, useEffect, useCallback, useState } from 'react';
 import { ApolloQueryResult } from '@apollo/client';
+import { css } from '@emotion/css';
 import {
   useGetCategoryWithCardsLazyQuery,
   GetCategoryWithCardsQuery,
@@ -15,6 +16,7 @@ interface CategoryContainerProps {
   onSelectCard: (id: string | null) => void;
   onSelectCategory: (id: string | null) => void;
 }
+
 const CategoryContainer: React.FC<CategoryContainerProps> = ({
   selectedCategory,
   onSelectCard,
@@ -26,7 +28,7 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
     orderByDirection: DirectionEnum.Asc,
     id: selectedCategory,
   }), [selectedCategory]);
-
+  
   const [getCat, { data, loading, error, fetchMore, refetch }] =
     useGetCategoryWithCardsLazyQuery({
       variables,
@@ -46,7 +48,6 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
     if (!data?.category?.cards?.edges) {
       return [];
     }
-    
     try {
       return data.category.cards.edges.map(
         ({ node: { id, number, label, created, updated } }) => ({
@@ -67,7 +68,6 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
     if (!fetchMore || !data?.category?.cards?.pageInfo?.endCursor) {
       return;
     }
-    
     return fetchMore({
       variables: {
         ...variables,
@@ -79,10 +79,32 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
   // If no category is selected, show a message to select one
   if (!selectedCategory) {
     return (
-      <div style={{ padding: '20px', textAlign: 'center' }}>
-        <h2>Welcome to the Category Manager</h2>
-        <p>Please select a category from the list on the left to view its details and cards.</p>
-        <div data-testid="selected-id">Selected: null</div>
+      <div className={css`
+        padding: 24px;
+        text-align: center;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      `}>
+        <h2 className={css`
+          color: #3f51b5;
+          margin-bottom: 16px;
+          font-weight: 500;
+        `}>Category Manager</h2>
+        <div className={css`
+          background-color: white;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 24px;
+          max-width: 400px;
+        `}>
+          <p className={css`color: #757575; margin-bottom: 0;`}>
+            Please select a category from the list on the left to view its details and cards.
+          </p>
+        </div>
+        <div data-testid="selected-id" className={css`display: none;`}>Selected: null</div>
       </div>
     );
   }
@@ -90,9 +112,19 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
   // Handle loading state
   if (loading && !data) {
     return (
-      <div>
-        <div>Loading...</div>
-        <div data-testid="selected-id">Selected: {selectedCategory}</div>
+      <div className={css`
+        padding: 24px;
+        text-align: center;
+      `}>
+        <div className={css`
+          color: #3f51b5;
+          font-weight: 500;
+          margin-bottom: 16px;
+        `}>Loading...</div>
+        <div data-testid="selected-id" className={css`
+          font-size: 0.75rem;
+          color: #757575;
+        `}>Selected: {selectedCategory}</div>
       </div>
     );
   }
@@ -100,12 +132,62 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
   // Handle error state
   if (error) {
     return (
-      <div style={{ padding: '20px', color: 'red' }}>
-        <h3>Error</h3>
+      <div className={css`
+        padding: 24px;
+        color: #f44336;
+        background-color: #ffebee;
+        border-radius: 8px;
+        margin-bottom: 16px;
+      `}>
+        <h3 className={css`margin-top: 0;`}>Error</h3>
         <p>{error.message}</p>
-        <button onClick={() => refetch?.(variables)}>Retry</button>
-        <button onClick={() => onSelectCategory(null)}>Clear Selection</button>
-        <div data-testid="selected-id">Selected: {selectedCategory}</div>
+        <div className={css`
+          display: flex;
+          gap: 8px;
+          margin-top: 16px;
+        `}>
+          <button
+            onClick={() => refetch?.(variables)}
+            className={css`
+              background-color: #3f51b5;
+              color: white;
+              border: none;
+              border-radius: 4px;
+              padding: 8px 16px;
+              font-size: 0.875rem;
+              cursor: pointer;
+              
+              &:hover {
+                background-color: #303f9f;
+              }
+            `}
+          >
+            Retry
+          </button>
+          <button
+            onClick={() => onSelectCategory(null)}
+            className={css`
+              background-color: #e0e0e0;
+              color: #424242;
+              border: none;
+              border-radius: 4px;
+              padding: 8px 16px;
+              font-size: 0.875rem;
+              cursor: pointer;
+              
+              &:hover {
+                background-color: #bdbdbd;
+              }
+            `}
+          >
+            Clear Selection
+          </button>
+        </div>
+        <div data-testid="selected-id" className={css`
+          font-size: 0.75rem;
+          color: #757575;
+          margin-top: 16px;
+        `}>Selected: {selectedCategory}</div>
       </div>
     );
   }
@@ -113,21 +195,64 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
   // Handle case where category is not found
   if (selectedCategory && !loading && !data?.category) {
     return (
-      <div style={{ padding: '20px', color: 'orange' }}>
-        <h3>Category Not Found</h3>
+      <div className={css`
+        padding: 24px;
+        color: #ff9800;
+        background-color: #fff3e0;
+        border-radius: 8px;
+        margin-bottom: 16px;
+      `}>
+        <h3 className={css`margin-top: 0;`}>Category Not Found</h3>
         <p>The selected category may have been deleted or is no longer available.</p>
-        <button onClick={() => onSelectCategory(null)}>Return to Category Selection</button>
-        <div data-testid="selected-id">Selected: {selectedCategory}</div>
+        <button
+          onClick={() => onSelectCategory(null)}
+          className={css`
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            margin-top: 8px;
+            
+            &:hover {
+              background-color: #f57c00;
+            }
+          `}
+        >
+          Return to Category Selection
+        </button>
+        <div data-testid="selected-id" className={css`
+          font-size: 0.75rem;
+          color: #757575;
+          margin-top: 16px;
+        `}>Selected: {selectedCategory}</div>
       </div>
     );
   }
 
   return (
     <div>
-      <div data-testid="selected-id">Selected: {selectedCategory}</div>
-      <div>
-        <h2>{data?.category?.name}</h2>
-        <div>
+      <div data-testid="selected-id" className={css`
+        font-size: 0.75rem;
+        color: #757575;
+        margin-bottom: 8px;
+      `}>Selected: {selectedCategory}</div>
+      
+      <div className={css`
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        margin-bottom: 16px;
+      `}>
+        <div className={css`
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          margin-bottom: 16px;
+        `}>
           <EditCategoryContainer
             id={selectedCategory}
             originalCategoryName={data?.category?.name}
@@ -138,20 +263,82 @@ const CategoryContainer: React.FC<CategoryContainerProps> = ({
           />
         </div>
       </div>
-      <CardTable
-        data={cardData}
-        onSelectCard={onSelectCard}
-      />
-      {data?.category?.cards?.pageInfo?.hasNextPage && (
-        <button data-testid="load-more-button" onClick={() => getMoreData()}>
-          Load More
-        </button>
-      )}
-      {data?.category?.cards?.pageInfo?.totalCount && (
-        <div data-testid="showing-message">
-          Showing {cardData.length} / {data.category.cards.pageInfo.totalCount}
+      
+      <div className={css`
+        margin-bottom: 16px;
+      `}>
+        <div className={css`
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 8px;
+        `}>
+          <h3 className={css`
+            margin: 0;
+            color: #3f51b5;
+            font-weight: 500;
+            font-size: 1.25rem;
+          `}>Cards in this Category</h3>
+          
+          {data?.category?.cards?.pageInfo?.totalCount !== undefined && (
+            <div className={css`
+              background-color: #e8eaf6;
+              color: #3f51b5;
+              border-radius: 16px;
+              padding: 4px 12px;
+              font-size: 0.75rem;
+              font-weight: 500;
+            `}>
+              {cardData.length} / {data.category.cards.pageInfo.totalCount} cards
+            </div>
+          )}
         </div>
-      )}
+        
+        <CardTable
+          data={cardData}
+          onSelectCard={onSelectCard}
+        />
+        
+        {data?.category?.cards?.pageInfo?.hasNextPage && (
+          <div className={css`
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+          `}>
+            <button
+              data-testid="load-more-button"
+              onClick={() => getMoreData()}
+              className={css`
+                background-color: #3f51b5;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 16px;
+                font-size: 0.875rem;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                
+                &:hover {
+                  background-color: #303f9f;
+                }
+              `}
+            >
+              Load More Cards
+            </button>
+          </div>
+        )}
+        
+        {data?.category?.cards?.pageInfo?.totalCount && (
+          <div data-testid="showing-message" className={css`
+            text-align: center;
+            color: #757575;
+            font-size: 0.75rem;
+            margin-top: 8px;
+          `}>
+            Showing {cardData.length} / {data.category.cards.pageInfo.totalCount}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

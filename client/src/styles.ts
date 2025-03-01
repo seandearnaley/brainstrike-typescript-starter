@@ -1,46 +1,93 @@
-import { createTheme } from '@mui/material/styles';
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
+import { createTheme, Theme } from '@mui/material/styles';
 
 const drawerWidth = 240;
 
-// Create a theme instance
-export const theme = createTheme();
+export const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#3f51b5',
+      light: '#7986cb',
+      dark: '#303f9f',
+    },
+    secondary: {
+      main: '#f50057',
+      light: '#ff4081',
+      dark: '#c51162',
+    },
+    background: {
+      default: '#f5f5f5',
+    },
+    text: {
+      primary: '#212121',
+      secondary: '#757575',
+    },
+  },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h1: {
+      fontWeight: 500,
+    },
+    h2: {
+      fontWeight: 500,
+    },
+    h3: {
+      fontWeight: 500,
+    },
+    h4: {
+      fontWeight: 500,
+    },
+    h5: {
+      fontWeight: 500,
+    },
+    h6: {
+      fontWeight: 500,
+    },
+    button: {
+      textTransform: 'none',
+      fontWeight: 500,
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 4,
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-root': {
+            borderRadius: 4,
+          },
+        },
+      },
+    },
+  },
+});
 
 export const useStyles = makeStyles((theme: Theme) => ({
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    padding: '10px',
-    height: '100vh',
-    overflow: 'auto',
-    width: '100vw',
-  },
   root: {
     display: 'flex',
-  },
-  navRoot: {
-    flexGrow: 1,
-  },
-  navPaper: {
-    padding: theme.spacing(2),
-    textAlign: 'left',
-    color: theme.palette.text.secondary,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
+    height: '100vh',
+    overflow: 'hidden', // Prevent double scrollbars
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -58,7 +105,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     }),
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: 24,
   },
   menuButtonHidden: {
     display: 'none',
@@ -67,68 +114,29 @@ export const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
   },
   drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
     width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+    backgroundColor: '#fff',
+    boxShadow: '2px 0 5px rgba(0, 0, 0, 0.1)',
   },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  fixedHeight: {
-    height: 240,
-  },
-  cardContainerRoot: {
-    flexGrow: 1,
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-  gridItem: {
+  toolbarIcon: {
+    display: 'flex',
     alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
   },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
+  toolbar: {
+    paddingRight: 16, // Reduced padding
   },
-  fabAdd: {
-    margin: '0px',
-    top: 'auto',
-    right: '20px',
-    bottom: '20px',
-    left: 'auto',
-    position: 'fixed',
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+    backgroundColor: '#f9f9f9',
+    padding: 0, // Remove default padding
   },
-  modal: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  tableC: {
-    borderCollapse: 'collapse',
-    '& th,td': {
-      border: '1px solid black',
-      padding: '5px',
-      '& span': {
-        color: 'blue',
-      },
-    },
+  navRoot: {
+    height: 1000,
   },
 }));

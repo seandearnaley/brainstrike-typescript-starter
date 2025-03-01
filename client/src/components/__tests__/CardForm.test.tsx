@@ -1,5 +1,10 @@
 import React from 'react';
 
+// Mock the formik-mui TextField component
+jest.mock('formik-mui', () => ({
+  TextField: jest.fn(({ field }) => <input {...field} />),
+}));
+
 import { render, cleanup } from '../../test-utils';
 import { CardForm } from '../CardForm';
 

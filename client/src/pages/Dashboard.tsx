@@ -2,18 +2,18 @@ import React from 'react';
 import clsx from 'clsx';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import AppBar from '@material-ui/core/AppBar';
-import Badge from '@material-ui/core/Badge';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import AppBar from '@mui/material/AppBar';
+import Badge from '@mui/material/Badge';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
 import { ListItemLink } from '../components/ListItemLink';
 import { MainPanel } from './MainPanel';
@@ -46,6 +46,7 @@ const Dashboard: React.FC = () => {
               classes.menuButton,
               open && classes.menuButtonHidden,
             )}
+            size="large"
           >
             <MenuIcon />
           </IconButton>
@@ -58,7 +59,7 @@ const Dashboard: React.FC = () => {
           >
             Dashboard
           </Typography>
-          <IconButton color="inherit">
+          <IconButton color="inherit" size="large">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
@@ -73,7 +74,7 @@ const Dashboard: React.FC = () => {
           open={open}
         >
           <div className={classes.toolbarIcon}>
-            <IconButton onClick={handleDrawerClose}>
+            <IconButton onClick={handleDrawerClose} size="large">
               <ChevronLeftIcon />
             </IconButton>
           </div>

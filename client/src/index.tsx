@@ -8,9 +8,11 @@ import {
   HttpLink,
   InMemoryCache,
 } from '@apollo/client';
+import { ThemeProvider } from '@mui/material/styles';
 
 import cacheConfig from './__cacheConfig';
 import Dashboard from './pages/Dashboard';
+import { theme } from './styles';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -35,7 +37,9 @@ const container = document.getElementById('root');
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 root.render(
   <ApolloProvider client={client}>
-    <Dashboard></Dashboard>
+    <ThemeProvider theme={theme}>
+      <Dashboard></Dashboard>
+    </ThemeProvider>
   </ApolloProvider>,
 );
 

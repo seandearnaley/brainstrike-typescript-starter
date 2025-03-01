@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField } from 'formik-material-ui';
+import { TextField } from 'formik-mui';
 import { Formik, Form, Field, FormikConfig } from 'formik';
 import * as Yup from 'yup';
 

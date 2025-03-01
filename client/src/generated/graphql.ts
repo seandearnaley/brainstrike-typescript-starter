@@ -11,28 +11,37 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>;
 };
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  Date: any;
-  DateTime: any;
-  Time: any;
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  Date: { input: any; output: any };
+  DateTime: { input: any; output: any };
+  Time: { input: any; output: any };
 };
 
 export type Card = Node & {
   __typename?: 'Card';
   categories: Array<Category>;
-  created: Scalars['DateTime'];
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  label?: Maybe<Scalars['String']>;
-  number?: Maybe<Scalars['Int']>;
-  updated?: Maybe<Scalars['DateTime']>;
+  created: Scalars['DateTime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  label?: Maybe<Scalars['String']['output']>;
+  number?: Maybe<Scalars['Int']['output']>;
+  updated?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type CardConnection = {
@@ -43,51 +52,51 @@ export type CardConnection = {
 
 export type CardEdge = {
   __typename?: 'CardEdge';
-  cursor: Scalars['String'];
+  cursor: Scalars['String']['output'];
   node: Card;
 };
 
 export type CardInput = {
-  categoryId?: InputMaybe<Scalars['ID']>;
-  description?: InputMaybe<Scalars['String']>;
-  label?: InputMaybe<Scalars['String']>;
-  number?: InputMaybe<Scalars['Int']>;
+  categoryId?: InputMaybe<Scalars['ID']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  label?: InputMaybe<Scalars['String']['input']>;
+  number?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type CardsUpdatedResponse = {
   __typename?: 'CardsUpdatedResponse';
   card: Card;
-  message: Scalars['String'];
-  success: Scalars['Boolean'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
 };
 
 export type Category = Node & {
   __typename?: 'Category';
   cards: CardConnection;
-  created: Scalars['DateTime'];
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  updated?: Maybe<Scalars['DateTime']>;
+  created: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  updated?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type CategoryCardsArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  orderByColumn?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  orderByColumn?: InputMaybe<Scalars['String']['input']>;
   orderByDirection?: InputMaybe<DirectionEnum>;
 };
 
 export type CategoryInput = {
-  name?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CategoryUpdatedResponse = {
   __typename?: 'CategoryUpdatedResponse';
   category: Category;
-  message: Scalars['String'];
-  success: Scalars['Boolean'];
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
 };
 
 export enum DirectionEnum {
@@ -114,36 +123,36 @@ export type MutationAddCategoryArgs = {
 };
 
 export type MutationRemoveCardArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 export type MutationRemoveCategoryArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 export type MutationUpdateCardArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   input?: InputMaybe<CardInput>;
 };
 
 export type MutationUpdateCategoryArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   input?: InputMaybe<CategoryInput>;
 };
 
 export type Node = {
-  created: Scalars['DateTime'];
-  id: Scalars['ID'];
-  updated?: Maybe<Scalars['DateTime']>;
+  created: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  updated?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type PageInfo = {
   __typename?: 'PageInfo';
-  endCursor?: Maybe<Scalars['String']>;
-  hasNextPage: Scalars['Boolean'];
-  hasPreviousPage: Scalars['Boolean'];
-  startCursor?: Maybe<Scalars['String']>;
-  totalCount: Scalars['Int'];
+  endCursor?: Maybe<Scalars['String']['output']>;
+  hasNextPage: Scalars['Boolean']['output'];
+  hasPreviousPage: Scalars['Boolean']['output'];
+  startCursor?: Maybe<Scalars['String']['output']>;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type Query = {
@@ -156,31 +165,31 @@ export type Query = {
 };
 
 export type QueryCardArgs = {
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type QueryCardsArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  categoryId?: InputMaybe<Scalars['ID']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  orderByColumn?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  categoryId?: InputMaybe<Scalars['ID']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  orderByColumn?: InputMaybe<Scalars['String']['input']>;
   orderByDirection?: InputMaybe<DirectionEnum>;
 };
 
 export type QueryCategoriesArgs = {
-  cardIds?: InputMaybe<Scalars['String']>;
-  orderByColumn?: InputMaybe<Scalars['String']>;
+  cardIds?: InputMaybe<Scalars['String']['input']>;
+  orderByColumn?: InputMaybe<Scalars['String']['input']>;
   orderByDirection?: InputMaybe<DirectionEnum>;
 };
 
 export type QueryCategoryArgs = {
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type QueryNodeArgs = {
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type CardPartsFragment = {
@@ -201,7 +210,7 @@ export type CategoryPartsFragment = {
 };
 
 export type GetCardWithCategoriesQueryVariables = Exact<{
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 export type GetCardWithCategoriesQuery = {
@@ -225,13 +234,13 @@ export type GetCardWithCategoriesQuery = {
 };
 
 export type GetCardsQueryVariables = Exact<{
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  orderByColumn?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  orderByColumn?: InputMaybe<Scalars['String']['input']>;
   orderByDirection?: InputMaybe<DirectionEnum>;
-  categoryId?: InputMaybe<Scalars['ID']>;
+  categoryId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
 export type GetCardsQuery = {
@@ -275,12 +284,12 @@ export type GetCategoriesQuery = {
 };
 
 export type GetCategoryNodeQueryVariables = Exact<{
-  id: Scalars['ID'];
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  orderByColumn?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  orderByColumn?: InputMaybe<Scalars['String']['input']>;
   orderByDirection?: InputMaybe<DirectionEnum>;
 }>;
 
@@ -321,12 +330,12 @@ export type GetCategoryNodeQuery = {
 };
 
 export type GetCategoryWithCardsQueryVariables = Exact<{
-  id?: InputMaybe<Scalars['ID']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  orderByColumn?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  orderByColumn?: InputMaybe<Scalars['String']['input']>;
   orderByDirection?: InputMaybe<DirectionEnum>;
 }>;
 
@@ -365,7 +374,7 @@ export type GetCategoryWithCardsQuery = {
 };
 
 export type RemoveCardMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 export type RemoveCardMutation = {
@@ -387,7 +396,7 @@ export type RemoveCardMutation = {
 };
 
 export type RemoveCategoryMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 export type RemoveCategoryMutation = {
@@ -407,7 +416,7 @@ export type RemoveCategoryMutation = {
 };
 
 export type UpdateCategoryNameMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   input?: InputMaybe<CategoryInput>;
 }>;
 
@@ -498,11 +507,31 @@ export function useGetCardWithCategoriesLazyQuery(
     GetCardWithCategoriesQueryVariables
   >(GetCardWithCategoriesDocument, options);
 }
+export function useGetCardWithCategoriesSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetCardWithCategoriesQuery,
+        GetCardWithCategoriesQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetCardWithCategoriesQuery,
+    GetCardWithCategoriesQueryVariables
+  >(GetCardWithCategoriesDocument, options);
+}
 export type GetCardWithCategoriesQueryHookResult = ReturnType<
   typeof useGetCardWithCategoriesQuery
 >;
 export type GetCardWithCategoriesLazyQueryHookResult = ReturnType<
   typeof useGetCardWithCategoriesLazyQuery
+>;
+export type GetCardWithCategoriesSuspenseQueryHookResult = ReturnType<
+  typeof useGetCardWithCategoriesSuspenseQuery
 >;
 export type GetCardWithCategoriesQueryResult = Apollo.QueryResult<
   GetCardWithCategoriesQuery,
@@ -588,9 +617,26 @@ export function useGetCardsLazyQuery(
     options,
   );
 }
+export function useGetCardsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetCardsQuery, GetCardsQueryVariables>,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetCardsQuery, GetCardsQueryVariables>(
+    GetCardsDocument,
+    options,
+  );
+}
 export type GetCardsQueryHookResult = ReturnType<typeof useGetCardsQuery>;
 export type GetCardsLazyQueryHookResult = ReturnType<
   typeof useGetCardsLazyQuery
+>;
+export type GetCardsSuspenseQueryHookResult = ReturnType<
+  typeof useGetCardsSuspenseQuery
 >;
 export type GetCardsQueryResult = Apollo.QueryResult<
   GetCardsQuery,
@@ -644,11 +690,31 @@ export function useGetCategoriesLazyQuery(
     options,
   );
 }
+export function useGetCategoriesSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetCategoriesQuery,
+        GetCategoriesQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetCategoriesQuery,
+    GetCategoriesQueryVariables
+  >(GetCategoriesDocument, options);
+}
 export type GetCategoriesQueryHookResult = ReturnType<
   typeof useGetCategoriesQuery
 >;
 export type GetCategoriesLazyQueryHookResult = ReturnType<
   typeof useGetCategoriesLazyQuery
+>;
+export type GetCategoriesSuspenseQueryHookResult = ReturnType<
+  typeof useGetCategoriesSuspenseQuery
 >;
 export type GetCategoriesQueryResult = Apollo.QueryResult<
   GetCategoriesQuery,
@@ -728,7 +794,11 @@ export function useGetCategoryNodeQuery(
   baseOptions: Apollo.QueryHookOptions<
     GetCategoryNodeQuery,
     GetCategoryNodeQueryVariables
-  >,
+  > &
+    (
+      | { variables: GetCategoryNodeQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<GetCategoryNodeQuery, GetCategoryNodeQueryVariables>(
@@ -748,11 +818,31 @@ export function useGetCategoryNodeLazyQuery(
     GetCategoryNodeQueryVariables
   >(GetCategoryNodeDocument, options);
 }
+export function useGetCategoryNodeSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetCategoryNodeQuery,
+        GetCategoryNodeQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetCategoryNodeQuery,
+    GetCategoryNodeQueryVariables
+  >(GetCategoryNodeDocument, options);
+}
 export type GetCategoryNodeQueryHookResult = ReturnType<
   typeof useGetCategoryNodeQuery
 >;
 export type GetCategoryNodeLazyQueryHookResult = ReturnType<
   typeof useGetCategoryNodeLazyQuery
+>;
+export type GetCategoryNodeSuspenseQueryHookResult = ReturnType<
+  typeof useGetCategoryNodeSuspenseQuery
 >;
 export type GetCategoryNodeQueryResult = Apollo.QueryResult<
   GetCategoryNodeQuery,
@@ -844,11 +934,31 @@ export function useGetCategoryWithCardsLazyQuery(
     GetCategoryWithCardsQueryVariables
   >(GetCategoryWithCardsDocument, options);
 }
+export function useGetCategoryWithCardsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<
+        GetCategoryWithCardsQuery,
+        GetCategoryWithCardsQueryVariables
+      >,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetCategoryWithCardsQuery,
+    GetCategoryWithCardsQueryVariables
+  >(GetCategoryWithCardsDocument, options);
+}
 export type GetCategoryWithCardsQueryHookResult = ReturnType<
   typeof useGetCategoryWithCardsQuery
 >;
 export type GetCategoryWithCardsLazyQueryHookResult = ReturnType<
   typeof useGetCategoryWithCardsLazyQuery
+>;
+export type GetCategoryWithCardsSuspenseQueryHookResult = ReturnType<
+  typeof useGetCategoryWithCardsSuspenseQuery
 >;
 export type GetCategoryWithCardsQueryResult = Apollo.QueryResult<
   GetCategoryWithCardsQuery,

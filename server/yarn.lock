@@ -85,14 +85,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/server@npm:4.10.2":
-  version: 4.10.2
-  resolution: "@apollo/server@npm:4.10.2"
+"@apollo/server@npm:4.11.3":
+  version: 4.11.3
+  resolution: "@apollo/server@npm:4.11.3"
   dependencies:
     "@apollo/cache-control-types": ^1.0.3
     "@apollo/server-gateway-interface": ^1.1.1
     "@apollo/usage-reporting-protobuf": ^4.1.1
-    "@apollo/utils.createhash": ^2.0.0
+    "@apollo/utils.createhash": ^2.0.2
     "@apollo/utils.fetcher": ^2.0.0
     "@apollo/utils.isnodelike": ^2.0.0
     "@apollo/utils.keyvaluecache": ^2.1.0
@@ -100,13 +100,12 @@ __metadata:
     "@apollo/utils.usagereporting": ^2.1.0
     "@apollo/utils.withrequired": ^2.0.0
     "@graphql-tools/schema": ^9.0.0
-    "@josephg/resolvable": ^1.0.0
     "@types/express": ^4.17.13
     "@types/express-serve-static-core": ^4.17.30
     "@types/node-fetch": ^2.6.1
     async-retry: ^1.2.1
     cors: ^2.8.5
-    express: ^4.17.1
+    express: ^4.21.1
     loglevel: ^1.6.8
     lru-cache: ^7.10.1
     negotiator: ^0.6.3
@@ -116,7 +115,7 @@ __metadata:
     whatwg-mimetype: ^3.0.0
   peerDependencies:
     graphql: ^16.6.0
-  checksum: d4fa23ada76e7541e3ac4d77d0adc90363e68e807c0a2948e554056452daf29abd01535f33b5aa8be2ebd843f0c3d0e96ffca8c297a7c0a1a90ec93515f8d1b9
+  checksum: c7052c82f8b04b44ddd2ac2d46547f72758dc3a110fca40b886ca46296642f45d53dcd8132e1402a656779037fdb409d3b05272dbbf9c9bed1b1512fa3c2cd63
   languageName: node
   linkType: hard
 
@@ -129,7 +128,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/utils.createhash@npm:^2.0.0":
+"@apollo/utils.createhash@npm:^2.0.2":
   version: 2.0.2
   resolution: "@apollo/utils.createhash@npm:2.0.2"
   dependencies:
@@ -1096,10 +1095,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:8.4.1":
-  version: 8.4.1
-  resolution: "@faker-js/faker@npm:8.4.1"
-  checksum: d802d531f8929562715adc279cfec763c9a4bc596ec67b0ce43fd0ae61b285d2b0eec6f1f4aa852452a63721a842fe7e81926dce7bd92acca94b01e2a1f55f5a
+"@faker-js/faker@npm:9.5.1":
+  version: 9.5.1
+  resolution: "@faker-js/faker@npm:9.5.1"
+  checksum: 11fd03314403c152dbd5c869bac0ca8f5887d86b45382be14b7ee620c436b091557dc826d5585520c939f71ff1908f2aa7eccfb72a2c0dead3df6fd0b56ab7b7
   languageName: node
   linkType: hard
 
@@ -1732,7 +1731,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/merge@npm:^9.0.0, @graphql-tools/merge@npm:^9.0.21, @graphql-tools/merge@npm:^9.0.3":
+"@graphql-tools/merge@npm:^9.0.0, @graphql-tools/merge@npm:^9.0.21":
   version: 9.0.21
   resolution: "@graphql-tools/merge@npm:9.0.21"
   dependencies:
@@ -1808,21 +1807,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/schema@npm:10.0.3":
-  version: 10.0.3
-  resolution: "@graphql-tools/schema@npm:10.0.3"
-  dependencies:
-    "@graphql-tools/merge": ^9.0.3
-    "@graphql-tools/utils": ^10.0.13
-    tslib: ^2.4.0
-    value-or-promise: ^1.0.12
-  peerDependencies:
-    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-  checksum: 23ed5a27d7dbd4171bf8d7fecf5bcd5a3dc840aae15bf58e0d39ed2f0538b8fe410f004d71e8820feb0c7bfb24118f49aaaf17d6a6967afd1418f87b92478c5d
-  languageName: node
-  linkType: hard
-
-"@graphql-tools/schema@npm:^10.0.0, @graphql-tools/schema@npm:^10.0.11, @graphql-tools/schema@npm:^10.0.20":
+"@graphql-tools/schema@npm:10.0.20, @graphql-tools/schema@npm:^10.0.0, @graphql-tools/schema@npm:^10.0.11, @graphql-tools/schema@npm:^10.0.20":
   version: 10.0.20
   resolution: "@graphql-tools/schema@npm:10.0.20"
   dependencies:
@@ -1896,7 +1881,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/utils@npm:^10.0.0, @graphql-tools/utils@npm:^10.0.13, @graphql-tools/utils@npm:^10.5.6, @graphql-tools/utils@npm:^10.8.1, @graphql-tools/utils@npm:^10.8.3":
+"@graphql-tools/utils@npm:^10.0.0, @graphql-tools/utils@npm:^10.5.6, @graphql-tools/utils@npm:^10.8.1, @graphql-tools/utils@npm:^10.8.3":
   version: 10.8.3
   resolution: "@graphql-tools/utils@npm:10.8.3"
   dependencies:
@@ -2681,6 +2666,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/cors@npm:^2.8.17":
+  version: 2.8.17
+  resolution: "@types/cors@npm:2.8.17"
+  dependencies:
+    "@types/node": "*"
+  checksum: 469bd85e29a35977099a3745c78e489916011169a664e97c4c3d6538143b0a16e4cc72b05b407dc008df3892ed7bf595f9b7c0f1f4680e169565ee9d64966bde
+  languageName: node
+  linkType: hard
+
 "@types/estree@npm:^1.0.6":
   version: 1.0.6
   resolution: "@types/estree@npm:1.0.6"
@@ -2885,12 +2879,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:22.13.7":
-  version: 22.13.7
-  resolution: "@types/node@npm:22.13.7"
+"@types/node@npm:22.13.8":
+  version: 22.13.8
+  resolution: "@types/node@npm:22.13.8"
   dependencies:
     undici-types: ~6.20.0
-  checksum: 8849203f3b54dba593c9d1766b63283ff247602ced6f5234ae83962fd2cf4a7db1235d1513890630152a00cc4c40a535cbd3d5daa8a4457678fbaa0d54a9c6c3
+  checksum: 6c07f95d88f1e286ec4517b35c8b53075e6076855fc52536c1ffad0e6b9091ec9ac2a0dd681b47e57da9196868c69342711a51ef1545f157aa893b5c546b8a36
   languageName: node
   linkType: hard
 
@@ -3866,18 +3860,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "brainstrike-server@workspace:."
   dependencies:
-    "@apollo/server": 4.10.2
+    "@apollo/server": 4.11.3
     "@eslint/js": 9.21.0
-    "@faker-js/faker": 8.4.1
+    "@faker-js/faker": 9.5.1
     "@graphql-codegen/cli": 5.0.5
     "@graphql-codegen/typescript": 4.1.5
     "@graphql-codegen/typescript-resolvers": 4.4.4
-    "@graphql-tools/schema": 10.0.3
+    "@graphql-tools/schema": 10.0.20
+    "@types/cors": ^2.8.17
     "@types/express-serve-static-core": 5.0.6
     "@types/graphql-iso-date": 3.4.3
     "@types/jest": 29.5.14
     "@types/lodash": 4.17.16
-    "@types/node": 22.13.7
+    "@types/node": 22.13.8
     "@types/node-fetch": 2.6.12
     "@typescript-eslint/eslint-plugin": 8.25.0
     "@typescript-eslint/parser": 8.25.0
@@ -3885,6 +3880,7 @@ __metadata:
     apollo-link-http: 1.5.17
     apollo-server-express: 3.13.0
     concurrently: 9.1.2
+    cors: ^2.8.5
     dataloader: 2.2.3
     dotenv: 16.4.7
     eslint: 9.21.0
@@ -5466,7 +5462,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:4.21.2, express@npm:^4.17.1":
+"express@npm:4.21.2, express@npm:^4.21.1":
   version: 4.21.2
   resolution: "express@npm:4.21.2"
   dependencies:

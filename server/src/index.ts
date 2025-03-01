@@ -10,6 +10,7 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { CardAPI, CategoryAPI } from "./datasources";
 import { ApolloContext } from "./types/context";
 import { json } from "express";
+import cors = require("cors");
 
 // this is the config for the production db
 import ormConfig, { postgresCreds, schemaConfig } from "./ormConfig";
@@ -33,7 +34,7 @@ const defaultContext = {};
 const app = express();
 
 const createDbConnection = async (
-  options: DataSourceOptions
+  options: DataSourceOptions,
 ): Promise<DataSource> => {
   try {
     const dataSource = new DataSource(options);
@@ -43,7 +44,7 @@ const createDbConnection = async (
   } catch (err) {
     console.error(
       "Problem with TypeORM connection, check Postgres docker-up or your pg_hba.conf/postgresql.conf files/ also firewall settings",
-      err
+      err,
     );
     process.exit(1);
   }
@@ -69,7 +70,7 @@ interface ServerConfig {
 
 const createServer = async (
   connection: DataSource,
-  context = defaultContext
+  context = defaultContext,
 ): Promise<ServerConfig> => {
   const cardAPI = new CardAPI({ connection });
   const categoryAPI = new CategoryAPI({ connection });
@@ -99,6 +100,10 @@ const start = async (): Promise<void> => {
 
   app.use(
     "/graphql",
+    cors({
+      origin: ["http://localhost:3000", "https://studio.apollographql.com"],
+      credentials: true,
+    }),
     json(),
     expressMiddleware(apolloServer, {
       context: async () => ({
@@ -108,12 +113,12 @@ const start = async (): Promise<void> => {
         },
         connection,
       }),
-    })
+    }),
   );
 
   app.listen(NODE_PORT, () => {
     console.log(
-      `🧠 brainstrike server running on: http://${NODE_HOST}:${NODE_PORT}/graphql`
+      `🧠 brainstrike server running on: http://${NODE_HOST}:${NODE_PORT}/graphql`,
     );
   });
 };

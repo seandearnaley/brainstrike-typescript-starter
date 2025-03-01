@@ -2,6 +2,7 @@ import {
   ApolloError,
   FetchResult,
   Reference,
+  StoreObject,
   ApolloCache,
 } from '@apollo/client';
 
@@ -26,7 +27,7 @@ const removeCardFromCache = (
   cache.modify({
     id: `Category:${categoryId}`,
     fields: {
-      cards(cards: Reference, { readField }) {
+      cards(cards: Reference | StoreObject | any, { readField }) {
         const edgesField = readField<CardEdgeWithReference[]>('edges', cards);
 
         const pageInfoField = readField<PageInfo>('pageInfo', cards);

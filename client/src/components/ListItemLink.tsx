@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, LinkProps } from 'react-router-dom';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+// import ListItemIcon from '@mui/material/ListItemIcon';
 
 interface ListItemLinkProps {
   primary: React.ReactNode;
@@ -24,7 +24,7 @@ export function ListItemLink(props: ListItemLinkProps): React.ReactElement {
 
   return (
     <li>
-      <ListItem component={renderLink} to={to}>
+      <ListItem component={renderLink as React.ComponentType<any>}>
         <ListItemText primary={primary} />
       </ListItem>
     </li>

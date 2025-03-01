@@ -2226,8 +2226,10 @@
         "description": "Marks an element of a GraphQL schema as no longer supported.",
         "isRepeatable": false,
         "locations": [
+          "ARGUMENT_DEFINITION",
           "ENUM_VALUE",
-          "FIELD_DEFINITION"
+          "FIELD_DEFINITION",
+          "INPUT_FIELD_DEFINITION"
         ],
         "args": [
           {
@@ -2273,6 +2275,15 @@
         ]
       },
       {
+        "name": "oneOf",
+        "description": "Indicates exactly one field must be supplied and this field must not be `null`.",
+        "isRepeatable": false,
+        "locations": [
+          "INPUT_OBJECT"
+        ],
+        "args": []
+      },
+      {
         "name": "skip",
         "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
         "isRepeatable": false,
@@ -2302,7 +2313,7 @@
       },
       {
         "name": "specifiedBy",
-        "description": "Exposes a URL that specifies the behaviour of this scalar.",
+        "description": "Exposes a URL that specifies the behavior of this scalar.",
         "isRepeatable": false,
         "locations": [
           "SCALAR"
@@ -2310,7 +2321,7 @@
         "args": [
           {
             "name": "url",
-            "description": "The URL that specifies the behaviour of this scalar.",
+            "description": "The URL that specifies the behavior of this scalar.",
             "type": {
               "kind": "NON_NULL",
               "name": null,

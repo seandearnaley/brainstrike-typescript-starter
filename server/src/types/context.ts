@@ -1,5 +1,5 @@
 import { CardAPI, CategoryAPI } from "../datasources";
-import { Connection } from "typeorm";
+import { DataSource } from "typeorm";
 
 export interface APIInterface {
   cardAPI: CardAPI;
@@ -8,5 +8,5 @@ export interface APIInterface {
 
 export interface ApolloContext {
   dataSources: APIInterface;
-  connection?: Connection;
+  connection?: DataSource;
 }

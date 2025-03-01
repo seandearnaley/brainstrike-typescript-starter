@@ -4,7 +4,7 @@ import {
   createTestingConnection,
   DataSource,
 } from "../../__tests__/__utils";
-import { KeyValueCache } from "apollo-server-caching";
+import { InMemoryLRUCache } from "@apollo/utils.keyvaluecache";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -33,7 +33,7 @@ describe("Queries", () => {
 
   beforeAll(async () => {
     console.log("creating test connection");
-    connection = ((await createTestingConnection()) as unknown) as DataSource;
+    connection = (await createTestingConnection()) as unknown as DataSource;
     if (!connection.name) {
       (connection as any).name = "test-connection";
     }
@@ -69,7 +69,7 @@ describe("Queries", () => {
 
     ds.initialize({
       context: mockContext,
-      cache: {} as KeyValueCache<string>,
+      cache: new InMemoryLRUCache(),
     });
   });
 

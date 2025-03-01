@@ -1,4 +1,4 @@
-import faker = require("faker");
+import { faker } from "@faker-js/faker";
 import fs = require("fs");
 
 faker.seed(12345); // ensures reproducible results
@@ -13,8 +13,8 @@ for (let i = 0; i < numberOfCategories; i++) {
   const createdUpdated = faker.date.recent();
 
   fakeCategories.push({
-    id: faker.random.uuid(),
-    name: `${faker.commerce.department()} ${faker.random.number()}`,
+    id: faker.string.uuid(),
+    name: `${faker.commerce.department()} ${faker.number.int(1000)}`,
     created: createdUpdated,
     updated: createdUpdated,
   });
@@ -24,8 +24,8 @@ for (let i = 0; i < numberOfCards; i++) {
   const createdUpdated = faker.date.recent();
 
   fakeCards.push({
-    id: faker.random.uuid(),
-    number: faker.random.number(),
+    id: faker.string.uuid(),
+    number: faker.number.int(1000),
     label: faker.lorem.words(),
     description: faker.lorem.sentence(),
     created: createdUpdated,
@@ -47,7 +47,7 @@ fs.writeFile(
       return console.log(err);
     }
     console.log("fakeCategories.json was saved!");
-  }
+  },
 );
 
 fs.writeFile("seed-data/fakeCards.json", JSON.stringify(fakeCards), (err) => {

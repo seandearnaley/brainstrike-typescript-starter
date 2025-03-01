@@ -120,7 +120,7 @@ export class CardAPI extends ApolloDataSource {
       "card",
       "category",
       "category_cards_card",
-      orderByColumn
+      orderByColumn,
     );
 
     // MANY-to-MANY JOIN
@@ -151,7 +151,7 @@ export class CardAPI extends ApolloDataSource {
       }
       params.push(decodedAfter.id);
       wheres.push(
-        `"rowNumber" > ( SELECT "t2"."rowNumber" FROM (${rowNumQuery}) as t2 WHERE ${cursorColumn} = $1 )`
+        `"rowNumber" > ( SELECT "t2"."rowNumber" FROM (${rowNumQuery}) as t2 WHERE ${cursorColumn} = $1 )`,
       );
     }
 
@@ -194,7 +194,7 @@ export class CardAPI extends ApolloDataSource {
         `);
       } else {
         wheres.push(
-          `"rowNumber" > ( SELECT MAX("t6"."rowNumber") - ${last} FROM (${rowNumQuery}) as t6 )`
+          `"rowNumber" > ( SELECT MAX("t6"."rowNumber") - ${last} FROM (${rowNumQuery}) as t6 )`,
         );
       }
     }
@@ -208,7 +208,7 @@ export class CardAPI extends ApolloDataSource {
     const [results, countResult] = await Promise.all([
       this.connection.query(queryStr, [...params]),
       this.connection.query(
-        `SELECT COUNT(*) as "totalCount" FROM (${rowNumQuery}) as countTable `
+        `SELECT COUNT(*) as "totalCount" FROM (${rowNumQuery}) as countTable `,
       ),
     ]);
 
@@ -255,21 +255,21 @@ export class CardAPI extends ApolloDataSource {
 
   private cardLoader = new DataLoader<CategoryLoader, CardConnectionObject>(
     async (
-      categoryIds: readonly CategoryLoader[]
+      categoryIds: readonly CategoryLoader[],
     ): Promise<CardConnectionObject[]> =>
       Promise.all(
         categoryIds.map(async ({ categoryId, args }) =>
           this.getCards({
             ...(args || {}),
             categoryId,
-          })
-        )
-      )
+          }),
+        ),
+      ),
   );
 
   async getCardConnectionFor(
     categoryId: string,
-    args: GetCardsArguments
+    args: GetCardsArguments,
   ): Promise<CardConnectionObject> {
     return this.cardLoader.load({ categoryId, args });
   }
@@ -360,7 +360,7 @@ export class CardAPI extends ApolloDataSource {
    */
   async updateCard(
     id: string,
-    { number, label, description, categoryId }: CardInput
+    { number, label, description, categoryId }: CardInput,
   ): Promise<CardsUpdatedResponseObject> {
     const card = await this.getCardByGlobalID(id); // find by id
     card.number =

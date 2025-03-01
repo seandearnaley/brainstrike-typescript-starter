@@ -1,6 +1,9 @@
 import express = require("express");
 import { HttpLink } from "apollo-link-http";
 import fetch from "node-fetch";
+import { json } from "express";
+import { expressMiddleware } from "@apollo/server/express4";
+import { BaseContext } from "@apollo/server";
 
 import {
   execute,
@@ -41,7 +44,7 @@ export const mockContext: ApolloContext = {
  */
 export const constructTestServer = async (
   connection: DataSource,
-  { context = defaultContext } = {}
+  { context = defaultContext } = {},
 ): Promise<ServerConfig> => {
   return createServer(connection, context);
 };
@@ -57,22 +60,53 @@ interface TestInterface {
 }
 
 export const startTestServer = async (
-  server: ApolloServer
+  server: ApolloServer<ApolloContext>,
+  connection: DataSource,
 ): Promise<TestInterface> => {
+  // Check if the server is already started
   const app = express();
-  server.applyMiddleware({ app });
+
+  // Try to start the server, catch and ignore the error if it's already started
+  try {
+    await server.start();
+  } catch (error) {
+    // If the error is about the server already being started, we can ignore it
+    if (!(error instanceof Error) || !error.message.includes("start()")) {
+      throw error;
+    }
+    // Otherwise, server is already started, continue
+  }
+
+  // Create actual instances of the data sources
+  const cardAPI = new CardAPI({ connection });
+  const categoryAPI = new CategoryAPI({ connection });
+
+  app.use(
+    "/graphql",
+    json(),
+    expressMiddleware(server as unknown as ApolloServer<BaseContext>, {
+      context: async () => ({
+        dataSources: {
+          cardAPI,
+          categoryAPI,
+        },
+        connection,
+      }),
+    }),
+  );
+
   const port = 6000;
 
   const httpServer = app.listen(port, () => {
     console.log(
-      `🧠 brainstrike e2e test running on: http://localhost:${port}${server.graphqlPath}`
+      `🧠 brainstrike e2e test running on: http://localhost:${port}/graphql`,
     );
   });
 
   // NOTE: apparently fetch isn't properly typed to spec, so have to work around with a type cast here
   const link = new HttpLink({
     uri: `http://localhost:${port}/graphql`,
-    fetch: (fetch as unknown) as WindowOrWorkerGlobalScope["fetch"],
+    fetch: fetch as unknown as WindowOrWorkerGlobalScope["fetch"],
   });
 
   const executeOperation = ({
@@ -85,6 +119,7 @@ export const startTestServer = async (
     link,
     stop: (): void => {
       httpServer.close();
+      // Don't stop the Apollo server here as it might be reused
     },
     graphql: executeOperation,
   };
@@ -117,14 +152,13 @@ export function convertStringDatesToDateObjects<T>(obj: T): T {
       // If property is an array, recursively process each item
       else if (Array.isArray(value)) {
         (result as Record<string, unknown>)[key] = value.map((item) =>
-          convertStringDatesToDateObjects(item)
+          convertStringDatesToDateObjects(item),
         );
       }
       // If property is an object (except for Date objects), recursively process
       else if (value && typeof value === "object" && !(value instanceof Date)) {
-        (result as Record<string, unknown>)[
-          key
-        ] = convertStringDatesToDateObjects(value);
+        (result as Record<string, unknown>)[key] =
+          convertStringDatesToDateObjects(value);
       }
     }
   }

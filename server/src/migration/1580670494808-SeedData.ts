@@ -20,7 +20,7 @@ export class SeedData1580670494808 implements MigrationInterface {
             value.name,
             new Date(value.created),
             new Date(value.updated),
-          ]
+          ],
         );
       }
 
@@ -38,7 +38,7 @@ export class SeedData1580670494808 implements MigrationInterface {
             value.description,
             new Date(value.created),
             new Date(value.updated),
-          ]
+          ],
         );
 
         // If card has a category, insert the relationship
@@ -48,7 +48,7 @@ export class SeedData1580670494808 implements MigrationInterface {
             INSERT INTO category_cards_card ("categoryId", "cardId")
             VALUES ($1, $2)
           `,
-            [value.category.id, value.id]
+            [value.category.id, value.id],
           );
         }
       }

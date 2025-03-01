@@ -46,7 +46,7 @@ type EdgeLike = {
 
 // Export the transformer functions with more flexible parameter types
 export const transformCategory = (
-  category: CategoryLike | CategoryEntity
+  category: CategoryLike | CategoryEntity,
 ): Category => {
   // Create a dummy CardConnection for the cards field
   // This is a placeholder that will be replaced by the actual resolver
@@ -99,7 +99,7 @@ export const transformCard = (card: CardLike | CardEntity): Card => {
 };
 
 export const transformCardConnection = (
-  connection: CardConnectionLike
+  connection: CardConnectionLike,
 ): CardConnection => {
   if (!connection) {
     // Return an empty CardConnection

@@ -2,165 +2,190 @@
 
 exports[`Mutations create card 1`] = `
 {
-  "data": {
-    "addCard": {
-      "card": {
-        "__typename": "Card",
-        "created": "2020-02-01T20:19:27.909Z",
-        "description": "testing",
-        "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
-        "label": "Test Card 1",
-        "number": 1,
-        "updated": "2020-02-01T20:19:27.909Z",
+  "body": {
+    "kind": "single",
+    "singleResult": {
+      "data": {
+        "addCard": {
+          "card": {
+            "__typename": "Card",
+            "created": "2020-02-01T20:19:27.909Z",
+            "description": "testing",
+            "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
+            "label": "Test Card 1",
+            "number": 1,
+            "updated": "2020-02-01T20:19:27.909Z",
+          },
+          "message": "Card Added",
+          "success": true,
+        },
       },
-      "message": "Card Added",
-      "success": true,
+      "errors": undefined,
     },
   },
-  "errors": undefined,
-  "extensions": undefined,
   "http": {
-    "headers": Headers {
-      Symbol(map): {},
+    "headers": Map {
+      "cache-control" => "no-store",
     },
+    "status": undefined,
   },
 }
 `;
 
 exports[`Mutations remove card 1`] = `
 {
-  "data": {
-    "removeCard": {
-      "card": {
-        "__typename": "Card",
-        "created": "2020-02-01T20:19:27.909Z",
-        "description": "testing",
-        "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
-        "label": "Test Card 1",
-        "number": 1,
-        "updated": "2020-02-01T20:19:27.909Z",
+  "body": {
+    "kind": "single",
+    "singleResult": {
+      "data": {
+        "removeCard": {
+          "card": {
+            "__typename": "Card",
+            "created": "2020-02-01T20:19:27.909Z",
+            "description": "testing",
+            "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
+            "label": "Test Card 1",
+            "number": 1,
+            "updated": "2020-02-01T20:19:27.909Z",
+          },
+          "message": "Card Removed",
+          "success": true,
+        },
       },
-      "message": "Card Removed",
-      "success": true,
+      "errors": undefined,
     },
   },
-  "errors": undefined,
-  "extensions": undefined,
   "http": {
-    "headers": Headers {
-      Symbol(map): {},
+    "headers": Map {
+      "cache-control" => "no-store",
     },
+    "status": undefined,
   },
 }
 `;
 
 exports[`Mutations update card 1`] = `
 {
-  "data": {
-    "updateCard": {
-      "card": {
-        "__typename": "Card",
-        "created": "2020-02-01T20:19:27.909Z",
-        "description": "testing",
-        "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
-        "label": "Test Card 1",
-        "number": 1,
-        "updated": "2020-02-01T20:19:27.909Z",
+  "body": {
+    "kind": "single",
+    "singleResult": {
+      "data": {
+        "updateCard": {
+          "card": {
+            "__typename": "Card",
+            "created": "2020-02-01T20:19:27.909Z",
+            "description": "testing",
+            "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
+            "label": "Test Card 1",
+            "number": 1,
+            "updated": "2020-02-01T20:19:27.909Z",
+          },
+          "message": "Card Updated",
+          "success": true,
+        },
       },
-      "message": "Card Updated",
-      "success": true,
+      "errors": undefined,
     },
   },
-  "errors": undefined,
-  "extensions": undefined,
   "http": {
-    "headers": Headers {
-      Symbol(map): {},
+    "headers": Map {
+      "cache-control" => "no-store",
     },
+    "status": undefined,
   },
 }
 `;
 
 exports[`Queries fetches list of cards 1`] = `
 {
-  "data": {
-    "cards": {
-      "edges": [
-        {
-          "cursor": "Q3xDYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZXwx",
-          "node": {
-            "__typename": "Card",
-            "created": "2020-02-01T20:19:27.909Z",
-            "description": "Amet autem et.",
-            "id": "NzVmNzc0NzMtYjc0Yy00YTIwLWFlMGQtNzNlMDRiNDI3Y2RlOkNhcmQ=",
-            "label": "sed possimus tempore",
-            "number": 99999,
-            "updated": "2020-02-01T20:19:27.909Z",
+  "body": {
+    "kind": "single",
+    "singleResult": {
+      "data": {
+        "cards": {
+          "edges": [
+            {
+              "cursor": "Q3xDYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZXwx",
+              "node": {
+                "__typename": "Card",
+                "created": "2020-02-01T20:19:27.909Z",
+                "description": "Amet autem et.",
+                "id": "NzVmNzc0NzMtYjc0Yy00YTIwLWFlMGQtNzNlMDRiNDI3Y2RlOkNhcmQ=",
+                "label": "sed possimus tempore",
+                "number": 99999,
+                "updated": "2020-02-01T20:19:27.909Z",
+              },
+            },
+            {
+              "cursor": "Q3xDYXJkfDc4NTU1YTkwLWY2OGItNDU0Yy1iZWIyLWU3MDIxZjNkOGM2M3wy",
+              "node": {
+                "__typename": "Card",
+                "created": "2020-02-01T23:03:03.942Z",
+                "description": "Odit officia esse hic qui est perspiciatis.",
+                "id": "Nzg1NTVhOTAtZjY4Yi00NTRjLWJlYjItZTcwMjFmM2Q4YzYzOkNhcmQ=",
+                "label": "necessitatibus id error",
+                "number": 99995,
+                "updated": "2020-02-01T23:03:03.942Z",
+              },
+            },
+            {
+              "cursor": "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
+              "node": {
+                "__typename": "Card",
+                "created": "2020-02-02T04:59:07.272Z",
+                "description": "Et in sequi eum enim ratione.",
+                "id": "Y2FmMzhiMzEtZTU1MS00MzNiLWIxYjAtYzY1ODA3ZTk3OTI3OkNhcmQ=",
+                "label": "doloribus explicabo explicabo",
+                "number": 99974,
+                "updated": "2020-02-02T04:59:07.272Z",
+              },
+            },
+          ],
+          "pageInfo": {
+            "endCursor": "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
+            "hasNextPage": true,
+            "hasPreviousPage": false,
+            "startCursor": "Q3xDYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZXwx",
+            "totalCount": 10000,
           },
         },
-        {
-          "cursor": "Q3xDYXJkfDc4NTU1YTkwLWY2OGItNDU0Yy1iZWIyLWU3MDIxZjNkOGM2M3wy",
-          "node": {
-            "__typename": "Card",
-            "created": "2020-02-01T23:03:03.942Z",
-            "description": "Odit officia esse hic qui est perspiciatis.",
-            "id": "Nzg1NTVhOTAtZjY4Yi00NTRjLWJlYjItZTcwMjFmM2Q4YzYzOkNhcmQ=",
-            "label": "necessitatibus id error",
-            "number": 99995,
-            "updated": "2020-02-01T23:03:03.942Z",
-          },
-        },
-        {
-          "cursor": "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
-          "node": {
-            "__typename": "Card",
-            "created": "2020-02-02T04:59:07.272Z",
-            "description": "Et in sequi eum enim ratione.",
-            "id": "Y2FmMzhiMzEtZTU1MS00MzNiLWIxYjAtYzY1ODA3ZTk3OTI3OkNhcmQ=",
-            "label": "doloribus explicabo explicabo",
-            "number": 99974,
-            "updated": "2020-02-02T04:59:07.272Z",
-          },
-        },
-      ],
-      "pageInfo": {
-        "endCursor": "Q3xDYXJkfGNhZjM4YjMxLWU1NTEtNDMzYi1iMWIwLWM2NTgwN2U5NzkyN3wz",
-        "hasNextPage": true,
-        "hasPreviousPage": false,
-        "startCursor": "Q3xDYXJkfDc1Zjc3NDczLWI3NGMtNGEyMC1hZTBkLTczZTA0YjQyN2NkZXwx",
-        "totalCount": 10000,
       },
+      "errors": undefined,
     },
   },
-  "errors": undefined,
-  "extensions": undefined,
   "http": {
-    "headers": Headers {
-      Symbol(map): {},
+    "headers": Map {
+      "cache-control" => "no-store",
     },
+    "status": undefined,
   },
 }
 `;
 
 exports[`Queries fetches single card 1`] = `
 {
-  "data": {
-    "card": {
-      "__typename": "Card",
-      "created": "2020-02-01T20:19:27.909Z",
-      "description": "testing",
-      "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
-      "label": "Test Card 1",
-      "number": 1,
-      "updated": "2020-02-01T20:19:27.909Z",
+  "body": {
+    "kind": "single",
+    "singleResult": {
+      "data": {
+        "card": {
+          "__typename": "Card",
+          "created": "2020-02-01T20:19:27.909Z",
+          "description": "testing",
+          "id": "ZTMwM2Y3ZTUtMTVjZS00YTVmLTkxNzktYTc1ZmZiNGY4MTkxOkNhcmQ=",
+          "label": "Test Card 1",
+          "number": 1,
+          "updated": "2020-02-01T20:19:27.909Z",
+        },
+      },
+      "errors": undefined,
     },
   },
-  "errors": undefined,
-  "extensions": undefined,
   "http": {
-    "headers": Headers {
-      Symbol(map): {},
+    "headers": Map {
+      "cache-control" => "no-store",
     },
+    "status": undefined,
   },
 }
 `;

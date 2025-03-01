@@ -17,7 +17,7 @@ export default async (): Promise<void> => {
       const dropError = error as Error;
       console.warn(
         "Warning: Could not drop database, it might not exist yet:",
-        dropError.message
+        dropError.message,
       );
     }
 

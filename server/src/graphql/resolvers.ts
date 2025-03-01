@@ -15,5 +15,5 @@ export default merge(
   defaultResolvers,
   cardResolvers,
   categoryResolvers,
-  nodeResolvers
+  nodeResolvers,
 );

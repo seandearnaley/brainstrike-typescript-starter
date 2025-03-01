@@ -13,7 +13,7 @@ export const resolvers: Resolvers = {
     node: async (
       parent: unknown,
       { id }: QueryNodeArgs,
-      { dataSources }: ApolloContext
+      { dataSources }: ApolloContext,
     ): Promise<Card | Category> => {
       if (!id || id === "") throw new Error("ID is required");
       const typeName = getTypeName(id);

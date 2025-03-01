@@ -415,6 +415,10 @@ export class CardAPI extends ApolloDataSource {
   async removeCard(id: string): Promise<CardsUpdatedResponseObject> {
     const card = await this.getCardByGlobalID(id); // find by id
     const originalCard = { ...card }; // remove wipes the ip, creating a copy for the card field
+
+    // Clear the categories relationship before removing the card
+    card.categories = [];
+
     const cardsRepo = this.repos.cards;
     if (!cardsRepo) {
       throw new Error("cards repository is undefined");
@@ -422,11 +426,37 @@ export class CardAPI extends ApolloDataSource {
     if (!cardsRepo.remove) {
       throw new Error("cards repository remove method is undefined");
     }
-    await cardsRepo.remove(card);
-    return {
-      success: true,
-      message: "Card Removed",
-      card: this.encodeCard(originalCard),
-    };
+    if (!cardsRepo.save) {
+      throw new Error("cards repository save method is undefined");
+    }
+
+    // Use a transaction to ensure atomicity
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      // First save the card with empty categories to clear join table entries
+      await queryRunner.manager.save(card);
+
+      // Then remove the card
+      await queryRunner.manager.remove(card);
+
+      // Commit the transaction
+      await queryRunner.commitTransaction();
+
+      return {
+        success: true,
+        message: "Card Removed",
+        card: this.encodeCard(originalCard),
+      };
+    } catch (error) {
+      // Rollback the transaction in case of error
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      // Release the query runner
+      await queryRunner.release();
+    }
   }
 }

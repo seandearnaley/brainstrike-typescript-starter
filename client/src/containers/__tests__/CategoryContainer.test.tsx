@@ -253,7 +253,7 @@ describe('Category Container', () => {
   });
 
   it('should render loading state initially', async () => {
-    const { container } = renderApollo(
+    const { container, getByText } = renderApollo(
       <CategoryContainer
         selectedCategory={selectedCategory}
         onSelectCard={() => {}}
@@ -262,7 +262,7 @@ describe('Category Container', () => {
       { mocks, addTypename: false },
     );
     
-    await waitFor(() => expect(container.textContent).toBe('Loading...'));
+    await waitFor(() => expect(getByText('Loading...')).toBeInTheDocument());
   });
 
   it('should render category with cards', async () => {

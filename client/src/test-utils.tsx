@@ -1,23 +1,23 @@
-import React from 'react';
-import { render } from '@testing-library/react';
+import React, { ReactElement } from 'react';
+import { render, RenderOptions } from '@testing-library/react';
 
 // this adds custom jest matchers from jest-dom
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
+import { ApolloCache } from '@apollo/client';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
+// Use more generic types to avoid type errors
 type RenderApolloOptions = {
   mocks?: MockedResponse[];
-  addTypename?: any;
-  defaultOptions?: any;
-  cache?: any;
-  resolvers?: any;
-  [st: string]: any;
-};
+  addTypename?: boolean;
+  defaultOptions?: Record<string, unknown>;
+  cache?: unknown;
+  resolvers?: unknown;
+  [key: string]: unknown;
+} & Omit<RenderOptions, 'queries'>;
 
 const renderApollo = (
-  node: any,
+  node: ReactElement,
   {
     mocks,
     addTypename,
@@ -26,14 +26,14 @@ const renderApollo = (
     resolvers,
     ...options
   }: RenderApolloOptions = {},
-): any => {
+) => {
   return render(
     <MockedProvider
       mocks={mocks}
       addTypename={addTypename}
       defaultOptions={defaultOptions}
-      cache={cache}
-      resolvers={resolvers}
+      cache={cache as any}
+      resolvers={resolvers as any}
     >
       {node}
     </MockedProvider>,

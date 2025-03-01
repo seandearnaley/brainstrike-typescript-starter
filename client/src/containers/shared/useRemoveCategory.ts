@@ -1,4 +1,9 @@
-import { ApolloError, FetchResult, Reference } from '@apollo/client';
+import {
+  ApolloError,
+  FetchResult,
+  Reference,
+  StoreObject,
+} from '@apollo/client';
 
 import {
   useRemoveCategoryMutation,
@@ -35,9 +40,16 @@ const useRemoveCategory = (): [
         cache.modify({
           id: 'ROOT_QUERY',
           fields: {
-            categories(categories: Reference[], { readField }) {
+            categories(
+              categories:
+                | ReadonlyArray<Reference>
+                | ReadonlyArray<StoreObject>
+                | any,
+              { readField },
+            ) {
               return categories.filter(
-                (category) => id !== readField('id', category),
+                (category: Reference | StoreObject | any) =>
+                  id !== readField('id', category),
               );
             },
           },

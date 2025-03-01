@@ -63,7 +63,7 @@ const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
     <div>
       <ContentEditable
         data-testid="update-category-content-div"
-        innerRef={categoryNameDivInput}
+        innerRef={categoryNameDivInput as React.RefObject<HTMLElement>}
         html={categoryName ?? ''} // innerHTML of the editable div
         disabled={categoryEditDisabled} // use true to disable edition
         onChange={handleChange} // handle innerHTML change

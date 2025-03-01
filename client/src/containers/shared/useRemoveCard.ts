@@ -14,39 +14,70 @@ import {
   CardEdge,
 } from '../../generated/graphql';
 
-import { buildPageInfo, Edge } from './__utils';
-
 // have to add _ref to the Card Edge type
 type CardEdgeWithReference = CardEdge & { node: { __ref: string } };
 
+/**
+ * Safely removes a card from the category cache
+ * This function avoids using the buildPageInfo function which relies on cursor decoding
+ */
 const removeCardFromCache = (
   cache: ApolloCache<RemoveCardMutation>,
   categoryId: string,
   cardId: string,
 ) => {
-  cache.modify({
-    id: `Category:${categoryId}`,
-    fields: {
-      cards(cards: Reference | StoreObject | any, { readField }) {
-        const edgesField = readField<CardEdgeWithReference[]>('edges', cards);
+  try {
+    cache.modify({
+      id: `Category:${categoryId}`,
+      fields: {
+        cards(existingCards: any, { readField }) {
+          // If there are no existing cards, return undefined
+          if (!existingCards) return undefined;
 
-        const pageInfoField = readField<PageInfo>('pageInfo', cards);
-        if (!edgesField || !pageInfoField) return;
+          // Read the edges and pageInfo fields
+          const edgesField = readField<CardEdgeWithReference[]>(
+            'edges',
+            existingCards,
+          );
+          const pageInfoField = readField<PageInfo>('pageInfo', existingCards);
 
-        const edges = edgesField.filter(
-          (edge) => edge.node.__ref !== `Card:${cardId}`,
-        );
+          // If either field is missing, return undefined
+          if (!edgesField || !pageInfoField) return undefined;
 
-        let { totalCount } = pageInfoField;
-        const pageInfo = buildPageInfo<Edge<Card>>(edges, --totalCount, 'Card'); // rebuild pageinfo
+          // Filter out the card to be removed
+          const edges = edgesField.filter(
+            (edge) => edge.node.__ref !== `Card:${cardId}`,
+          );
 
-        return {
-          edges,
-          pageInfo,
-        };
+          // Update the total count
+          let totalCount = pageInfoField.totalCount;
+          if (totalCount > 0) totalCount--;
+
+          // Create a new pageInfo object without using cursor decoding
+          const pageInfo = {
+            ...pageInfoField,
+            totalCount,
+            // If we removed all edges, there's no next or previous page
+            hasNextPage: edges.length > 0 ? pageInfoField.hasNextPage : false,
+            hasPreviousPage:
+              edges.length > 0 ? pageInfoField.hasPreviousPage : false,
+            // Keep the existing cursors if available
+            startCursor: edges.length > 0 ? edges[0].cursor : null,
+            endCursor: edges.length > 0 ? edges[edges.length - 1].cursor : null,
+          };
+
+          // Return the updated cards object
+          return {
+            edges,
+            pageInfo,
+            __typename: existingCards.__typename,
+          };
+        },
       },
-    },
-  });
+    });
+  } catch (error) {
+    console.error('Error removing card from cache:', error);
+  }
 };
 
 // NOTE: the rationale for using a custom hook is for the cache update,
@@ -69,16 +100,29 @@ export const useRemoveCard = (): [
         id,
       },
       update: (cache, { data }) => {
-        if (!data) return;
+        if (!data || !data.removeCard || !data.removeCard.card) {
+          console.warn('No data returned from removeCard mutation');
+          return;
+        }
 
-        // these cards can be in many categories, data should include a list of category ids
-        // for each of cards categories, remove the cards from the category cache and recalculate pageInfo
-        data.removeCard.card.categories.forEach((category) =>
-          removeCardFromCache(cache, category.id, id),
-        );
+        try {
+          // For each category the card belongs to, update the cache
+          data.removeCard.card.categories.forEach((category) => {
+            if (category && category.id) {
+              removeCardFromCache(cache, category.id, id);
+            }
+          });
 
-        // evict this item from the in memory cache
-        cache.evict({ id: `Card:${id}` });
+          // Evict the card from the cache
+          cache.evict({ id: `Card:${id}` });
+
+          // Run garbage collection to clean up any dangling references
+          cache.gc();
+
+          console.log('Card successfully removed from cache');
+        } catch (error) {
+          console.error('Error updating cache after card removal:', error);
+        }
       },
     });
 

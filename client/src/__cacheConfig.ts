@@ -10,15 +10,43 @@ export const cacheConfig: InMemoryCacheConfig = {
     Query: {
       fields: {
         card(existingData, { args, toReference }) {
-          return (
-            existingData || toReference({ __typename: 'Card', id: args?.id })
-          );
+          try {
+            // If no ID is provided, or if the ID is null/undefined, return null
+            if (!args || args.id === null || args.id === undefined) {
+              console.log('Card resolver: No ID provided, returning null');
+              return null;
+            }
+
+            // Return existing data if available, otherwise create a reference
+            console.log(`Card resolver: Creating reference for ID ${args.id}`);
+            return (
+              existingData || toReference({ __typename: 'Card', id: args.id })
+            );
+          } catch (error) {
+            console.error('Error in card field policy:', error);
+            return null;
+          }
         },
         category(existingData, { args, toReference }) {
-          return (
-            existingData ||
-            toReference({ __typename: 'Category', id: args?.id })
-          );
+          try {
+            // If no ID is provided, or if the ID is null/undefined, return null
+            if (!args || args.id === null || args.id === undefined) {
+              console.log('Category resolver: No ID provided, returning null');
+              return null;
+            }
+
+            // Return existing data if available, otherwise create a reference
+            console.log(
+              `Category resolver: Creating reference for ID ${args.id}`,
+            );
+            return (
+              existingData ||
+              toReference({ __typename: 'Category', id: args.id })
+            );
+          } catch (error) {
+            console.error('Error in category field policy:', error);
+            return null;
+          }
         },
       },
     },
@@ -26,12 +54,16 @@ export const cacheConfig: InMemoryCacheConfig = {
       fields: {
         categories: {
           keyArgs: ['id'],
+          // Merge function to handle updates to the categories field
+          merge(existing = [], incoming) {
+            return incoming;
+          },
         },
       },
     },
     Category: {
       fields: {
-        cards: relayStylePagination(),
+        cards: relayStylePagination(['orderByColumn', 'orderByDirection']),
       },
     },
   },

@@ -30,6 +30,8 @@ describe("Queries", () => {
   let mockCardSave: any;
   let mockCardRemove: any;
   let mockCardQuery: any;
+  let mockQueryRunner: any;
+  let mockManager: any;
 
   beforeAll(async () => {
     console.log("creating test connection");
@@ -46,6 +48,25 @@ describe("Queries", () => {
     mockCardSave = jest.fn();
     mockCardRemove = jest.fn();
     mockCardQuery = jest.fn();
+
+    // Mock the manager for transaction operations
+    mockManager = {
+      save: jest.fn(),
+      remove: jest.fn(),
+    };
+
+    // Mock the query runner for transactions
+    mockQueryRunner = {
+      connect: jest.fn(),
+      startTransaction: jest.fn(),
+      commitTransaction: jest.fn(),
+      rollbackTransaction: jest.fn(),
+      release: jest.fn(),
+      manager: mockManager,
+    };
+
+    // Mock the connection's createQueryRunner method
+    connection.createQueryRunner = jest.fn().mockReturnValue(mockQueryRunner);
 
     connection.getRepository = jest.fn().mockImplementation((target) => {
       switch (target.name) {
@@ -112,8 +133,24 @@ describe("Queries", () => {
 
   describe("[CardAPI.removeCard]", () => {
     it("removes a card from the card repo", async () => {
-      mockCardRemove.mockReturnValue(mockReturnCard);
+      // Mock findOneBy to return a card with the expected structure
+      mockCardFindOneBy.mockReturnValue({ ...mockReturnCard, categories: [] });
+
+      // Mock the transaction operations
+      mockManager.save.mockResolvedValue({ ...mockReturnCard, categories: [] });
+      mockManager.remove.mockResolvedValue(mockReturnCard);
+
       const res = await ds.removeCard(mockFirstCardQueryId);
+
+      // Verify transaction was used correctly
+      expect(connection.createQueryRunner).toHaveBeenCalled();
+      expect(mockQueryRunner.connect).toHaveBeenCalled();
+      expect(mockQueryRunner.startTransaction).toHaveBeenCalled();
+      expect(mockManager.save).toHaveBeenCalled();
+      expect(mockManager.remove).toHaveBeenCalled();
+      expect(mockQueryRunner.commitTransaction).toHaveBeenCalled();
+      expect(mockQueryRunner.release).toHaveBeenCalled();
+
       expect(res).toEqual(mockSuccessfulRemoveResponse);
     });
   });

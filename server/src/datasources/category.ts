@@ -217,21 +217,46 @@ export class CategoryAPI extends ApolloDataSource {
       throw new Error("Invalid Global ID");
     }
 
-    // remove dependant tree relations, unfortunately hasn't been implemented in TypeORM yet
+    // Clear the cards relationship before removing the category
+    category.cards = [];
+
     const categoryRepo = this.repos.categories as Repository<CategoryEntity>;
-    await categoryRepo
-      .createQueryBuilder()
-      .delete()
-      .from("category_closure") // check your db or migrations for the actual table name
-      .where('"id_ancestor" = :id', { id: decoded.id })
-      .execute();
 
-    await categoryRepo.remove(category);
+    // Use a transaction to ensure atomicity
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
-    return {
-      success: true,
-      message: "Category Removed",
-      category: this.encodeCategory(originalCategory),
-    };
+    try {
+      // First save the category with empty cards to clear join table entries
+      await queryRunner.manager.save(category);
+
+      // remove dependant tree relations, unfortunately hasn't been implemented in TypeORM yet
+      await queryRunner.manager
+        .createQueryBuilder()
+        .delete()
+        .from("category_closure") // check your db or migrations for the actual table name
+        .where('"id_ancestor" = :id', { id: decoded.id })
+        .execute();
+
+      // Then remove the category
+      await queryRunner.manager.remove(category);
+
+      // Commit the transaction
+      await queryRunner.commitTransaction();
+
+      return {
+        success: true,
+        message: "Category Removed",
+        category: this.encodeCategory(originalCategory),
+      };
+    } catch (error) {
+      // Rollback the transaction in case of error
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      // Release the query runner
+      await queryRunner.release();
+    }
   }
 }

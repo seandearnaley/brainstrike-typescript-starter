@@ -4,10 +4,12 @@ import { config as setupDotEnv } from "dotenv";
 import { DataSource, Repository, DataSourceOptions } from "typeorm";
 import { Card, Category, User } from "./entity";
 import { typeDefs, resolvers } from "./graphql";
-import { ApolloServer, makeExecutableSchema } from "apollo-server-express";
+import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@apollo/server/express4";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import { CardAPI, CategoryAPI } from "./datasources";
-import { DataSources } from "apollo-server-core/dist/graphqlOptions";
 import { ApolloContext } from "./types/context";
+import { json } from "express";
 
 // this is the config for the production db
 import ormConfig, { postgresCreds, schemaConfig } from "./ormConfig";
@@ -60,7 +62,7 @@ const createTestingConnection = (): Promise<DataSource> =>
   });
 
 interface ServerConfig {
-  apolloServer: ApolloServer;
+  apolloServer: ApolloServer<ApolloContext>;
   cardAPI: CardAPI;
   categoryAPI: CategoryAPI;
 }
@@ -76,14 +78,14 @@ const createServer = async (
   const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
-    resolverValidationOptions: { requireResolversForResolveType: false },
+    resolverValidationOptions: { requireResolversForResolveType: "ignore" },
   });
 
-  const apolloServer = new ApolloServer({
+  const apolloServer = new ApolloServer<ApolloContext>({
     schema,
-    context,
-    dataSources: (): DataSources<ApolloContext> => ({ cardAPI, categoryAPI }),
   });
+
+  await apolloServer.start();
 
   return { apolloServer, cardAPI, categoryAPI };
 };
@@ -93,13 +95,25 @@ const start = async (): Promise<void> => {
   await connection.runMigrations();
   console.log("TypeORM runMigrations() COMPLETE.");
 
-  const { apolloServer } = await createServer(connection);
+  const { apolloServer, cardAPI, categoryAPI } = await createServer(connection);
 
-  apolloServer.applyMiddleware({ app });
+  app.use(
+    "/graphql",
+    json(),
+    expressMiddleware(apolloServer, {
+      context: async () => ({
+        dataSources: {
+          cardAPI,
+          categoryAPI,
+        },
+        connection,
+      }),
+    })
+  );
 
   app.listen(NODE_PORT, () => {
     console.log(
-      `🧠 brainstrike server running on: http://${NODE_HOST}:${NODE_PORT}${apolloServer.graphqlPath}`
+      `🧠 brainstrike server running on: http://${NODE_HOST}:${NODE_PORT}/graphql`
     );
   });
 };

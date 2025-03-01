@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@apollo/utils.keyvaluecache": "^3.1.0"
+  }
+}

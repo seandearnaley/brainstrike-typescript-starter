@@ -108,7 +108,7 @@ export function decodeCursor(cursor: string, type: string): Cursor {
 export function buildPageInfo<T extends { cursor: string }>(
   edges: T[],
   totalCount: number,
-  type: string
+  type: string,
 ): PageInfoInterface {
   if (edges.length === 0) {
     // short circuit
@@ -148,9 +148,10 @@ export function encodeGlobalID(id: string, __typename: string): string {
   return encode(`${id}:${__typename}`);
 }
 
-export function decodeGlobalID(
-  objectId: string
-): { id: string; __typename: string } {
+export function decodeGlobalID(objectId: string): {
+  id: string;
+  __typename: string;
+} {
   const parts = decode(objectId).split(":");
   return {
     id: parts[0],

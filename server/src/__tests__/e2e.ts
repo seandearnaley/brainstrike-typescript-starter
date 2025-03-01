@@ -1,10 +1,9 @@
 import {
-  GraphQLRequest,
   Observable,
   FetchResult,
   toPromise,
+  GraphQLRequest,
 } from "apollo-link";
-
 import {
   startTestServer,
   constructTestServer,
@@ -20,7 +19,7 @@ describe("Server - e2e", () => {
   let connection: DataSource;
 
   let stop: () => void,
-    graphql: ({}: GraphQLRequest) => Observable<FetchResult>;
+    graphql: (request: GraphQLRequest) => Observable<FetchResult>;
 
   beforeAll(async () => {
     console.log("creating test connection");
@@ -35,13 +34,15 @@ describe("Server - e2e", () => {
 
   beforeEach(async () => {
     const { apolloServer } = await constructTestServer(connection);
-    const testServer = await startTestServer(apolloServer);
+    const testServer = await startTestServer(apolloServer, connection);
     stop = testServer.stop;
     graphql = testServer.graphql;
   });
 
   afterEach(async () => {
-    stop();
+    if (typeof stop === "function") {
+      stop();
+    }
   });
 
   it("gets list of cards", async () => {
@@ -49,7 +50,7 @@ describe("Server - e2e", () => {
       graphql({
         query: GQL.GET_CARD_DATA,
         variables: { first: 20 },
-      })
+      }),
     );
 
     expect(res).toMatchSnapshot();
@@ -60,8 +61,9 @@ describe("Server - e2e", () => {
       graphql({
         query: GQL.GET_CARD,
         variables: { id: TDATA.mockE2EFirstId },
-      })
+      }),
     );
+
     expect(res).toMatchSnapshot();
   });
 });

@@ -81,11 +81,11 @@ export class CategoryAPI extends ApolloDataSource {
             (category.cards || []).find((card) => {
               const decoded = decodeGlobalID(id);
               return decoded && card.id === decoded.id;
-            })
+            }),
           )
-          .map(this.encodeCategory)
+          .map(this.encodeCategory),
       );
-    }
+    },
   );
 
   async getCategoriesFor(cardId: string): Promise<CategoryObject[]> {
@@ -189,7 +189,7 @@ export class CategoryAPI extends ApolloDataSource {
    */
   async updateCategory(
     id: string,
-    { name }: CategoryInput
+    { name }: CategoryInput,
   ): Promise<CategoryUpdatedResponseObject> {
     const category = await this.getCategoryByGlobalID(id);
     category.name = name ?? "";

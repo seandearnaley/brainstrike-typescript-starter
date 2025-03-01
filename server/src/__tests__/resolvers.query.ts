@@ -20,7 +20,7 @@ type ParentType = Record<string, unknown>;
 describe("[Query.cards]", () => {
   const mockContext: ApolloContext = {
     dataSources: {
-      cardAPI: ({
+      cardAPI: {
         getCards: jest.fn(),
         getCard: jest.fn(),
         addCard: jest.fn(),
@@ -29,15 +29,15 @@ describe("[Query.cards]", () => {
         encodeCard: jest.fn(),
         createEdges: jest.fn(),
         cardLoader: { load: jest.fn(), loadMany: jest.fn() },
-      } as unknown) as CardAPI,
-      categoryAPI: ({
+      } as unknown as CardAPI,
+      categoryAPI: {
         getCategory: jest.fn(),
         getCategories: jest.fn(),
         getCategoriesFor: jest.fn(),
         addCategory: jest.fn(),
         updateCategory: jest.fn(),
         removeCategory: jest.fn(),
-      } as unknown) as CategoryAPI,
+      } as unknown as CategoryAPI,
     },
     connection: undefined,
   };
@@ -58,7 +58,7 @@ describe("[Query.cards]", () => {
       {} as ParentType,
       {} as Record<string, unknown>,
       mockContext,
-      {} as GraphQLResolveInfo
+      {} as GraphQLResolveInfo,
     );
     expect(res).toStrictEqual(mockCardsConnectionResult);
   });
@@ -67,7 +67,7 @@ describe("[Query.cards]", () => {
 describe("[Query.node card]", () => {
   const mockContext: ApolloContext = {
     dataSources: {
-      cardAPI: ({
+      cardAPI: {
         getCards: jest.fn(),
         getCard: jest.fn(),
         addCard: jest.fn(),
@@ -76,15 +76,15 @@ describe("[Query.node card]", () => {
         encodeCard: jest.fn(),
         createEdges: jest.fn(),
         cardLoader: { load: jest.fn(), loadMany: jest.fn() },
-      } as unknown) as CardAPI,
-      categoryAPI: ({
+      } as unknown as CardAPI,
+      categoryAPI: {
         getCategory: jest.fn(),
         getCategories: jest.fn(),
         getCategoriesFor: jest.fn(),
         addCategory: jest.fn(),
         updateCategory: jest.fn(),
         removeCategory: jest.fn(),
-      } as unknown) as CategoryAPI,
+      } as unknown as CategoryAPI,
     },
     connection: undefined,
   };
@@ -105,7 +105,7 @@ describe("[Query.node card]", () => {
       {} as ParentType,
       { id: mockFirstCardQueryId },
       mockContext,
-      {} as GraphQLResolveInfo
+      {} as GraphQLResolveInfo,
     );
 
     // make sure the dataSources were called properly

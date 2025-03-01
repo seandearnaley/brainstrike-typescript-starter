@@ -33,7 +33,7 @@ export const resolvers: Resolvers = {
     categories: async (
       _: unknown,
       args: QueryCategoriesArgs,
-      { dataSources }: ApolloContext
+      { dataSources }: ApolloContext,
     ): Promise<Category[]> => {
       const cleanedArgs = {
         ...args,
@@ -49,7 +49,7 @@ export const resolvers: Resolvers = {
     category: async (
       _: unknown,
       { id }: QueryCategoryArgs,
-      { dataSources }: ApolloContext
+      { dataSources }: ApolloContext,
     ): Promise<Category> => {
       if (!id) throw new Error("Missing id");
       const result = await dataSources.categoryAPI.getCategory(id);
@@ -60,7 +60,7 @@ export const resolvers: Resolvers = {
     addCategory: async (
       _: unknown,
       { input }: MutationAddCategoryArgs,
-      { dataSources }: ApolloContext
+      { dataSources }: ApolloContext,
     ): Promise<CategoryUpdatedResponse> => {
       if (!input) throw new Error("Missing category input");
       const response = await dataSources.categoryAPI.addCategory(input);
@@ -69,7 +69,7 @@ export const resolvers: Resolvers = {
     updateCategory: async (
       _: unknown,
       { id, input }: MutationUpdateCategoryArgs,
-      { dataSources }: ApolloContext
+      { dataSources }: ApolloContext,
     ): Promise<CategoryUpdatedResponse> => {
       if (!id || !input) throw new Error("Missing id or input");
       const response = await dataSources.categoryAPI.updateCategory(id, input);
@@ -78,7 +78,7 @@ export const resolvers: Resolvers = {
     removeCategory: async (
       _: unknown,
       { id }: MutationRemoveCategoryArgs,
-      { dataSources }: ApolloContext
+      { dataSources }: ApolloContext,
     ): Promise<CategoryUpdatedResponse> => {
       if (!id) throw new Error("Missing id");
       const response = await dataSources.categoryAPI.removeCategory(id);
@@ -89,7 +89,7 @@ export const resolvers: Resolvers = {
     cards(
       root: ResolversParentTypes["Category"],
       args: CategoryCardsArgs,
-      { dataSources }: ApolloContext
+      { dataSources }: ApolloContext,
     ): Promise<CardConnection> {
       const cleanedArgs = {
         ...args,

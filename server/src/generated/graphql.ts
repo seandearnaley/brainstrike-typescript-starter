@@ -9,21 +9,24 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 export type MakeEmpty<
   T extends { [key: string]: unknown },
-  K extends keyof T
+  K extends keyof T,
 > = { [_ in K]?: never };
 export type Incremental<T> =
   | T
   | {
       [P in keyof T]?: P extends " $fragmentName" | "__typename" ? T[P] : never;
     };
-export type RequireFields<T, K extends keyof T> = Omit<T, K> &
-  { [P in K]-?: NonNullable<T[P]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]-?: NonNullable<T[P]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -214,21 +217,21 @@ export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
 export interface SubscriptionSubscriberObject<
@@ -236,7 +239,7 @@ export interface SubscriptionSubscriberObject<
   TKey extends string,
   TParent,
   TContext,
-  TArgs
+  TArgs,
 > {
   subscribe: SubscriptionSubscribeFn<
     { [key in TKey]: TResult },
@@ -262,7 +265,7 @@ export type SubscriptionObject<
   TKey extends string,
   TParent,
   TContext,
-  TArgs
+  TArgs,
 > =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
@@ -272,7 +275,7 @@ export type SubscriptionResolver<
   TKey extends string,
   TParent = {},
   TContext = {},
-  TArgs = {}
+  TArgs = {},
 > =
   | ((
       ...args: any[]
@@ -282,13 +285,13 @@ export type SubscriptionResolver<
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
 export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
   obj: T,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
@@ -297,21 +300,20 @@ export type DirectiveResolverFn<
   TResult = {},
   TParent = {},
   TContext = {},
-  TArgs = {}
+  TArgs = {},
 > = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
 /** Mapping of interface types */
-export type ResolversInterfaceTypes<
-  _RefType extends Record<string, unknown>
-> = ResolversObject<{
-  Node: Card | Category;
-}>;
+export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> =
+  ResolversObject<{
+    Node: Card | Category;
+  }>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
@@ -362,7 +364,8 @@ export type ResolversParentTypes = ResolversObject<{
 
 export type CardResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes["Card"] = ResolversParentTypes["Card"]
+  ParentType extends
+    ResolversParentTypes["Card"] = ResolversParentTypes["Card"],
 > = ResolversObject<{
   categories?: Resolver<
     Array<ResolversTypes["Category"]>,
@@ -388,7 +391,8 @@ export type CardResolvers<
 
 export type CardConnectionResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes["CardConnection"] = ResolversParentTypes["CardConnection"]
+  ParentType extends
+    ResolversParentTypes["CardConnection"] = ResolversParentTypes["CardConnection"],
 > = ResolversObject<{
   edges?: Resolver<Array<ResolversTypes["CardEdge"]>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes["PageInfo"], ParentType, ContextType>;
@@ -397,7 +401,8 @@ export type CardConnectionResolvers<
 
 export type CardEdgeResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes["CardEdge"] = ResolversParentTypes["CardEdge"]
+  ParentType extends
+    ResolversParentTypes["CardEdge"] = ResolversParentTypes["CardEdge"],
 > = ResolversObject<{
   cursor?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   node?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
@@ -406,7 +411,8 @@ export type CardEdgeResolvers<
 
 export type CardsUpdatedResponseResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes["CardsUpdatedResponse"] = ResolversParentTypes["CardsUpdatedResponse"]
+  ParentType extends
+    ResolversParentTypes["CardsUpdatedResponse"] = ResolversParentTypes["CardsUpdatedResponse"],
 > = ResolversObject<{
   card?: Resolver<ResolversTypes["Card"], ParentType, ContextType>;
   message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -416,7 +422,8 @@ export type CardsUpdatedResponseResolvers<
 
 export type CategoryResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes["Category"] = ResolversParentTypes["Category"]
+  ParentType extends
+    ResolversParentTypes["Category"] = ResolversParentTypes["Category"],
 > = ResolversObject<{
   cards?: Resolver<
     ResolversTypes["CardConnection"],
@@ -443,7 +450,8 @@ export type CategoryResolvers<
 
 export type CategoryUpdatedResponseResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes["CategoryUpdatedResponse"] = ResolversParentTypes["CategoryUpdatedResponse"]
+  ParentType extends
+    ResolversParentTypes["CategoryUpdatedResponse"] = ResolversParentTypes["CategoryUpdatedResponse"],
 > = ResolversObject<{
   category?: Resolver<ResolversTypes["Category"], ParentType, ContextType>;
   message?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
@@ -463,7 +471,8 @@ export interface DateTimeScalarConfig
 
 export type MutationResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"]
+  ParentType extends
+    ResolversParentTypes["Mutation"] = ResolversParentTypes["Mutation"],
 > = ResolversObject<{
   addCard?: Resolver<
     ResolversTypes["CardsUpdatedResponse"],
@@ -505,7 +514,8 @@ export type MutationResolvers<
 
 export type NodeResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes["Node"] = ResolversParentTypes["Node"]
+  ParentType extends
+    ResolversParentTypes["Node"] = ResolversParentTypes["Node"],
 > = ResolversObject<{
   __resolveType?: TypeResolveFn<"Card" | "Category", ParentType, ContextType>;
   created?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
@@ -519,7 +529,8 @@ export type NodeResolvers<
 
 export type PageInfoResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes["PageInfo"] = ResolversParentTypes["PageInfo"]
+  ParentType extends
+    ResolversParentTypes["PageInfo"] = ResolversParentTypes["PageInfo"],
 > = ResolversObject<{
   endCursor?: Resolver<
     Maybe<ResolversTypes["String"]>,
@@ -543,7 +554,8 @@ export type PageInfoResolvers<
 
 export type QueryResolvers<
   ContextType = ApolloContext,
-  ParentType extends ResolversParentTypes["Query"] = ResolversParentTypes["Query"]
+  ParentType extends
+    ResolversParentTypes["Query"] = ResolversParentTypes["Query"],
 > = ResolversObject<{
   card?: Resolver<
     ResolversTypes["Card"],

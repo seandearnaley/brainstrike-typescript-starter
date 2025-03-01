@@ -1,8 +1,9 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 // Mock the formik-mui TextField component
-jest.mock('formik-mui', () => ({
-  TextField: jest.fn(({ field }) => <input {...field} />),
+vi.mock('formik-mui', () => ({
+  TextField: ({ field, form, ...props }: any) => <input {...field} {...props} />
 }));
 
 import { render, cleanup } from '../../test-utils';

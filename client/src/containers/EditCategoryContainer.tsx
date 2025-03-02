@@ -17,10 +17,8 @@ const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
 }: EditCategoryContainerProps) => {
   const [updateCategoryMutation, { data, loading, error }] =
     useUpdateCategoryNameMutation();
-
   const prevCategoryValue = useRef<string | null | undefined>(undefined);
   const categoryNameDivInput = useRef<HTMLDivElement>(null);
-
   const [categoryEditDisabled, setCategoryEditDisabled] = useState(true);
   const [categoryName, setCategoryName] = useState<string | null | undefined>(
     null,
@@ -33,7 +31,6 @@ const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   const enableCategoryNameChange = () => {
     if (categoryNameDivInput.current)
       prevCategoryValue.current = categoryNameDivInput.current.innerText;
-
     setCategoryEditDisabled(false);
   };
 
@@ -60,62 +57,156 @@ const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   };
 
   return (
-    <div>
-      <ContentEditable
-        data-testid="update-category-content-div"
-        innerRef={categoryNameDivInput as React.RefObject<HTMLElement>}
-        html={categoryName ?? ''} // innerHTML of the editable div
-        disabled={categoryEditDisabled} // use true to disable edition
-        onChange={handleChange} // handle innerHTML change
-        className={cx({
-          [css`
-            display: inline-block;
-            font-size: 2em;
-            margin-block-start: 0.67em;
-            margin-block-end: 0.67em;
-            margin-inline-start: 0px;
-            margin-inline-end: 0px;
-            font-weight: bold;
-            margin-right: 10px;
-          `]: true,
-          [css`
-            background-color: #94e39f;
-          `]: !categoryEditDisabled,
-        })}
-        tagName="span"
-      />
-
-      {categoryEditDisabled && (
-        <button
-          data-testid="update-category-edit-button"
-          onClick={enableCategoryNameChange}
-        >
-          Edit
-        </button>
-      )}
-      {!categoryEditDisabled && (
-        <span>
+    <div className={css`
+      flex: 1;
+    `}>
+      <h2 className={css`
+        margin: 0;
+        color: #3f51b5;
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 16px;
+      `}>Category Details</h2>
+      
+      <div className={css`
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+      `}>
+        <ContentEditable
+          data-testid="update-category-content-div"
+          innerRef={categoryNameDivInput as React.RefObject<HTMLElement>}
+          html={categoryName ?? ''} // innerHTML of the editable div
+          disabled={categoryEditDisabled} // use true to disable edition
+          onChange={handleChange} // handle innerHTML change
+          className={cx({
+            [css`
+              font-size: 1.5rem;
+              font-weight: 500;
+              color: #212121;
+              margin-right: 12px;
+              padding: 4px 8px;
+              border-radius: 4px;
+              transition: background-color 0.2s;
+              outline: none;
+            `]: true,
+            [css`
+              background-color: #e8eaf6;
+              border: 1px solid #c5cae9;
+            `]: !categoryEditDisabled,
+          })}
+          tagName="span"
+        />
+        
+        {categoryEditDisabled ? (
           <button
-            data-testid="update-category-save-button"
-            onClick={saveCategoryNameChange}
+            data-testid="update-category-edit-button"
+            onClick={enableCategoryNameChange}
+            className={css`
+              background-color: #e0e0e0;
+              color: #424242;
+              border: none;
+              border-radius: 4px;
+              padding: 4px 12px;
+              font-size: 0.875rem;
+              cursor: pointer;
+              transition: background-color 0.2s;
+              
+              &:hover {
+                background-color: #bdbdbd;
+              }
+            `}
           >
-            Save Changes
+            Edit
           </button>
-          <button
-            data-testid="update-category-cancel-button"
-            onClick={cancelCategoryNameChange}
-          >
-            Cancel Changes
-          </button>
-        </span>
-      )}
+        ) : (
+          <div className={css`
+            display: flex;
+            gap: 8px;
+          `}>
+            <button
+              data-testid="update-category-save-button"
+              onClick={saveCategoryNameChange}
+              className={css`
+                background-color: #3f51b5;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 4px 12px;
+                font-size: 0.875rem;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                
+                &:hover {
+                  background-color: #303f9f;
+                }
+              `}
+            >
+              Save
+            </button>
+            <button
+              data-testid="update-category-cancel-button"
+              onClick={cancelCategoryNameChange}
+              className={css`
+                background-color: #e0e0e0;
+                color: #424242;
+                border: none;
+                border-radius: 4px;
+                padding: 4px 12px;
+                font-size: 0.875rem;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                
+                &:hover {
+                  background-color: #bdbdbd;
+                }
+              `}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+      </div>
+      
       {data && data.updateCategory && (
-        <span data-testid="update-category-messsage">
+        <div
+          data-testid="update-category-messsage"
+          className={css`
+            margin-top: 8px;
+            color: #43a047;
+            font-size: 0.875rem;
+            padding: 8px 12px;
+            background-color: #e8f5e9;
+            border-radius: 4px;
+            display: inline-block;
+          `}
+        >
           {data.updateCategory.message}
-        </span>
+        </div>
       )}
-      {loading && <span>Updating...</span>}
-      {error && <span>Error...</span>}
+      
+      {loading && (
+        <div className={css`
+          margin-top: 8px;
+          color: #3f51b5;
+          font-size: 0.875rem;
+        `}>
+          Updating...
+        </div>
+      )}
+      
+      {error && (
+        <div className={css`
+          margin-top: 8px;
+          color: #f44336;
+          font-size: 0.875rem;
+          padding: 8px 12px;
+          background-color: #ffebee;
+          border-radius: 4px;
+        `}>
+          Error: {error.message}
+        </div>
+      )}
     </div>
   );
 };

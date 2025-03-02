@@ -3,7 +3,14 @@ import { vi } from 'vitest';
 
 // Mock the formik-mui TextField component
 vi.mock('formik-mui', () => ({
-  TextField: ({ field, form, ...props }: any) => <input {...field} {...props} />
+  TextField: ({ field, form, InputLabelProps, fullWidth, multiline, ...props }: any) => {
+    // Filter out props that cause warnings
+    const safeProps = { ...props };
+    delete safeProps.variant;
+    delete safeProps.margin;
+    
+    return <input {...field} {...safeProps} data-testid="text-field" />;
+  }
 }));
 
 import { render, cleanup } from '../../test-utils';

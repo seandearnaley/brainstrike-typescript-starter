@@ -16,7 +16,13 @@ const Outlet = () => <div data-testid="outlet" />;
 // Mock hooks
 const useNavigate = vi.fn().mockReturnValue(vi.fn());
 const useParams = vi.fn().mockReturnValue({});
-const useLocation = vi.fn().mockReturnValue({ pathname: '/', search: '', hash: '', state: null });
+const useLocation = vi.fn().mockReturnValue({ 
+  pathname: '/cards', 
+  search: '', 
+  hash: '', 
+  state: null,
+  key: 'default'
+});
 const useSearchParams = vi.fn().mockReturnValue([new URLSearchParams(), vi.fn()]);
 
 export {

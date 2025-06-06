@@ -32,15 +32,9 @@ This is setup like a mono-repo with seperate folders for clients and server, eac
 
 - server - Apollo Server using [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator) for resolvers + types. Using TypeORM for database access, working examples of relay style cursor pagination, unit, integration and e2e tests.
 
-# Known Issues (as of Sat 24th June 2023)
+# Known Issues (as of June 6th 2025)
 
-- pinned server dependency versions to avoid breaking changes, this app is getting a bit dated now will require larger updates for more packages in future
-
-- had to update typescript to avoid issues with types for @types/express-serve-static-core and @types/lodash, however, version 5.1 appears to have regression so we are sticking with 5.0.4 for now. https://github.com/microsoft/TypeScript/issues/54542
-
-- graphql tools older version using older @types/ws with breaking changes, had to add a resolution to address for "@types/ws": "8.5.4" in package.json.
-
-- ~~typeorm has to be stuck to 0.2.22, higher versions break tests and have not been addressed by typeorm. Issue still open after years: https://github.com/typeorm/typeorm/issues/5676~~ **UPDATE:** TypeORM has been successfully upgraded to version 0.3.17, resolving the previous testing issues.
+**UPDATE:** TypeORM has been successfully upgraded to version 0.3.17, resolving the previous testing issues.
 
 - updated github actions to use specific Yarn version with corresponding .yarnrc.yml set to 3.6.0, included the releases in the repo to stay fixed
 

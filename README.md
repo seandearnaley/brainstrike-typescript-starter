@@ -5,6 +5,8 @@
 
 Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 
+![Brainstrike Client Screenshot](screenshot-client.png)
+
 ## Features
 
 - Typescript Node + React + pnpm
@@ -57,3 +59,131 @@ This is setup like a mono-repo with seperate folders for clients and server, eac
 - `pnpm dev:server` - Start only the Node.js server
 - `pnpm clean` - Clean all node_modules and build artifacts
 - `pnpm typecheck` - Run TypeScript type checking across all packages
+
+## 🏗️ System Architecture
+
+The Brainstrike server follows a modern, layered architecture designed for scalability, maintainability, and type safety:
+
+```mermaid
+graph TB
+    %% External Layer
+    Client["🌐 Client Applications<br/>(React/Next.js)"]
+    Studio["🛠️ Apollo Studio<br/>(GraphQL Playground)"]
+
+    %% API Gateway Layer
+    subgraph "🚀 API Layer"
+        Express["⚡ Express Server<br/>(Port 4000)"]
+        CORS["🔒 CORS Middleware<br/>(Security)"]
+        Apollo["🚀 Apollo Server<br/>(GraphQL Gateway)"]
+    end
+
+    %% Business Logic Layer
+    subgraph "🧠 Business Logic"
+        Schema["📋 GraphQL Schema<br/>(Type Definitions)"]
+        Resolvers["⚙️ GraphQL Resolvers<br/>(Query/Mutation Logic)"]
+
+        subgraph "📊 Data Sources"
+            CardAPI["🃏 Card API<br/>(Business Logic)"]
+            CategoryAPI["📁 Category API<br/>(Business Logic)"]
+        end
+    end
+
+    %% Data Access Layer
+    subgraph "💾 Data Access Layer"
+        TypeORM["🔗 TypeORM<br/>(ORM Framework)"]
+
+        subgraph "📦 Entities"
+            CardEntity["🃏 Card Entity"]
+            CategoryEntity["📁 Category Entity"]
+            UserEntity["👤 User Entity"]
+        end
+
+        subgraph "🔄 Database Operations"
+            Migrations["📈 Migrations<br/>(Schema Evolution)"]
+            Repositories["📚 Repositories<br/>(Data Access)"]
+        end
+    end
+
+    %% Database Layer
+    subgraph "🗄️ Database Layer"
+        PostgreSQL["🐘 PostgreSQL<br/>(Primary Database)"]
+        TestDB["🧪 Test Database<br/>(brainstrike_test)"]
+    end
+
+    %% Development Tools
+    subgraph "🛠️ Development & Testing"
+        Vitest["⚡ Vitest<br/>(Unit Testing)"]
+        Faker["🎭 Faker.js<br/>(Test Data)"]
+        Codegen["🔧 GraphQL Codegen<br/>(Type Generation)"]
+        ESLint["📏 ESLint + Prettier<br/>(Code Quality)"]
+    end
+
+    %% Environment & Config
+    subgraph "⚙️ Configuration"
+        EnvConfig["🌍 Environment Config<br/>(.env files)"]
+        ORMConfig["🔧 ORM Configuration<br/>(Database Settings)"]
+    end
+
+    %% Connections
+    Client --> Express
+    Studio --> Express
+
+    Express --> CORS
+    CORS --> Apollo
+
+    Apollo --> Schema
+    Apollo --> Resolvers
+
+    Resolvers --> CardAPI
+    Resolvers --> CategoryAPI
+
+    CardAPI --> TypeORM
+    CategoryAPI --> TypeORM
+
+    TypeORM --> CardEntity
+    TypeORM --> CategoryEntity
+    TypeORM --> UserEntity
+
+    TypeORM --> Repositories
+    TypeORM --> Migrations
+
+    Repositories --> PostgreSQL
+    Migrations --> PostgreSQL
+
+    Vitest --> TestDB
+    Faker --> TestDB
+
+    EnvConfig --> ORMConfig
+    ORMConfig --> TypeORM
+
+    Codegen --> Schema
+
+    %% Styling with black text
+    classDef clientLayer fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000000
+    classDef apiLayer fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000000
+    classDef businessLayer fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px,color:#000000
+    classDef dataLayer fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000000
+    classDef dbLayer fill:#fce4ec,stroke:#880e4f,stroke-width:2px,color:#000000
+    classDef devLayer fill:#f1f8e9,stroke:#33691e,stroke-width:2px,color:#000000
+    classDef configLayer fill:#e0f2f1,stroke:#004d40,stroke-width:2px,color:#000000
+
+    class Client,Studio clientLayer
+    class Express,CORS,Apollo apiLayer
+    class Schema,Resolvers,CardAPI,CategoryAPI businessLayer
+    class TypeORM,CardEntity,CategoryEntity,UserEntity,Migrations,Repositories dataLayer
+    class PostgreSQL,TestDB dbLayer
+    class Vitest,Faker,Codegen,ESLint devLayer
+    class EnvConfig,ORMConfig configLayer
+```
+
+### Architecture Highlights
+
+- **🌐 Client Layer**: React/Next.js applications and Apollo Studio for development
+- **🚀 API Layer**: Express.js with Apollo Server providing a robust GraphQL gateway
+- **🧠 Business Logic**: Clean separation with dedicated data source APIs and resolvers
+- **💾 Data Access**: TypeORM with entity models and repository patterns
+- **🗄️ Database**: PostgreSQL with separate test database for development
+- **🛠️ Development**: Comprehensive testing and code generation tools
+- **⚙️ Configuration**: Environment-based configuration management
+
+This architecture ensures **type safety**, **scalability**, and **maintainability** while following modern best practices for GraphQL APIs.

@@ -253,8 +253,8 @@ importers:
         specifier: 4.17.21
         version: 4.17.21
       node-fetch:
-        specifier: 2.6.12
-        version: 2.6.12
+        specifier: 3.3.2
+        version: 3.3.2
       npm-check-updates:
         specifier: 18.0.1
         version: 18.0.1
@@ -5450,15 +5450,6 @@ packages:
     resolution: {integrity: sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==}
     engines: {node: 4.x || >=6.0.0}
 
-  node-fetch@2.6.12:
-    resolution: {integrity: sha512-C/fGU2E8ToujUivIO0H+tpQ6HWo4eEmchoPIoXtxCrVghxdKq+QOHqEZW7tuP3KlV3bC8FRMO5nMCC7Zm1VP6g==}
-    engines: {node: 4.x || >=6.0.0}
-    peerDependencies:
-      encoding: ^0.1.0
-    peerDependenciesMeta:
-      encoding:
-        optional: true
-
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
     engines: {node: 4.x || >=6.0.0}
@@ -7284,7 +7275,7 @@ snapshots:
       lru-cache: 7.18.3
       negotiator: 0.6.4
       node-abort-controller: 3.1.1
-      node-fetch: 2.6.12
+      node-fetch: 2.7.0
       uuid: 9.0.1
       whatwg-mimetype: 3.0.0
     transitivePeerDependencies:
@@ -10755,7 +10746,7 @@ snapshots:
     dependencies:
       '@types/node-fetch': 2.6.12
       core-js: 3.42.0
-      node-fetch: 2.6.12
+      node-fetch: 2.7.0
       sha.js: 2.4.11
     transitivePeerDependencies:
       - encoding
@@ -10837,7 +10828,7 @@ snapshots:
 
   apollo-server-env@4.2.1:
     dependencies:
-      node-fetch: 2.6.12
+      node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
 
@@ -12732,7 +12723,7 @@ snapshots:
       form-data: 3.0.3
       graphql: 16.10.0
       iterall: 1.3.0
-      node-fetch: 2.6.12
+      node-fetch: 2.7.0
       uuid: 7.0.3
     transitivePeerDependencies:
       - encoding
@@ -13557,10 +13548,6 @@ snapshots:
   node-domexception@1.0.0: {}
 
   node-fetch@2.6.0: {}
-
-  node-fetch@2.6.12:
-    dependencies:
-      whatwg-url: 5.0.0
 
   node-fetch@2.7.0:
     dependencies:

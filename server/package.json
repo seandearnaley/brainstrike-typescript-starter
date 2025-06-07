@@ -88,7 +88,7 @@
     "graphql-iso-date": "3.6.1",
     "graphql-tag": "2.12.6",
     "lodash": "4.17.21",
-    "node-fetch": "2.6.12",
+    "node-fetch": "3.3.2",
     "npm-check-updates": "18.0.1",
     "opaqueid": "1.2.0",
     "patch-package": "8.0.0",

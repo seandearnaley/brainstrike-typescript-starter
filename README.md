@@ -28,13 +28,13 @@ NOTE: VS Code settings for ESLint+Prettier (consequence of mono repo structure)
 
 ## Prerequisites
 
-Tested with Node 12+, Postgres 11+ required for database. Docker-compose provided for Postgres. Should be easy to adapt examples to other databases... may update database support in future versions.
+Requires Node.js 18.19 or higher, Postgres 11+ required for database. Docker-compose provided for Postgres. Should be easy to adapt examples to other databases... may update database support in future versions.
 
 ## Folders
 
 This is setup like a mono-repo with seperate folders for clients and server, each with their own package and config. You could set these up in their own repos, switch to each folder to start the respective packages.
 
-- client = Material UI based React TypeScript (create-react-app non ejected), using [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator) for hooks + TypeScript Types. Apollo Client 3.0.
+- client - Vite-based React 19 application with Material UI, Apollo Client 3, and GraphQL Code Generator for type-safe hooks plus modern tooling like Vitest.
 
 - server - Apollo Server using [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator) for resolvers + types. Using TypeORM for database access, working examples of relay style cursor pagination, unit, integration and e2e tests.
 

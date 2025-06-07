@@ -35,14 +35,13 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "^3.13.1",
+    "@apollo/client": "^3.13.8",
     "@emotion/css": "^11.13.5",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@graphql-typed-document-node/core": "^3.2.0",
-    "@mui/icons-material": "^6.4.6",
-    "@mui/material": "^6.4.6",
-    "@mui/styles": "^6.4.6",
+    "@mui/icons-material": "^7.1.1",
+    "@mui/material": "^7.1.1",
     "@types/node": "^22.13.8",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",

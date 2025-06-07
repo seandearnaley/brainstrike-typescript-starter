@@ -20,6 +20,8 @@
     "lint:fix": "pnpm --recursive lint:fix",
     "clean": "pnpm --recursive clean && rm -rf node_modules",
     "clean:install": "pnpm clean && pnpm install",
+    "install:fast": "pnpm install --offline",
+    "install:safe": "pnpm install --prefer-offline",
     "typecheck": "pnpm --recursive typecheck"
   },
   "devDependencies": {

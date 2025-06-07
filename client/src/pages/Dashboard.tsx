@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import { BrowserRouter as Router } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
@@ -15,35 +14,44 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import LayersIcon from '@mui/icons-material/Layers';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import { ListItemLink } from '../components/ListItemLink';
 import { MainPanel } from './MainPanel';
-import { useStyles } from '../styles';
-import { css } from '@emotion/css';
+import { 
+  RootContainer, 
+  Content,
+  DrawerHeader,
+  NavList
+} from '../styles';
 
 const Dashboard: React.FC = () => {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   
-  // Simple toggle function instead of separate open/close
   const toggleDrawer = (): void => {
     setOpen(!open);
   };
 
   return (
-    <div className={classes.root}>
+    <RootContainer>
       <CssBaseline />
       <AppBar
         position="fixed"
-        className={classes.appBar}
         color="primary"
+        sx={{ 
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          transition: (theme) => theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+          }),
+        }}
       >
-        <Toolbar className={classes.toolbar}>
+        <Toolbar sx={{ paddingRight: 2 }}>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="toggle drawer"
             onClick={toggleDrawer}
-            className={classes.menuButton}
+            sx={{ marginRight: 3 }}
             size="large"
           >
             <MenuIcon />
@@ -53,7 +61,7 @@ const Dashboard: React.FC = () => {
             variant="h6"
             color="inherit"
             noWrap
-            className={classes.title}
+            sx={{ flexGrow: 1 }}
           >
             Brainstrike Card Manager
           </Typography>
@@ -70,90 +78,62 @@ const Dashboard: React.FC = () => {
           anchor="left"
           open={open}
           onClose={toggleDrawer}
-          classes={{
-            paper: classes.drawerPaper,
+          PaperProps={{
+            sx: {
+              width: 240,
+              backgroundColor: '#fff',
+              boxShadow: '2px 0 5px rgba(0, 0, 0, 0.1)',
+            }
           }}
           ModalProps={{
-            keepMounted: true, // Better mobile performance
+            keepMounted: true,
           }}
         >
-          <div className={classes.toolbarIcon}>
-            <div className={css`
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              padding: 0 16px;
-              width: 100%;
-              min-height: 64px; /* Match AppBar height */
-            `}>
-              <Typography
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
-                className={css`
-                  color: #3f51b5;
-                  font-weight: 500;
-                `}
-              >
-                Brainstrike
-              </Typography>
-              <IconButton 
-                onClick={toggleDrawer} 
-                size="large"
-                aria-label="close drawer"
-              >
-                <ChevronLeftIcon />
-              </IconButton>
-            </div>
-          </div>
+          <DrawerHeader>
+            <Typography
+              component="h1"
+              variant="h6"
+              color="primary"
+              noWrap
+              sx={{ fontWeight: 500 }}
+            >
+              Brainstrike
+            </Typography>
+            <IconButton 
+              onClick={toggleDrawer} 
+              size="large"
+              aria-label="close drawer"
+            >
+              <ChevronLeftIcon />
+            </IconButton>
+          </DrawerHeader>
           <Divider />
-          <List className={css`
-            padding: 0;
-            
-            & .MuiListItem-root {
-              padding: 12px 16px;
-              
-              &:hover {
-                background-color: rgba(63, 81, 181, 0.08);
-              }
-            }
-          `}>
-            <ListItemLink primary={
-              <div className={css`
-                display: flex;
-                align-items: center;
-                gap: 16px;
-                
-                & svg {
-                  color: #3f51b5;
-                  min-width: 24px;
-                }
-              `}>
-                <DashboardIcon /> <span>Cards</span>
-              </div>
-            } to="/cards" />
-            <ListItemLink primary={
-              <div className={css`
-                display: flex;
-                align-items: center;
-                gap: 16px;
-                
-                & svg {
-                  color: #3f51b5;
-                  min-width: 24px;
-                }
-              `}>
-                <LayersIcon /> <span>Sets</span>
-              </div>
-            } to="/sets" />
-          </List>
+          <NavList>
+            <ListItemLink 
+              primary={
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <DashboardIcon sx={{ color: 'primary.main', minWidth: 24 }} />
+                  <span>Cards</span>
+                </Box>
+              } 
+              to="/cards" 
+            />
+            <ListItemLink 
+              primary={
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <LayersIcon sx={{ color: 'primary.main', minWidth: 24 }} />
+                  <span>Sets</span>
+                </Box>
+              } 
+              to="/sets" 
+            />
+          </NavList>
         </Drawer>
-        <main className={classes.content}>
+        <Content>
           <MainPanel />
-        </main>
+        </Content>
       </Router>
-    </div>
+    </RootContainer>
   );
 };
 

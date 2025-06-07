@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import express = require("express");
+import express from "express";
 import { config as setupDotEnv } from "dotenv";
 import { DataSource, Repository, DataSourceOptions } from "typeorm";
 import { Card, Category, User } from "./entity";
@@ -10,7 +10,7 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { CardAPI, CategoryAPI } from "./datasources";
 import { ApolloContext } from "./types/context";
 import { json } from "express";
-import cors = require("cors");
+import cors from "cors";
 
 // this is the config for the production db
 import ormConfig, { postgresCreds, schemaConfig } from "./ormConfig";

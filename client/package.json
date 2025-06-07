@@ -54,7 +54,7 @@
     "concurrently": "^9.1.2",
     "date-fns": "^4.1.0",
     "formik": "^2.4.6",
-    "formik-mui": "latest",
+    "formik-mui": "5.0.0-alpha.1",
     "graphql": "16.10.0",
     "graphql-tag": "^2.12.6",
     "opaqueid": "^1.2.0",

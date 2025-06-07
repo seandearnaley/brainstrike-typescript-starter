@@ -15,7 +15,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15
+        image: postgres:15.13
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -40,9 +40,14 @@ jobs:
         with:
           version: 9.6.0
 
-      - name: Install dependencies, build, and test
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build and test
         run: |
-          pnpm install --frozen-lockfile
           pnpm build
           pnpm test
         env:

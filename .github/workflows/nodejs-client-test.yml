@@ -26,8 +26,13 @@ jobs:
         with:
           version: 9.6.0
 
-      - name: Install dependencies, build, and test
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build and test
         run: |
-          pnpm install --frozen-lockfile
           pnpm build
           pnpm test

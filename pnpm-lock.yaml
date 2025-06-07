@@ -111,7 +111,7 @@ importers:
         specifier: ^2.4.6
         version: 2.4.6(react@19.1.0)
       formik-mui:
-        specifier: latest
+        specifier: 5.0.0-alpha.1
         version: 5.0.0-alpha.1(@mui/material@6.4.12(@emotion/react@11.14.0(@types/react@19.1.6)(react@19.1.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@19.1.6)(react@19.1.0))(@types/react@19.1.6)(react@19.1.0))(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(formik@2.4.6(react@19.1.0))(react@19.1.0)(tiny-warning@1.0.3)
       graphql:
         specifier: 16.10.0

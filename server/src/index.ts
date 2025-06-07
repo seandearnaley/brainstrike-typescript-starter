@@ -5,7 +5,7 @@ import { DataSource, Repository, DataSourceOptions } from "typeorm";
 import { Card, Category, User } from "./entity";
 import { typeDefs, resolvers } from "./graphql";
 import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
+import { expressMiddleware } from "@as-integrations/express5";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { CardAPI, CategoryAPI } from "./datasources";
 import { ApolloContext } from "./types/context";

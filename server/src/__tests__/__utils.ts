@@ -1,7 +1,7 @@
 import express = require("express");
 import { HttpLink } from "apollo-link-http";
 import { json } from "express";
-import { expressMiddleware } from "@apollo/server/express4";
+import { expressMiddleware } from "@as-integrations/express5";
 import { BaseContext } from "@apollo/server";
 import type { Mock } from "vitest";
 

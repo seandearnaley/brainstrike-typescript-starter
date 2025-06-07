@@ -1,5 +1,6 @@
-import { makeStyles } from '@mui/styles';
-import { createTheme, Theme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
+import List from '@mui/material/List';
 
 const drawerWidth = 240;
 
@@ -83,60 +84,93 @@ export const theme = createTheme({
   },
 });
 
-export const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    display: 'flex',
-    height: '100vh',
-    overflow: 'hidden', // Prevent double scrollbars
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 24,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-    backgroundColor: '#fff',
-    boxShadow: '2px 0 5px rgba(0, 0, 0, 0.1)',
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  toolbar: {
-    paddingRight: 16, // Reduced padding
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
-    backgroundColor: '#f9f9f9',
-    padding: 0, // Remove default padding
-  },
-  navRoot: {
-    height: 1000,
-  },
+// Styled components for the Dashboard layout
+export const RootContainer = styled('div')({
+  display: 'flex',
+  height: '100vh',
+  overflow: 'hidden',
+});
+
+export const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '0 16px',
+  width: '100%',
+  minHeight: 64, // Match AppBar height
+  ...theme.mixins.toolbar,
 }));
+
+export const NavList = styled(List)({
+  padding: 0,
+  
+  '& .MuiListItem-root': {
+    padding: '12px 16px',
+    
+    '&:hover': {
+      backgroundColor: 'rgba(63, 81, 181, 0.08)',
+    },
+  },
+});
+
+export const Content = styled('main')({
+  flexGrow: 1,
+  height: '100vh',
+  overflow: 'auto',
+  backgroundColor: '#f9f9f9',
+  padding: 0,
+});
+
+// Legacy styled components - can be removed if not used elsewhere
+export const StyledAppBar = styled('div')(({ theme }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+}));
+
+export const AppBarShift = styled(StyledAppBar)(({ theme }) => ({
+  marginLeft: drawerWidth,
+  width: `calc(100% - ${drawerWidth}px)`,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+}));
+
+export const MenuButton = styled('div')({
+  marginRight: 24,
+});
+
+export const MenuButtonHidden = styled(MenuButton)({
+  display: 'none',
+});
+
+export const Title = styled('div')({
+  flexGrow: 1,
+});
+
+export const DrawerPaper = styled('div')({
+  width: drawerWidth,
+  backgroundColor: '#fff',
+  boxShadow: '2px 0 5px rgba(0, 0, 0, 0.1)',
+});
+
+export const ToolbarIcon = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: '0 8px',
+  ...theme.mixins.toolbar,
+}));
+
+export const Toolbar = styled('div')({
+  paddingRight: 16,
+});
+
+export const AppBarSpacer = styled('div')(({ theme }) => theme.mixins.toolbar);
+
+export const NavRoot = styled('div')({
+  height: 1000,
+});

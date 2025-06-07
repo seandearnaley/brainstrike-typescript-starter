@@ -1,8 +1,7 @@
 import express = require("express");
 import { HttpLink } from "apollo-link-http";
-import fetch from "node-fetch";
 import { json } from "express";
-import { expressMiddleware } from "@apollo/server/express4";
+import { expressMiddleware } from "@as-integrations/express5";
 import { BaseContext } from "@apollo/server";
 import type { Mock } from "vitest";
 
@@ -25,6 +24,11 @@ import {
 } from "../../src";
 
 const defaultContext = {};
+
+// Dynamic import for node-fetch v3 (ESM-only)
+const fetchPromise = import("node-fetch").then((mod) => mod.default);
+const dynamicFetch = (url: string, options?: any) =>
+  fetchPromise.then((fetch) => fetch(url, options));
 
 export type Mockify<T> = {
   [P in keyof T]: T[P] extends (...args: unknown[]) => unknown
@@ -107,7 +111,7 @@ export const startTestServer = async (
   // NOTE: apparently fetch isn't properly typed to spec, so have to work around with a type cast here
   const link = new HttpLink({
     uri: `http://localhost:${port}/graphql`,
-    fetch: fetch as unknown as WindowOrWorkerGlobalScope["fetch"],
+    fetch: dynamicFetch as unknown as WindowOrWorkerGlobalScope["fetch"],
   });
 
   const executeOperation = ({

@@ -1,50 +1,55 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { CardManager } from './CardManager';
 import { CardsNav } from './CardsNav';
-import { useStyles } from '../styles';
-import { css } from '@emotion/css';
+import { AppBarSpacer } from '../styles';
 
 export const MainPanel: React.FC = () => {
-  const classes = useStyles();
-  
   return (
     <>
-      <div className={classes.appBarSpacer} />
-      <div className={css`
-        height: calc(100% - 64px);
-      `}>
+      <AppBarSpacer />
+      <Box sx={{ height: 'calc(100% - 64px)' }}>
         <Routes>
           <Route path="/cards" element={<CardManager />} />
           <Route path="/sets" element={<CardsNav />} />
           <Route path="/" element={
-            <div className={css`
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              height: 100%;
-              text-align: center;
-              padding: 24px;
-            `}>
-              <h2 className={css`
-                color: #3f51b5;
-                margin-bottom: 16px;
-                font-size: 28px;
-              `}>Welcome to Brainstrike Card Manager</h2>
-              <p className={css`
-                color: #757575;
-                max-width: 600px;
-                line-height: 1.5;
-                font-size: 16px;
-              `}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              textAlign: 'center',
+              padding: 3,
+            }}>
+              <Typography 
+                variant="h4" 
+                component="h2"
+                color="primary"
+                sx={{ 
+                  marginBottom: 2,
+                  fontWeight: 500,
+                }}
+              >
+                Welcome to Brainstrike Card Manager
+              </Typography>
+              <Typography 
+                variant="body1"
+                color="text.secondary"
+                sx={{
+                  maxWidth: 600,
+                  lineHeight: 1.5,
+                }}
+              >
                 Use the navigation menu to access cards and sets. Click on the menu icon in the top left
                 to expand the navigation drawer.
-              </p>
-            </div>
+              </Typography>
+            </Box>
           } />
         </Routes>
-      </div>
+      </Box>
     </>
   );
 };

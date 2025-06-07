@@ -12,7 +12,7 @@
     "dev:server": "pnpm --filter brainstrike-server dev",
     "build": "pnpm --recursive build",
     "build:client": "pnpm --filter brainstrike-client build",
-    "build:server": "pnpm --filter brainstrike-server build", 
+    "build:server": "pnpm --filter brainstrike-server build",
     "test": "pnpm --recursive test",
     "test:client": "pnpm --filter brainstrike-client test",
     "test:server": "pnpm --filter brainstrike-server test",
@@ -28,7 +28,6 @@
     "@types/node": "22.13.8",
     "@typescript-eslint/eslint-plugin": "8.25.0",
     "@typescript-eslint/parser": "8.25.0",
-    "concurrently": "9.1.2",
     "eslint": "9.21.0",
     "eslint-config-prettier": "10.0.2",
     "eslint-plugin-prettier": "5.2.3",
@@ -44,4 +43,4 @@
       "eslint": "9.21.0"
     }
   }
-} 
+}

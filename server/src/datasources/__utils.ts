@@ -36,7 +36,7 @@ export interface Cursor {
 /**
  * The invalid cursor error.
  */
-export class InvalidCursorError extends Error {
+class InvalidCursorError extends Error {
   /**
    * Constructs a new InvalidCursorError.
    */
@@ -50,7 +50,7 @@ export class InvalidCursorError extends Error {
 /**
  * The invalid cursor type error.
  */
-export class InvalidCursorTypeError extends Error {
+class InvalidCursorTypeError extends Error {
   /**
    * The expected cursor type.
    */

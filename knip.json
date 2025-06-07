@@ -1,0 +1,37 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "ignoreExportsUsedInFile": true,
+  "workspaces": {
+    ".": {
+      "entry": ["package.json"],
+      "ignoreDependencies": ["eslint", "@typescript-eslint/eslint-plugin", "@typescript-eslint/parser", "eslint-config-prettier", "eslint-plugin-prettier", "prettier", "syncpack", "@graphql-codegen/cli", "@graphql-codegen/typescript"]
+    },
+    "client": {
+      "entry": ["src/main.tsx", "src/serviceWorker.ts", "apollo.config.cjs"],
+      "ignore": [
+        "src/generated/*",
+        "src/containers/shared/__utils.ts",
+        "src/react-app-env.d.ts",
+        "apollo.config.cjs"
+      ],
+      "ignoreBinaries": ["jq"],
+      "ignoreDependencies": ["@graphql-codegen/client-preset", "@graphql-codegen/fragment-matcher", "@vitest/coverage-v8"]
+    },
+    "server": {
+      "entry": ["src/index.ts", "src/migrate.ts", "apollo.config.js"],
+      "ignore": [
+        "src/migration/*",
+        "src/utility/faker/createFakeContent.ts",
+        "src/datasources/__tests__/card.ts",
+        "src/generated/*",
+        "apollo.config.js"
+      ],
+      "ignoreDependencies": ["@apollo/utils.keyvaluecache", "npm-check-updates", "patch-package", "postinstall-postinstall", "eslint-import-resolver-typescript", "nock"],
+      "ignoreExportsUsedInFile": {
+        "src/datasources/__utils.ts": ["PageInfoInterface", "Cursor"],
+        "src/datasources/card.ts": ["GetCardsArguments"],
+        "src/types/context.ts": ["APIInterface"]
+      }
+    }
+  }
+} 

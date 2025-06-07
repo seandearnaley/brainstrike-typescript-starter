@@ -51,7 +51,7 @@ function transformCategory(
       edges: [],
     },
   };
-  if ((result as Record<string, unknown>).hasOwnProperty("__typename")) {
+  if (Object.prototype.hasOwnProperty.call(result, "__typename")) {
     delete (result as Record<string, unknown>)["__typename"];
   }
   return result;
@@ -85,7 +85,7 @@ function transformCard(
   if (card.rowNumber !== undefined) {
     transformed.rowNumber = card.rowNumber;
   }
-  if ((transformed as Record<string, unknown>).hasOwnProperty("__typename")) {
+  if (Object.prototype.hasOwnProperty.call(transformed, "__typename")) {
     delete (transformed as Record<string, unknown>)["__typename"];
   }
   return transformed;

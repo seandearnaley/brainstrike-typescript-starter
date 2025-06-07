@@ -8,7 +8,11 @@ const prettierConfig = require("eslint-config-prettier");
 module.exports = [
   // Ignore patterns (migrated from .eslintignore)
   {
-    ignores: ["src/generated/graphql.ts"],
+    ignores: [
+      "src/generated/**",
+      "src/__tests__/__utils.ts", // Jest configuration issues with require() imports
+      "eslint.config.js", // This config file uses require() which is necessary for CommonJS
+    ],
   },
 
   // Base configs

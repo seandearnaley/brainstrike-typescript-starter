@@ -7,7 +7,7 @@ This document outlines the steps taken to migrate the Brainstrike client from Cr
 1. **Added Vite and related dependencies**
 
    ```bash
-   yarn add -D vite @vitejs/plugin-react vite-plugin-svgr vitest jsdom
+   pnpm add -D vite @vitejs/plugin-react vite-plugin-svgr vitest jsdom
    ```
 
 2. **Created Vite configuration file**
@@ -50,13 +50,13 @@ This document outlines the steps taken to migrate the Brainstrike client from Cr
      "generate": "graphql-codegen",
      "generate:dev": "graphql-codegen --watch",
      "apollo:schema:download": "apollo schema:download --endpoint=http://localhost:4000/graphql graphql.schema.json",
-     "dev": "concurrently \"yarn run start\" \"yarn run generate:dev\""
+     "dev": "concurrently \"pnpm run start\" \"pnpm run generate:dev\""
    }
    ```
 
 8. **Removed CRA-specific dependencies**
    ```bash
-   yarn remove react-scripts react-app-rewired rimraf
+   pnpm remove react-scripts react-app-rewired rimraf
    ```
 
 ## Known Issues

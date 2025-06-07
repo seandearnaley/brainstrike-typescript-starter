@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm install:*)",
+      "Bash(pnpm test:*)",
+      "Bash(pnpm --filter brainstrike-server test)",
+      "Bash(rm:*)",
+      "Bash(pnpm build:*)",
+      "Bash(jest --verbose)",
+      "Bash(npx jest:*)",
+      "Bash(pnpm --filter brainstrike-server lint)",
+      "Bash(pnpm typecheck:*)",
+      "Bash(find:*)"
+    ],
+    "deny": []
+  }
+}

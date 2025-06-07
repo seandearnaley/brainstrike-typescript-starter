@@ -107,9 +107,9 @@ export default config;
 
 A complete end-to-end verification of the workflow confirms that all parts of the development process are now working correctly:
 
-1. **Schema Download**: The `yarn schema:download` command successfully downloads the GraphQL schema using the curl command.
+1. **Schema Download**: The `pnpm schema:download` command successfully downloads the GraphQL schema using the curl command.
 
-2. **Code Generation**: The `yarn generate` command successfully parses the configuration and generates the GraphQL code, including operations, types, and hooks.
+2. **Code Generation**: The `pnpm generate` command successfully parses the configuration and generates the GraphQL code, including operations, types, and hooks.
 
 3. **Tests**: All 18 tests across 10 test files are now passing. There are still some warnings related to:
 
@@ -118,7 +118,7 @@ A complete end-to-end verification of the workflow confirms that all parts of th
 
 4. **Build**: The build process completes successfully, generating all required files in the `dist` directory.
 
-5. **Development Server**: The development server starts correctly with `yarn start`.
+5. **Development Server**: The development server starts correctly with `pnpm start`.
 
 ## Current Status
 

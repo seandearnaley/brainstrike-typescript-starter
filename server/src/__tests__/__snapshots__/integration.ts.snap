@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Mutations create card 1`] = `
+exports[`Mutations > create card 1`] = `
 {
   "body": {
     "kind": "single",
@@ -32,7 +32,7 @@ exports[`Mutations create card 1`] = `
 }
 `;
 
-exports[`Mutations remove card 1`] = `
+exports[`Mutations > remove card 1`] = `
 {
   "body": {
     "kind": "single",
@@ -64,7 +64,7 @@ exports[`Mutations remove card 1`] = `
 }
 `;
 
-exports[`Mutations update card 1`] = `
+exports[`Mutations > update card 1`] = `
 {
   "body": {
     "kind": "single",
@@ -96,7 +96,7 @@ exports[`Mutations update card 1`] = `
 }
 `;
 
-exports[`Queries fetches list of cards 1`] = `
+exports[`Queries > fetches list of cards 1`] = `
 {
   "body": {
     "kind": "single",
@@ -162,7 +162,7 @@ exports[`Queries fetches list of cards 1`] = `
 }
 `;
 
-exports[`Queries fetches single card 1`] = `
+exports[`Queries > fetches single card 1`] = `
 {
   "body": {
     "kind": "single",

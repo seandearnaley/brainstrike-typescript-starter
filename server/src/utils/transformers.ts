@@ -38,12 +38,6 @@ type CardConnectionLike =
     }
   | CardLike[];
 
-// Define a type for edge objects
-type EdgeLike = {
-  cursor?: string;
-  node: CardLike;
-};
-
 // Export the transformer functions with more flexible parameter types
 export const transformCategory = (
   category: CategoryLike | CategoryEntity,

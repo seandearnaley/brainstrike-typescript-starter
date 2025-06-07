@@ -46,7 +46,7 @@ export const constructTestServer = async (
   connection: DataSource,
   { context = defaultContext } = {},
 ): Promise<ServerConfig> => {
-  return createServer(connection, context);
+  return createServer(connection);
 };
 
 /**

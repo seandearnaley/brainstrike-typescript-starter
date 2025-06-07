@@ -1,0 +1,47 @@
+{
+  "name": "brainstrike-monorepo",
+  "private": true,
+  "packageManager": "pnpm@9.6.0",
+  "engines": {
+    "node": ">=18.19.1",
+    "pnpm": ">=9.6.0"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter \"./client\" --filter \"./server\" dev",
+    "dev:client": "pnpm --filter brainstrike-client dev",
+    "dev:server": "pnpm --filter brainstrike-server dev",
+    "build": "pnpm --recursive build",
+    "build:client": "pnpm --filter brainstrike-client build",
+    "build:server": "pnpm --filter brainstrike-server build", 
+    "test": "pnpm --recursive test",
+    "test:client": "pnpm --filter brainstrike-client test",
+    "test:server": "pnpm --filter brainstrike-server test",
+    "lint": "pnpm --recursive lint",
+    "lint:fix": "pnpm --recursive lint:fix",
+    "clean": "pnpm --recursive clean && rm -rf node_modules",
+    "clean:install": "pnpm clean && pnpm install",
+    "typecheck": "pnpm --recursive typecheck"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "5.0.5",
+    "@graphql-codegen/typescript": "4.1.5",
+    "@types/node": "22.13.8",
+    "@typescript-eslint/eslint-plugin": "8.25.0",
+    "@typescript-eslint/parser": "8.25.0",
+    "concurrently": "9.1.2",
+    "eslint": "9.21.0",
+    "eslint-config-prettier": "10.0.2",
+    "eslint-plugin-prettier": "5.2.3",
+    "prettier": "3.5.2",
+    "syncpack": "^12.3.0",
+    "typescript": "5.8.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "graphql": "16.10.0",
+      "@types/ws": "8.5.4",
+      "typescript": "5.8.2",
+      "eslint": "9.21.0"
+    }
+  }
+} 

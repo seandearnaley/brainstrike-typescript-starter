@@ -15,15 +15,12 @@
     "generate:dev": "graphql-codegen --watch",
     "apollo:schema:download": "apollo schema:download --config=apollo.config.cjs --endpoint=http://localhost:4000/graphql graphql.schema.json",
     "schema:download": "curl -X POST http://localhost:4000/graphql -H 'Content-Type: application/json' -d '{\"query\":\"query { __schema { queryType { name } mutationType { name } subscriptionType { name } types { ...FullType } directives { name description locations args { ...InputValue } } } } fragment FullType on __Type { kind name description fields(includeDeprecated: true) { name description args { ...InputValue } type { ...TypeRef } isDeprecated deprecationReason } inputFields { ...InputValue } interfaces { ...TypeRef } enumValues(includeDeprecated: true) { name description isDeprecated deprecationReason } possibleTypes { ...TypeRef } } fragment InputValue on __InputValue { name description type { ...TypeRef } defaultValue } fragment TypeRef on __Type { kind name ofType { kind name ofType { kind name ofType { kind name ofType { kind name ofType { kind name ofType { kind name } } } } } } }\"}' | jq '.data' > graphql.schema.json",
-    "dev": "concurrently \"yarn run start\" \"yarn run generate:dev\""
+    "dev": "concurrently \"pnpm run start\" \"pnpm run generate:dev\"",
+    "clean": "rm -rf node_modules .next dist",
+    "typecheck": "tsc --noEmit"
   },
   "eslintConfig": {
     "extends": "react-app"
-  },
-  "jest": {
-    "transformIgnorePatterns": [
-      "node_modules/(?!formik-mui)/"
-    ]
   },
   "browserslist": {
     "production": [
@@ -37,15 +34,12 @@
       "last 1 safari version"
     ]
   },
-  "resolutions": {
-    "@graphql-codegen/**/mem": "^6.0.1",
-    "graphql": "^16.10.0"
-  },
   "dependencies": {
     "@apollo/client": "^3.13.1",
     "@emotion/css": "^11.13.5",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@graphql-typed-document-node/core": "^3.2.0",
     "@mui/icons-material": "^6.4.6",
     "@mui/material": "^6.4.6",
     "@mui/styles": "^6.4.6",
@@ -57,11 +51,12 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/react-test-renderer": "^19.0.0",
     "@types/yup": "^0.32.0",
+    "clsx": "^2.1.1",
     "concurrently": "^9.1.2",
     "date-fns": "^4.1.0",
     "formik": "^2.4.6",
     "formik-mui": "latest",
-    "graphql": "^16.10.0",
+    "graphql": "16.10.0",
     "graphql-tag": "^2.12.6",
     "opaqueid": "^1.2.0",
     "react": "^19.0.0",
@@ -70,7 +65,7 @@
     "react-router-dom": "^7.2.0",
     "react-test-renderer": "^19.0.0",
     "tiny-warning": "^1.0.3",
-    "typescript": "^5.8.2",
+    "typescript": "5.8.2",
     "yup": "^1.6.1"
   },
   "devDependencies": {
@@ -82,6 +77,7 @@
     "@graphql-codegen/typescript": "^4.1.5",
     "@graphql-codegen/typescript-operations": "^4.5.1",
     "@graphql-codegen/typescript-react-apollo": "^4.3.2",
+    "@parcel/watcher": "^2.5.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -90,7 +86,7 @@
     "@typescript-eslint/parser": "^8.25.0",
     "@vitejs/plugin-react": "^4.3.4",
     "apollo": "^2.34.0",
-    "eslint": "^9.21.0",
+    "eslint": "9.21.0",
     "eslint-config-prettier": "^10.0.2",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-prettier": "^5.2.3",
@@ -102,6 +98,5 @@
     "vite": "^6.2.0",
     "vite-plugin-svgr": "^4.3.0",
     "vitest": "^3.0.7"
-  },
-  "packageManager": "yarn@3.6.0"
+  }
 }

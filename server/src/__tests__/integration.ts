@@ -8,7 +8,9 @@ import {
 import * as TDATA from "./__testData";
 import * as GQL from "./__queries";
 import { CardAPI } from "../datasources/card";
+import { CategoryAPI } from "../datasources/category";
 import { print } from "graphql";
+import { vi } from "vitest";
 
 // Create type aliases for the non-exported types from CardAPI
 type CardObject = Parameters<CardAPI["getCard"]>[0] extends string
@@ -36,13 +38,13 @@ describe("Queries", () => {
       context: () => ({
         dataSources: {
           cardAPI,
-          categoryAPI: {} as any,
+          categoryAPI: {} as unknown as CategoryAPI,
         },
       }),
     });
 
     // mock the datasources' underlying fetch methods
-    cardAPI.getCards = jest.fn(async () =>
+    cardAPI.getCards = vi.fn(async () =>
       Promise.resolve(
         convertStringDatesToDateObjects(
           TDATA.mockCardsConnectionResult,
@@ -70,7 +72,7 @@ describe("Queries", () => {
         contextValue: {
           dataSources: {
             cardAPI,
-            categoryAPI: {} as any,
+            categoryAPI: {} as unknown as CategoryAPI,
           },
         },
       },
@@ -86,13 +88,13 @@ describe("Queries", () => {
       context: () => ({
         dataSources: {
           cardAPI,
-          categoryAPI: {} as any,
+          categoryAPI: {} as unknown as CategoryAPI,
         },
       }),
     });
 
     // mock the datasources' underlying fetch methods
-    cardAPI.getCard = jest.fn(async () =>
+    cardAPI.getCard = vi.fn(async () =>
       Promise.resolve(
         convertStringDatesToDateObjects(
           TDATA.mockFirstCardResponseEncoded,
@@ -120,7 +122,7 @@ describe("Queries", () => {
         contextValue: {
           dataSources: {
             cardAPI,
-            categoryAPI: {} as any,
+            categoryAPI: {} as unknown as CategoryAPI,
           },
         },
       },
@@ -147,13 +149,13 @@ describe("Mutations", () => {
       context: () => ({
         dataSources: {
           cardAPI,
-          categoryAPI: {} as any,
+          categoryAPI: {} as unknown as CategoryAPI,
         },
       }),
     });
 
     // mock the datasources' underlying fetch methods
-    cardAPI.addCard = jest.fn(async () =>
+    cardAPI.addCard = vi.fn(async () =>
       Promise.resolve(
         convertStringDatesToDateObjects(
           TDATA.mockSuccessfulAddResponse,
@@ -181,7 +183,7 @@ describe("Mutations", () => {
         contextValue: {
           dataSources: {
             cardAPI,
-            categoryAPI: {} as any,
+            categoryAPI: {} as unknown as CategoryAPI,
           },
         },
       },
@@ -197,13 +199,13 @@ describe("Mutations", () => {
       context: () => ({
         dataSources: {
           cardAPI,
-          categoryAPI: {} as any,
+          categoryAPI: {} as unknown as CategoryAPI,
         },
       }),
     });
 
     // mock the datasources' underlying fetch methods
-    cardAPI.updateCard = jest.fn(async () =>
+    cardAPI.updateCard = vi.fn(async () =>
       Promise.resolve(
         convertStringDatesToDateObjects(
           TDATA.mockSuccessfulUpdateResponse,
@@ -234,7 +236,7 @@ describe("Mutations", () => {
         contextValue: {
           dataSources: {
             cardAPI,
-            categoryAPI: {} as any,
+            categoryAPI: {} as unknown as CategoryAPI,
           },
         },
       },
@@ -250,13 +252,13 @@ describe("Mutations", () => {
       context: () => ({
         dataSources: {
           cardAPI,
-          categoryAPI: {} as any,
+          categoryAPI: {} as unknown as CategoryAPI,
         },
       }),
     });
 
     // mock the datasources' underlying fetch methods
-    cardAPI.removeCard = jest.fn(async () =>
+    cardAPI.removeCard = vi.fn(async () =>
       Promise.resolve(
         convertStringDatesToDateObjects(
           TDATA.mockSuccessfulRemoveResponse,
@@ -284,7 +286,7 @@ describe("Mutations", () => {
         contextValue: {
           dataSources: {
             cardAPI,
-            categoryAPI: {} as any,
+            categoryAPI: {} as unknown as CategoryAPI,
           },
         },
       },

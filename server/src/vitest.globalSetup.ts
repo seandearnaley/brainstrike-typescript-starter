@@ -1,11 +1,9 @@
 import { createTestingConnection } from "./index";
-import { Card, Category, User } from "./entity";
 
 export default async (): Promise<void> => {
   try {
     const connection = await createTestingConnection();
 
-    // Ensure all entities are properly registered in TypeORM v0.3
     connection.entityMetadatas.forEach((metadata) => {
       console.log(`Entity ${metadata.name} is registered`);
     });
@@ -27,7 +25,6 @@ export default async (): Promise<void> => {
     } catch (error) {
       const migrationError = error as Error;
       console.error("Error running migrations:", migrationError.message);
-      // If the error is about tables already existing, we can continue
       if (!migrationError.message.includes("already exists")) {
         throw migrationError;
       }

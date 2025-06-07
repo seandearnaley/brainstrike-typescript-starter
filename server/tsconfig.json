@@ -18,8 +18,9 @@
     "paths": {
       "*": ["node_modules/"],
       "typings/*": ["src/typings/*"]
-    }
+    },
+    "types": ["vitest/globals", "node"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "vitest.config.ts"],
   "exclude": ["src/test/**/*.spec.ts", "node_modules"]
 }

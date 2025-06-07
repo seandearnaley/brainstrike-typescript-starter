@@ -1,3 +1,4 @@
+import { vi, Mock } from "vitest";
 import { CardAPI } from "../card";
 import {
   mockContext,
@@ -5,9 +6,6 @@ import {
   DataSource,
 } from "../../__tests__/__utils";
 import { InMemoryLRUCache } from "@apollo/utils.keyvaluecache";
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import {
   mockFirstCardResponse,
   mockFirstCardResponseEncoded,
@@ -21,17 +19,21 @@ import {
   mockCardsConnectionResult,
   mockCardsTotalResult,
 } from "../../__tests__/__testData";
+import { Card } from "../../entity/Card";
+import { QueryRunner, Repository } from "typeorm";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 describe("Queries", () => {
   let connection: DataSource;
   let ds: CardAPI;
-  let mockCardFind: any;
-  let mockCardFindOneBy: any;
-  let mockCardSave: any;
-  let mockCardRemove: any;
-  let mockCardQuery: any;
-  let mockQueryRunner: any;
-  let mockManager: any;
+  let mockCardFind: Mock;
+  let mockCardFindOneBy: Mock;
+  let mockCardSave: Mock;
+  let mockCardRemove: Mock;
+  let mockCardQuery: Mock;
+  let mockQueryRunner: QueryRunner;
+  let mockManager: { save: Mock; remove: Mock };
 
   beforeAll(async () => {
     console.log("creating test connection");
@@ -39,38 +41,39 @@ describe("Queries", () => {
     if (!connection.name) {
       (connection as any).name = "test-connection";
     }
-    (connection as any).findMetadata = jest.fn();
-    (connection as any).buildMetadatas = jest.fn();
-    (connection as any).getDatabaseName = jest.fn();
+    (connection as any).findMetadata = vi.fn();
+    (connection as any).buildMetadatas = vi.fn();
+    (connection as any).getDatabaseName = vi.fn();
 
-    mockCardFind = jest.fn();
-    mockCardFindOneBy = jest.fn();
-    mockCardSave = jest.fn();
-    mockCardRemove = jest.fn();
-    mockCardQuery = jest.fn();
+    mockCardFind = vi.fn();
+    mockCardFindOneBy = vi.fn();
+    mockCardSave = vi.fn();
+    mockCardRemove = vi.fn();
+    mockCardQuery = vi.fn();
 
     // Mock the manager for transaction operations
     mockManager = {
-      save: jest.fn(),
-      remove: jest.fn(),
+      save: vi.fn(),
+      remove: vi.fn(),
     };
 
     // Mock the query runner for transactions
     mockQueryRunner = {
-      connect: jest.fn(),
-      startTransaction: jest.fn(),
-      commitTransaction: jest.fn(),
-      rollbackTransaction: jest.fn(),
-      release: jest.fn(),
+      connect: vi.fn(),
+      startTransaction: vi.fn(),
+      commitTransaction: vi.fn(),
+      rollbackTransaction: vi.fn(),
+      release: vi.fn(),
       manager: mockManager,
-    };
+    } as unknown as QueryRunner;
 
     // Mock the connection's createQueryRunner method
-    connection.createQueryRunner = jest.fn().mockReturnValue(mockQueryRunner);
+    connection.createQueryRunner = vi.fn().mockReturnValue(mockQueryRunner);
 
-    connection.getRepository = jest.fn().mockImplementation((target) => {
-      switch (target.name) {
-        case "Card": {
+    connection.getRepository = vi
+      .fn()
+      .mockImplementation((target: typeof Card): Repository<Card> | object => {
+        if (target.name === "Card") {
           return {
             find: mockCardFind,
             findOneBy: mockCardFindOneBy,
@@ -78,11 +81,8 @@ describe("Queries", () => {
             remove: mockCardRemove,
           };
         }
-        default: {
-          return {};
-        }
-      }
-    });
+        return {};
+      });
 
     connection.query = mockCardQuery;
 

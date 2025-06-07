@@ -32,10 +32,28 @@ This is setup like a mono-repo with seperate folders for clients and server, eac
 
 - server - Apollo Server using [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator) for resolvers + types. Using TypeORM for database access, working examples of relay style cursor pagination, unit, integration and e2e tests.
 
-# Known Issues (as of June 6th 2025)
+# Recent Updates (as of January 2025)
 
-**UPDATE:** TypeORM has been successfully upgraded to version 0.3.17, resolving the previous testing issues.
+**BREAKING CHANGE: Migrated from Yarn to pnpm workspaces**
 
-- updated github actions to use specific Yarn version with corresponding .yarnrc.yml set to 3.6.0, included the releases in the repo to stay fixed
+- **Migration to pnpm v9.6.0**: Switched from Yarn to pnpm for better performance, disk space efficiency, and modern workspace features
+- **Updated GitHub Actions**: All CI/CD workflows now use pnpm with proper workspace support and PostgreSQL services
+- **Modern TypeScript 5.8.2**: Implemented catalog dependencies across workspaces for consistent versioning
+- **Enhanced Scripts**: Added comprehensive development scripts including `dev`, `clean`, `typecheck`, and proper workspace filtering
+- **Improved Configuration**: Added modern `.npmrc` with optimal pnpm settings for monorepo development
+- **Removed Yarn Artifacts**: Cleaned up all Yarn-specific files (.yarnrc.yml, .yarn directories, lock files)
 
-- may make some more changes to streamline the repo into yarn workspaces, tbd
+## Getting Started with pnpm
+
+1. Install pnpm globally: `npm install -g pnpm` or use Corepack: `corepack enable pnpm`
+2. Install dependencies: `pnpm install`
+3. Start development: `pnpm dev` (runs both client and server)
+4. Build all packages: `pnpm build`
+5. Run tests: `pnpm test`
+
+## Workspace Commands
+
+- `pnpm dev:client` - Start only the React client
+- `pnpm dev:server` - Start only the Node.js server
+- `pnpm clean` - Clean all node_modules and build artifacts
+- `pnpm typecheck` - Run TypeScript type checking across all packages

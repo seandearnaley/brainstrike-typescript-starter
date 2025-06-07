@@ -22,7 +22,7 @@ const isServerRunning = () => {
   try {
     // Make a simple request to the GraphQL endpoint
     execSync(
-      `curl -s -o /dev/null -w "%{http_code}" http://localhost:${SERVER_PORT}/graphql`
+      `curl -s -o /dev/null -w "%{http_code}" http://localhost:${SERVER_PORT}/graphql`,
     );
     return true;
   } catch (error) {
@@ -32,7 +32,7 @@ const isServerRunning = () => {
 
 // Start the server process
 console.log("📡 Starting server...");
-const serverProcess = spawn("yarn", ["start:dev"], {
+const serverProcess = spawn("pnpm", ["start:dev"], {
   stdio: ["ignore", "pipe", "pipe"],
   detached: true,
 });
@@ -53,7 +53,7 @@ const waitForServer = async () => {
   console.log(
     `⏳ Waiting for server to start (timeout: ${
       SERVER_STARTUP_TIMEOUT / 1000
-    }s)...`
+    }s)...`,
   );
 
   const startTime = Date.now();
@@ -76,7 +76,7 @@ const waitForServer = async () => {
 const runCodeGeneration = () => {
   console.log("🔄 Running GraphQL code generation...");
   try {
-    execSync("yarn generate", { stdio: "inherit" });
+    execSync("pnpm generate", { stdio: "inherit" });
     console.log("✅ Code generation completed successfully!");
     return true;
   } catch (error) {

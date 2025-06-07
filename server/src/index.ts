@@ -30,7 +30,6 @@ interface DataSourceRepos {
   categories?: Partial<Repository<Category>>;
 }
 
-const defaultContext = {};
 const app = express();
 
 const createDbConnection = async (
@@ -68,10 +67,7 @@ interface ServerConfig {
   categoryAPI: CategoryAPI;
 }
 
-const createServer = async (
-  connection: DataSource,
-  context = defaultContext,
-): Promise<ServerConfig> => {
+const createServer = async (connection: DataSource): Promise<ServerConfig> => {
   const cardAPI = new CardAPI({ connection });
   const categoryAPI = new CategoryAPI({ connection });
 

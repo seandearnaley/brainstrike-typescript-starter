@@ -2,6 +2,7 @@
   "name": "brainstrike-server",
   "version": "1.0.0",
   "description": "brainkstrike typescript node API",
+  "type": "commonjs",
   "main": "build/src/index.js",
   "scripts": {
     "build": "rimraf ./build && tsc",

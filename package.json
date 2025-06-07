@@ -7,7 +7,7 @@
     "pnpm": ">=9.6.0"
   },
   "scripts": {
-    "dev": "pnpm --parallel --filter \"./client\" --filter \"./server\" dev",
+    "dev": "pnpm -r --parallel --filter client --filter server dev",
     "dev:client": "pnpm --filter brainstrike-client dev",
     "dev:server": "pnpm --filter brainstrike-server dev",
     "build": "pnpm --recursive build",

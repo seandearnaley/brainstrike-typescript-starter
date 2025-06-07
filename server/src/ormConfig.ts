@@ -25,7 +25,7 @@ if (DATABASE_URL && (!POSTGRES_USER || !POSTGRES_PASSWORD)) {
   const url = new URL(DATABASE_URL);
   postgresCreds = {
     host: url.hostname,
-    port: Number(url.port) || 5432,
+    port: url.port ? Number(url.port) : 5432,
     username: url.username,
     password: url.password,
   };

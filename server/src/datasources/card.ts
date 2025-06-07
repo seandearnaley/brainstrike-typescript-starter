@@ -1,4 +1,4 @@
-import DataLoader from "dataloader";
+import DataLoader = require("dataloader");
 import {
   DataSource as ApolloDataSource,
   DataSourceConfig,

@@ -108,4 +108,4 @@ const useRemoveCategory = (): [
   return [removeCategory, data, loading, error];
 };
 
-export { useRemoveCategory, RemoveCategoryDocument, GetCategoriesDocument };
+export { useRemoveCategory, RemoveCategoryDocument };

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useApolloClient, gql } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
+import { gql } from 'graphql-tag';
 import { css } from '@emotion/css';
 import {
   useRemoveCategory,
   RemoveCategoryDocument,
-  GetCategoriesDocument,
 } from './shared/useRemoveCategory';
+import { GetCategoriesDocument } from '../generated/graphql';
 
 // Define the CategoryParts fragment explicitly to ensure it's available
 const CATEGORY_PARTS = gql`
@@ -325,5 +326,4 @@ const RemoveCategoryContainer: React.FC<RemoveCategoryContainerProps> = ({
 export {
   RemoveCategoryContainer,
   RemoveCategoryDocument,
-  GetCategoriesDocument,
 }; // document used by tests

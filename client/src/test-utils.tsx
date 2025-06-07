@@ -27,18 +27,18 @@ const renderApollo = (
     ...options
   }: RenderApolloOptions = {},
 ) => {
-  // Use a wrapper component to avoid React 19 JSX type issues
-  const TestWrapper = ({ children }: { children: React.ReactNode }) => {
-    return React.createElement(MockedProvider, {
-      mocks,
-      addTypename,
-      defaultOptions,
-      cache,
-      resolvers,
-    }, children);
-  };
-  
-  return render(React.createElement(TestWrapper, { children: node }), options);
+  return render(
+    <MockedProvider
+      mocks={mocks}
+      addTypename={addTypename}
+      defaultOptions={defaultOptions}
+      cache={cache as any}
+      resolvers={resolvers as any}
+    >
+      {node}
+    </MockedProvider> as any,
+    options,
+  );
 };
 
 export * from '@testing-library/react';

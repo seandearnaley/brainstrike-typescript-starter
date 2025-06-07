@@ -3,6 +3,10 @@
 ![Node.js Server CI](https://github.com/seandearnaley/brainstrike-typescript-starter/actions/workflows/nodejs-server-test.yml/badge.svg)
 ![Node.js Client CI](https://github.com/seandearnaley/brainstrike-typescript-starter/actions/workflows/nodejs-client-test.yml/badge.svg)
 
+<div align="center">
+  <img src="logo.png" alt="Brainstrike Logo" width="400">
+</div>
+
 Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 
 ![Brainstrike Client Screenshot](screenshot-client.png)

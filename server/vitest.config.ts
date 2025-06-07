@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     environment: "node",
     globals: true,
-    include: ["src/__tests__/**/*.ts"],
+    include: ["src/**/__tests__/**/*.ts", "src/__tests__/**/*.ts"],
     globalSetup: "./src/vitest.globalSetup.ts",
     setupFiles: ["reflect-metadata"],
     exclude: [

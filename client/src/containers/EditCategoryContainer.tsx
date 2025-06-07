@@ -73,13 +73,13 @@ const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
         align-items: center;
         flex-wrap: wrap;
       `}>
-        <ContentEditable
-          data-testid="update-category-content-div"
-          innerRef={categoryNameDivInput as React.RefObject<HTMLElement>}
-          html={categoryName ?? ''} // innerHTML of the editable div
-          disabled={categoryEditDisabled} // use true to disable edition
-          onChange={handleChange} // handle innerHTML change
-          className={cx({
+        {React.createElement(ContentEditable, {
+          'data-testid': 'update-category-content-div',
+          innerRef: categoryNameDivInput as React.RefObject<HTMLElement>,
+          html: categoryName ?? '',
+          disabled: categoryEditDisabled,
+          onChange: handleChange,
+          className: cx({
             [css`
               font-size: 1.5rem;
               font-weight: 500;
@@ -94,9 +94,9 @@ const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
               background-color: #e8eaf6;
               border: 1px solid #c5cae9;
             `]: !categoryEditDisabled,
-          })}
-          tagName="span"
-        />
+          }),
+          tagName: 'span'
+        })}
         
         {categoryEditDisabled ? (
           <button

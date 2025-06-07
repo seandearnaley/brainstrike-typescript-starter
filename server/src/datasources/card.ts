@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import DataLoader = require("dataloader");
 import {
   DataSource as ApolloDataSource,

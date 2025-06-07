@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import express = require("express");
+import express, { json } from "express";
 import { config as setupDotEnv } from "dotenv";
 import { DataSource, Repository, DataSourceOptions } from "typeorm";
 import { Card, Category, User } from "./entity";
@@ -9,8 +9,7 @@ import { expressMiddleware } from "@apollo/server/express4";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { CardAPI, CategoryAPI } from "./datasources";
 import { ApolloContext } from "./types/context";
-import { json } from "express";
-import cors = require("cors");
+import cors from "cors";
 
 // this is the config for the production db
 import ormConfig, { postgresCreds, schemaConfig } from "./ormConfig";
@@ -30,7 +29,6 @@ interface DataSourceRepos {
   categories?: Partial<Repository<Category>>;
 }
 
-const defaultContext = {};
 const app = express();
 
 const createDbConnection = async (
@@ -50,17 +48,23 @@ const createDbConnection = async (
   }
 };
 
-const createTestingConnection = (): Promise<DataSource> =>
-  createDbConnection({
+const createTestingConnection = (): Promise<DataSource> => {
+  // Use test_db in CI environment, brainstrike_test locally
+  const testDatabase = process.env.DATABASE_URL
+    ? "test_db"
+    : "brainstrike_test";
+
+  return createDbConnection({
     name: "testConnection",
     type: "postgres",
-    database: "brainstrike_test",
+    database: testDatabase,
     synchronize: false,
     ...postgresCreds,
     ...schemaConfig,
     logging: ["error"],
     entities: [Card, Category, User],
   });
+};
 
 interface ServerConfig {
   apolloServer: ApolloServer<ApolloContext>;
@@ -68,10 +72,7 @@ interface ServerConfig {
   categoryAPI: CategoryAPI;
 }
 
-const createServer = async (
-  connection: DataSource,
-  context = defaultContext,
-): Promise<ServerConfig> => {
+const createServer = async (connection: DataSource): Promise<ServerConfig> => {
   const cardAPI = new CardAPI({ connection });
   const categoryAPI = new CategoryAPI({ connection });
 
@@ -123,7 +124,7 @@ const start = async (): Promise<void> => {
   });
 };
 
-// Start our server if we're not in a test env. (JEST sets NODE_ENV=test)
+// Start our server if we're not in a test env. (vitest sets NODE_ENV=test)
 // if we're in a test env, we'll manually start it in a test
 if (NODE_ENV !== "test" && NODE_ENV !== "migration") start();
 

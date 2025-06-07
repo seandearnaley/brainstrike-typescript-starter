@@ -17,7 +17,7 @@ export default [
       'src/serviceWorker.ts',
       'src/**/__tests__/**',
       'apollo.config.js',
-      'src/generated/graphql.tsx',
+      'src/generated/**',
     ],
   },
   {

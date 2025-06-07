@@ -4,16 +4,25 @@ node_modules/
 build/
 tmp/
 temp/
-.idea/
-.vscode/
 .env
-coverage
+coverage/
 ormconfig.json
 
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
+# pnpm
+.pnpm-debug.log
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+.nyc_output/
+
+# macOS
 .DS_Store

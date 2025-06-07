@@ -1,9 +1,8 @@
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
 
-// Make vi available globally
-// This allows tests to use vi directly or through the jest global
-window.jest = window.jest || vi;
+// Make vi available globally for any legacy code that might reference it
+Object.assign(globalThis, { vi });
 
 // Mock matchMedia for tests
 window.matchMedia =

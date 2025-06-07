@@ -1,0 +1,8 @@
+packages:
+  - 'client'
+  - 'server'
+
+catalog:
+  typescript: '5.8.2'
+  graphql: '16.10.0'
+  eslint: '9.21.0'

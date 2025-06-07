@@ -1,72 +1,55 @@
-# brainstrike-server
+# BrainStrike Server
 
-Updated: February 24th 2025
+This project was bootstrapped with TypeScript, Apollo Server, and TypeORM.
 
-TypeORM updated to 0.3.17, typescript now strict.
+## Available Scripts
 
-![Node Server Test CI](https://github.com/seandearnaley/brainstrike-typescript-starter/workflows/Node%20Server%20Test%20CI/badge.svg?event=push)
+In the project directory, you can run:
 
-Starter kit for Node Express Typescript Apollo GraphQL with TypeORM + GraphQL Code Gen + tests... Instructions to come.
+### `pnpm start`
 
-- Don't forget to rename .env.example to .env and setup your own environment variables.
-- Postgres is the only db supported right now, it should be easy to adapt to other databases yourself.
-- Use Docker-Compose file for Postgres and PGAdmin with integration and E2E tests (brainstrike_test table is used for testing connections)
+Runs the app in the development mode.\
+Navigate to [http://localhost:4000/graphql](http://localhost:4000/graphql) to view the GraphQL playground.
 
-### `yarn start`
+The page will reload if you make edits.
 
-Runs the server.<br />
-Open [http://localhost:4000/graphql](http://localhost:4000/graphql) to view GraphQL Playground in browser.
+### `pnpm test`
 
-### `yarn test`
+Launches the test runner in interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-Launches the test runner in the interactive watch mode.<br />
+### `pnpm build`
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
+Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
+The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-### `yarn lint`
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-Will do lint tests with ESLint + Prettier
+### `pnpm lint`
 
-### `yarn create-fake-content`
+Runs ESLint on the codebase.
 
-Creates fake cards and categories for use with seed migration.
+### `pnpm create-fake-content`
 
-### `yarn generate`
+Runs the fake content generator script.
 
-Generates TypeScript resolvers, fragment matchers and other types with [GraphQL Code Generator](https://github.com/dotansimha/graphql-code-generator).
+### `pnpm generate`
 
-### `yarn generate:auto`
+Runs GraphQL code generation.
 
-Automates the process of starting the server, running code generation, and stopping the server. This is useful when you need to update generated GraphQL types without manually starting and stopping the server.
+### `pnpm generate:auto`
 
-### `yarn migrate:up`
+Runs GraphQL code generation with automatic server startup.
 
-Runs migration up
+### `pnpm migrate:up`
 
-### `yarn migrate:down`
+Runs database migrations up.
 
-Runs migration down
+### `pnpm migrate:down`
 
-## Troubleshooting
-
-if attempting to run postgres via `docker-compose`, don't forget to copy `.env.example` to `.env`
-
-if you encounter:
-
-`/usr/local/bin/docker-entrypoint.sh: /docker-entrypoint-initdb.d/create-multiple-postgresql-databases.sh: /bin/bash: bad interpreter: Permission denied`
-
-while running `docker-compose up`, it may be because Docker is copying permissions, therefore you need to make the script executable.
-
-change to the pg-init-scripts folder and run
-
-`chmod +x create-multiple-postgresql-databases.sh`
-
-then run docker-compose up again
+Runs database migrations down.
 
 Updated: February 24th 2025

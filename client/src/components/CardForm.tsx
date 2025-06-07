@@ -48,7 +48,7 @@ export const CardForm: React.FC<CardFormProps> = (
         validationSchema={CardFormSchema}
         onSubmit={onSubmit}
       >
-        {({ isSubmitting }): React.ReactElement => (
+        {({ isSubmitting }: { isSubmitting: boolean }): React.ReactElement => (
           <Form>
             <div className={css`
               display: grid;

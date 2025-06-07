@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Server - e2e gets a single card 1`] = `
+exports[`Server - e2e > gets a single card 1`] = `
 {
   "data": {
     "card": {
@@ -16,7 +16,7 @@ exports[`Server - e2e gets a single card 1`] = `
 }
 `;
 
-exports[`Server - e2e gets list of cards 1`] = `
+exports[`Server - e2e > gets list of cards 1`] = `
 {
   "data": {
     "cards": {

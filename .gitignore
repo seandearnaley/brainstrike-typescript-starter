@@ -1,2 +1,5 @@
 node_modules
 .DS_Store
+
+# Claude AI settings (contains local permissions and should not be committed)
+.claude/

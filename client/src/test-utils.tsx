@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 
-// this adds custom jest matchers from jest-dom
+// this adds custom matchers from jest-dom
 import '@testing-library/jest-dom';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { ApolloCache } from '@apollo/client';

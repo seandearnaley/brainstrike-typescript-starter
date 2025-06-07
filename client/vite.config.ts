@@ -22,6 +22,18 @@ export default defineConfig({
     css: true,
     coverage: {
       reporter: ['text', 'json', 'html'],
+      exclude: [
+        ...configDefaults.exclude,
+        '**/.vscode/**',
+        '**/src/generated/**',
+        '**/*.config.ts',
+        '**/src/index.tsx',
+        '**/src/main.tsx',
+        '**/src/vite-env.d.ts',
+        '**/src/apollo.ts',
+        '**/src/types.ts',
+      ],
+      all: true,
     },
   },
   define: {

@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import fs = require("fs");
+import * as fs from "fs";
 
 faker.seed(12345); // ensures reproducible results
 

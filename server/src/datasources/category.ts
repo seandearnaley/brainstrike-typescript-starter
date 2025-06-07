@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import DataLoader = require("dataloader");
 import {
   DataSource as ApolloDataSource,
@@ -219,8 +220,6 @@ export class CategoryAPI extends ApolloDataSource {
 
     // Clear the cards relationship before removing the category
     category.cards = [];
-
-    const categoryRepo = this.repos.categories as Repository<CategoryEntity>;
 
     // Use a transaction to ensure atomicity
     const queryRunner = this.connection.createQueryRunner();

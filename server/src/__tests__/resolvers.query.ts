@@ -8,6 +8,7 @@ import {
   QueryNodeArgs,
 } from "../generated/graphql";
 import { GraphQLResolveInfo } from "graphql";
+import { vi, Mock } from "vitest";
 
 import {
   mockCardsConnectionResult,
@@ -21,28 +22,28 @@ describe("[Query.cards]", () => {
   const mockContext: ApolloContext = {
     dataSources: {
       cardAPI: {
-        getCards: jest.fn(),
-        getCard: jest.fn(),
-        addCard: jest.fn(),
-        updateCard: jest.fn(),
-        removeCard: jest.fn(),
-        encodeCard: jest.fn(),
-        createEdges: jest.fn(),
-        cardLoader: { load: jest.fn(), loadMany: jest.fn() },
+        getCards: vi.fn(),
+        getCard: vi.fn(),
+        addCard: vi.fn(),
+        updateCard: vi.fn(),
+        removeCard: vi.fn(),
+        encodeCard: vi.fn(),
+        createEdges: vi.fn(),
+        cardLoader: { load: vi.fn(), loadMany: vi.fn() },
       } as unknown as CardAPI,
       categoryAPI: {
-        getCategory: jest.fn(),
-        getCategories: jest.fn(),
-        getCategoriesFor: jest.fn(),
-        addCategory: jest.fn(),
-        updateCategory: jest.fn(),
-        removeCategory: jest.fn(),
+        getCategory: vi.fn(),
+        getCategories: vi.fn(),
+        getCategoriesFor: vi.fn(),
+        addCategory: vi.fn(),
+        updateCategory: vi.fn(),
+        removeCategory: vi.fn(),
       } as unknown as CategoryAPI,
     },
     connection: undefined,
   };
 
-  const getCards = mockContext.dataSources.cardAPI.getCards as jest.Mock;
+  const getCards = mockContext.dataSources.cardAPI.getCards as Mock;
 
   it("calls getCards from card api", async () => {
     getCards.mockReturnValueOnce(Promise.resolve(mockCardsConnectionResult));
@@ -68,28 +69,28 @@ describe("[Query.node card]", () => {
   const mockContext: ApolloContext = {
     dataSources: {
       cardAPI: {
-        getCards: jest.fn(),
-        getCard: jest.fn(),
-        addCard: jest.fn(),
-        updateCard: jest.fn(),
-        removeCard: jest.fn(),
-        encodeCard: jest.fn(),
-        createEdges: jest.fn(),
-        cardLoader: { load: jest.fn(), loadMany: jest.fn() },
+        getCards: vi.fn(),
+        getCard: vi.fn(),
+        addCard: vi.fn(),
+        updateCard: vi.fn(),
+        removeCard: vi.fn(),
+        encodeCard: vi.fn(),
+        createEdges: vi.fn(),
+        cardLoader: { load: vi.fn(), loadMany: vi.fn() },
       } as unknown as CardAPI,
       categoryAPI: {
-        getCategory: jest.fn(),
-        getCategories: jest.fn(),
-        getCategoriesFor: jest.fn(),
-        addCategory: jest.fn(),
-        updateCategory: jest.fn(),
-        removeCategory: jest.fn(),
+        getCategory: vi.fn(),
+        getCategories: vi.fn(),
+        getCategoriesFor: vi.fn(),
+        addCategory: vi.fn(),
+        updateCategory: vi.fn(),
+        removeCategory: vi.fn(),
       } as unknown as CategoryAPI,
     },
     connection: undefined,
   };
 
-  const getCard = mockContext.dataSources.cardAPI.getCard as jest.Mock;
+  const getCard = mockContext.dataSources.cardAPI.getCard as Mock;
 
   it("calls getCard from card api", async () => {
     getCard.mockReturnValueOnce(Promise.resolve(mockFirstCardResponse));

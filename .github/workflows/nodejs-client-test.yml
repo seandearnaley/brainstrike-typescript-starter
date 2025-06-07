@@ -1,29 +1,38 @@
-name: Node Client Test CI
+name: Node.js Client CI
 
 on:
   push:
-    paths:
-      - "client/**"
-jobs:
-  build:
-    runs-on: ubuntu-latest
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
 
-    strategy:
-      matrix:
-        node-version: [18.19.1]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: yarn install, build, and test
-        working-directory: client
+          node-version: "18.19.1"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.6.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build and test
         run: |
-          yarn set version 3.6.0
-          yarn install --immutable
-          yarn build
-          yarn test
-        env:
-          CI: true
+          pnpm build
+          pnpm test

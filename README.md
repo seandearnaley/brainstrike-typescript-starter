@@ -1,7 +1,7 @@
 # brainstrike-typescript-starter
 
-![Node.js Server CI](https://github.com/seandearnaley/brainstrike-typescript-starter/workflows/Node.js%20Server%20CI/badge.svg?event=push)
-![Node.js Client CI](https://github.com/seandearnaley/brainstrike-typescript-starter/workflows/Node.js%20Client%20CI/badge.svg?event=push)
+![Node.js Server CI](https://github.com/seandearnaley/brainstrike-typescript-starter/actions/workflows/nodejs-server-test.yml/badge.svg)
+![Node.js Client CI](https://github.com/seandearnaley/brainstrike-typescript-starter/actions/workflows/nodejs-client-test.yml/badge.svg)
 
 Starter kit for Node.js + Typescript + React.js + Apollo GraphQL + TypeORM
 

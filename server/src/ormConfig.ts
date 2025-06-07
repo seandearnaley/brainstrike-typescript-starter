@@ -9,14 +9,36 @@ const {
   POSTGRES_PASSWORD,
   POSTGRES_HOST = "localhost",
   POSTGRES_PORT = 5432,
+  DATABASE_URL,
 } = process.env; // environment variables
 
-export const postgresCreds = {
-  host: POSTGRES_HOST,
-  port: Number(POSTGRES_PORT),
-  username: POSTGRES_USER,
-  password: POSTGRES_PASSWORD,
+// Parse DATABASE_URL if individual env vars are not provided (e.g., in CI)
+let postgresCreds: {
+  host: string;
+  port: number;
+  username: string;
+  password: string;
 };
+
+if (DATABASE_URL && (!POSTGRES_USER || !POSTGRES_PASSWORD)) {
+  // Parse DATABASE_URL format: postgresql://username:password@host:port/database
+  const url = new URL(DATABASE_URL);
+  postgresCreds = {
+    host: url.hostname,
+    port: Number(url.port) || 5432,
+    username: url.username,
+    password: url.password,
+  };
+} else {
+  postgresCreds = {
+    host: POSTGRES_HOST,
+    port: Number(POSTGRES_PORT),
+    username: POSTGRES_USER || "",
+    password: POSTGRES_PASSWORD || "",
+  };
+}
+
+export { postgresCreds };
 
 export const schemaConfig = {
   entities: [Card, Category, User],

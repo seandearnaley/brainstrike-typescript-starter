@@ -48,17 +48,23 @@ const createDbConnection = async (
   }
 };
 
-const createTestingConnection = (): Promise<DataSource> =>
-  createDbConnection({
+const createTestingConnection = (): Promise<DataSource> => {
+  // Use test_db in CI environment, brainstrike_test locally
+  const testDatabase = process.env.DATABASE_URL
+    ? "test_db"
+    : "brainstrike_test";
+
+  return createDbConnection({
     name: "testConnection",
     type: "postgres",
-    database: "brainstrike_test",
+    database: testDatabase,
     synchronize: false,
     ...postgresCreds,
     ...schemaConfig,
     logging: ["error"],
     entities: [Card, Category, User],
   });
+};
 
 interface ServerConfig {
   apolloServer: ApolloServer<ApolloContext>;

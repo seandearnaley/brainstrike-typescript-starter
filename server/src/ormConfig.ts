@@ -20,8 +20,8 @@ export const postgresCreds = {
 
 export const schemaConfig = {
   entities: [Card, Category, User],
-  migrations: ["build/migration/**/*.{js,ts}"],
-  subscribers: ["build/subscriber/**/*.{js,ts}"],
+  migrations: ["build/src/migration/**/*.{js,ts}"],
+  subscribers: ["build/src/subscriber/**/*.{js,ts}"],
   migrationsRun: false,
 };
 

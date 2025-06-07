@@ -23,8 +23,7 @@ jobs:
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-timeout 5s          --health-retries 5
         ports:
           - 5432:5432
 
@@ -41,9 +40,10 @@ jobs:
         with:
           version: 9.6.0
 
-      - name: Install dependencies and test
+      - name: Install dependencies, build, and test
         run: |
           pnpm install --frozen-lockfile
+          pnpm build
           pnpm test
         env:
           CI: true

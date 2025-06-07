@@ -18,7 +18,7 @@ const EditCategoryContainer: React.FC<EditCategoryContainerProps> = ({
   const [updateCategoryMutation, { data, loading, error }] =
     useUpdateCategoryNameMutation();
   const prevCategoryValue = useRef<string | null | undefined>(undefined);
-  const categoryNameDivInput = useRef<HTMLDivElement>(null);
+  const categoryNameDivInput = useRef<HTMLElement>(null);
   const [categoryEditDisabled, setCategoryEditDisabled] = useState(true);
   const [categoryName, setCategoryName] = useState<string | null | undefined>(
     null,

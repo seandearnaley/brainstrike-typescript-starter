@@ -4,15 +4,15 @@ import { render, RenderOptions } from '@testing-library/react';
 // this adds custom matchers from jest-dom
 import '@testing-library/jest-dom';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { ApolloCache } from '@apollo/client';
+import type { ApolloCache, DefaultOptions, Resolvers } from '@apollo/client';
 
-// Use more generic types to avoid type errors
+// Use proper types for Apollo MockedProvider
 type RenderApolloOptions = {
   mocks?: MockedResponse[];
   addTypename?: boolean;
-  defaultOptions?: Record<string, unknown>;
-  cache?: unknown;
-  resolvers?: unknown;
+  defaultOptions?: DefaultOptions;
+  cache?: ApolloCache<{}>;
+  resolvers?: Resolvers;
   [key: string]: unknown;
 } & Omit<RenderOptions, 'queries'>;
 
@@ -27,18 +27,19 @@ const renderApollo = (
     ...options
   }: RenderApolloOptions = {},
 ) => {
-  return render(
-    <MockedProvider
-      mocks={mocks}
-      addTypename={addTypename}
-      defaultOptions={defaultOptions}
-      cache={cache as any}
-      resolvers={resolvers as any}
-    >
-      {node}
-    </MockedProvider>,
-    options,
+  const MockedProviderElement = React.createElement(
+    MockedProvider,
+    {
+      mocks,
+      addTypename,
+      defaultOptions,
+      cache,
+      resolvers,
+    },
+    node
   );
+  
+  return render(MockedProviderElement, options);
 };
 
 export * from '@testing-library/react';

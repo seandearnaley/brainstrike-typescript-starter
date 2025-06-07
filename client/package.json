@@ -44,7 +44,6 @@
     "@mui/material": "^6.4.6",
     "@mui/styles": "^6.4.6",
     "@types/estree": "^1.0.6",
-    "@types/jest": "^29.5.14",
     "@types/node": "^22.13.8",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",

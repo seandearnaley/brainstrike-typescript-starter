@@ -10,7 +10,7 @@ module.exports = [
   {
     ignores: [
       "src/generated/**",
-      "src/__tests__/__utils.ts", // Jest configuration issues with require() imports
+      "src/__tests__/__utils.ts", // Configuration issues with require() imports
       "eslint.config.js", // This config file uses require() which is necessary for CommonJS
     ],
   },

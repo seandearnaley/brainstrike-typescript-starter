@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 import { json } from "express";
 import { expressMiddleware } from "@apollo/server/express4";
 import { BaseContext } from "@apollo/server";
+import type { Mock } from "vitest";
 
 import {
   execute,
@@ -27,7 +28,7 @@ const defaultContext = {};
 
 export type Mockify<T> = {
   [P in keyof T]: T[P] extends (...args: unknown[]) => unknown
-    ? jest.Mock<ReturnType<T[P]>, Parameters<T[P]>>
+    ? Mock<T[P]>
     : T[P];
 };
 

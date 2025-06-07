@@ -118,7 +118,7 @@ const start = async (): Promise<void> => {
   });
 };
 
-// Start our server if we're not in a test env. (JEST sets NODE_ENV=test)
+// Start our server if we're not in a test env. (vitest sets NODE_ENV=test)
 // if we're in a test env, we'll manually start it in a test
 if (NODE_ENV !== "test" && NODE_ENV !== "migration") start();
 

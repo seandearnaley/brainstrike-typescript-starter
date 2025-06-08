@@ -6,10 +6,10 @@ This React application is powered by [Vite](https://vitejs.dev/) and Apollo Clie
 
 ## Available Scripts
 
-Run these commands from the `client/` directory:
+Run these commands from the `client/` directory. Alternatively, many of these can be run from the project root using `pnpm -F client <command>` (e.g., `pnpm -F client dev`). The main project `README.md` (in the root directory) lists common workspace commands like `pnpm dev:client` which streamline development.
 
 ### `pnpm dev`
-Starts the Vite development server and runs GraphQL code generation in watch mode.
+Starts the Vite development server (via `vite`) and runs GraphQL code generation (via `graphql-codegen --watch`) concurrently. This is the recommended command for development.
 
 ### `pnpm build`
 Builds the app for production.
@@ -34,4 +34,4 @@ Generates GraphQL types and hooks. Use `pnpm generate:dev` to watch for changes.
 - [Vite Documentation](https://vitejs.dev/guide/)
 - [React Documentation](https://react.dev/)
 
-Updated: February 24th 2025
+Updated: October 26th, 2025

@@ -76,7 +76,7 @@
   "dependencies": {
     "@apollo/server": "4.12.2",
     "@apollo/utils.keyvaluecache": "^4.0.0",
-    "@as-integrations/express5": "^1.1.0",
+    "@as-integrations/express5": "^1.1.2",
     "@graphql-tools/schema": "10.0.23",
     "apollo-datasource": "^3.3.2",
     "concurrently": "9.1.2",

@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/seandearnaley/brainstrike-server#readme",
   "devDependencies": {
-    "@eslint/js": "9.28.0",
+    "@eslint/js": "9.35.0",
     "@faker-js/faker": "^9.8.0",
     "@graphql-codegen/cli": "5.0.7",
     "@graphql-codegen/typescript": "4.1.6",

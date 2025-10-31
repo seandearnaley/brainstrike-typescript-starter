@@ -96,6 +96,6 @@
     "pg": "8.16.0",
     "postinstall-postinstall": "2.1.0",
     "reflect-metadata": "0.2.2",
-    "typeorm": "0.3.24"
+    "typeorm": "0.3.26"
   }
 }
